@@ -26,9 +26,22 @@
 
 #include "dnet.h"
 
-#ifdef PF_RULE_LABEL_SIZE
-/* XXX */
-#define addr		addr.addr
+/*
+ * XXX - cope with moving pf API
+ *     $OpenBSD: pfvar.h,v 1.102 2002/11/23 05:16:58 mcbride Exp $
+ *     $OpenBSD: pfvar.h,v 1.68 2002/04/24 18:10:25 dhartmei Exp $
+ */
+#if defined(DIOCBEGINADDRS)
+# define PFRA_ADDR(ra)	(ra)->addr.addr.v4.s_addr
+# define PFRA_MASK(ra)	(ra)->addr.mask.v4.s_addr
+#elif defined(PFRULE_FRAGMENT)
+/* OpenBSD 3.2 */
+# define PFRA_ADDR(ra)	(ra)->addr.addr.v4.s_addr
+# define PFRA_MASK(ra)	(ra)->mask.v4.s_addr
+#else
+/* OpenBSD 3.1 */
+# define PFRA_ADDR(ra)	(ra)->addr.v4.s_addr
+# define PFRA_MASK(ra)	(ra)->mask.v4.s_addr
 #endif
 
 struct fw_handle {
@@ -47,11 +60,11 @@ fr_to_pr(const struct fw_rule *fr, struct pf_rule *pr)
 	pr->proto = fr->fw_proto;
 
 	pr->af = AF_INET;
-	pr->src.addr.v4.s_addr = fr->fw_src.addr_ip;
-	addr_btom(fr->fw_src.addr_bits, &pr->src.mask.v4.s_addr, IP_ADDR_LEN);
+	PFRA_ADDR(&pr->src) = fr->fw_src.addr_ip;
+	addr_btom(fr->fw_src.addr_bits, &(PFRA_MASK(&pr->src)), IP_ADDR_LEN);
 	
-	pr->dst.addr.v4.s_addr = fr->fw_dst.addr_ip;
-	addr_btom(fr->fw_dst.addr_bits, &pr->dst.mask.v4.s_addr, IP_ADDR_LEN);
+	PFRA_ADDR(&pr->dst) = fr->fw_dst.addr_ip;
+	addr_btom(fr->fw_dst.addr_bits, &(PFRA_MASK(&pr->dst)), IP_ADDR_LEN);
 	
 	switch (fr->fw_proto) {
 	case IP_PROTO_ICMP:
@@ -102,12 +115,12 @@ pr_to_fr(const struct pf_rule *pr, struct fw_rule *fr)
 		return (-1);
 	
 	fr->fw_src.addr_type = ADDR_TYPE_IP;
-	addr_mtob(&pr->src.mask.v4.s_addr, IP_ADDR_LEN, &fr->fw_src.addr_bits);
-	fr->fw_src.addr_ip = pr->src.addr.v4.s_addr;
+	addr_mtob(&(PFRA_MASK(&pr->src)), IP_ADDR_LEN, &fr->fw_src.addr_bits);
+	fr->fw_src.addr_ip = PFRA_ADDR(&pr->src);
 	
  	fr->fw_dst.addr_type = ADDR_TYPE_IP;
-	addr_mtob(&pr->dst.mask.v4.s_addr, IP_ADDR_LEN, &fr->fw_dst.addr_bits);
-	fr->fw_dst.addr_ip = pr->dst.addr.v4.s_addr;
+	addr_mtob(&(PFRA_MASK(&pr->dst)), IP_ADDR_LEN, &fr->fw_dst.addr_bits);
+	fr->fw_dst.addr_ip = PFRA_ADDR(&pr->dst);
 	
 	switch (fr->fw_proto) {
 	case IP_PROTO_ICMP:
