@@ -301,7 +301,7 @@ ip_add_option(void *buf, size_t len,
 	}
 	ip = (struct ip_hdr *)buf;
 	hl = ip->ip_hl << 2;
-	p = buf + hl;
+	p = (u_char *)buf + hl;
 	
 	if (proto == IP_PROTO_TCP) {
 		tcp = (struct tcp_hdr *)p;
