@@ -186,6 +186,28 @@ addr_ntop(const struct addr *src, char *dst, size_t size)
 	return (-1);
 }
 
+#ifdef WIN32
+/* XXX - it's total trash, and it's a natural fact that i'm not no cow */
+void
+_close_winsock(void)
+{
+	WSACleanup();
+}
+
+void
+_init_winsock(void)
+{
+	static int initialized;
+	WSADATA wsdata;
+	
+	if (!initialized) {
+		if (WSAStartup(MAKEWORD(2, 2), &wsdata) != 0)
+			return;
+		atexit(_close_winsock);
+	}
+}
+#endif
+
 int
 addr_pton(const char *src, struct addr *dst)
 {
@@ -237,9 +259,11 @@ addr_pton(const char *src, struct addr *dst)
 			dst->addr_bits = IP_ADDR_BITS;
 		}
 		if (inet_pton(AF_INET, tmp, &dst->addr_ip) != 1) {
-			struct hostent *hp = gethostbyname(tmp);
-			
-			if (hp == NULL) {
+			struct hostent *hp;
+#ifdef WIN32
+			_init_winsock();
+#endif
+			if ((hp = gethostbyname(tmp)) == NULL) {
 				errno = EINVAL;
 				return (-1);
 			}
