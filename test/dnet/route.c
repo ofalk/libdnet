@@ -67,7 +67,8 @@ route_main(int argc, char *argv[])
 		    "net" : "host", addr_ntoa(&entry.route_dst),
 		    addr_ntoa(&entry.route_gw));
 	} else if (strcmp(cmd, "add") == 0) {
-		if (addr_aton(argv[2], &entry.route_dst) < 0 ||
+		if (argc < 4 ||
+		    addr_aton(argv[2], &entry.route_dst) < 0 ||
 		    addr_aton(argv[3], &entry.route_gw) < 0)
 			err(1, "addr_aton");
 		if (route_add(r, &entry) < 0)
