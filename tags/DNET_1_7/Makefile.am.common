@@ -1,0 +1,7 @@
+## $Id$
+
+AUTOMAKE_OPTIONS = foreign no-dependencies
+
+INCLUDES = -I$(top_srcdir)/include
+
+DISTCLEANFILES = *~

@@ -1,0 +1,69 @@
+
+make *_loop() prevent modification within loop, or modify only
+post-iteration
+
+prefix everything with dnet_*, maybe new API with common dnet_t handle?
+
+more documentation and example code
+
+ip-cooked.c: use RTM_RESOLVE for ip_lookup_mac() (GetBestInterface()?)
+
+add a way to enable ip forwarding?
+
+finish IPv6 support everywhere (fw, route, ip6, win32, etc.)
+
+reimplement win32 fw (lost with laptop hd crash!@#$%)
+
+NAT, ipsec interface?
+
+maybe Checkpoint FW-1 support, via OPSEC (hrr)
+
+--------+------+-----+-----+----+----+------+-------+
+        | addr | arp | eth | fw | ip | intf | route |
+--------+------+-----+-----+----+----+------+-------+
+openbsd |   X  |  X  |  X  |  X |  X |   X  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+freebsd |   X  |  X  |  X  |  X |  X |   X  |   X   |   X = works, tested
+--------+------+-----+-----+----+----+------+-------+
+netbsd  |   X  |  X  |  X  |  X |  X |   X  |   X   |   ? = untested
+--------+------+-----+-----+----+----+------+-------+
+linux   |   X  |  X  |  X  |  X |  X |   X  |   X   |   - = unimplemented
+--------+------+-----+-----+----+----+------+-------+
+solaris |   X  |  X  |  X  |  ? |  X |   X  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+macosx  |   X  |  X  |  X  |  X |  X |   X  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+irix    |   X  |  X  |  X  |  - |  X |   X  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+bsdi    |   X  |  X  |  X  |  - |  X |   X  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+hp-ux   |   X  |  X  |  X  |  - |  X |   3  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+win32   |   X  |  X  |  X  |  - |  X |   3  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+tru64   |   X  |  1  |  2  |  - |  X |   X  |   -   |
+--------+------+-----+-----+----+----+------+-------+
+unixware|   X  |  -  |  2  |  - |  - |   X  |   4   |
+--------+------+-----+-----+----+----+------+-------+
+aix     |   X  |  5  |  -  |  - |  - |   X  |   6   |
+--------+------+-----+-----+----+----+------+-------+
+
+1. arp_loop doesn't work
+2. eth_send doesn't work
+3. intf_set doesn't work
+4. route_loop only works
+5. arp_show doesn't work
+6. route_loop doesn't work
+
+arp-{bsd,ioctl} both b0rked on unixware
+
+eth_send() doesn't allow src mac spoofing on MacOS X (no
+BIOCSHDRCMPLT) without patch (http://slagheap.net/etherspoof/),
+also b0rked on BSD/OS, says markus
+
+no support for ICMP code in ipfw, therefore none in fw-ipfw.c
+
+need reliable, legit Tru64, Unixware, and AIX accounts with root
+access to finish the ports to those platforms...
+
+$Id$
