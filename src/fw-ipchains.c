@@ -25,6 +25,7 @@
 #include <linux/netfilter_ipv4/ipchains_core.h>
 #endif
 
+#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -214,10 +215,8 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 int
 fw_close(fw_t *fw)
 {
-	if (fw == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(fw != NULL);
+
 	if (close(fw->fd) < 0)
 		return (-1);
 	

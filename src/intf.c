@@ -17,6 +17,7 @@
 #endif
 #include <net/if.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,9 +29,6 @@
 struct intf_handle {
 	int	fd;
 };
-
-int	eth_get_hwaddr(eth_t *e, struct addr *ha);	/* XXX */
-int	eth_set_hwaddr(eth_t *e, struct addr *ha);	/* XXX */
 
 static void
 intf_flags_to_iff(int flags, short *iff)
@@ -133,11 +131,10 @@ int
 intf_set(intf_t *i, char *device, struct addr *addr, int *flags)
 {
 	struct ifreq ifr;
+	eth_t *eth;
 
-	if (device == NULL || (addr == NULL && flags == NULL)) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(device != NULL && (addr != NULL || flags != NULL));
+	
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
 	
@@ -156,26 +153,14 @@ intf_set(intf_t *i, char *device, struct addr *addr, int *flags)
 			}
 			break;
 		case ADDR_TYPE_ETH:
-		{
-#ifdef SIOCSIFHWADDR
-			return (ioctl(i->fd, SIOCSIFHWADDR, &ifr));
-			break;
-#elif defined(SIOCSIFLLADDR)
-			return (ioctl(i->fd, SIOCSIFLLADDR, &ifr));
-			break;
-#else
-			eth_t *eth;
-			
 			if ((eth = eth_open(device)) == NULL)
 				return (-1);
 			
-			if (eth_set_hwaddr(eth, addr) < 0)
+			if (eth_set(eth, &addr->addr_eth) < 0)
 				return (-1);
 			
 			eth_close(eth);
 			break;
-#endif
-		}
 		default:
 			errno = EAFNOSUPPORT;
 			return (-1);
@@ -196,11 +181,10 @@ int
 intf_get(intf_t *i, char *device, struct addr *addr, int *flags)
 {
 	struct ifreq ifr;
+	eth_t *eth;
 	
-	if (device == NULL || (addr == NULL && flags == NULL)) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(device != NULL && (addr != NULL || flags != NULL));
+
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
 	
@@ -220,24 +204,15 @@ intf_get(intf_t *i, char *device, struct addr *addr, int *flags)
 			}
 			break;
 		case ADDR_TYPE_ETH:
-		{
-#ifdef SIOCGIFHWADDR
-			if (ioctl(i->fd, SIOCGIFHWADDR, &ifr) < 0)
-				return (-1);
-			if (addr_ston(&ifr.ifr_hwaddr, addr) < 0)
-				return (-1);
-			break;
-#else
-			eth_t *eth;
-			
 			if ((eth = eth_open(device)) == NULL)
 				return (-1);
-			if (eth_get_hwaddr(eth, addr) < 0)
+
+			if (eth_get(eth, &addr->addr_eth) < 0)
 				return (-1);
+
+			addr->addr_bits = ETH_ADDR_BITS;
 			eth_close(eth);
 			break;
-#endif
-		}
 		default:
 			errno = EAFNOSUPPORT;
 			return (-1);
@@ -305,10 +280,8 @@ intf_loop(intf_t *i, intf_handler callback, void *arg)
 int
 intf_close(intf_t *intf)
 {
-	if (intf == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(intf != NULL);
+
 	if (close(intf->fd) < 0)
 		return (-1);
 	

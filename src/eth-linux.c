@@ -24,6 +24,7 @@
 #endif /* __GLIBC__ */
 #include <netinet/in.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,13 +35,13 @@
 
 struct eth_handle {
 	int			fd;
+	struct ifreq		ifr;
 	struct sockaddr_ll	sll;
 };
 
 eth_t *
 eth_open(char *device)
 {
-	struct ifreq ifr;
 	eth_t *e;
 	int n;
 	
@@ -58,15 +59,14 @@ eth_open(char *device)
 		return (NULL);
 	}
 #endif
-	memset(&ifr, 0, sizeof(ifr));
-	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
+	strlcpy(e->ifr.ifr_name, device, sizeof(e->ifr.ifr_name));
 	
-	if (ioctl(e->fd, SIOCGIFINDEX, &ifr) < 0) {
+	if (ioctl(e->fd, SIOCGIFINDEX, &e->ifr) < 0) {
 		eth_close(e);
 		return (NULL);
 	}
 	e->sll.sll_family = AF_PACKET;
-	e->sll.sll_ifindex = ifr.ifr_ifindex;
+	e->sll.sll_ifindex = e->ifr.ifr_ifindex;
 	
 	return (e);
 }
@@ -85,13 +85,40 @@ eth_send(eth_t *e, const void *buf, size_t len)
 int
 eth_close(eth_t *e)
 {
-	if (e == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(e != NULL);
+
 	if (close(e->fd) < 0)
 		return (-1);
 	
 	free(e);
 	return (0);
+}
+
+int
+eth_get(eth_t *e, eth_addr_t *ea)
+{
+	struct addr ha;
+	
+	if (ioctl(e->fd, SIOCGIFHWADDR, &e->ifr) < 0)
+		return (-1);
+	
+	if (addr_ston(&e->ifr.ifr_hwaddr, &ha) < 0)
+		return (-1);
+
+	memcpy(ea, &ha->addr_eth, sizeof(*ea));
+	return (0);
+}
+
+int
+eth_set(eth_t *e, eth_addr_t *ea)
+{
+	struct addr ha;
+
+	ha.addr_type = ADDR_TYPE_ETH;
+	ha.addr_bits = ETH_ADDR_BITS;
+	memcpy(&ha.addr_eth, ea, ETH_ADDR_LEN);
+
+	addr_ntos(&ha, &e->ifr.ifr_hwaddr);
+
+	return (ioctl(e->fd, SIOCSIFHWADDR, &e->ifr));
 }

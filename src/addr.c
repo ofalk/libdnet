@@ -23,6 +23,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <netdb.h>
@@ -167,10 +168,8 @@ addr_pton(char *src, struct addr *dst)
 	long l;
 	int i;
 	
-	if (src == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(src != NULL);
+	
 	if (strchr(src, ':') != NULL) {
 		dst->addr_type = ADDR_TYPE_ETH;
 		dst->addr_bits = ETH_ADDR_BITS;
@@ -385,10 +384,8 @@ addr_stob(struct sockaddr *sa, u_short *bits)
 int
 addr_btom(u_short bits, u_int32_t *mask)
 {
-	if (bits > IP_ADDR_BITS) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(bits <= IP_ADDR_BITS);
+	
 	if (bits == 0)
 		*mask = 0;
 	else

@@ -24,6 +24,7 @@
 #endif
 #include <sys/stream.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -38,8 +39,6 @@ struct eth_handle {
 	int	fd;
 	int	sap_first;
 };
-
-int	eth_get_hwaddr(eth_t *e, struct addr *ha);
 
 static int
 dlpi_msg(int fd, union DL_primitives *dlp, int rlen, int flags,
@@ -248,10 +247,8 @@ eth_send(eth_t *e, const void *buf, size_t len)
 int
 eth_close(eth_t *e)
 {
-	if (e == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(e != NULL);
+
 	if (close(e->fd) < 0)
 		return (-1);
 	
@@ -260,7 +257,7 @@ eth_close(eth_t *e)
 }
 
 int
-eth_get_hwaddr(eth_t *e, struct addr *ha)
+eth_get(eth_t *e, eth_addr_t *ea)
 {
 	union DL_primitives *dlp;
 	u_char buf[2048];
@@ -273,17 +270,13 @@ eth_get_hwaddr(eth_t *e, struct addr *ha)
 	    DL_PHYS_ADDR_ACK, DL_PHYS_ADDR_ACK_SIZE, sizeof(buf)) < 0)
 		return (-1);
 
-	ha->addr_type = ADDR_TYPE_ETH;
-	ha->addr_bits = ETH_ADDR_BITS;
-
-	memcpy(&ha->addr_eth, buf + dlp->physaddr_ack.dl_addr_offset, 
-	    ETH_ADDR_LEN);
-
+	memcpy(ea, buf + dlp->physaddr_ack.dl_addr_offset, sizeof(*ea));
+	
 	return (0);
 }
 
 int
-eth_set_hwaddr(eth_t *e, struct addr *ha)
+eth_set(eth_t *e, eth_addr_t *ea)
 {
 	union DL_primitives *dlp;
 	u_char buf[2048];
@@ -293,7 +286,7 @@ eth_set_hwaddr(eth_t *e, struct addr *ha)
 	dlp->set_physaddr_req.dl_addr_length = ETH_ADDR_LEN;
 	dlp->set_physaddr_req.dl_addr_offset = DL_SET_PHYS_ADDR_REQ_SIZE;
 
-	memcpy(buf + DL_SET_PHYS_ADDR_REQ_SIZE, &ha->addr_eth, ETH_ADDR_LEN);
+	memcpy(buf + DL_SET_PHYS_ADDR_REQ_SIZE, ea, sizeof(*ea));
 	
 	return (dlpi_msg(e->fd, dlp, DL_SET_PHYS_ADDR_REQ_SIZE + ETH_ADDR_LEN,
 	    0, DL_OK_ACK, DL_OK_ACK_SIZE, sizeof(buf)));

@@ -34,6 +34,7 @@
 #undef route_t
 #include <netinet/in.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -181,10 +182,8 @@ route_add(route_t *r, struct addr *dst, struct addr *gw)
 {
 	u_char buf[BUFSIZ];
 
-	if (dst == NULL || gw == NULL) {
-		errno = EDESTADDRREQ;
-		return (-1);
-	}
+	assert(dst != NULL && gw != NULL);
+
 	if (route_msg(r, RTM_ADD, buf, sizeof(buf), dst, gw) < 0)
 		return (-1);
 	
@@ -197,10 +196,8 @@ route_delete(route_t *r, struct addr *dst)
 	struct addr gw;
 	u_char buf[BUFSIZ];
 	
-	if (dst == NULL) {
-		errno = EDESTADDRREQ;
-		return (-1);
-	}
+	assert(dst != NULL);
+
 	if (route_get(r, dst, &gw) < 0)
 		return (-1);
 	
@@ -215,13 +212,8 @@ route_get(route_t *r, struct addr *dst, struct addr *gw)
 {
 	u_char buf[BUFSIZ];
 	
-	if (dst == NULL) {
-		errno = EDESTADDRREQ;
-		return (-1);
-	} else if (gw == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(dst != NULL && gw != NULL);
+	
 	if (route_msg(r, RTM_GET, buf, sizeof(buf), dst, gw) < 0)
 		return (-1);
 	
@@ -432,10 +424,8 @@ route_loop(route_t *r, route_handler callback, void *arg)
 int
 route_close(route_t *r)
 {
-	if (r == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(r != NULL);
+
 	if (
 #ifdef HAVE_STREAMS_MIB2
 		close(r->ip_fd) < 0 ||

@@ -14,6 +14,7 @@
 
 #include <netinet/in.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -264,10 +265,8 @@ ip_send(ip_t *i, const void *buf, size_t len)
 int
 ip_close(ip_t *i)
 {
-	if (i == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(i != NULL);
+
 	if (close(i->fd) < 0)
 		return (-1);
 #ifdef HAVE_RAWIP_COOKED	

@@ -25,6 +25,7 @@
 #include <netinet/in.h>
 #include <netinet/if_ether.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -103,10 +104,8 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 	struct sockaddr *sa;
 	int index, type;
 	
-	if (a == NULL || pa == NULL || ha == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(a != NULL && pa != NULL && ha != NULL);
+	
 	if (pa->addr_type != ADDR_TYPE_IP || ha->addr_type != ADDR_TYPE_ETH) {
 		errno = EAFNOSUPPORT;
 		return (-1);
@@ -169,10 +168,8 @@ arp_delete(arp_t *a, struct addr *pa)
 	struct sockaddr_in *sin;
 	struct sockaddr *sa;
 
-	if (a == NULL || pa == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(a != NULL && pa != NULL);
+	
 	if (pa->addr_type != ADDR_TYPE_IP) {
 		errno = EAFNOSUPPORT;
 		return (-1);
@@ -218,10 +215,8 @@ arp_get(arp_t *a, struct addr *pa, struct addr *ha)
 	struct sockaddr_in *sin;
 	struct sockaddr *sa;
 	
-	if (a == NULL || pa == NULL || ha == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(a != NULL && pa != NULL && ha != NULL);
+	
 	if (pa->addr_type != ADDR_TYPE_IP) {
 		errno = EAFNOSUPPORT;
 		return (-1);
@@ -306,10 +301,8 @@ arp_loop(arp_t *a, arp_handler callback, void *arg)
 int
 arp_close(arp_t *a)
 {
-	if (a == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(a != NULL);
+	
 	if (close(a->fd) < 0)
 		return (-1);
 	

@@ -15,6 +15,7 @@
 #include <net/if.h>
 #include <net/raw.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,11 +23,9 @@
 #include "dnet.h"
 
 struct eth_handle {
-	int	fd;
-	char	device[16];
+	int		fd;
+	struct ifreq	ifr;
 };
-
-int	eth_get_hwaddr(eth_t *e, struct addr *ha);
 
 eth_t *
 eth_open(char *device)
@@ -55,44 +54,44 @@ eth_open(char *device)
 		eth_close(e);
 		return (NULL);
 	}
-	strlcpy(e->device, device, sizeof(e->device));
+	strlcpy(e->ifr.ifr_name, device, sizeof(e->ifr.ifr_name));
 	
 	return (e);
 }
 
 int
-eth_get_hwaddr(eth_t *e, struct addr *ha)
+eth_get(eth_t *e, eth_addr_t *ea)
 {
-	struct ifreq ifr;
-
-	memset(&ifr, 0, sizeof(ifr));
-	strlcpy(ifr.ifr_name, e->device, sizeof(ifr.ifr_name));
-
-	if (ioctl(e->fd, SIOCGIFADDR, &ifr) < 0)
+	struct addr ha;
+	
+	if (ioctl(e->fd, SIOCGIFADDR, &e->ifr) < 0)
 		return (-1);
 
-	if (addr_ston(&ifr.ifr_addr, ha) < 0)
+	if (addr_ston(&e->ifr.ifr_addr, &ha) < 0)
 		return (-1);
 
-	if (ha->addr_type != ADDR_TYPE_ETH) {
+	if (ha.addr_type != ADDR_TYPE_ETH) {
 		errno = EINVAL;
 		return (-1);
 	}
+	memcpy(ea, &ha.addr_eth, sizeof(*ea));
+	
 	return (0);
 }
 
 int
-eth_set_hwaddr(eth_t *e, struct addr *ha)
+eth_set(eth_t *e, eth_addr_t *ea)
 {
-	struct ifreq ifr;
+	struct addr ha;
 
-	memset(&ifr, 0, sizeof(ifr));
-	strlcpy(ifr.ifr_name, e->device, sizeof(ifr.ifr_name));
-	
-	if (addr_ntos(ha, &ifr.ifr_addr) < 0)
+	ha.addr_type = ADDR_TYPE_ETH;
+	ha.addr_bits = ETH_ADDR_BITS;
+	memcpy(&ha.addr_eth, ea, ETH_ADDR_LEN);
+	    
+	if (addr_ntos(&ha, &e->ifr.ifr_addr) < 0)
 		return (-1);
 	
-	return (ioctl(e->fd, SIOCSIFADDR, &ifr));
+	return (ioctl(e->fd, SIOCSIFADDR, &e->ifr));
 }
 
 ssize_t
@@ -104,10 +103,8 @@ eth_send(eth_t *e, const void *buf, size_t len)
 int
 eth_close(eth_t *e)
 {
-	if (e == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(e != NULL);
+	
 	if (close(e->fd) < 0)
 		return (-1);
 	
