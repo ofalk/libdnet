@@ -284,43 +284,61 @@ ip_close(ip_t *i)
 }
 
 size_t
-ip_add_opt(void *buf, size_t len, const void *optbuf, size_t optlen)
+ip_add_option(void *buf, size_t len,
+    int proto, const void *optbuf, size_t optlen)
 {
 	struct ip_hdr *ip;
-	struct ip_opt *opt;
+	struct tcp_hdr *tcp = NULL;
 	u_char *p;
-	int datalen, padlen;
-
+	int hl, datalen, padlen;
+	
+	if (proto != IP_PROTO_IP && proto != IP_PROTO_TCP) {
+		errno = EPROTONOSUPPORT;
+		return (-1);
+	}
 	ip = (struct ip_hdr *)buf;
-	p = (u_char *)ip + (ip->ip_hl << 2);
+	hl = ip->ip_hl << 2;
+	p = buf + hl;
+	
+	if (proto == IP_PROTO_TCP) {
+		tcp = (struct tcp_hdr *)p;
+		hl = tcp->th_off << 2;
+		p = (u_char *)tcp + hl;
+	}
 	datalen = ntohs(ip->ip_len) - (p - (u_char *)buf);
 	
+	/* Compute padding to next word boundary. */
 	if ((padlen = 4 - (optlen % 4)) == 4)
 		padlen = 0;
-	
-	assert(ntohs(ip->ip_len) + optlen + padlen < len);
-	assert((ip->ip_hl << 2) + optlen + padlen < IP_HDR_LEN_MAX);
-	
-	opt = (struct ip_opt *)optbuf;
-	if (IP_OPT_TYPEONLY(opt->opt_type))
-		optlen = 1;
-	else
-		assert(opt->opt_len == optlen);
 
-	/* XXX - shift any existing IP data. */
+	/* XXX - IP_HDR_LEN_MAX == TCP_HDR_LEN_MAX */
+	if (hl + optlen + padlen > IP_HDR_LEN_MAX ||
+	    ntohs(ip->ip_len) + optlen + padlen > len) {
+		errno = EINVAL;
+		return (-1);
+	}
+	/* XXX - IP_OPT_TYPEONLY() == TCP_OPT_TYPEONLY */
+	if (IP_OPT_TYPEONLY(((struct ip_opt *)optbuf)->opt_type))
+		optlen = 1;
+	
+	/* Shift any existing data. */
 	if (datalen) {
 		memmove(p + optlen + padlen, p, datalen);
 	}
 	memmove(p, optbuf, optlen);
 	p += optlen;
 	
-	/* XXX - pad with NOPs to word boundary. */
+	/* XXX - IP_OPT_NOP == TCP_OPT_NOP */
 	if (padlen) {
 		memset(p, IP_OPT_NOP, padlen);
 		p += padlen;
 		optlen += padlen;
 	}
-	ip->ip_hl = (p - (u_char *)ip) >> 2;
+	if (proto == IP_PROTO_IP)
+		ip->ip_hl = (p - (u_char *)ip) >> 2;
+	else if (proto == IP_PROTO_TCP)
+		tcp->th_off = (p - (u_char *)tcp) >> 2;
+
 	ip->ip_len = htons(ntohs(ip->ip_len) + optlen);
 	
 	return (optlen);

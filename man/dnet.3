@@ -96,9 +96,7 @@
 .Ft ip_t *
 .Fn ip_open "void"
 .Ft size_t
-.Fn ip_add_opt "void *buf" "size_t len" "const void *optbuf" "size_t optlen"
-.Ft size_t
-.Fn tcp_add_opt "void *buf" "size_t len" "const void *optbuf" "size_t optlen"
+.Fn ip_add_option "void *buf" "size_t len" "int proto" "const void *optbuf" "size_t optlen"
 .Ft void
 .Fn ip_checksum "void *buf" "size_t len"
 .Ft ssize_t
@@ -390,31 +388,19 @@ closes the specified handle.
 is used to obtain a handle to transmit raw IP packets, routed by the
 kernel.
 .Pp
-.Fn ip_add_opt
-adds the IP option specified by
+.Fn ip_add_option
+adds the header option for the protocol
+.Fa proto
+specified by
 .Fa optbuf
 of length
 .Fa optlen
-and appends it to the IP header of the IP packet contained in the
-specified buffer
+and appends it to the appropriate header of the IP packet contained in
 .Fa buf
 of size
 .Fa len ,
-shifting any existing IP payload, and adding NOPs to pad the option to
-a word boundary, if necessary.
-.Pp
-.Fn tcp_add_opt
-adds the TCP option specified by
-.Fa optbuf
-of length
-.Fa optlen
-and appends it to the TCP header of the IP packet contained in the
-specified buffer
-.Fa buf
-of size
-.Fa len ,
-shifting any existing TCP payload and adding NOPs to pad the option to
-a word boundary, if necessary.
+shifting any existing payload and adding NOPs to pad the option to
+a word boundary if necessary.
 .Pp
 .Fn ip_checksum
 sets the IP checksum and any appropriate transport protocol checksum
