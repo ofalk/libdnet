@@ -35,6 +35,10 @@
 
 #include "dnet.h"
 
+#ifndef INFTIM
+#define INFTIM	-1
+#endif
+
 struct eth_handle {
 	int	fd;
 	int	sap_first;
