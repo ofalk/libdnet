@@ -11,12 +11,19 @@
 #ifndef DNET_OS_H
 #define DNET_OS_H
 
-/* XXX - require POSIX */
-#include <sys/param.h>
-
-/* XXX - Linux <feature.h>, IRIX <sys/endian.h>, etc. */
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#ifdef WIN32
+# include <windows.h>
+# include <winsock2.h>
+# include <stdint.h>
+#else
+# include <sys/param.h>
+# include <sys/types.h>
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <arpa/inet.h>
+# include <netdb.h>
+# include <inttypes.h>
+#endif
 
 #define DNET_LIL_ENDIAN		1234
 #define DNET_BIG_ENDIAN		4321
@@ -93,8 +100,5 @@
 #  endif
 # endif
 #endif
-
-/* C9X standard integer types. */
-#include <inttypes.h>
 
 #endif /* DNET_OS_H */
