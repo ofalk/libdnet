@@ -22,6 +22,7 @@ cdef extern from "dnet.h":
 cdef extern from "Python.h":
     object  PyString_FromStringAndSize(char *s, int len)
     int     PyString_Size(object o)
+    int     PyObject_AsReadBuffer(object o, char **pp, int *lenp)
 
 cdef extern from *:
     void   *memcpy(char *dst, char *src, int len)
@@ -128,8 +129,9 @@ cdef class eth:
         """
         return eth_send(self.eth, frame, PyString_Size(frame))
     
-    def __del__(self):
-        eth_close(self.eth)
+    def __dealloc__(self):
+        if self.eth:
+            eth_close(self.eth)
 
 def eth_ntoa(buf):
     """Convert an Ethernet MAC address from 6-byte packed binary string to
@@ -178,6 +180,8 @@ cdef extern from *:
     char *__ip_ntoa "ip_ntoa" (ip_addr_t *buf)
     int   __ip_aton "ip_aton" (char *src, ip_addr_t *dst)
     void  __ip_checksum "ip_checksum" (char *buf, int len)
+    int   __ip_cksum_add "ip_cksum_add" (char *buf, int len, int sum)
+    int   __ip_cksum_carry "ip_cksum_carry" (int sum)
     void  __ip_pack_hdr "ip_pack_hdr" (char *h, int tos, int len, int id,
               int off, int ttl, int p, ip_addr_t s, ip_addr_t d)
 
@@ -243,8 +247,9 @@ cdef class ip:
         """
         return ip_send(self.ip, pkt, PyString_Size(pkt))
 
-    def __del__(self):
-        ip_close(self.ip)
+    def __dealloc__(self):
+        if self.ip:
+            ip_close(self.ip)
 
 def ip_ntoa(buf):
     """Convert an IP address from a 4-byte packed binary string to a
@@ -270,6 +275,17 @@ def ip_checksum(buf):
     """
     __ip_checksum(buf, PyString_Size(buf))
     return buf
+
+def ip_cksum_add(buf, int sum):
+    cdef char *p
+    cdef int n
+    if PyObject_AsReadBuffer(buf, &p, &n) == 0:
+        return __ip_cksum_add(p, n, sum)
+    else:
+        raise TypeError
+
+def ip_cksum_carry(int sum):
+    return __ip_cksum_carry(sum)
 
 def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,
                 ttl=IP_TTL_DEFAULT, p=IP_PROTO_IP,
@@ -526,7 +542,7 @@ cdef extern from *:
         addr_t arp_ha
     ctypedef struct arp_t:
         int __xxx
-    ctypedef int (*arp_handler)(arp_entry *entry, void *arg)
+    ctypedef int (*arp_handler)(arp_entry *entry, void *arg) except -1
     
     arp_t *arp_open()
     int    arp_add(arp_t *arp, arp_entry *entry)
@@ -552,9 +568,10 @@ ARP_OP_REPLY =		2	# /* response giving hardware address */
 ARP_OP_REVREQUEST =	3	# /* request to resolve pa given ha */
 ARP_OP_REVREPLY =	4	# /* response giving protocol address */
 
-cdef int __arp_callback(arp_entry *entry, void *arg):
+cdef int __arp_callback(arp_entry *entry, void *arg) except -1:
     f, a = <object>arg
-    ret = f(addr(addr_ntoa(&entry.arp_pa)), addr(addr_ntoa(&entry.arp_ha)), a)
+    ret = f(addr(addr_ntoa(&entry.arp_pa)),
+            addr(addr_ntoa(&entry.arp_ha)), a)
     if not ret:
         ret = 0
     return ret
@@ -621,8 +638,9 @@ cdef class arp:
         _arg = (callback, arg)
         return arp_loop(self.arp, __arp_callback, <void *>_arg)
     
-    def __del__(self):
-        arp_close(self.arp)
+    def __dealloc__(self):
+        if self.arp:
+            arp_close(self.arp)
 
 def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,
                        sha=ETH_ADDR_UNSPEC, spa=IP_ADDR_ANY,
@@ -739,7 +757,7 @@ cdef extern from *:
         addr_t		intf_alias_addrs[8]	# XXX
     ctypedef struct intf_t:
         int __xxx
-    ctypedef int (*intf_handler)(intf_entry *entry, void *arg)
+    ctypedef int (*intf_handler)(intf_entry *entry, void *arg) except -1
     
     intf_t *intf_open()
     int     intf_get(intf_t *intf, intf_entry *entry)
@@ -798,7 +816,7 @@ cdef dict_to_ifent(object d, intf_entry *entry):
         for i from 0 <= i < entry.intf_alias_num:
             entry.intf_alias_addrs[i] = (<addr>d['alias_addrs'][i])._addr
 
-cdef int __intf_callback(intf_entry *entry, void *arg):
+cdef int __intf_callback(intf_entry *entry, void *arg) except -1:
     f, a = <object>arg
     ret = f(ifent_to_dict(entry), a)
     if not ret:
@@ -887,8 +905,9 @@ cdef class intf:
         _arg = (callback, arg)
         return intf_loop(self.intf, __intf_callback, <void *>_arg)
     
-    def __del__(self):
-        intf_close(self.intf)
+    def __dealloc__(self):
+        if self.intf:
+            intf_close(self.intf)
 
 #
 # route.h
@@ -899,7 +918,7 @@ cdef extern from *:
         addr_t route_gw
     ctypedef struct route_t:
         int __xxx
-    ctypedef int (*route_handler)(route_entry *entry, void *arg)
+    ctypedef int (*route_handler)(route_entry *entry, void *arg) except -1
     
     route_t *route_open()
     int      route_add(route_t *route, route_entry *entry)
@@ -908,7 +927,7 @@ cdef extern from *:
     int      route_loop(route_t *route, route_handler callback, void *arg)
     route_t *route_close(route_t *route)
 
-cdef int __route_callback(route_entry *entry, void *arg):
+cdef int __route_callback(route_entry *entry, void *arg) except -1:
     f, a = <object>arg
     ret = f(addr(addr_ntoa(&entry.route_dst)),
             addr(addr_ntoa(&entry.route_gw)), a)
@@ -978,8 +997,9 @@ cdef class route:
         _arg = (callback, arg)
         return route_loop(self.route, __route_callback, <void *>_arg)
     
-    def __del__(self):
-        route_close(self.route)
+    def __dealloc__(self):
+        if self.route:
+            route_close(self.route)
 
 #
 # fw.h
@@ -997,7 +1017,7 @@ cdef extern from *:
     
     ctypedef struct fw_t:
         int __xxx
-    ctypedef int (*fw_handler)(fw_rule *rule, void *arg)
+    ctypedef int (*fw_handler)(fw_rule *rule, void *arg) except -1
 
     fw_t *fw_open()
     int	  fw_add(fw_t *f, fw_rule *rule)
@@ -1049,7 +1069,7 @@ cdef dict_to_rule(object d, fw_rule *rule):
         rule.fw_dport[0] = d['dport'][0]
         rule.fw_dport[1] = d['dport'][1]
 
-cdef int __fw_callback(fw_rule *rule, void *arg):
+cdef int __fw_callback(fw_rule *rule, void *arg) except -1:
     f, a = <object>arg
     ret = f(rule_to_dict(rule), a)
     if not ret:
@@ -1108,8 +1128,9 @@ cdef class fw:
         _arg = (callback, arg)
         return fw_loop(self.fw, __fw_callback, <void *>_arg)
 
-    def __del__(self):
-        fw_close(self.fw)
+    def __dealloc__(self):
+        if self.fw:
+            fw_close(self.fw)
 
 #
 # rand.h
@@ -1180,3 +1201,6 @@ cdef class rand:
         """Return a random 32-bit integer."""
         return rand_uint32(self.rand)
 
+    def __dealloc__(self):
+        if self.rand:
+            rand_close(self.rand)
