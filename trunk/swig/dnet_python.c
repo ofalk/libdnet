@@ -647,9 +647,10 @@ SWIG_InstallConstants(PyObject *d, swig_const_info constants[]) {
 #define  SWIGTYPE_p_rand_handle swig_types[3] 
 #define  SWIGTYPE_p_route_handle swig_types[4] 
 #define  SWIGTYPE_p_p_char swig_types[5] 
-#define  SWIGTYPE_p_addr swig_types[6] 
-#define  SWIGTYPE_p_int swig_types[7] 
-static swig_type_info *swig_types[9];
+#define  SWIGTYPE_p_addr_iter swig_types[6] 
+#define  SWIGTYPE_p_addr swig_types[7] 
+#define  SWIGTYPE_p_int swig_types[8] 
+static swig_type_info *swig_types[10];
 
 /* -------- TYPES TABLE (END) -------- */
 
@@ -733,7 +734,7 @@ static char		_dnet_errmsg[256];
 static int		_dnet_errcode = 0;
 
 static void
-dnet_exception(int code, const char *fmt, ...)
+dnet_error(int code, const char *fmt, ...)
 {
 	va_list ap;
 
@@ -750,43 +751,74 @@ dnet_exception(int code, const char *fmt, ...)
 }
 
 
-	static PyObject *__addr_data_get(struct addr *a, int type, int len) {
-		if (a->addr_type != type) {
-			dnet_exception(SWIG_TypeError, "address type is %d",
-				a->addr_type);
-			return (NULL);
-		}
-		return (PyString_FromStringAndSize(a->addr_data8, len));
+/* Helper routines for addr_{eth,ip,ip6} members */
+static PyObject *
+__addr_data_get(struct addr *a, int type, int len)
+ {
+	if (a->addr_type != type) {
+		dnet_error(SWIG_TypeError, "address type is %d", a->addr_type);
+		return (NULL);
 	}
-	static void __addr_data_set(struct addr *a, PyObject *obj, int len) {
-		char *p;
-		int n;
+	return (PyString_FromStringAndSize(a->addr_data8, len));
+}
 
+static void
+__addr_data_set(struct addr *a, PyObject *obj, int len) 
+{
+	char *p;
+	int n;
 		if (PyArg_Parse(obj, "s#:addr_data_set", &p, &n) && n == len) {
-			memcpy(a->addr_data8, p, len);
-		} else
-			dnet_exception(SWIG_ValueError, "expected %d-byte "
-			    "binary string", len);
-	}
-	static PyObject *addr_eth_get(struct addr *a) {
-		return (__addr_data_get(a, ADDR_TYPE_ETH, ETH_ADDR_LEN));
-	}
-	static void addr_eth_set(struct addr *a, PyObject *obj) {
-		__addr_data_set(a, obj, ETH_ADDR_LEN);
-	}
-	static PyObject *addr_ip_get(struct addr *a) {
-		return (__addr_data_get(a, ADDR_TYPE_IP, IP_ADDR_LEN));
-	}
-	static void addr_ip_set(struct addr *a, PyObject *obj) {
-		__addr_data_set(a, obj, IP_ADDR_LEN);
-	}
-	static PyObject *addr_ip6_get(struct addr *a) {
-		return (__addr_data_get(a, ADDR_TYPE_IP6, IP6_ADDR_LEN));
-	}
-	static void addr_ip6_set(struct addr *a, PyObject *obj) {
-		__addr_data_set(a, obj, IP6_ADDR_LEN);
-	}
+		memcpy(a->addr_data8, p, len);
+	} else
+		dnet_error(SWIG_ValueError, "expected %d-byte binary string",
+		    len);
+}
 
+static PyObject *addr_eth_get(struct addr *a) {
+	return (__addr_data_get(a, ADDR_TYPE_ETH, ETH_ADDR_LEN));
+}
+static void addr_eth_set(struct addr *a, PyObject *obj) {
+	__addr_data_set(a, obj, ETH_ADDR_LEN);
+}
+static PyObject *addr_ip_get(struct addr *a) {
+	return (__addr_data_get(a, ADDR_TYPE_IP, IP_ADDR_LEN));
+}
+static void addr_ip_set(struct addr *a, PyObject *obj) {
+	__addr_data_set(a, obj, IP_ADDR_LEN);
+}
+static PyObject *addr_ip6_get(struct addr *a) {
+	return (__addr_data_get(a, ADDR_TYPE_IP6, IP6_ADDR_LEN));
+}
+static void addr_ip6_set(struct addr *a, PyObject *obj) {
+	__addr_data_set(a, obj, IP6_ADDR_LEN);
+}
+
+/* Python iterator object for addr */
+struct addr_iter {
+	struct addr	cur;	/* XXX - in HBO */
+	struct addr	max;	/* XXX - in HBO */
+};
+
+struct addr_iter *new_addr_iter(){
+		return (calloc(1, sizeof(struct addr_iter)));
+	}
+void delete_addr_iter(struct addr_iter *self){
+		free(self);
+	}
+struct addr_iter *addr_iter___iter__(struct addr_iter *self){
+		return (self);
+	}
+struct addr *addr_iter_next(struct addr_iter *self){
+		struct addr *a = NULL;
+		
+		/* XXX - only handle IPv4 for now */
+		if (self->cur.addr_ip <= self->max.addr_ip) {
+			a = malloc(sizeof(*a));
+			memcpy(a, self, sizeof(*a));
+			a->addr_ip = htonl(self->cur.addr_ip++);
+		}		
+                return (a);
+	}
 struct addr *new_addr__SWIG_0(){
 		return ((struct addr *)calloc(1, sizeof(struct addr)));
 	}
@@ -794,7 +826,7 @@ struct addr *new_addr__SWIG_1(char *addrtxt){
 		struct addr *a = calloc(1, sizeof(*a));
 		if (addr_aton(addrtxt, a) < 0) {
 			free(a), a = NULL;
-			dnet_exception(SWIG_ValueError, NULL);
+			dnet_error(SWIG_ValueError, NULL);
 		}
 		return (a);
 	}
@@ -806,7 +838,7 @@ struct addr *addr___bcast(struct addr *self){
 
 		if (addr_bcast(self, a) < 0) {
 			free(a), a = NULL;
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		}
 		return (a);
 	}
@@ -815,7 +847,7 @@ struct addr *addr___net(struct addr *self){
 
 		if (addr_net(self, a) < 0) {
 			free(a), a = NULL;
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		}
 		return (a);
 	}
@@ -829,6 +861,21 @@ int addr___contains__(struct addr *self,struct addr *other){
 		    addr_net(other, &o1) != 0 || addr_bcast(other, &o2) != 0)
 			return (0);
 		return (addr_cmp(&o1, &s1) >= 0 && addr_cmp(&o2, &s2) <= 0);
+	}
+struct addr_iter *addr___iter__(struct addr *self){
+		struct addr_iter *ai = malloc(sizeof(*ai));
+		
+		/* XXX - only handle IPv4 for now */
+		if (self->addr_type != 2 ||
+		    addr_net(self, &ai->cur) < 0 || 
+		    addr_bcast(self, &ai->max) < 0) {
+			dnet_error(SWIG_ValueError, "expected IP address");
+			free(ai), ai = NULL;
+		} else {
+			ai->cur.addr_ip = ntohl(ai->cur.addr_ip);
+			ai->max.addr_ip = ntohl(ai->max.addr_ip);
+		}
+		return (ai);
 	}
 long addr___len__(struct addr *self){
 		long len = 0;
@@ -851,15 +898,15 @@ void __eth_pack_hdr(char *eth_hdr,
 	if (len1 == ETH_ADDR_LEN && len2 == ETH_ADDR_LEN) {
 		eth_pack_hdr(eth_hdr, *buf1, *buf2, type);
 	} else
-		dnet_exception(SWIG_ValueError, "invalid MAC addresses");
+		dnet_error(SWIG_ValueError, "invalid MAC addresses");
 }
 void __eth_aton(char *buf, char *eth_addr) {
 	if (eth_aton(buf, (eth_addr_t *)eth_addr) < 0)
-		dnet_exception(SWIG_RuntimeError, NULL);
+		dnet_error(SWIG_RuntimeError, NULL);
 }
 char *__eth_ntoa(char *buf1, int len1) {
 	if (len1 != ETH_ADDR_LEN) {
-		dnet_exception(SWIG_ValueError, 
+		dnet_error(SWIG_ValueError, 
 		    "expected 6-byte binary string");
 		return (NULL);
 	}
@@ -896,7 +943,7 @@ static PyObject* t_output_helper(PyObject* target, PyObject* o) {
 struct eth_handle *new_eth_handle(char *buf1,int len1){
 		eth_t *eth = eth_open(buf1);
 		if (eth == NULL)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		return (eth);
 	}
 void delete_eth_handle(struct eth_handle *self){
@@ -904,14 +951,14 @@ void delete_eth_handle(struct eth_handle *self){
 	}
 void eth_handle_get(struct eth_handle *self,char *eth_addr){
 		if (eth_get(self, (eth_addr_t *)eth_addr) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 void eth_handle_set(struct eth_handle *self,char *buf1,int len1){
 		if (len1 != 6) {
-			dnet_exception(SWIG_ValueError,
+			dnet_error(SWIG_ValueError,
 			    "expected a 6-byte binary string");
 		} else if (eth_set(self, (eth_addr_t *)buf1) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 int eth_handle_send(struct eth_handle *self,char *buf1,int len1){
 		return (eth_send(self, buf1, len1));
@@ -952,7 +999,7 @@ void __ip_checksum(char **dstp, int *dlenp, char *src, int slen) {
 struct ip_handle *new_ip_handle(){
 		ip_t *ip = ip_open();
 		if (ip == NULL)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		return (ip);
 	}
 void delete_ip_handle(struct ip_handle *self){
@@ -969,13 +1016,13 @@ void __arp_pack_hdr_ethip(char *arp_ethip, int op,
 	    len3 == ETH_ADDR_LEN && len4 == IP_ADDR_LEN) {
 		arp_pack_hdr_ethip(arp_ethip, op, *buf1, *buf2, *buf3, *buf4);
 	} else
-		dnet_exception(SWIG_ValueError, "invalid argument lengths");
+		dnet_error(SWIG_ValueError, "invalid argument lengths");
 }
 
 struct arp_handle *new_arp_handle(){
 		arp_t *arp = arp_open();
 		if (arp == NULL)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		return (arp);
 	}
 void delete_arp_handle(struct arp_handle *self){
@@ -987,7 +1034,7 @@ void arp_handle_add(struct arp_handle *self,struct addr *pa,struct addr *ha){
 		memcpy(&entry.arp_pa, pa, sizeof(*pa));
 		memcpy(&entry.arp_ha, ha, sizeof(*ha));
 		if (arp_add(self, &entry) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 void arp_handle_delete(struct arp_handle *self,struct addr *pa){
 		struct arp_entry entry;
@@ -995,7 +1042,7 @@ void arp_handle_delete(struct arp_handle *self,struct addr *pa){
 		memset(&entry, 0, sizeof(entry));
 		memcpy(&entry.arp_pa, pa, sizeof(*pa));
 		if (arp_delete(self, &entry) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 struct addr *arp_handle_get(struct arp_handle *self,struct addr *pa){
 		struct arp_entry entry;
@@ -1006,7 +1053,7 @@ struct addr *arp_handle_get(struct arp_handle *self,struct addr *pa){
 			ha = calloc(1, sizeof(*ha));
 			memcpy(ha, &entry.arp_ha, sizeof(*ha));
 		} else {
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		}
 		return (ha);
 	}
@@ -1044,15 +1091,15 @@ void delete_rand_handle(struct rand_handle *self){
 void rand_handle_get(struct rand_handle *self,char **dstp,int *dlenp,int len){
 		*dstp = malloc(len); *dlenp = len;
 		if (rand_get(self, *dstp, *dlenp) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 void rand_handle_set(struct rand_handle *self,char *buf1,int len1){
 		if (rand_set(self, buf1, len1) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 void rand_handle_add(struct rand_handle *self,char *buf1,int len1){
 		if (rand_add(self, buf1, len1) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 unsigned char rand_handle_uint8(struct rand_handle *self){
 		return (rand_uint8(self));
@@ -1066,7 +1113,7 @@ unsigned int rand_handle_uint32(struct rand_handle *self){
 struct route_handle *new_route_handle(){
 		route_t *r = route_open();
 		if (r == NULL)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		return (r);
 	}
 void delete_route_handle(struct route_handle *self){
@@ -1125,6 +1172,104 @@ void route_handle_loop(struct route_handle *self,PyObject *callback,PyObject *ar
 #ifdef __cplusplus
 extern "C" {
 #endif
+static PyObject *_wrap_new_addr_iter(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    struct addr_iter *result;
+    
+    if(!PyArg_ParseTuple(args,(char *)":new_addr_iter")) goto fail;
+    {
+        result = (struct addr_iter *)new_addr_iter();
+        
+        if (_dnet_errcode != 0) {
+            int code = _dnet_errcode;
+            _dnet_errcode = 0;
+            SWIG_exception(code, _dnet_errmsg);
+        }
+    }
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr_iter, 1);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_delete_addr_iter(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    struct addr_iter *arg1 = (struct addr_iter *) 0 ;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:delete_addr_iter",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_addr_iter,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        delete_addr_iter(arg1);
+        
+        if (_dnet_errcode != 0) {
+            int code = _dnet_errcode;
+            _dnet_errcode = 0;
+            SWIG_exception(code, _dnet_errmsg);
+        }
+    }
+    Py_INCREF(Py_None); resultobj = Py_None;
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_addr_iter___iter__(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    struct addr_iter *arg1 = (struct addr_iter *) 0 ;
+    struct addr_iter *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:addr_iter___iter__",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_addr_iter,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        result = (struct addr_iter *)addr_iter___iter__(arg1);
+        
+        if (_dnet_errcode != 0) {
+            int code = _dnet_errcode;
+            _dnet_errcode = 0;
+            SWIG_exception(code, _dnet_errmsg);
+        }
+    }
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr_iter, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_addr_iter_next(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    struct addr_iter *arg1 = (struct addr_iter *) 0 ;
+    struct addr *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:addr_iter_next",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_addr_iter,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        result = (struct addr *)addr_iter_next(arg1);
+        
+        if (!result) {
+            PyErr_SetNone(PyExc_StopIteration);
+            return (NULL);
+        }
+    }
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr, 0);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject * addr_iter_swigregister(PyObject *self, PyObject *args) {
+    PyObject *obj;
+    if (!PyArg_ParseTuple(args,(char*)"O", &obj)) return NULL;
+    SWIG_TypeClientData(SWIGTYPE_p_addr_iter, obj);
+    Py_INCREF(obj);
+    return Py_BuildValue((char *)"");
+}
 static PyObject *_wrap_addr_type_set(PyObject *self, PyObject *args) {
     PyObject *resultobj;
     struct addr *arg1 = (struct addr *) 0 ;
@@ -1216,7 +1361,6 @@ static PyObject *_wrap_addr_eth_set(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1241,7 +1385,6 @@ static PyObject *_wrap_addr_eth_get(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = result;
@@ -1268,7 +1411,6 @@ static PyObject *_wrap_addr_ip_set(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1293,7 +1435,6 @@ static PyObject *_wrap_addr_ip_get(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = result;
@@ -1320,7 +1461,6 @@ static PyObject *_wrap_addr_ip6_set(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1345,7 +1485,6 @@ static PyObject *_wrap_addr_ip6_get(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = result;
@@ -1367,7 +1506,6 @@ static PyObject *_wrap_new_addr__SWIG_0(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr, 1);
@@ -1390,7 +1528,6 @@ static PyObject *_wrap_new_addr__SWIG_1(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr, 1);
@@ -1441,7 +1578,6 @@ static PyObject *_wrap_delete_addr(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1466,7 +1602,6 @@ static PyObject *_wrap_addr_bcast(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr, 0);
@@ -1491,7 +1626,6 @@ static PyObject *_wrap_addr_net(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr, 0);
@@ -1519,7 +1653,6 @@ static PyObject *_wrap_addr___cmp__(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
@@ -1547,10 +1680,33 @@ static PyObject *_wrap_addr___contains__(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
+    return resultobj;
+    fail:
+    return NULL;
+}
+
+
+static PyObject *_wrap_addr___iter__(PyObject *self, PyObject *args) {
+    PyObject *resultobj;
+    struct addr *arg1 = (struct addr *) 0 ;
+    struct addr_iter *result;
+    PyObject * obj0 = 0 ;
+    
+    if(!PyArg_ParseTuple(args,(char *)"O:addr___iter__",&obj0)) goto fail;
+    if ((SWIG_ConvertPtr(obj0,(void **) &arg1, SWIGTYPE_p_addr,SWIG_POINTER_EXCEPTION | 0 )) == -1) SWIG_fail;
+    {
+        result = (struct addr_iter *)addr___iter__(arg1);
+        
+        if (_dnet_errcode != 0) {
+            int code = _dnet_errcode;
+            _dnet_errcode = 0;
+            SWIG_exception(code, _dnet_errmsg);
+        }
+    }
+    resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr_iter, 0);
     return resultobj;
     fail:
     return NULL;
@@ -1572,7 +1728,6 @@ static PyObject *_wrap_addr___len__(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
@@ -1597,7 +1752,6 @@ static PyObject *_wrap_addr___str__(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
@@ -1645,7 +1799,6 @@ static PyObject *_wrap___eth_pack_hdr(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1676,7 +1829,6 @@ static PyObject *_wrap___eth_aton(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1709,7 +1861,6 @@ static PyObject *_wrap___eth_ntoa(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
@@ -1738,7 +1889,6 @@ static PyObject *_wrap_new_eth(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_eth_handle, 1);
@@ -1762,7 +1912,6 @@ static PyObject *_wrap_delete_eth(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1791,7 +1940,6 @@ static PyObject *_wrap_eth_get(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1826,7 +1974,6 @@ static PyObject *_wrap_eth_set(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1858,7 +2005,6 @@ static PyObject *_wrap_eth_send(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
@@ -1893,7 +2039,6 @@ static PyObject *_wrap___icmp_pack_hdr(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1937,7 +2082,6 @@ static PyObject *_wrap___icmp_pack_hdr_echo(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -1990,7 +2134,6 @@ static PyObject *_wrap___ip_pack_hdr(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2021,7 +2164,6 @@ static PyObject *_wrap___ip_aton(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2054,7 +2196,6 @@ static PyObject *_wrap___ip_ntoa(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = result ? PyString_FromString(result) : Py_BuildValue((char*)"");
@@ -2085,7 +2226,6 @@ static PyObject *_wrap___ip_checksum(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2114,7 +2254,6 @@ static PyObject *_wrap_new_ip(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_ip_handle, 1);
@@ -2138,7 +2277,6 @@ static PyObject *_wrap_delete_ip(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2170,7 +2308,6 @@ static PyObject *_wrap_ip_send(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
@@ -2232,7 +2369,6 @@ static PyObject *_wrap___arp_pack_hdr_ethip(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2258,7 +2394,6 @@ static PyObject *_wrap_new_arp(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_arp_handle, 1);
@@ -2282,7 +2417,6 @@ static PyObject *_wrap_delete_arp(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2312,7 +2446,6 @@ static PyObject *_wrap_arp_add(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2339,7 +2472,6 @@ static PyObject *_wrap_arp_delete(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2367,7 +2499,6 @@ static PyObject *_wrap_arp_get(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr, 1);
@@ -2397,7 +2528,6 @@ static PyObject *_wrap_arp_loop(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2426,7 +2556,6 @@ static PyObject *_wrap_new_rand(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_rand_handle, 1);
@@ -2450,7 +2579,6 @@ static PyObject *_wrap_delete_rand(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2483,7 +2611,6 @@ static PyObject *_wrap_rand_get(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2521,7 +2648,6 @@ static PyObject *_wrap_rand_set(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2552,7 +2678,6 @@ static PyObject *_wrap_rand_add(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2577,7 +2702,6 @@ static PyObject *_wrap_rand_uint8(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
@@ -2602,7 +2726,6 @@ static PyObject *_wrap_rand_uint16(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
@@ -2627,7 +2750,6 @@ static PyObject *_wrap_rand_uint32(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
@@ -2656,7 +2778,6 @@ static PyObject *_wrap_new_route(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_route_handle, 1);
@@ -2680,7 +2801,6 @@ static PyObject *_wrap_delete_route(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2711,7 +2831,6 @@ static PyObject *_wrap_route_add(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
@@ -2739,7 +2858,6 @@ static PyObject *_wrap_route_delete(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = PyInt_FromLong((long)result);
@@ -2767,7 +2885,6 @@ static PyObject *_wrap_route_get(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     resultobj = SWIG_NewPointerObj((void *) result, SWIGTYPE_p_addr, 1);
@@ -2797,7 +2914,6 @@ static PyObject *_wrap_route_loop(PyObject *self, PyObject *args) {
             int code = _dnet_errcode;
             _dnet_errcode = 0;
             SWIG_exception(code, _dnet_errmsg);
-            return (NULL);
         }
     }
     Py_INCREF(Py_None); resultobj = Py_None;
@@ -2815,6 +2931,11 @@ static PyObject * route_swigregister(PyObject *self, PyObject *args) {
     return Py_BuildValue((char *)"");
 }
 static PyMethodDef SwigMethods[] = {
+	 { (char *)"new_addr_iter", _wrap_new_addr_iter, METH_VARARGS },
+	 { (char *)"delete_addr_iter", _wrap_delete_addr_iter, METH_VARARGS },
+	 { (char *)"addr_iter___iter__", _wrap_addr_iter___iter__, METH_VARARGS },
+	 { (char *)"addr_iter_next", _wrap_addr_iter_next, METH_VARARGS },
+	 { (char *)"addr_iter_swigregister", addr_iter_swigregister, METH_VARARGS },
 	 { (char *)"addr_type_set", _wrap_addr_type_set, METH_VARARGS },
 	 { (char *)"addr_type_get", _wrap_addr_type_get, METH_VARARGS },
 	 { (char *)"addr_bits_set", _wrap_addr_bits_set, METH_VARARGS },
@@ -2831,6 +2952,7 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"addr_net", _wrap_addr_net, METH_VARARGS },
 	 { (char *)"addr___cmp__", _wrap_addr___cmp__, METH_VARARGS },
 	 { (char *)"addr___contains__", _wrap_addr___contains__, METH_VARARGS },
+	 { (char *)"addr___iter__", _wrap_addr___iter__, METH_VARARGS },
 	 { (char *)"addr___len__", _wrap_addr___len__, METH_VARARGS },
 	 { (char *)"addr___str__", _wrap_addr___str__, METH_VARARGS },
 	 { (char *)"addr_swigregister", addr_swigregister, METH_VARARGS },
@@ -2889,6 +3011,7 @@ static swig_type_info _swigt__p_arp_handle[] = {{"_p_arp_handle", 0, "arp_handle
 static swig_type_info _swigt__p_rand_handle[] = {{"_p_rand_handle", 0, "rand_handle *", 0},{"_p_rand_handle"},{0}};
 static swig_type_info _swigt__p_route_handle[] = {{"_p_route_handle", 0, "route_handle *", 0},{"_p_route_handle"},{0}};
 static swig_type_info _swigt__p_p_char[] = {{"_p_p_char", 0, "char **", 0},{"_p_p_char"},{0}};
+static swig_type_info _swigt__p_addr_iter[] = {{"_p_addr_iter", 0, "struct addr_iter *", 0},{"_p_addr_iter"},{0}};
 static swig_type_info _swigt__p_addr[] = {{"_p_addr", 0, "struct addr *", 0},{"_p_addr"},{0}};
 static swig_type_info _swigt__p_int[] = {{"_p_int", 0, "int *", 0},{"_p_int"},{0}};
 
@@ -2899,6 +3022,7 @@ _swigt__p_arp_handle,
 _swigt__p_rand_handle, 
 _swigt__p_route_handle, 
 _swigt__p_p_char, 
+_swigt__p_addr_iter, 
 _swigt__p_addr, 
 _swigt__p_int, 
 0
