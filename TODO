@@ -1,23 +1,21 @@
+have everything pickled in *_info structs?
+
+make iterators prevent modification within iteration, or 
+modify only post-iteration
+
+prefix everything with dnet_*
 
 figure out interface aliases on non-BSD platforms for intf_{add,delete}
-
-port to other target platforms: AIX, win32
-
-code cleanup
 
 documentation
 
 example code
 
-finish / test ADDR_TYPE_ETH intf_set()
-
 automated regression (automake 'check' target)
 
-ip-cooked.c: use RTM_RESOLVE for ip_lookup_mac()
+ip-cooked.c: use RTM_RESOLVE for ip_lookup_mac() (GetBestInterface()?)
 
-fw-pf.c: fix loop for 'flush'
-
-add a way to enable ip forwarding, set intf mtu, etc.?
+add a way to enable ip forwarding?
 
 IPv6, NAT, ipsec interface?
 
@@ -33,7 +31,7 @@ freebsd |   X  |  X  |  X  |  X |  X |   X  |   X   |   X = works, tested
 --------+------+-----+-----+----+----+------+-------+
 netbsd  |   X  |  X  |  X  |  X |  X |   X  |   X   |   ? = untested
 --------+------+-----+-----+----+----+------+-------+
-linux   |   X  |  X  |  X  |  X |  X |   X  |   X   |   - = broken / unimpl
+linux   |   X  |  X  |  X  |  X |  X |   X  |   X   |   - = unimplemented
 --------+------+-----+-----+----+----+------+-------+
 solaris |   X  |  X  |  X  |  ? |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
@@ -51,19 +49,20 @@ unixware|   X  |  -  |  2  |  - |  - |   X  |   4   |
 --------+------+-----+-----+----+----+------+-------+
 win32   |   X  |  X  |  -  |  - |  X |   3  |   X   |
 --------+------+-----+-----+----+----+------+-------+
+aix     |   X  |  5  |  -  |  - |  - |   X  |   6   |
+--------+------+-----+-----+----+----+------+-------+
 
 1. arp_loop doesn't work
 2. eth_send doesn't work
 3. intf_set doesn't work
 4. route_loop only works
+5. arp_show doesn't work
+6. route_loop doesn't work
 
 arp-{bsd,ioctl} both b0rked on unixware
 eth_send() doesn't allow src mac spoofing on MacOS X (no BIOCSHDRCMPLT)
 no support for ICMP code in ipfw, therefore none in fw-ipfw.c
 
 never built on:
---------+------+-----+-----+----+----+------+-------+
-aix     |      |     |     |    |    |      |       |
---------+------+-----+-----+----+----+------+-------+
 
 $Id$
