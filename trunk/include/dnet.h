@@ -23,6 +23,7 @@
 #include <dnet/intf.h>
 #include <dnet/route.h>
 #include <dnet/fw.h>
+#include <dnet/tun.h>
 
 #include <dnet/blob.h>
 #include <dnet/rand.h>
