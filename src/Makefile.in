@@ -95,9 +95,9 @@ LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in arp-bsd.c arp-ioctl.c arp-none.c \
 arp-win32.c err.c eth-bsd.c eth-dlpi.c eth-linux.c eth-ndd.c eth-none.c \
 eth-snoop.c eth-win32.c fw-ipchains.c fw-ipf.c fw-ipfw.c fw-none.c \
-fw-pf.c inet_pton.c intf-win32.c intf.c ip-win32.c ip.c memcmp.c \
-route-bsd.c route-hpux.c route-linux.c route-none.c route-win32.c \
-strlcat.c strlcpy.c
+fw-pf.c inet_pton.c intf-win32.c intf.c ip-cooked.c ip-win32.c ip.c \
+memcmp.c route-bsd.c route-hpux.c route-linux.c route-none.c \
+route-win32.c strlcat.c strlcpy.c
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
