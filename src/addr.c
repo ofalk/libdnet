@@ -11,27 +11,30 @@
 #include "config.h"
 
 #include <sys/types.h>
-#include <sys/socket.h>
 
-#include <net/if.h>
+#ifdef HAVE_NET_IF_H
+# include <sys/socket.h>
+# include <net/if.h>
+#endif
 #ifdef HAVE_NET_IF_DL_H
-#include <net/if_dl.h>
+# include <net/if_dl.h>
 #endif
 #ifdef HAVE_NET_RAW_H
-#include <net/raw.h>
+# include <net/raw.h>
 #endif
-#include <netinet/in.h>
-#include <arpa/inet.h>
 
 #include <assert.h>
 #include <ctype.h>
 #include <errno.h>
-#include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "dnet.h"
+
+#ifndef MAXHOSTNAMELEN
+# define MAXHOSTNAMELEN	256
+#endif
 
 static const char *octet2dec[] = {
 	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12",
@@ -300,7 +303,7 @@ addr_ntos(struct addr *a, struct sockaddr *sa)
 		break;
 	}
 	default:
-		errno = EPFNOSUPPORT;
+		errno = EINVAL;
 		return (-1);
 	}
 	return (0);
@@ -352,7 +355,7 @@ addr_ston(struct sockaddr *sa, struct addr *a)
 		break;
 	}
 	default:
-		errno = EPFNOSUPPORT;
+		errno = EINVAL;
 		return (-1);
 	}
 	return (0);
