@@ -88,9 +88,8 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 	struct arpmsg msg;
 	struct sockaddr_in *sin;
 	struct sockaddr *sa;
-#ifdef HAVE_SOCKADDR_SA_LEN
 	int index, type;
-#endif
+	
 	if (a == NULL || pa == NULL || ha == NULL) {
 		errno = EINVAL;
 		return (-1);
@@ -124,7 +123,6 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 			return (-1);
 		}
 	}
-#ifdef HAVE_SOCKADDR_SA_LEN
 	if (sa->sa_family != AF_LINK) {
 		errno = EADDRNOTAVAIL;
 		return (-1);
@@ -132,9 +130,11 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 		index = ((struct sockaddr_dl *)sa)->sdl_index;
 		type = ((struct sockaddr_dl *)sa)->sdl_type;
 	}
-#endif
 	if (addr_ntos(pa, (struct sockaddr *)sin) < 0 || addr_ntos(ha, sa) < 0)
 		return (-1);
+
+	((struct sockaddr_dl *)sa)->sdl_index = index;
+	((struct sockaddr_dl *)sa)->sdl_type = type;
 	
 	memset(&msg.rtm, 0, sizeof(msg.rtm));
 	msg.rtm.rtm_type = RTM_ADD;
@@ -143,9 +143,6 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 	msg.rtm.rtm_flags = RTF_HOST | RTF_STATIC;
 #ifdef HAVE_SOCKADDR_SA_LEN
 	msg.rtm.rtm_msglen = sizeof(msg.rtm) + sin->sin_len + sa->sa_len;
-	
-	((struct sockaddr_dl *)sa)->sdl_index = index;
-	((struct sockaddr_dl *)sa)->sdl_type = type;
 #else
 	msg.rtm.rtm_msglen = sizeof(msg.rtm) + sizeof(*sin) + sizeof(*sa);
 #endif
@@ -192,12 +189,10 @@ arp_delete(arp_t *a, struct addr *pa)
 			return (-1);
 		}
 	}
-#ifdef HAVE_SOCKADDR_SA_LEN
 	if (sa->sa_family != AF_LINK) {
 		errno = ESRCH;
 		return (-1);
 	}
-#endif
 	msg.rtm.rtm_type = RTM_DELETE;
 	
 	return (arp_msg(a, &msg));
