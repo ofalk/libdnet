@@ -38,6 +38,7 @@ struct intf_handle {
 };
 
 int	eth_get_hwaddr(eth_t *e, struct addr *ha);	/* XXX */
+int	eth_set_hwaddr(eth_t *e, struct addr *ha);	/* XXX */
 
 static void
 intf_flags_to_iff(int flags, short *iff)
@@ -151,26 +152,49 @@ intf_set(intf_t *i, char *device, struct addr *addr, int *flags)
 	if (addr != NULL) {
 		if (addr_ntos(addr, &ifr.ifr_addr) < 0)
 			return (-1);
-		
-		if (ioctl(i->fd, SIOCSIFADDR, &ifr) < 0)
+
+		switch (addr->addr_type) {
+		case ADDR_TYPE_IP:
+			if (ioctl(i->fd, SIOCSIFADDR, &ifr) < 0)
+				return (-1);
+			
+			if (addr->addr_bits < IP_ADDR_BITS &&
+			    addr_btos(addr->addr_bits, &ifr.ifr_addr) == 0) {
+				return (ioctl(i->fd, SIOCSIFNETMASK, &ifr));
+			}
+			break;
+		case ADDR_TYPE_ETH:
+		{
+#ifdef SIOCSIFHWADDR
+			return (ioctl(i->fd, SIOCSIFHWADDR, &ifr));
+			break;
+#elif defined(HAVE_SYS_DLPI_H) || defined(HAVE_SYS_DLPIHDR_H) || defined(HAVE_NET_RAW_H)
+			eth_t *eth;
+			
+			if ((eth = eth_open(device)) == NULL)
+				return (-1);
+			
+			if (eth_set_hwaddr(eth, addr) < 0)
+				return (-1);
+			
+			eth_close(eth);
+			break;
+#else
+			/* FALLTHROUGH */
+#endif
+		}
+		default:
+			errno = EAFNOSUPPORT;
 			return (-1);
-	
-		if (addr->addr_bits < IP_ADDR_BITS) {
-			if (addr_btos(addr->addr_bits, &ifr.ifr_addr) < 0)
-				return (-1);
-		
-			if (ioctl(i->fd, SIOCSIFNETMASK, &ifr) < 0)
-				return (-1);
 		}
 	}
 	if (flags != NULL) {
 		if (ioctl(i->fd, SIOCGIFFLAGS, &ifr) < 0)
 			return (-1);
-
+		
 		intf_flags_to_iff(*flags, &ifr.ifr_flags);
 		
-		if (ioctl(i->fd, SIOCSIFFLAGS, &ifr) < 0)
-			return (-1);
+		return (ioctl(i->fd, SIOCSIFFLAGS, &ifr));
 	}
 	return (0);
 }
@@ -186,21 +210,21 @@ intf_get(intf_t *i, char *device, struct addr *addr, int *flags)
 	}
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
-
-	if (flags != NULL) {
-		if (ioctl(i->fd, SIOCGIFFLAGS, &ifr) < 0)
-			return (-1);
-
-		intf_iff_to_flags(ifr.ifr_flags, flags);
-	}
+	
 	if (addr != NULL) {
-		if (ioctl(i->fd, SIOCGIFADDR, &ifr) < 0)
-			return (-1);
-
 		switch (addr->addr_type) {
 		case ADDR_TYPE_IP:
+			if (ioctl(i->fd, SIOCGIFADDR, &ifr) < 0)
+				return (-1);
+			
 			if (addr_ston(&ifr.ifr_addr, addr) < 0)
 				return (-1);
+			
+			if (ioctl(i->fd, SIOCGIFNETMASK, &ifr) == 0) {
+				if (addr_stob(&ifr.ifr_addr,
+				    &addr->addr_bits) < 0)
+					return (-1);
+			}
 			break;
 		case ADDR_TYPE_ETH:
 		{
@@ -210,22 +234,19 @@ intf_get(intf_t *i, char *device, struct addr *addr, int *flags)
 			if (addr_ston(&ifr.ifr_hwaddr, addr) < 0)
 				return (-1);
 			break;
-#elif defined(HAVE_SYS_DLPI_H) || defined(HAVE_SYS_DLPIHDR_H) || defined(HAVE_NET_RAW_H)
+#elif defined(HAVE_SYS_DLPI_H) || defined(HAVE_SYS_DLPIHDR_H) || defined(HAVE_NET_RAW_H) || defined(HAVE_NET_PFILT_H)
 			eth_t *eth;
-
+			
 			if ((eth = eth_open(device)) == NULL)
 				return (-1);
-
 			if (eth_get_hwaddr(eth, addr) < 0)
 				return (-1);
-			
 			eth_close(eth);
 			break;
 #elif defined(SIOCGARP)
 			struct arpreq ar;
 			
 			ar.arp_pa = ifr.ifr_addr;
-			
 			if (ioctl(i->fd, SIOCGARP, &ar) < 0)
 				return (-1);
 			if (addr_ston(&ar.arp_ha, addr) < 0)
@@ -279,10 +300,12 @@ intf_get(intf_t *i, char *device, struct addr *addr, int *flags)
 			errno = EAFNOSUPPORT;
 			return (-1);
 		}
-		if (ioctl(i->fd, SIOCGIFNETMASK, &ifr) == 0) {
-			if (addr_stob(&ifr.ifr_addr, &addr->addr_bits) < 0)
-				return (-1);
-		}
+	}
+	if (flags != NULL) {
+		if (ioctl(i->fd, SIOCGIFFLAGS, &ifr) < 0)
+			return (-1);
+		
+		intf_iff_to_flags(ifr.ifr_flags, flags);
 	}
 	return (0);
 }
