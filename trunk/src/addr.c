@@ -10,6 +10,7 @@
 
 #include "config.h"
 
+#include <sys/param.h>
 #include <sys/types.h>
 #ifdef HAVE_NET_IF_H
 # include <sys/socket.h>
@@ -76,6 +77,42 @@ addr_cmp(const struct addr *a, const struct addr *b)
 }
 
 int
+addr_net(const struct addr *a, struct addr *b)
+{
+	uint32_t mask;
+	int i, j;
+
+	if (a->addr_type == ADDR_TYPE_IP) {
+		addr_btom(a->addr_bits, &mask, IP_ADDR_LEN);
+		b->addr_type = ADDR_TYPE_IP;
+		b->addr_bits = a->addr_bits;
+		b->addr_ip = a->addr_ip & mask;
+	} else if (a->addr_type == ADDR_TYPE_ETH) {
+		memcpy(b, a, sizeof(*b));
+		if (a->addr_data8[0] & 0x1)
+			memset(b->addr_data8 + 3, 0, 3);
+	} else if (a->addr_type == ADDR_TYPE_IP6) {
+		b->addr_type = ADDR_TYPE_IP6;
+		b->addr_bits = a->addr_bits;
+		memset(&b->addr_ip6, 0, IP6_ADDR_LEN);
+		
+		switch ((i = a->addr_bits / 32)) {
+		case 4: b->addr_data32[3] = a->addr_data32[3];
+		case 3: b->addr_data32[2] = a->addr_data32[2];
+		case 2: b->addr_data32[1] = a->addr_data32[1];
+		case 1: b->addr_data32[0] = a->addr_data32[0];
+		}
+		if ((j = a->addr_bits % 32) > 0) {
+			addr_btom(j, &mask, sizeof(mask));
+			b->addr_data32[i] = a->addr_data32[i] & mask;
+		}
+	} else
+		return (-1);
+	
+	return (0);
+}
+
+int
 addr_bcast(const struct addr *a, struct addr *b)
 {
 	struct addr mask;
@@ -91,6 +128,7 @@ addr_bcast(const struct addr *a, struct addr *b)
 		b->addr_bits = ETH_ADDR_BITS;
 		memcpy(&b->addr_eth, ETH_ADDR_BROADCAST, ETH_ADDR_LEN);
 	} else {
+		/* XXX - no broadcast addresses in IPv6 */
 		errno = EINVAL;
 		return (-1);
 	}

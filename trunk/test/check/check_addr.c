@@ -73,6 +73,21 @@ START_TEST(test_addr_bcast)
 }
 END_TEST
 
+START_TEST(test_addr_net)
+{
+	struct addr a, b;
+
+	ADDR_PACK(&a, htonl(0x01020304));
+	a.addr_bits = 24; addr_net(&a, &b);
+	fail_unless(b.addr_ip == htonl(0x01020300), "wrong for /24");
+	addr_aton("cafe:babe::dead:beef", &a);
+	a.addr_bits = 20; addr_net(&a, &b);
+	addr_aton("cafe:b000::", &a);
+	a.addr_bits = 20;
+	fail_unless(addr_cmp(&a, &b) == 0, "IPv6 net failed");
+}
+END_TEST
+
 START_TEST(test_addr_ntop)
 {
 	struct ntop {
@@ -302,6 +317,7 @@ addr_suite(void)
 	tcase_add_test(tc_core, test_addr_pack);
 	tcase_add_test(tc_core, test_addr_cmp);
 	tcase_add_test(tc_core, test_addr_bcast);
+	tcase_add_test(tc_core, test_addr_net);
 	tcase_add_test(tc_core, test_addr_ntop);
 	tcase_add_test(tc_core, test_addr_pton);
 	tcase_add_test(tc_core, test_addr_ntoa);
