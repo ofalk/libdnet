@@ -23,6 +23,11 @@
 
 #include "dnet.h"
 
+#define ADDR_ISHOST(a)	(((a)->addr_type == ADDR_TYPE_IP &&	\
+			  (a)->addr_bits == IP_ADDR_BITS) ||	\
+			 ((a)->addr_type == ADDR_TYPE_IP6 &&	\
+			  (a)->addr_bits == IP6_ADDR_BITS))
+
 struct route_handle {
 	int	fd;
 };
@@ -45,22 +50,23 @@ int
 route_add(route_t *r, const struct route_entry *entry)
 {
 	struct rtentry rt;
+	struct addr dst;
 	
 	memset(&rt, 0, sizeof(rt));
+	rt.rt_flags = RTF_UP | RTF_GATEWAY;
 
-	if (addr_ntos(&entry->route_dst, &rt.rt_dst) < 0 ||
-	    addr_ntos(&entry->route_gw, &rt.rt_gateway) < 0)
+	if (ADDR_ISHOST(&entry->route_dst)) {
+		rt.rt_flags |= RTF_HOST;
+		memcpy(&dst, &entry->route_dst, sizeof(dst));
+	} else
+		addr_net(&entry->route_dst, &dst);
+
+	if (addr_ntos(&dst, &rt.rt_dst) < 0 ||
+	    addr_ntos(&entry->route_gw, &rt.rt_gateway) < 0 ||
+	    addr_btom(entry->route_dst.addr_bits, &rt.rt_subnetmask,
+		IP_ADDR_LEN) < 0)
 		return (-1);
-
-	if (entry->route_dst.addr_bits < IP_ADDR_BITS) {
-		rt.rt_flags = RTF_UP | RTF_GATEWAY;
-		if (addr_btom(entry->route_dst.addr_bits, &rt.rt_subnetmask,
-		    IP_ADDR_LEN) < 0)
-			return (-1);
-	} else {
-		rt.rt_flags = RTF_UP | RTF_HOST | RTF_GATEWAY;
-		addr_btom(IP_ADDR_BITS, &rt.rt_subnetmask, IP_ADDR_LEN);
-	}
+	
 	return (ioctl(r->fd, SIOCADDRT, &rt));
 }
 
@@ -68,21 +74,22 @@ int
 route_delete(route_t *r, const struct route_entry *entry)
 {
 	struct rtentry rt;
+	struct addr dst;
 
 	memset(&rt, 0, sizeof(rt));
-
-	if (addr_ntos(&entry->route_dst, &rt.rt_dst) < 0)
+	rt.rt_flags = RTF_UP;
+	
+	if (ADDR_ISHOST(&entry->route_dst)) {
+		rt.rt_flags |= RTF_HOST;
+		memcpy(&dst, &entry->route_dst, sizeof(dst));
+	} else
+		addr_net(&entry->route_dst, &dst);
+	
+	if (addr_ntos(&dst, &rt.rt_dst) < 0 ||
+	    addr_btom(entry->route_dst.addr_bits, &rt.rt_subnetmask,
+		IP_ADDR_LEN) < 0)
 		return (-1);
-
-	if (entry->route_dst.addr_bits < IP_ADDR_BITS) {
-		rt.rt_flags = RTF_UP;
-		if (addr_btom(entry->route_dst.addr_bits, &rt.rt_subnetmask,
-		    IP_ADDR_LEN) < 0)
-			return (-1);
-	} else {
-		rt.rt_flags = RTF_UP | RTF_HOST;
-		addr_btom(IP_ADDR_BITS, &rt.rt_subnetmask, IP_ADDR_LEN);
-	}
+	
 	return (ioctl(r->fd, SIOCDELRT, &rt));
 }
 
