@@ -102,6 +102,7 @@ arp_get(arp_t *arp, const struct addr *pa, struct addr *ha)
 
 	if (ret == 0) {
 		errno = ENXIO;
+		SetLastError(ERROR_NO_DATA);
 		return (-1);
 	} else if (ret == 1)
 		return (0);
