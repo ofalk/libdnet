@@ -122,14 +122,14 @@ struct ip_hdr {
 #define IP_OPT_DEBMEAS		0x40
 #define IP_OPT_RESERVED2	0x60
 
-#define IP_OPT_EOL		0		/* end of options */
-#define IP_OPT_NOP		1		/* no operation */
-#define IP_OPT_RR		7		/* record route */
-#define IP_OPT_TS		68		/* timestamp */
-#define IP_OPT_SECURITY		130		/* provide s,c,h,tcc */
-#define IP_OPT_LSRR		131		/* loose source route */
-#define IP_OPT_SATID		136		/* satnet id */
-#define IP_OPT_SSRR		137		/* strict source route */
+#define IP_OPT_EOL		0x0		/* end of options */
+#define IP_OPT_NOP		0x1		/* no operation */
+#define IP_OPT_RR		0x7		/* record route */
+#define IP_OPT_TS		0x44		/* timestamp */
+#define IP_OPT_SECURITY		0x82		/* provide s,c,h,tcc */
+#define IP_OPT_LSRR		0x83		/* loose source route */
+#define IP_OPT_SATID		0x88		/* satnet id */
+#define IP_OPT_SSRR		0x89		/* strict source route */
 
 #define IP_OPT_TYPEONLY(type)	((type) == IP_OPT_EOL || (type) == IP_OPT_NOP)
 
