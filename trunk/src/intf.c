@@ -15,15 +15,7 @@
 #ifdef HAVE_SYS_SOCKIO_H
 #include <sys/sockio.h>
 #endif
-#if defined(HAVE_SYS_SYSCTL_H) && defined(HAVE_ROUTE_RT_MSGHDR)
-#include <sys/sysctl.h>
-#include <net/route.h>
-#include <net/if_dl.h>
-#endif
 #include <net/if.h>
-#ifdef SIOCGARP
-#include <net/if_arp.h>
-#endif
 
 #include <errno.h>
 #include <stdio.h>
@@ -168,7 +160,7 @@ intf_set(intf_t *i, char *device, struct addr *addr, int *flags)
 #ifdef SIOCSIFHWADDR
 			return (ioctl(i->fd, SIOCSIFHWADDR, &ifr));
 			break;
-#elif defined(HAVE_SYS_DLPI_H) || defined(HAVE_SYS_DLPIHDR_H) || defined(HAVE_NET_RAW_H)
+#else
 			eth_t *eth;
 			
 			if ((eth = eth_open(device)) == NULL)
@@ -179,8 +171,6 @@ intf_set(intf_t *i, char *device, struct addr *addr, int *flags)
 			
 			eth_close(eth);
 			break;
-#else
-			/* FALLTHROUGH */
 #endif
 		}
 		default:
@@ -234,7 +224,7 @@ intf_get(intf_t *i, char *device, struct addr *addr, int *flags)
 			if (addr_ston(&ifr.ifr_hwaddr, addr) < 0)
 				return (-1);
 			break;
-#elif defined(HAVE_SYS_DLPI_H) || defined(HAVE_SYS_DLPIHDR_H) || defined(HAVE_NET_RAW_H) || defined(HAVE_NET_PFILT_H)
+#else
 			eth_t *eth;
 			
 			if ((eth = eth_open(device)) == NULL)
@@ -243,57 +233,6 @@ intf_get(intf_t *i, char *device, struct addr *addr, int *flags)
 				return (-1);
 			eth_close(eth);
 			break;
-#elif defined(SIOCGARP)
-			struct arpreq ar;
-			
-			ar.arp_pa = ifr.ifr_addr;
-			if (ioctl(i->fd, SIOCGARP, &ar) < 0)
-				return (-1);
-			if (addr_ston(&ar.arp_ha, addr) < 0)
-				return (-1);
-			break;
-#elif defined(HAVE_SYS_SYSCTL_H) && defined(HAVE_ROUTE_RT_MSGHDR)
-			struct if_msghdr *ifm;
-			struct sockaddr_dl *sdl;
-			u_char *p, *buf;
-			size_t len;
-			int mib[] = { CTL_NET, AF_ROUTE, 0, AF_LINK,
-				      NET_RT_IFLIST, 0 };
-			
-			if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0)
-				return (-1);
-			if ((buf = malloc(len)) == NULL)
-				return (-1);
-			if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
-				free(buf);
-				return (-1);
-			}
-			for (p = buf; p < buf + len; p += ifm->ifm_msglen) {
-				ifm = (struct if_msghdr *)p;
-				sdl = (struct sockaddr_dl *)(ifm + 1);
-				
-				if (ifm->ifm_type != RTM_IFINFO ||
-				    (ifm->ifm_addrs & RTA_IFP) == 0)
-					continue;
-
-				if (sdl->sdl_family != AF_LINK ||
-				    sdl->sdl_nlen == 0 ||
-				    memcmp(sdl->sdl_data, device,
-					sdl->sdl_nlen) != 0)
-					continue;
-				
-				if (!addr_ston((struct sockaddr *)sdl, addr))
-					break;
-			}
-			free(buf);
-			
-			if (p >= buf + len) {
-				errno = ESRCH;
-				return (-1);
-			}
-			break;
-#else
-			/* FALLTHROUGH */
 #endif
 		}
 		default:
