@@ -167,6 +167,8 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 				break;
 		}
 		_request_arp(ipi, &arpent.arp_pa);
+
+		usleep(10 << i);
 	}
 	if (i == 3)
 		memset(&arpent.arp_ha.addr_eth, 0xff, ETH_ADDR_LEN);
