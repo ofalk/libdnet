@@ -22,7 +22,7 @@
 void
 icmp_usage(int die)
 {
-	fprintf(stderr, "Usage: dnet icmp [type|code value] ...\n");
+	fprintf(stderr, "Usage: dnet icmp [type|code <value>] ...\n");
 	if (die)
 		exit(1);
 }
