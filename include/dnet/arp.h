@@ -65,10 +65,10 @@ int	 arp_get(arp_t *a, struct addr *pa, struct addr *ha);
 int	 arp_loop(arp_t *a, arp_handler callback, void *arg);
 int	 arp_close(arp_t *a);
 
-#define arp_fill_hdr_ethip(h, op, sha, spa, tha, tpa) do {	\
-	struct arp_hdr *fill_arp_p = (struct arp_hdr *)(h);	\
+#define arp_fill_hdr_ethip(hdr, op, sha, spa, tha, tpa) do {	\
+	struct arp_hdr *fill_arp_p = (struct arp_hdr *)(hdr);	\
 	struct arp_ethip *fill_ethip_p = (struct arp_ethip *)	\
-		((u_char *)(h) + ARP_HDR_LEN);			\
+		((u_char *)(hdr) + ARP_HDR_LEN);		\
 	fill_arp_p->ar_hrd = htons(ARP_HRD_ETH);		\
 	fill_arp_p->ar_pro = htons(ARP_PRO_IP);			\
 	fill_arp_p->ar_hln = ETH_ADDR_LEN;			\

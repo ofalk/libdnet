@@ -38,16 +38,15 @@ int	 fw_delete(fw_t *f, struct fw_rule *rule);
 int	 fw_loop(fw_t *f, fw_handler callback, void *arg);
 int	 fw_close(fw_t *f);
 
-#define fw_fill_rule(h, dev, op, dir, p, src, dst, sp1, sp2, dp1, dp2)	\
+#define fw_fill_rule(rule, dev, op, dir, p, src, dst, sp1, sp2, dp1, dp2) \
 do {									\
-	struct fw_rule *fw_fill_p = (struct fw_rule *)(h);		\
-	strlcpy(fw_fill_p->device, device, sizeof(fw_fill_p->device));	\
-	fw_fill_p->op = op; fw_fill_p->direction = dir;			\
-	fw_fill_p->proto = p;						\
-	memset(&fw_fill_p->src, src, sizeof(&fw_fill_p->src));		\
-	memset(&fw_fill_p->dst, dst, sizeof(&fw_fill_p->dst));		\
-	fw_fill_p->sport[0] = sp1; fw_fill_p->sport[1] = sp2;		\
-	fw_fill_p->dport[0] = dp1; fw_fill_p->dport[1] = dp2;		\
+	strlcpy((rule)->device, device, sizeof((rule)->device));	\
+	(rule)->op = op; (rule)->direction = dir;			\
+	(rule)->proto = p;						\
+	memset(&(rule)->src, src, sizeof(&(rule)->src));		\
+	memset(&(rule)->dst, dst, sizeof(&(rule)->dst));		\
+	(rule)->sport[0] = sp1; (rule)->sport[1] = sp2;			\
+	(rule)->dport[0] = dp1; (rule)->dport[1] = dp2;			\
 } while (0)
  
 #endif /* DNET_FW_H */

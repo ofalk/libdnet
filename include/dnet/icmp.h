@@ -130,47 +130,47 @@ union icmp_msg {
 
 #define	ICMP_MAXTYPE	18
 
-#define	ICMP_INFOTYPE(type) \
-	((type) == ICMP_ECHOREPLY || (type) == ICMP_ECHO || \
-	(type) == ICMP_ROUTERADVERT || (type) == ICMP_ROUTERSOLICIT || \
-	(type) == ICMP_TSTAMP || (type) == ICMP_TSTAMPREPLY || \
-	(type) == ICMP_IREQ || (type) == ICMP_IREQREPLY || \
+#define	ICMP_INFOTYPE(type)						\
+	((type) == ICMP_ECHOREPLY || (type) == ICMP_ECHO ||		\
+	(type) == ICMP_ROUTERADVERT || (type) == ICMP_ROUTERSOLICIT ||	\
+	(type) == ICMP_TSTAMP || (type) == ICMP_TSTAMPREPLY ||		\
+	(type) == ICMP_IREQ || (type) == ICMP_IREQREPLY ||		\
 	(type) == ICMP_MASKREQ || (type) == ICMP_MASKREPLY)
 
-#define icmp_fill_hdr(h, type, code) do {			\
-	struct icmp_hdr *icmp_fill_p = (struct icmp_hdr *)(h);	\
-	icmp_fill_p->type = type; icmp_fill_p->code = code;	\
+#define icmp_fill_hdr(hdr, type, code) do {				\
+	struct icmp_hdr *icmp_fill_p = (struct icmp_hdr *)(hdr);	\
+	icmp_fill_p->type = type; icmp_fill_p->code = code;		\
 } while (0)
 
-#define icmp_fill_hdr_echo(h, type, code, id, seq, data, len) do {	\
+#define icmp_fill_hdr_echo(hdr, type, code, id, seq, data, len) do {	\
 	struct icmp_msg_echo *echo_fill_p = (struct icmp_msg_echo *)	\
-		((u_char *)(h) + ICMP_HDR_LEN);				\
-	icmp_fill_hdr(h, type, code);					\
+		((u_char *)(hdr) + ICMP_HDR_LEN);			\
+	icmp_fill_hdr(hdr, type, code);					\
 	echo_fill_p->icmp_id = htonl(id);				\
 	echo_fill_p->icmp_seq = htonl(seq);				\
 } while (0)
 
-#define icmp_fill_hdr_quote(h, type, code, word, pkt, len) do {	\
+#define icmp_fill_hdr_quote(hdr, type, code, word, pkt, len) do {	\
 	struct icmp_msg_quote *quote_fill_p = (struct icmp_msg_quote *)	\
-		((u_char *)(h) + ICMP_HDR_LEN);				\
-	icmp_fill_hdr(h, type, code);					\
+		((u_char *)(hdr) + ICMP_HDR_LEN);			\
+	icmp_fill_hdr(hdr, type, code);					\
 	quote_fill_p->icmp_void = htonl(word);				\
 	memmove(quote_fill_p->icmp_ip8, pkt, len);			\
 } while (0)
 
-#define icmp_fill_hdr_mask(h, type, code, id, seq, mask) do {		\
+#define icmp_fill_hdr_mask(hdr, type, code, id, seq, mask) do {		\
 	struct icmp_msg_mask *mask_fill_p = (struct icmp_msg_mask *)	\
-		((u_char *)(h) + ICMP_HDR_LEN);				\
-	icmp_fill_hdr(h, type, code);					\
+		((u_char *)(hdr) + ICMP_HDR_LEN);			\
+	icmp_fill_hdr(hdr, type, code);					\
 	mask_fill_p->icmp_id = htonl(id);				\
 	mask_fill_p->icmp_seq = htonl(seq);				\
 	mask_fill_p->icmp_mask = htonl(mask);				\
 } while (0)
 
-#define icmp_fill_hdr_unreach_frag(h, type, code, mtu, pkt, len) do {	\
+#define icmp_fill_hdr_unreach_frag(hdr, type, code, mtu, pkt, len) do {	\
 	struct icmp_msg_unreach_frag *frag_fill_p =			\
-	(struct icmp_msg_unreach_frag *)((u_char *)(h) + ICMP_HDR_LEN);	\
-	icmp_fill_hdr(h, type, code);					\
+	(struct icmp_msg_unreach_frag *)((u_char *)(hdr) + ICMP_HDR_LEN); \
+	icmp_fill_hdr(hdr, type, code);					\
 	frag_fill_p->icmp_void = 0;					\
 	frag_fill_p->icmp_nextmtu = htons(mtu);				\
 	memmove(frag_fill_p->icmp_ip8, pkt, len);			\
