@@ -289,11 +289,10 @@ _intf_get_entry(const struct intf_entry *entry, void *arg)
 int
 intf_get(intf_t *intf, struct intf_entry *entry)
 {
-	errno = ENXIO;
-	
-	if (intf_loop(intf, _intf_get_entry, entry) != 1)
+	if (intf_loop(intf, _intf_get_entry, entry) != 1) {
+		errno = ENXIO;
 		return (-1);
-	
+	}
 	return (0);
 }
 
