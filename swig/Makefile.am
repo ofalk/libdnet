@@ -1,3 +1,6 @@
+## $Id$
+
+include $(top_srcdir)/Makefile.am.common
 
 if PYTHON
 # XXX - lots of nasty automake fudging here...
@@ -38,6 +41,6 @@ if PYTHON
 endif
 	@true
 
-CLEANFILES = *~ *.core
+EXTRA_DIST = setup.py dnet.i doc.py dnet.py dnet_python.c
 
-DISTCLEANFILES = dnet.py *.pyc *.c
+DISTCLEANFILES = dnet.py *.pyc *.c *~
