@@ -46,6 +46,14 @@
 #define ROUNDUP(a) \
 	((a) > 0 ? (1 + (((a) - 1) | (sizeof(long) - 1))) : sizeof(long))
 
+#ifdef HAVE_SOCKADDR_SA_LEN
+#define NEXTSA(s) \
+	((struct sockaddr *)((u_char *)(s) + ROUNDUP((s)->sa_len)))
+#else
+#define NEXTSA(s) \
+	((struct sockaddr *)((u_char *)(s) + ROUNDUP(sizeof(*(s)))))
+#endif
+
 struct route_handle {
 	int	fd;
 	pid_t	pid;
@@ -81,35 +89,22 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 	sa = (struct sockaddr *)(rtm + 1);
 	if (addr_ntos(dst, sa) < 0)
 		return (-1);
-#ifdef HAVE_SOCKADDR_SA_LEN
-	sa = (struct sockaddr *)((u_char *)sa + ROUNDUP(sa->sa_len));
-#else
-	sa = (struct sockaddr *)((u_char *)sa + sizeof(struct sockaddr_in));
-#endif
+	sa = NEXTSA(sa);
+
 	/* Gateway */
 	if (gw != NULL && type != RTM_GET) {
 		rtm->rtm_flags |= RTF_GATEWAY;
 		rtm->rtm_addrs |= RTA_GATEWAY;
 		if (addr_ntos(gw, sa) < 0)
 			return (-1);
-#ifdef HAVE_SOCKADDR_SA_LEN
-		sa = (struct sockaddr *)((u_char *)sa + ROUNDUP(sa->sa_len));
-#else
-		sa = (struct sockaddr *)((u_char *)sa +
-		    sizeof(struct sockaddr_in));
-#endif
+		sa = NEXTSA(sa);
 	}
 	/* Netmask */
 	if (dst->addr_ip == IP_ADDR_ANY || dst->addr_bits < IP_ADDR_BITS) {
 		rtm->rtm_addrs |= RTA_NETMASK;
 		if (addr_btos(dst->addr_bits, sa) < 0)
 			return (-1);
-#ifdef HAVE_SOCKADDR_SA_LEN
-		sa = (struct sockaddr *)((u_char *)sa + ROUNDUP(sa->sa_len));
-#else
-		sa = (struct sockaddr *)((u_char *)sa +
-		    sizeof(struct sockaddr_in));
-#endif
+		sa = NEXTSA(sa);
 	} else
 		rtm->rtm_flags |= RTF_HOST;
 	
@@ -139,11 +134,8 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 #endif
 	if (type == RTM_GET && rtm->rtm_addrs & (RTA_DST|RTA_GATEWAY)){
 		sa = (struct sockaddr *)(rtm + 1);
-#ifdef HAVE_SOCKADDR_SA_LEN
-		sa = (struct sockaddr *)((u_char *)sa + ROUNDUP(sa->sa_len));
-#else
-		sa = (struct sockaddr *)((u_char *)sa + sizeof(struct sockaddr_in));
-#endif
+		sa = NEXTSA(sa);
+		
 		if (addr_ston(sa, gw) < 0)
 			return (-1);
 
@@ -297,12 +289,8 @@ route_loop(route_t *r, route_handler callback, void *arg)
 		    (rtm->rtm_addrs & RTA_GATEWAY) == 0)
 			continue;
 
-#ifdef HAVE_SOCKADDR_SA_LEN
-		sa = (struct sockaddr *)((u_char *)sa + ROUNDUP(sa->sa_len));
-#else
-		sa = (struct sockaddr *)((u_char *)sa +
-		    sizeof(struct sockaddr_in));
-#endif
+		sa = NEXTSA(sa);
+		
 		if (addr_ston(sa, &gw) < 0)
 			continue;
 
@@ -311,13 +299,7 @@ route_loop(route_t *r, route_handler callback, void *arg)
 			continue;
 		
 		if (rtm->rtm_addrs & RTA_NETMASK) {
-#ifdef HAVE_SOCKADDR_SA_LEN
-			sa = (struct sockaddr *)((u_char *)sa +
-			    ROUNDUP(sa->sa_len));
-#else
-			sa = (struct sockaddr *)((u_char *)sa +
-			    sizeof(struct sockaddr_in));
-#endif
+			sa = NEXTSA(sa);
 			if (addr_stob(sa, &dst.addr_bits) < 0)
 				continue;
 		}
