@@ -92,7 +92,9 @@ DISTCLEANFILES = *~
 
 @PYTHON_TRUE@noinst_SCRIPTS = python-build
 
-EXTRA_DIST = setup.py dnet.pyx dnet.c
+@PYTHON_TRUE@TESTS = test.py
+
+EXTRA_DIST = dnet.pyx dnet.c setup.py test.py
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../include/config.h
 CONFIG_CLEAN_FILES = 
@@ -133,11 +135,37 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+check-TESTS: $(TESTS)
+	@failed=0; all=0; \
+	srcdir=$(srcdir); export srcdir; \
+	for tst in $(TESTS); do \
+	  if test -f $$tst; then dir=.; \
+	  else dir="$(srcdir)"; fi; \
+	  if $(TESTS_ENVIRONMENT) $$dir/$$tst; then \
+	    all=`expr $$all + 1`; \
+	    echo "PASS: $$tst"; \
+	  elif test $$? -ne 77; then \
+	    all=`expr $$all + 1`; \
+	    failed=`expr $$failed + 1`; \
+	    echo "FAIL: $$tst"; \
+	  fi; \
+	done; \
+	if test "$$failed" -eq 0; then \
+	  banner="All $$all tests passed"; \
+	else \
+	  banner="$$failed of $$all tests failed"; \
+	fi; \
+	dashes=`echo "$$banner" | sed s/./=/g`; \
+	echo "$$dashes"; \
+	echo "$$banner"; \
+	echo "$$dashes"; \
+	test "$$failed" -eq 0
 info-am:
 info: info-am
 dvi-am:
 dvi: dvi-am
 check-am: all-am
+	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-am
 installcheck-am:
 installcheck: installcheck-am
@@ -188,7 +216,7 @@ maintainer-clean-am:  maintainer-clean-generic distclean-am
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: tags distdir info-am info dvi-am dvi check check-am \
+.PHONY: tags distdir check-TESTS info-am info dvi-am dvi check check-am \
 installcheck-am installcheck install-exec-local install-exec-am \
 install-exec install-data-am install-data install-am install \
 uninstall-am uninstall all-redirect all-am all installdirs \
@@ -200,7 +228,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 @PYTHON_TRUE@	pyrexc dnet.pyx
 
 @PYTHON_TRUE@python-build: dnet.c
-@PYTHON_TRUE@	$(PYTHON) setup.py build
+@PYTHON_TRUE@	$(PYTHON) setup.py build --build-lib build
 @PYTHON_TRUE@	touch python-build
 
 @PYTHON_TRUE@python-clean:
@@ -208,9 +236,8 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 @PYTHON_TRUE@clean: python-clean
 
-install-exec-local:
+@PYTHON_TRUE@install-exec-local:
 @PYTHON_TRUE@	python setup.py install --prefix=$(DESTDIR)$(prefix)
-	@true
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
