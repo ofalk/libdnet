@@ -1,10 +1,6 @@
 #
 # dnet.pyx
 #
-# dnet Python bindings.
-#
-# Copyright (c) 2003 Dug Song <dugsong@monkey.org>
-#
 # $Id$
 
 """dumb networking library
@@ -16,6 +12,12 @@ firewalling, network interface lookup and manipulation, and raw IP
 packet and Ethernet frame transmission.
 """
 
+__author__ = 'Dug Song <dugsong@monkey.org>'
+__copyright__ = 'Copyright (c) 2003 Dug Song'
+__license__ = 'BSD'
+__url__ = 'http://libdnet.sourceforge.net/'
+__version__ = '1.8'
+
 cdef extern from "dnet.h":
     pass
 
@@ -23,8 +25,14 @@ cdef extern from "Python.h":
     object  PyString_FromStringAndSize(char *s, int len)
     int     PyString_Size(object o)
     int     PyObject_AsReadBuffer(object o, char **pp, int *lenp)
+    int     PyInt_Check(object o)
+    int     PyLong_Check(object o)
+    long    PyInt_AsLong(object o)
+    unsigned long PyLong_AsUnsignedLong(object o)
 
 cdef extern from *:
+    char   *malloc(int size)
+    void    free(void *p)
     void   *memcpy(char *dst, char *src, int len)
     void   *memset(char *b, int c, int len)
     char   *strerror(int errnum)
@@ -454,7 +462,13 @@ cdef class addr:
         def __set__(self, value):
             if self._addr.addr_type != ADDR_TYPE_IP:
                 raise ValueError, "non-IP address"
-            __memcpy(self._addr.addr_data8, value, 4)
+            # XXX - handle < 2.3, or else we'd use PyLong_AsUnsignedLong()
+            if PyInt_Check(value):
+                self._addr.addr_ip = htonl(PyInt_AsLong(value))
+            elif PyLong_Check(value):
+                self._addr.addr_ip = htonl(PyLong_AsUnsignedLong(value))
+            else:
+                __memcpy(self._addr.addr_data8, value, 4)
     
     property ip6:
         """IPv6 address as binary string."""
@@ -514,6 +528,14 @@ cdef class addr:
         x = x ^ y
         if x == -1: x = -2
         return x
+
+    def __int__(self):
+        if self._addr.addr_type != ADDR_TYPE_IP:
+            raise ValueError
+        return ntohl(self._addr.addr_ip)
+    
+    def __long__(self):
+        return self.__int__()
     
     def __iter__(self):
         cdef addr_t a, b
@@ -521,6 +543,14 @@ cdef class addr:
            addr_net(&self._addr, &a) != 0 or \
            addr_bcast(&self._addr, &b) != 0:
             raise ValueError
+        """XXX - i wish!
+        for i in ntohl(a.addr_ip) <= i <= ntohl(b.addr_ip):
+            next = addr()
+            next._addr.addr_type = ADDR_TYPE_IP
+            next._addr.addr_bits = IP_ADDR_BITS
+            next._addr.addr_ip = htonl(i)
+            yield next
+        """
         return addr_ip4_iter(a.addr_ip, b.addr_ip)
     
     def __str__(self):
@@ -1249,3 +1279,73 @@ cdef class rand:
     def __dealloc__(self):
         if self.rand:
             rand_close(self.rand)
+
+#
+# tun.h
+#
+cdef extern from *:
+    ctypedef struct tun_t:
+        int __xxx
+    
+    tun_t *tun_open(addr_t *src, addr_t *dst, int mtu)
+    int    tun_fileno(tun_t *tun)
+    char  *tun_name(tun_t *tun)
+    int    tun_send(tun_t *tun, char *buf, int size)
+    int    tun_recv(tun_t *tun, char *buf, int size)
+    tun_t *tun_close(tun_t *tun)
+
+cdef class tun:
+    """tun(src, dst, mtu) -> Network tunnel interface handle
+    
+    Obtain a handle to a network tunnel interface, to which packets
+    destined for dst are delivered (with source addresses rewritten to
+    src), where they may be read by a userland process and processed
+    as desired. Packets written back to the handle are injected into
+    the kernel networking subsystem.
+    """
+    cdef tun_t *tun
+    cdef char *buf
+    cdef int mtu
+
+    def __init__(self, addr src, addr dst, mtu):
+        self.tun = tun_open(&src._addr, &dst._addr, mtu)
+        self.mtu = mtu
+        if not self.tun:
+            raise OSError, __oserror()
+        self.buf = malloc(mtu)
+
+    property name:
+        """Tunnel interface name."""
+        def __get__(self):
+            return tun_name(self.tun)
+
+    property fd:
+        """File descriptor for tunnel handle."""
+        def __get__(self):
+            return tun_fileno(self.tun)
+
+    def send(self, pkt):
+        """Send an IP packet, returning the number of bytes sent
+        or -1 on failure.
+
+        Arguments:
+        pkt -- binary string representing an IP packet
+        """
+        return tun_send(self.tun, pkt, PyString_Size(pkt))
+
+    def recv(self):
+        """Return the next packet delivered to the tunnel interface."""
+        cdef int n
+        n = tun_recv(self.tun, self.buf, self.mtu)
+        if n < 0:
+            raise OSError, __oserror()
+        return PyString_FromStringAndSize(self.buf, n)
+
+    def close(self):
+        self.tun = tun_close(self.tun)
+    
+    def __dealloc__(self):
+        if self.buf:
+            free(self.buf)
+        if self.tun:
+            tun_close(self.tun)
