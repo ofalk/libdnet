@@ -9,8 +9,11 @@ AC_INIT(include/dnet.h)
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
 
-AM_INIT_AUTOMAKE(libdnet, 1.8)
+AM_INIT_AUTOMAKE(libdnet, 1.9)
 AM_CONFIG_HEADER(include/config.h)
+
+dnl XXX - stop the insanity!@#$
+AM_MAINTAINER_MODE
 
 dnl Check for system type.
 dnl XXX - we do this to qualify our later feature checks, since some
@@ -163,11 +166,11 @@ else
 	AC_CHECK_HEADERS(net/bpf.h net/if.h net/if_var.h \
 	    net/if_arp.h net/if_dl.h \
 	    net/pfvar.h net/raw.h net/route.h netinet/in_var.h \
-	    netinet/ip_fw.h linux/ip_fw.h \
+	    net/if_tun.h linux/if_tun.h netinet/ip_fw.h linux/ip_fw.h \
 	    linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h)
 	AC_CHECK_HEADERS(ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h \
 	    netinet/ip_compat.h ip_fil.h netinet/ip_fil.h)
-	AC_CHECK_HEADERS(hpsecurity.h)
+	AC_CHECK_HEADERS(hpsecurity.h stropts.h)
 fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
@@ -287,6 +290,21 @@ elif test "$ac_cv_header_hpsecurity_h" = yes ; then
 	AC_LIBOBJ([route-hpux])
 else
 	AC_LIBOBJ([route-none])
+fi
+
+dnl Check for tun interface.
+if test "$ac_cv_header_linux_if_tun_h" = yes ; then
+	AC_LIBOBJ([tun-linux])
+elif test "$ac_cv_header_net_if_tun_h" = yes ; then
+	if test "$ac_cv_header_stropts_h" = yes ; then
+		AC_LIBOBJ([tun-solaris])
+	else
+		AC_LIBOBJ([tun-bsd])
+	fi
+elif test -f "/dev/tun0" ; then
+	AC_LIBOBJ([tun-bsd])
+else
+	AC_LIBOBJ([tun-none])
 fi
 
 dnl Generate LTLIBOBJS for libtool.
