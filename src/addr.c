@@ -97,24 +97,24 @@ addr_cmp(const struct addr *a, const struct addr *b)
 {
 	int i, j, k;
 	
-	if ((i = b->addr_bits - a->addr_bits) != 0)
+	if ((i = a->addr_bits - b->addr_bits) != 0)
 		return (i);
 	
-	if ((i = b->addr_type - a->addr_type) != 0)
+	if ((i = a->addr_type - b->addr_type) != 0)
 		return (i);
 
-	j = a->addr_bits / 8;
+	j = b->addr_bits / 8;
 
 	for (i = 0; i < j; i++) {
-		if ((k = b->addr_data8[i] - a->addr_data8[i]) != 0)
+		if ((k = a->addr_data8[i] - b->addr_data8[i]) != 0)
 			return (k);
 	}
-	if ((k = a->addr_bits % 8) == 0)
+	if ((k = b->addr_bits % 8) == 0)
 		return (0);
 
 	k = ~(~0 << (8 - k));
-	i = a->addr_data8[j] & k;
-	j = b->addr_data8[j] & k;
+	i = b->addr_data8[j] & k;
+	j = a->addr_data8[j] & k;
 	
 	return (j - i);
 }
