@@ -398,13 +398,13 @@ struct ip_opt {
 #define IP_ADDR_MCAST_ALL	(htonl(0xe0000001))	/* 224.0.0.1 */
 #define IP_ADDR_MCAST_LOCAL	(htonl(0xe00000ff))	/* 224.0.0.225 */
 
-#define ip_fill_hdr(hdr, tos, len, id, off, ttl, p, src, dst) do {	\
-	struct ip_hdr *ip_fill_p = (struct ip_hdr *)(hdr);		\
-	ip_fill_p->ip_v = 4; ip_fill_p->ip_hl = 5;			\
-	ip_fill_p->ip_tos = tos; ip_fill_p->ip_len = htons(len);	\
- 	ip_fill_p->ip_id = htons(id); ip_fill_p->ip_off = htons(off);	\
-	ip_fill_p->ip_ttl = ttl; ip_fill_p->ip_p = p;			\
-	ip_fill_p->ip_src = src; ip_fill_p->ip_dst = dst;		\
+#define ip_pack_hdr(hdr, tos, len, id, off, ttl, p, src, dst) do {	\
+	struct ip_hdr *ip_pack_p = (struct ip_hdr *)(hdr);		\
+	ip_pack_p->ip_v = 4; ip_pack_p->ip_hl = 5;			\
+	ip_pack_p->ip_tos = tos; ip_pack_p->ip_len = htons(len);	\
+ 	ip_pack_p->ip_id = htons(id); ip_pack_p->ip_off = htons(off);	\
+	ip_pack_p->ip_ttl = ttl; ip_pack_p->ip_p = p;			\
+	ip_pack_p->ip_src = src; ip_pack_p->ip_dst = dst;		\
 } while (0)
 
 typedef struct ip_handle ip_t;

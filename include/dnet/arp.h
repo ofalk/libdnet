@@ -63,19 +63,19 @@ struct arp_entry {
 	struct addr	arp_ha;			/* hardware address */
 };
 
-#define arp_fill_hdr_ethip(hdr, op, sha, spa, tha, tpa) do {	\
-	struct arp_hdr *fill_arp_p = (struct arp_hdr *)(hdr);	\
-	struct arp_ethip *fill_ethip_p = (struct arp_ethip *)	\
+#define arp_pack_hdr_ethip(hdr, op, sha, spa, tha, tpa) do {	\
+	struct arp_hdr *pack_arp_p = (struct arp_hdr *)(hdr);	\
+	struct arp_ethip *pack_ethip_p = (struct arp_ethip *)	\
 		((uint8_t *)(hdr) + ARP_HDR_LEN);		\
-	fill_arp_p->ar_hrd = htons(ARP_HRD_ETH);		\
-	fill_arp_p->ar_pro = htons(ARP_PRO_IP);			\
-	fill_arp_p->ar_hln = ETH_ADDR_LEN;			\
-	fill_arp_p->ar_pln = IP_ADDR_LEN;			\
-	fill_arp_p->ar_op = htons(op);				\
-	memmove(fill_ethip_p->ar_sha, &(sha), ETH_ADDR_LEN);	\
-	memmove(fill_ethip_p->ar_spa, &(spa), IP_ADDR_LEN);	\
-	memmove(fill_ethip_p->ar_tha, &(tha), ETH_ADDR_LEN);	\
-	memmove(fill_ethip_p->ar_tpa, &(tpa), IP_ADDR_LEN);	\
+	pack_arp_p->ar_hrd = htons(ARP_HRD_ETH);		\
+	pack_arp_p->ar_pro = htons(ARP_PRO_IP);			\
+	pack_arp_p->ar_hln = ETH_ADDR_LEN;			\
+	pack_arp_p->ar_pln = IP_ADDR_LEN;			\
+	pack_arp_p->ar_op = htons(op);				\
+	memmove(pack_ethip_p->ar_sha, &(sha), ETH_ADDR_LEN);	\
+	memmove(pack_ethip_p->ar_spa, &(spa), IP_ADDR_LEN);	\
+	memmove(pack_ethip_p->ar_tha, &(tha), ETH_ADDR_LEN);	\
+	memmove(pack_ethip_p->ar_tpa, &(tpa), IP_ADDR_LEN);	\
 } while (0)
 
 typedef struct arp_handle arp_t;

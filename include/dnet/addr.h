@@ -33,7 +33,7 @@ struct addr {
 #define addr_data16	__addr_u.__data16
 #define addr_data32	__addr_u.__data32
 
-#define addr_fill(addr, type, bits, data, len) do {	\
+#define addr_pack(addr, type, bits, data, len) do {	\
 	(addr)->addr_type = type;			\
 	(addr)->addr_bits = bits;			\
 	memmove((addr)->addr_data8, (char *)data, len);	\
