@@ -197,7 +197,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 		ioctl(intf->fd, SIOCDIFADDR, &ifra);
 #else
 		snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%s:%d",
-		    entry->intf_name, i);
+		    entry->intf_name, i + 1);
 # ifdef SIOCLIFREMOVEIF
 		/* XXX - overloading lifreq with ifreq */
 		ioctl(intf->fd, SIOCLIFREMOVEIF, &ifr);
@@ -220,7 +220,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 			return (-1);
 #else
 		snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%s:%d",
-		    entry->intf_name, i);
+		    entry->intf_name, i + 1);
 # ifdef SIOCLIFADDIF
 		if (ioctl(intf->fd, SIOCLIFADDIF, &ifr) < 0)
 			return (-1);
