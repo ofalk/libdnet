@@ -42,10 +42,10 @@ fr_to_pr(struct fw_rule *fr, struct pf_rule *pr)
 	pr->proto = fr->proto;
 
 	pr->src.addr.v4.s_addr = fr->src.addr_ip;
-	addr_btom(fr->src.addr_bits, &pr->src.mask.v4.s_addr);
+	addr_btom(fr->src.addr_bits, &pr->src.mask.v4.s_addr, IP_ADDR_LEN);
 	
 	pr->dst.addr.v4.s_addr = fr->dst.addr_ip;
-	addr_btom(fr->dst.addr_bits, &pr->dst.mask.v4.s_addr);
+	addr_btom(fr->dst.addr_bits, &pr->dst.mask.v4.s_addr, IP_ADDR_LEN);
 	
 	switch (fr->proto) {
 	case IP_PROTO_ICMP:
@@ -91,11 +91,11 @@ pr_to_fr(struct pf_rule *pr, struct fw_rule *fr)
 	fr->proto = pr->proto;
 
 	fr->src.addr_type = ADDR_TYPE_IP;
-	addr_mtob(pr->src.mask.v4.s_addr, &fr->src.addr_bits);
+	addr_mtob(&pr->src.mask.v4.s_addr, IP_ADDR_LEN, &fr->src.addr_bits);
 	fr->src.addr_ip = pr->src.addr.v4.s_addr;
 	
  	fr->dst.addr_type = ADDR_TYPE_IP;
-	addr_mtob(pr->dst.mask.v4.s_addr, &fr->dst.addr_bits);
+	addr_mtob(&pr->dst.mask.v4.s_addr, IP_ADDR_LEN, &fr->dst.addr_bits);
 	fr->dst.addr_ip = pr->dst.addr.v4.s_addr;
 	
 	switch (fr->proto) {

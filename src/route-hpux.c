@@ -57,12 +57,12 @@ route_add(route_t *r, struct addr *dst, struct addr *gw)
 
 	if (dst->addr_bits < IP_ADDR_BITS) {
 		rt.rt_flags = RTF_UP | RTF_GATEWAY;
-		if (addr_btom(dst->addr_bits,
-		    (u_int32_t *)&rt.rt_subnetmask) < 0)
+		if (addr_btom(dst->addr_bits, &rt.rt_subnetmask,
+		    IP_ADDR_LEN) < 0)
 			return (-1);
 	} else {
 		rt.rt_flags = RTF_UP | RTF_HOST | RTF_GATEWAY;
-		addr_btom(IP_ADDR_BITS, (u_int32_t *)&rt.rt_subnetmask);
+		addr_btom(IP_ADDR_BITS, &rt.rt_subnetmask, IP_ADDR_LEN);
 	}
 	return (ioctl(r->fd, SIOCADDRT, &rt));
 }
@@ -81,12 +81,12 @@ route_delete(route_t *r, struct addr *dst)
 
 	if (dst->addr_bits < IP_ADDR_BITS) {
 		rt.rt_flags = RTF_UP;
-		if (addr_btom(dst->addr_bits,
-		    (u_int32_t *)&rt.rt_subnetmask) < 0)
+		if (addr_btom(dst->addr_bits, &rt.rt_subnetmask,
+		    IP_ADDR_LEN) < 0)
 			return (-1);
 	} else {
 		rt.rt_flags = RTF_UP | RTF_HOST;
-		addr_btom(IP_ADDR_BITS, (u_int32_t *)&rt.rt_subnetmask);
+		addr_btom(IP_ADDR_BITS, &rt.rt_subnetmask, IP_ADDR_LEN);
 	}
 	return (ioctl(r->fd, SIOCDELRT, &rt));
 }
@@ -102,7 +102,7 @@ route_get(route_t *r, struct addr *dst, struct addr *gw)
 	memcpy(&rtr.rtr_destaddr, &dst->addr_ip, IP_ADDR_LEN);
 	
 	if (dst->addr_bits < IP_ADDR_BITS)
-		addr_btom(dst->addr_bits, (u_int32_t *)&rtr.rtr_subnetmask);
+		addr_btom(dst->addr_bits, &rtr.rtr_subnetmask, IP_ADDR_LEN);
 	
 	if (ioctl(r->fd, SIOCGRTENTRY, &rtr) < 0)
 		return (-1);
@@ -153,7 +153,7 @@ route_loop(route_t *r, route_handler callback, void *arg)
 			continue;
 		
 		dst.addr_ip = rtentries[i].Dest;
-		addr_mtob(rtentries[i].Mask, &dst.addr_bits);
+		addr_mtob(&rtentries[i].Mask, IP_ADDR_LEN, &dst.addr_bits);
 		gw.addr_ip = rtentries[i].NextHop;
 
 		if ((ret = callback(&dst, &gw, arg)) != 0)

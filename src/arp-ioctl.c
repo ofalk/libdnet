@@ -93,7 +93,7 @@ arp_set_dev(char *device, struct addr *pa, int flags, void *arg)
 	struct addr dst;
 	u_int32_t mask;
 	
-	addr_btom(pa->addr_bits, &mask);
+	addr_btom(pa->addr_bits, &mask, IP_ADDR_LEN);
 	addr_ston((struct sockaddr *)&ar->arp_pa, &dst);
 	
 	if ((pa->addr_ip & mask) == (dst.addr_ip & mask)) {
