@@ -61,6 +61,11 @@ intf_flags_to_iff(int flags)
 	else
 		n &= ~IFF_NOARP;
 
+	if (flags & INTF_FLAG_BROADCAST)
+		n |= IFF_BROADCAST;
+	else
+		n &= ~IFF_BROADCAST;
+	
 	if (flags & INTF_FLAG_MULTICAST)
 		n |= IFF_MULTICAST;
 	else
@@ -82,6 +87,8 @@ intf_iff_to_flags(int iff)
 		n |= INTF_FLAG_POINTOPOINT;
 	if (iff & IFF_NOARP)
 		n |= INTF_FLAG_NOARP;
+	if (iff & IFF_BROADCAST)
+		n |= INTF_FLAG_BROADCAST;
 	if (iff & IFF_MULTICAST)
 		n |= INTF_FLAG_MULTICAST;
 
@@ -144,20 +151,21 @@ intf_set(intf_t *i, const char *device, const struct intf_info *info)
 	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
 
 	if ((info->intf_info & INTF_INFO_ADDR) != 0) {
-		if (addr_ntos(&info->intf_addr, &ifr.ifr_addr) < 0)
-			return (-1);
-		
-		if (ioctl(i->fd, SIOCSIFADDR, &ifr) < 0)
-			return (-1);
-		
 		if (addr_btos(info->intf_addr.addr_bits, &ifr.ifr_addr) == 0) {
 			if (ioctl(i->fd, SIOCSIFNETMASK, &ifr) < 0)
 				return (-1);
 		}
+		if (addr_ntos(&info->intf_addr, &ifr.ifr_addr) < 0)
+			return (-1);
+		
+		if (ioctl(i->fd, SIOCSIFADDR, &ifr) < 0) {
+			if (errno != EEXIST)
+				return (-1);
+		}
 		if (addr_bcast(&info->intf_addr, &bcast) == 0) {
 			if (addr_ntos(&bcast, &ifr.ifr_broadaddr) == 0) {
-				if (ioctl(i->fd, SIOCSIFBRDADDR, &ifr) < 0)
-					return (-1);
+				/* XXX - ignore error from non-broadcast ifs */
+				ioctl(i->fd, SIOCSIFBRDADDR, &ifr);
 			}
 		}
 	}
