@@ -121,6 +121,20 @@ _lookup_ip_intf(ip_t *ip, ip_addr_t dst)
 	return (NULL);
 }
 
+static void
+_request_arp(struct ip_intf *ipi, struct addr *dst)
+{
+	u_char frame[ETH_HDR_LEN + ARP_HDR_LEN + ARP_ETHIP_LEN];
+
+	eth_fill_hdr(frame, ETH_ADDR_BROADCAST, ipi->ha.addr_eth,
+	    ETH_TYPE_ARP);
+	arp_fill_hdr_ethip(frame + ETH_HDR_LEN, ARP_OP_REQUEST,
+	    ipi->ha.addr_eth, ipi->pa.addr_ip, ETH_ADDR_BROADCAST,
+	    dst->addr_ip);
+
+	eth_send(ipi->eth, frame, sizeof(frame));
+}
+
 size_t
 ip_send(ip_t *ip, const void *buf, size_t len)
 {
@@ -129,6 +143,7 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 	struct arp_entry arpent;
 	struct route_entry rtent;
 	u_char frame[ETH_LEN_MAX];
+	int i;
 
 	iph = (struct ip_hdr *)buf;
 	
@@ -139,21 +154,23 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 	arpent.arp_pa.addr_type = ADDR_TYPE_IP;
 	arpent.arp_pa.addr_bits = IP_ADDR_BITS;
 	arpent.arp_pa.addr_ip = iph->ip_dst;
-	
-	if (arp_get(ip->arp, &arpent) != 0) {
-		memcpy(&rtent.route_dst, &arpent.arp_pa,
-		    sizeof(rtent.route_dst));
+
+	for (i = 0; i < 3; i++) {
+		if (arp_get(ip->arp, &arpent) == 0)
+			break;
 		
-		if (route_get(ip->route, &rtent) == 0) {
+		if (route_get(ip->route, &rtent) == 0 &&
+		    rtent.route_gw.addr_ip != ipi->pa.addr_ip) {
 			memcpy(&arpent.arp_pa, &rtent.route_gw,
 			    sizeof(arpent.arp_pa));
-			
-			if (arp_get(ip->arp, &arpent) < 0)
-				memset(&arpent.arp_ha.addr_eth, 0xff,
-				    ETH_ADDR_LEN);
-		} else
-			memset(&arpent.arp_ha.addr_eth, 0xff, ETH_ADDR_LEN);
+			if (arp_get(ip->arp, &arpent) == 0)
+				break;
+		}
+		_request_arp(ipi, &arpent.arp_pa);
 	}
+	if (i == 3)
+		memset(&arpent.arp_ha.addr_eth, 0xff, ETH_ADDR_LEN);
+	
 	eth_fill_hdr(frame, arpent.arp_ha.addr_eth,
 	    ipi->ha.addr_eth, ETH_TYPE_IP);
 
