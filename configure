@@ -2391,14 +2391,29 @@ EOF
 
     fi
 
-if test $ac_cv_dnet_solaris_dev_ip = yes ; then
-	LIBOBJS="$LIBOBJS arp-solaris.o"
+arp_api=none
+cat > conftest.$ac_ext <<EOF
+#line 2397 "configure"
+#include "confdefs.h"
+
+#include <sys/types.h>
+#include <sys/ioctl.h>
+#ifdef SIOCGARP
+yes
+#endif
+
+EOF
+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+  egrep "yes" >/dev/null 2>&1; then
+  rm -rf conftest*
+  arp_api=ioctl
+fi
+rm -f conftest*
+
+if test $arp_api = ioctl ; then
+	LIBOBJS="$LIBOBJS arp-ioctl.o"
 elif test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
 	LIBOBJS="$LIBOBJS arp-bsd.o"
-elif test $ac_cv_dnet_linux_procfs = yes ; then
-	LIBOBJS="$LIBOBJS arp-linux.o"
-elif test -f /usr/include/hpsecurity.h ; then
-	LIBOBJS="$LIBOBJS arp-hpux.o"
 else
 	LIBOBJS="$LIBOBJS arp-none.o"
 fi
