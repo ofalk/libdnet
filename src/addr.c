@@ -173,10 +173,22 @@ addr_pton(const char *src, struct addr *dst)
 	for (i = 0; i < sizeof(tmp) - 1; i++) {
 		if (src[i] == '/') {
 			tmp[i] = '\0';
-			bits = strtol(&src[i + 1], &ep, 10);
-			if (ep == src || *ep != '\0' || bits < 0) {
-				errno = EINVAL;
-				return (-1);
+			if (strchr(&src[i + 1], '.')) {
+				uint32_t m;
+				uint16_t b;
+				/* XXX - mask is specified like /255.0.0.0 */
+				if (ip_pton(&src[i + 1], &m) != 0) {
+					errno = EINVAL;
+					return (-1);
+				}
+				addr_mtob(&m, sizeof(m), &b);
+				bits = b;
+			} else {
+				bits = strtol(&src[i + 1], &ep, 10);
+				if (ep == src || *ep != '\0' || bits < 0) {
+					errno = EINVAL;
+					return (-1);
+				}
 			}
 			break;
 		} else if ((tmp[i] = src[i]) == '\0')
