@@ -142,16 +142,16 @@ struct tcp_opt {
 # pragma pack()				/* XXX - end squirrely alignment */
 #endif
 
-#define tcp_fill_hdr(hdr, sport, dport, seq, ack, flags, win, urp) do {	\
-	struct tcp_hdr *tcp_fill_p = (struct tcp_hdr *)(hdr);		\
-	tcp_fill_p->th_sport = htons(sport);				\
-	tcp_fill_p->th_dport = htons(dport);				\
-	tcp_fill_p->th_seq = htonl(seq);				\
-	tcp_fill_p->th_ack = htonl(ack);				\
-	tcp_fill_p->th_x2 = 0; tcp_fill_p->th_off = 5;			\
-	tcp_fill_p->th_flags = flags;					\
-	tcp_fill_p->th_win = htons(win);				\
-	tcp_fill_p->th_urp = htons(urp);				\
+#define tcp_pack_hdr(hdr, sport, dport, seq, ack, flags, win, urp) do {	\
+	struct tcp_hdr *tcp_pack_p = (struct tcp_hdr *)(hdr);		\
+	tcp_pack_p->th_sport = htons(sport);				\
+	tcp_pack_p->th_dport = htons(dport);				\
+	tcp_pack_p->th_seq = htonl(seq);				\
+	tcp_pack_p->th_ack = htonl(ack);				\
+	tcp_pack_p->th_x2 = 0; tcp_pack_p->th_off = 5;			\
+	tcp_pack_p->th_flags = flags;					\
+	tcp_pack_p->th_win = htons(win);				\
+	tcp_pack_p->th_urp = htons(urp);				\
 } while (0)
 
 #endif /* DNET_TCP_H */

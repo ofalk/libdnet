@@ -213,44 +213,44 @@ union icmp_msg {
 	struct icmp_msg_dnsreply   dnsreply;	/* ICMP_DNSREPLY */
 };
 
-#define icmp_fill_hdr(hdr, type, code) do {				\
-	struct icmp_hdr *icmp_fill_p = (struct icmp_hdr *)(hdr);	\
-	icmp_fill_p->icmp_type = type; icmp_fill_p->icmp_code = code;	\
+#define icmp_pack_hdr(hdr, type, code) do {				\
+	struct icmp_hdr *icmp_pack_p = (struct icmp_hdr *)(hdr);	\
+	icmp_pack_p->icmp_type = type; icmp_pack_p->icmp_code = code;	\
 } while (0)
 
-#define icmp_fill_hdr_echo(hdr, type, code, id, seq, data, len) do {	\
-	struct icmp_msg_echo *echo_fill_p = (struct icmp_msg_echo *)	\
+#define icmp_pack_hdr_echo(hdr, type, code, id, seq, data, len) do {	\
+	struct icmp_msg_echo *echo_pack_p = (struct icmp_msg_echo *)	\
 		((uint8_t *)(hdr) + ICMP_HDR_LEN);			\
-	icmp_fill_hdr(hdr, type, code);					\
-	echo_fill_p->icmp_id = htons(id);				\
-	echo_fill_p->icmp_seq = htons(seq);				\
-	memmove(echo_fill_p->icmp_data, data, len);			\
+	icmp_pack_hdr(hdr, type, code);					\
+	echo_pack_p->icmp_id = htons(id);				\
+	echo_pack_p->icmp_seq = htons(seq);				\
+	memmove(echo_pack_p->icmp_data, data, len);			\
 } while (0)
 
-#define icmp_fill_hdr_quote(hdr, type, code, word, pkt, len) do {	\
-	struct icmp_msg_quote *quote_fill_p = (struct icmp_msg_quote *)	\
+#define icmp_pack_hdr_quote(hdr, type, code, word, pkt, len) do {	\
+	struct icmp_msg_quote *quote_pack_p = (struct icmp_msg_quote *)	\
 		((uint8_t *)(hdr) + ICMP_HDR_LEN);			\
-	icmp_fill_hdr(hdr, type, code);					\
-	quote_fill_p->icmp_void = htonl(word);				\
-	memmove(quote_fill_p->icmp_ip, pkt, len);			\
+	icmp_pack_hdr(hdr, type, code);					\
+	quote_pack_p->icmp_void = htonl(word);				\
+	memmove(quote_pack_p->icmp_ip, pkt, len);			\
 } while (0)
 
-#define icmp_fill_hdr_mask(hdr, type, code, id, seq, mask) do {		\
-	struct icmp_msg_mask *mask_fill_p = (struct icmp_msg_mask *)	\
+#define icmp_pack_hdr_mask(hdr, type, code, id, seq, mask) do {		\
+	struct icmp_msg_mask *mask_pack_p = (struct icmp_msg_mask *)	\
 		((uint8_t *)(hdr) + ICMP_HDR_LEN);			\
-	icmp_fill_hdr(hdr, type, code);					\
-	mask_fill_p->icmp_id = htons(id);				\
-	mask_fill_p->icmp_seq = htons(seq);				\
-	mask_fill_p->icmp_mask = htonl(mask);				\
+	icmp_pack_hdr(hdr, type, code);					\
+	mask_pack_p->icmp_id = htons(id);				\
+	mask_pack_p->icmp_seq = htons(seq);				\
+	mask_pack_p->icmp_mask = htonl(mask);				\
 } while (0)
 
-#define icmp_fill_hdr_needfrag(hdr, type, code, mtu, pkt, len) do {	\
-	struct icmp_msg_needfrag *frag_fill_p =				\
+#define icmp_pack_hdr_needfrag(hdr, type, code, mtu, pkt, len) do {	\
+	struct icmp_msg_needfrag *frag_pack_p =				\
 	(struct icmp_msg_needfrag *)((uint8_t *)(hdr) + ICMP_HDR_LEN);	\
-	icmp_fill_hdr(hdr, type, code);					\
-	frag_fill_p->icmp_void = 0;					\
-	frag_fill_p->icmp_mtu = htons(mtu);				\
-	memmove(frag_fill_p->icmp_ip, pkt, len);			\
+	icmp_pack_hdr(hdr, type, code);					\
+	frag_pack_p->icmp_void = 0;					\
+	frag_pack_p->icmp_mtu = htons(mtu);				\
+	memmove(frag_pack_p->icmp_ip, pkt, len);			\
 } while (0)
 
 #endif /* DNET_ICMP_H */
