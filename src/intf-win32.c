@@ -132,7 +132,8 @@ _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 	lap = ap + ((entry->intf_len - sizeof(*entry)) /
 	    sizeof(entry->intf_alias_addrs[0]));
 	for (i = 0; i < intf->iptable->dwNumEntries; i++) {
-		if (intf->iptable->table[i].dwIndex == ifrow->dwIndex) {
+		if (intf->iptable->table[i].dwIndex == ifrow->dwIndex &&
+		    intf->iptable->table[i].dwAddr != 0) {
 			if (entry->intf_addr.addr_type == ADDR_TYPE_NONE) {
 				/* Set primary address if unset. */
 				entry->intf_addr.addr_type = ADDR_TYPE_IP;
