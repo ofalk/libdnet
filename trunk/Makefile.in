@@ -74,8 +74,11 @@ MAKEINFO = @MAKEINFO@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
+PYTHON = @PYTHON@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
+TCLINC = @TCLINC@
+TCLLIB = @TCLLIB@
 VERSION = @VERSION@
 ac_aux_dir = @ac_aux_dir@
 
@@ -85,7 +88,7 @@ INCLUDES = -I$(top_srcdir)/include
 
 DISTCLEANFILES = *~
 
-SUBDIRS = include man src test
+SUBDIRS = include man src swig test
 
 bin_SCRIPTS = dnet-config
 
