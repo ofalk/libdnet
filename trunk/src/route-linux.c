@@ -70,7 +70,7 @@ route_add(route_t *r, const struct route_entry *entry)
 	    addr_ntos(&entry->route_gw, &rt.rt_gateway) < 0)
 		return (-1);
 
-	if (entry->dst.addr_bits < IP_ADDR_BITS) {
+	if (entry->route_dst.addr_bits < IP_ADDR_BITS) {
 		rt.rt_flags = RTF_UP | RTF_GATEWAY;
 		if (addr_btos(entry->route_dst.addr_bits, &rt.rt_genmask) < 0)
 			return (-1);
@@ -130,7 +130,7 @@ route_get(route_t *r, struct route_entry *entry)
 
 	rmsg = (struct rtmsg *)(nmsg + 1);
 	rmsg->rtm_family = AF_INET;
-	rmsg->rtm_dst_len = dst->addr_bits;
+	rmsg->rtm_dst_len = entry->route_dst.addr_bits;
 	
 	rta = RTM_RTA(rmsg);
 	rta->rta_type = RTA_DST;
@@ -177,7 +177,7 @@ route_get(route_t *r, struct route_entry *entry)
 	while (RTA_OK(rta, i)) {
 		if (rta->rta_type == RTA_GATEWAY) {
 			entry->route_gw.addr_type = ADDR_TYPE_IP;
-			memcpy(&entry->route_gw->addr_ip,
+			memcpy(&entry->route_gw.addr_ip,
 			    RTA_DATA(rta), IP_ADDR_LEN);
 			entry->route_gw.addr_bits = IP_ADDR_BITS;
 			return (0);
@@ -198,8 +198,8 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	struct route_entry entry;
 	uint32_t mask;
 
-	entry.dst.addr_type = entry.gw.addr_type = ADDR_TYPE_IP;
-	entry.dst.addr_bits = entry.gw.addr_bits = IP_ADDR_BITS;
+	entry.route_dst.addr_type = entry.route_gw.addr_type = ADDR_TYPE_IP;
+	entry.route_dst.addr_bits = entry.route_gw.addr_bits = IP_ADDR_BITS;
 
 	if ((fp = fopen(PROC_ROUTE_FILE, "r")) == NULL)
 		return (-1);
@@ -208,18 +208,20 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	while (fgets(buf, sizeof(buf), fp) != NULL) {
 		i = sscanf(buf,
 		    "%16s %X %X %X %d %d %d %X %d %d %d\n",
-		    ifbuf, &entry.dst.addr_ip, &entry.gw.addr_ip, &iflags,
-		    &refcnt, &use, &metric, &mask, &mss, &win, &irtt);
+		    ifbuf, &entry.route_dst.addr_ip, &entry.route_gw.addr_ip,
+		    &iflags, &refcnt, &use, &metric, &mask, &mss, &win, &irtt);
 		
 		if (i < 10 || !(iflags & RTF_UP))
 			continue;
 		
-		if (entry.gw.addr_ip == IP_ADDR_ANY)
+		if (entry.route_gw.addr_ip == IP_ADDR_ANY)
 			continue;
 		
-		entry.dst.addr_type = entry.gw.addr_type = ADDR_TYPE_IP;
+		entry.route_dst.addr_type = entry.route_gw.addr_type =
+		    ADDR_TYPE_IP;
 		
-		if (addr_mtob(&mask, IP_ADDR_LEN, &entry.dst.addr_bits) < 0)
+		if (addr_mtob(&mask, IP_ADDR_LEN,
+		    &entry.route_dst.addr_bits) < 0)
 			continue;
 		
 		if ((ret = callback(&entry, arg)) != 0)
