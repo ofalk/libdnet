@@ -158,6 +158,26 @@ AC_DEFUN(AC_DNET_SOLARIS_DEV_IP,
     fi])
 
 dnl
+dnl Check for /dev/route device (UnixWare, Linux, but different)
+dnl
+dnl usage:      AC_DNET_DEV_ROUTE
+dnl results:    HAVE_DEV_ROUTE
+dnl
+AC_DEFUN(AC_DNET_DEV_ROUTE,
+    [AC_MSG_CHECKING(for /dev/route device)
+    AC_CACHE_VAL(ac_cv_dnet_dev_route,
+        if test -c /dev/route ; then
+            ac_cv_dnet_dev_route=yes
+        else
+            ac_cv_dnet_dev_route=no
+        fi)
+    AC_MSG_RESULT($ac_cv_dnet_dev_route)
+    if test $ac_cv_dnet_dev_route = yes ; then
+        AC_DEFINE(HAVE_DEV_ROUTE, 1,
+                  [Define if you have the /dev/route device.])
+    fi])
+
+dnl
 dnl Improved version of AC_CHECK_LIB
 dnl
 dnl Thanks to John Hawkinson (jhawk@mit.edu)
