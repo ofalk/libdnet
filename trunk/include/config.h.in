@@ -27,6 +27,9 @@
 /* Define if you have the strlcpy function.  */
 #undef HAVE_STRLCPY
 
+/* Define if you have the <Iphlpapi.h> header file.  */
+#undef HAVE_IPHLPAPI_H
+
 /* Define if you have the <fcntl.h> header file.  */
 #undef HAVE_FCNTL_H
 
@@ -105,6 +108,12 @@
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
 
+/* Define if you have the <winsock2.h> header file.  */
+#undef HAVE_WINSOCK2_H
+
+/* Define if you have the iphlpapi library (-liphlpapi).  */
+#undef HAVE_LIBIPHLPAPI
+
 /* Define if you have the nm library (-lnm).  */
 #undef HAVE_LIBNM
 
@@ -116,6 +125,9 @@
 
 /* Define if you have the str library (-lstr).  */
 #undef HAVE_LIBSTR
+
+/* Define if you have the ws2_32 library (-lws2_32).  */
+#undef HAVE_LIBWS2_32
 
 /* Name of package */
 #undef PACKAGE
@@ -131,6 +143,9 @@
 
 /* Define if <net/route.h> has rt_msghdr struct. */
 #undef HAVE_ROUTE_RT_MSGHDR
+
+/* Define for faster code generation. */
+#undef WIN32_LEAN_AND_MEAN
 
 /* Define if you have the Berkeley Packet Filter. */
 #undef HAVE_BSD_BPF

@@ -39,6 +39,7 @@ AC_CHECK_HEADERS(net/bpf.h net/if_dl.h net/pfvar.h net/raw.h \
 	linux/netfilter_ipv4/ipchains_core.h)
 AC_CHECK_HEADERS(ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h \
 	netinet/ip_compat.h ip_fil.h netinet/ip_fil.h)
+AC_CHECK_HEADERS(Iphlpapi.h winsock2.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -49,7 +50,19 @@ AC_DNET_ARPREQ_ARP_DEV
 AC_DNET_ROUTE_RT_MSGHDR
 AC_PROG_GCC_TRADITIONAL
 if test "$GCC" = yes ; then
-   CFLAGS="$CFLAGS -Wall"
+	CFLAGS="$CFLAGS -Wall"
+fi
+AC_CYGWIN
+AC_MINGW32
+if test "$CYGWIN" = yes ; then
+	if test "$MINGW32" != yes ; then
+		AC_MSG_ERROR([need MingW32 package to build under Cygwin])
+	fi
+	CFLAGS="$CFLAGS -mno-cygwin"
+	LDFLAGS="$LDFLAGS -mno-cygwin"
+	AC_DEFINE(WIN32_LEAN_AND_MEAN, 1, [Define for faster code generation.])
+	AC_CHECK_LIB(ws2_32, main)
+	AC_CHECK_LIB(iphlpapi, main)
 fi
 
 dnl Checks for library functions.
@@ -108,6 +121,16 @@ elif test $ac_cv_header_linux_netfilter_ipv4_ipchains_core_h = yes ; then
 else
 	LIBOBJS="$LIBOBJS fw-none.o"
 fi
+
+dnl Check for network interface interface.
+if test $ac_cv_header_Iphlpapi_h = yes ; then
+	LIBOBJS="$LIBOBJS intf-win32.o"
+else
+	LIBOBJS="$LIBOBJS intf.o"
+fi
+
+dnl Check for raw IP interface.
+LIBOBJS="$LIBOBJS ip.o"
 
 dnl Check for routing interface.
 if test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
