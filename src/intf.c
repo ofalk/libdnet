@@ -49,7 +49,7 @@ struct dnet_ifaliasreq {
 	struct sockaddr ifra_addr;
 	struct sockaddr ifra_brdaddr;
 	struct sockaddr ifra_mask;
-	int		cookie;		/* XXX - IRIX!@#$ */
+	int		ifra_cookie;	/* XXX - IRIX!@#$ */
 };
 
 struct intf_handle {
