@@ -166,7 +166,7 @@ ipfw_to_fr(struct ip_fw *ipfw, struct fw_rule *fr)
 				if (ipfw->fw_uar.fw_icmptypes[i / 32] &
 				    (1U << (i % 32))) {
 					fr->sport[0] = i;
-					fr->sport[1] = 0xffff;
+					fr->sport[1] = 0xff;
 					break;
 				}
 			}
