@@ -38,10 +38,7 @@
 
 typedef u_int32_t ip_addr_t;
 
-#include "dnet/eth.h"
-#include "dnet/addr.h"
-#include "dnet/tcp.h"
-#include "dnet/fw.h"
+#include "dnet.h"
 
 struct fw_handle {
 	int	fd;
