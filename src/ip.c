@@ -29,7 +29,7 @@ struct ip_handle {
 	eth_t		*eth;
 	intf_t		*intf;
 	arp_t		*arp;
-	route_t		*rt;
+	route_t		*route;
 	struct addr	 ip_src, ip_dst;
 	struct addr	 eth_src, eth_dst;
 #endif
@@ -56,7 +56,7 @@ ip_open(void)
 	
 	if ((i->intf = intf_open()) == NULL ||
 	    (i->arp = arp_open()) == NULL ||
-	    (i->rt = route_open()) == NULL) {
+	    (i->route = route_open()) == NULL) {
 		ip_close(i);
 		free(i);
 		return (NULL);
@@ -67,6 +67,7 @@ ip_open(void)
 ip_t *
 ip_open(void)
 {
+	struct sockaddr_in sin;
 	ip_t *i;
 	int n, fd, len;
 
@@ -100,6 +101,15 @@ ip_open(void)
 		return (NULL);
 	}
 #endif
+	memset(&sin, 0, sizeof(sin));
+	sin.sin_family = AF_INET;
+#ifdef HAVE_SOCKADDR_SA_LEN
+	sin.sin_len = sizeof(sin);
+#endif
+	if (connect(fd, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
+		close(fd);
+		return (NULL);
+	}
 	if ((i = malloc(sizeof(*i))) == NULL) {
 		close(fd);
 		return (NULL);
@@ -160,7 +170,7 @@ ip_lookup(ip_t *i, ip_addr_t dst)
 	if (arp_get(i->arp, &i->ip_dst, &i->eth_dst) == 0)
 		return (0);
 	
-	if (route_get(i->rt, &i->ip_dst, &gw) == 0) {
+	if (route_get(i->route, &i->ip_dst, &gw) == 0) {
 		if (gw.addr_ip != i->ip_src.addr_ip &&
 		    arp_get(i->arp, &gw, &i->eth_dst) == 0)
 			return (0);
@@ -232,32 +242,21 @@ ip_send(ip_t *i, const void *buf, size_t len)
 ssize_t
 ip_send(ip_t *i, const void *buf, size_t len)
 {
-	struct ip_hdr *ip;
-	struct sockaddr_in sin;
-
-	ip = (struct ip_hdr *)buf;
-
-	memset(&sin, 0, sizeof(sin));
-#ifdef HAVE_SOCKADDR_SA_LEN       
-	sin.sin_len = sizeof(sin);
-#endif
-	sin.sin_family = AF_INET;
-	sin.sin_addr.s_addr = ip->ip_dst;
-	
 #ifdef HAVE_RAWIP_HOST_OFFLEN
+	struct ip_hdr *ip;
+	
+	ip = (struct ip_hdr *)buf;
 	ip->ip_len = ntohs(ip->ip_len);
 	ip->ip_off = ntohs(ip->ip_off);
-
-	len = sendto(i->fd, buf, len, 0,
-	    (struct sockaddr *)&sin, sizeof(sin));
+	
+	len = write(i->fd, buf, len);
 	
 	ip->ip_len = htons(ip->ip_len);
 	ip->ip_off = htons(ip->ip_off);
-
+	
 	return (len);
 #else
-	return (sendto(i->fd, buf, len, 0,
-	    (struct sockaddr *)&sin, sizeof(sin)));
+	return (write(i->fd, buf, len));
 #endif
 }
 #endif /* !HAVE_RAWIP_COOKED */
@@ -276,8 +275,8 @@ ip_close(ip_t *i)
 	if (i->arp != NULL)
 		arp_close(i->arp);
 
-	if (i->rt != NULL)
-		route_close(i->rt);
+	if (i->route != NULL)
+		route_close(i->route);
 #endif
 	free(i);
 	return (0);
