@@ -70,8 +70,8 @@ fr_to_ipfw(struct fw_rule *fr, struct ip_fw *ipfw)
 	ipfw->fw_prot = fr->proto;
 	ipfw->fw_src.s_addr = fr->src.addr_ip;
 	ipfw->fw_dst.s_addr = fr->dst.addr_ip;
-	addr_btom(fr->src.addr_bits, &ipfw->fw_smsk.s_addr);
-	addr_btom(fr->dst.addr_bits, &ipfw->fw_dmsk.s_addr);
+	addr_btom(fr->src.addr_bits, &ipfw->fw_smsk.s_addr, IP_ADDR_LEN);
+	addr_btom(fr->dst.addr_bits, &ipfw->fw_dmsk.s_addr, IP_ADDR_LEN);
 
 	switch (fr->proto) {
 	case IP_PROTO_TCP:
@@ -131,8 +131,8 @@ ipfw_to_fr(struct ip_fw *ipfw, struct fw_rule *fr)
 	fr->src.addr_type = fr->dst.addr_type = ADDR_TYPE_IP;
 	fr->src.addr_ip = ipfw->fw_src.s_addr;
 	fr->dst.addr_ip = ipfw->fw_dst.s_addr;
-	addr_mtob(ipfw->fw_smsk.s_addr, &fr->src.addr_bits);
-	addr_mtob(ipfw->fw_dmsk.s_addr, &fr->dst.addr_bits);
+	addr_mtob(&ipfw->fw_smsk.s_addr, IP_ADDR_LEN, &fr->src.addr_bits);
+	addr_mtob(&ipfw->fw_dmsk.s_addr, IP_ADDR_LEN, &fr->dst.addr_bits);
 
 	switch (fr->proto) {
 	case IP_PROTO_TCP:

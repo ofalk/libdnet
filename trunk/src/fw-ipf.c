@@ -66,13 +66,13 @@ rule_to_ipf(struct fw_rule *rule, struct frentry *fr)
 #ifdef HAVE_IP6ADDR
 	fr->fr_ip.fi_saddr = rule->src.addr_ip;
 	fr->fr_ip.fi_daddr = rule->dst.addr_ip;
-	addr_btom(rule->src.addr_bits, &fr->fr_mip.fi_saddr);
-	addr_btom(rule->dst.addr_bits, &fr->fr_mip.fi_daddr);
+	addr_btom(rule->src.addr_bits, &fr->fr_mip.fi_saddr, IP_ADDR_LEN);
+	addr_btom(rule->dst.addr_bits, &fr->fr_mip.fi_daddr, IP_ADDR_LEN);
 #else
 	fr->fr_ip.fi_src.s_addr = rule->src.addr_ip;
 	fr->fr_ip.fi_dst.s_addr = rule->dst.addr_ip;
-	addr_btom(rule->src.addr_bits, &fr->fr_mip.fi_src.s_addr);
-	addr_btom(rule->dst.addr_bits, &fr->fr_mip.fi_dst.s_addr);
+	addr_btom(rule->src.addr_bits, &fr->fr_mip.fi_src.s_addr, IP_ADDR_LEN);
+	addr_btom(rule->dst.addr_bits, &fr->fr_mip.fi_dst.s_addr, IP_ADDR_LEN);
 #endif
 	switch (rule->proto) {
 	case IPPROTO_ICMP:
@@ -153,13 +153,17 @@ ipf_to_rule(struct frentry *fr, struct fw_rule *rule)
 #ifdef HAVE_I6ADDR
 	rule->src.addr_ip = fr->fr_ip.fi_saddr;
 	rule->dst.addr_ip = fr->fr_ip.fi_daddr;
-	addr_mtob(fr->fr_mip.fi_saddr, &rule->src.addr_bits);
-	addr_mtob(fr->fr_mip.fi_daddr, &rule->dst.addr_bits);
+	addr_mtob(&fr->fr_mip.fi_saddr, IP_ADDR_LEN,
+	    &rule->src.addr_bits);
+	addr_mtob(&fr->fr_mip.fi_daddr, IP_ADDR_LEN,
+	    &rule->dst.addr_bits);
 #else
 	rule->src.addr_ip = fr->fr_ip.fi_src.s_addr;
 	rule->dst.addr_ip = fr->fr_ip.fi_dst.s_addr;
-	addr_mtob(fr->fr_mip.fi_src.s_addr, &rule->src.addr_bits);
-	addr_mtob(fr->fr_mip.fi_dst.s_addr, &rule->dst.addr_bits);
+	addr_mtob(&fr->fr_mip.fi_src.s_addr, IP_ADDR_LEN,
+	    &rule->src.addr_bits);
+	addr_mtob(&fr->fr_mip.fi_dst.s_addr, IP_ADDR_LEN,
+	    &rule->dst.addr_bits);
 #endif
 	switch (rule->proto) {
 	case IPPROTO_ICMP:
