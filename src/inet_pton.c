@@ -16,14 +16,6 @@
  * SOFTWARE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char rcsid[] = "$From: inet_pton.c,v 8.7 1996/08/05 08:31:35 vixie Exp $";
-#else
-static char rcsid[] = "$OpenBSD: inet_pton.c,v 1.3 1999/12/08 09:31:15 itojun Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -39,7 +31,9 @@ static char rcsid[] = "$OpenBSD: inet_pton.c,v 1.3 1999/12/08 09:31:15 itojun Ex
  */
 
 static int	inet_pton4(const char *src, u_char *dst);
+#ifdef AF_INET6
 static int	inet_pton6(const char *src, u_char *dst);
+#endif
 
 /* int
  * inet_pton(af, src, dst)
@@ -61,8 +55,10 @@ inet_pton(af, src, dst)
 	switch (af) {
 	case AF_INET:
 		return (inet_pton4(src, dst));
+#ifdef AF_INET6
 	case AF_INET6:
 		return (inet_pton6(src, dst));
+#endif
 	default:
 		errno = EAFNOSUPPORT;
 		return (-1);
@@ -125,6 +121,7 @@ inet_pton4(src, dst)
 #define IN6ADDRSZ	16
 #endif
 
+#ifdef AF_INET6
 /* int
  * inet_pton6(src, dst)
  *	convert presentation level address to network order binary form.
@@ -224,3 +221,4 @@ inet_pton6(src, dst)
 	memcpy(dst, tmp, IN6ADDRSZ);
 	return (1);
 }
+#endif /* AF_INET6 */
