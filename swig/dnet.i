@@ -50,7 +50,7 @@ static char		_dnet_errmsg[256];
 static int		_dnet_errcode = 0;
 
 static void
-dnet_exception(int code, const char *fmt, ...)
+dnet_error(int code, const char *fmt, ...)
 {
 	va_list ap;
 
@@ -73,9 +73,19 @@ dnet_exception(int code, const char *fmt, ...)
 		int code = _dnet_errcode;
 		_dnet_errcode = 0;
 		SWIG_exception(code, _dnet_errmsg);
+	}
+}
+
+#ifdef SWIGPYTHON
+/* StopIteration exception for iterator types */
+%exception next {
+	$action
+	if (!result) {
+		PyErr_SetNone(PyExc_StopIteration);
 		return (NULL);
 	}
 }
+#endif
 
 /*
  * addr.h
@@ -87,45 +97,80 @@ dnet_exception(int code, const char *fmt, ...)
 #define	ADDR_TYPE_IP6		3	/* Internet Protocol v6 */
 
 #ifdef SWIGPYTHON
-/* Helper routines for addr_{eth,ip,ip6} members */
 %{
-	static PyObject *__addr_data_get(struct addr *a, int type, int len) {
-		if (a->addr_type != type) {
-			dnet_exception(SWIG_TypeError, "address type is %d",
-				a->addr_type);
-			return (NULL);
-		}
-		return (PyString_FromStringAndSize(a->addr_data8, len));
+/* Helper routines for addr_{eth,ip,ip6} members */
+static PyObject *
+__addr_data_get(struct addr *a, int type, int len)
+ {
+	if (a->addr_type != type) {
+		dnet_error(SWIG_TypeError, "address type is %d", a->addr_type);
+		return (NULL);
 	}
-	static void __addr_data_set(struct addr *a, PyObject *obj, int len) {
-		char *p;
-		int n;
+	return (PyString_FromStringAndSize(a->addr_data8, len));
+}
 
+static void
+__addr_data_set(struct addr *a, PyObject *obj, int len) 
+{
+	char *p;
+	int n;
 		if (PyArg_Parse(obj, "s#:addr_data_set", &p, &n) && n == len) {
-			memcpy(a->addr_data8, p, len);
-		} else
-			dnet_exception(SWIG_ValueError, "expected %d-byte "
-			    "binary string", len);
-	}
-	static PyObject *addr_eth_get(struct addr *a) {
-		return (__addr_data_get(a, ADDR_TYPE_ETH, ETH_ADDR_LEN));
-	}
-	static void addr_eth_set(struct addr *a, PyObject *obj) {
-		__addr_data_set(a, obj, ETH_ADDR_LEN);
-	}
-	static PyObject *addr_ip_get(struct addr *a) {
-		return (__addr_data_get(a, ADDR_TYPE_IP, IP_ADDR_LEN));
-	}
-	static void addr_ip_set(struct addr *a, PyObject *obj) {
-		__addr_data_set(a, obj, IP_ADDR_LEN);
-	}
-	static PyObject *addr_ip6_get(struct addr *a) {
-		return (__addr_data_get(a, ADDR_TYPE_IP6, IP6_ADDR_LEN));
-	}
-	static void addr_ip6_set(struct addr *a, PyObject *obj) {
-		__addr_data_set(a, obj, IP6_ADDR_LEN);
-	}
+		memcpy(a->addr_data8, p, len);
+	} else
+		dnet_error(SWIG_ValueError, "expected %d-byte binary string",
+		    len);
+}
+
+static PyObject *addr_eth_get(struct addr *a) {
+	return (__addr_data_get(a, ADDR_TYPE_ETH, ETH_ADDR_LEN));
+}
+static void addr_eth_set(struct addr *a, PyObject *obj) {
+	__addr_data_set(a, obj, ETH_ADDR_LEN);
+}
+static PyObject *addr_ip_get(struct addr *a) {
+	return (__addr_data_get(a, ADDR_TYPE_IP, IP_ADDR_LEN));
+}
+static void addr_ip_set(struct addr *a, PyObject *obj) {
+	__addr_data_set(a, obj, IP_ADDR_LEN);
+}
+static PyObject *addr_ip6_get(struct addr *a) {
+	return (__addr_data_get(a, ADDR_TYPE_IP6, IP6_ADDR_LEN));
+}
+static void addr_ip6_set(struct addr *a, PyObject *obj) {
+	__addr_data_set(a, obj, IP6_ADDR_LEN);
+}
+
+/* Python iterator object for addr */
+struct addr_iter {
+	struct addr	cur;	/* XXX - in HBO */
+	struct addr	max;	/* XXX - in HBO */
+};
 %}
+
+struct addr_iter {
+%extend {
+	addr_iter(void) {
+		return (calloc(1, sizeof(struct addr_iter)));
+	}		
+	~addr_iter(void) {
+		free(self);
+	}
+	struct addr_iter *__iter__(void) {
+		return (self);
+	}
+	struct addr *next(void) {
+		struct addr *a = NULL;
+		
+		/* XXX - only handle IPv4 for now */
+		if (self->cur.addr_ip <= self->max.addr_ip) {
+			a = malloc(sizeof(*a));
+			memcpy(a, self, sizeof(*a));
+			a->addr_ip = htonl(self->cur.addr_ip++);
+		}		
+                return (a);
+	}
+}
+};
 #endif /* SWIGPYTHON */
 
 struct addr {
@@ -144,7 +189,7 @@ struct addr {
 		struct addr *a = calloc(1, sizeof(*a));
 		if (addr_aton(addrtxt, a) < 0) {
 			free(a), a = NULL;
-			dnet_exception(SWIG_ValueError, NULL);
+			dnet_error(SWIG_ValueError, NULL);
 		}
 		return (a);
 	}
@@ -157,7 +202,7 @@ struct addr {
 
 		if (addr_bcast(self, a) < 0) {
 			free(a), a = NULL;
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		}
 		return (a);
 	}
@@ -167,7 +212,7 @@ struct addr {
 
 		if (addr_net(self, a) < 0) {
 			free(a), a = NULL;
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		}
 		return (a);
 	}
@@ -182,6 +227,21 @@ struct addr {
 		    addr_net(other, &o1) != 0 || addr_bcast(other, &o2) != 0)
 			return (0);
 		return (addr_cmp(&o1, &s1) >= 0 && addr_cmp(&o2, &s2) <= 0);
+	}
+	struct addr_iter *__iter__(void) {
+		struct addr_iter *ai = malloc(sizeof(*ai));
+		
+		/* XXX - only handle IPv4 for now */
+		if (self->addr_type != ADDR_TYPE_IP ||
+		    addr_net(self, &ai->cur) < 0 || 
+		    addr_bcast(self, &ai->max) < 0) {
+			dnet_error(SWIG_ValueError, "expected IP address");
+			free(ai), ai = NULL;
+		} else {
+			ai->cur.addr_ip = ntohl(ai->cur.addr_ip);
+			ai->max.addr_ip = ntohl(ai->max.addr_ip);
+		}
+		return (ai);
 	}
 	long __len__(void) {
 		long len = 0;
@@ -235,15 +295,15 @@ void __eth_pack_hdr(char *eth_hdr,
 	if (len1 == ETH_ADDR_LEN && len2 == ETH_ADDR_LEN) {
 		eth_pack_hdr(eth_hdr, *buf1, *buf2, type);
 	} else
-		dnet_exception(SWIG_ValueError, "invalid MAC addresses");
+		dnet_error(SWIG_ValueError, "invalid MAC addresses");
 }
 void __eth_aton(char *buf, char *eth_addr) {
 	if (eth_aton(buf, (eth_addr_t *)eth_addr) < 0)
-		dnet_exception(SWIG_RuntimeError, NULL);
+		dnet_error(SWIG_RuntimeError, NULL);
 }
 char *__eth_ntoa(char *buf1, int len1) {
 	if (len1 != ETH_ADDR_LEN) {
-		dnet_exception(SWIG_ValueError, 
+		dnet_error(SWIG_ValueError, 
 		    "expected 6-byte binary string");
 		return (NULL);
 	}
@@ -279,7 +339,7 @@ def eth_ntoa(eth_addr_string):
 	eth_handle(char *buf1, int len1) {
 		eth_t *eth = eth_open(buf1);
 		if (eth == NULL)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		return (eth);
 	}
 	~eth_handle(void) {
@@ -287,14 +347,14 @@ def eth_ntoa(eth_addr_string):
 	}
 	void get(char *eth_addr) {
 		if (eth_get(self, (eth_addr_t *)eth_addr) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 	void set(char *buf1, int len1) {
 		if (len1 != ETH_ADDR_LEN) {
-			dnet_exception(SWIG_ValueError,
+			dnet_error(SWIG_ValueError,
 			    "expected a 6-byte binary string");
 		} else if (eth_set(self, (eth_addr_t *)buf1) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 	int send(char *buf1, int len1) {
 		return (eth_send(self, buf1, len1));
@@ -483,7 +543,7 @@ def ip_checksum(packet):
 	ip_handle(void) {
 		ip_t *ip = ip_open();
 		if (ip == NULL)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		return (ip);
 	}
 	~ip_handle(void) {
@@ -521,7 +581,7 @@ void __arp_pack_hdr_ethip(char *arp_ethip, int op,
 	    len3 == ETH_ADDR_LEN && len4 == IP_ADDR_LEN) {
 		arp_pack_hdr_ethip(arp_ethip, op, *buf1, *buf2, *buf3, *buf4);
 	} else
-		dnet_exception(SWIG_ValueError, "invalid argument lengths");
+		dnet_error(SWIG_ValueError, "invalid argument lengths");
 }
 %}
 #ifdef SWIGPYTHON
@@ -542,7 +602,7 @@ def arp_pack_hdr_ethip(op=ARP_OP_REQUEST, sha=ETH_ADDR_BROADCAST, spa=IP_ADDR_AN
 	arp_handle(void) {
 		arp_t *arp = arp_open();
 		if (arp == NULL)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		return (arp);
 	}
 	~arp_handle(void) {
@@ -554,7 +614,7 @@ def arp_pack_hdr_ethip(op=ARP_OP_REQUEST, sha=ETH_ADDR_BROADCAST, spa=IP_ADDR_AN
 		memcpy(&entry.arp_pa, pa, sizeof(*pa));
 		memcpy(&entry.arp_ha, ha, sizeof(*ha));
 		if (arp_add(self, &entry) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 	void delete(struct addr *pa) {
 		struct arp_entry entry;
@@ -562,7 +622,7 @@ def arp_pack_hdr_ethip(op=ARP_OP_REQUEST, sha=ETH_ADDR_BROADCAST, spa=IP_ADDR_AN
 		memset(&entry, 0, sizeof(entry));
 		memcpy(&entry.arp_pa, pa, sizeof(*pa));
 		if (arp_delete(self, &entry) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 	%newobject get;
 	struct addr *get(struct addr *pa) {
@@ -574,7 +634,7 @@ def arp_pack_hdr_ethip(op=ARP_OP_REQUEST, sha=ETH_ADDR_BROADCAST, spa=IP_ADDR_AN
 			ha = calloc(1, sizeof(*ha));
 			memcpy(ha, &entry.arp_ha, sizeof(*ha));
 		} else {
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		}
 		return (ha);
 	}
@@ -622,15 +682,15 @@ def arp_pack_hdr_ethip(op=ARP_OP_REQUEST, sha=ETH_ADDR_BROADCAST, spa=IP_ADDR_AN
 	void get(char **dstp, int *dlenp, int len) {
 		*dstp = malloc(len); *dlenp = len;
 		if (rand_get(self, *dstp, *dlenp) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 	void set(char *buf1, int len1) {
 		if (rand_set(self, buf1, len1) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 	void add(char *buf1, int len1) {
 		if (rand_add(self, buf1, len1) < 0)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 	}
 	unsigned char uint8(void) {
 		return (rand_uint8(self));
@@ -652,7 +712,7 @@ def arp_pack_hdr_ethip(op=ARP_OP_REQUEST, sha=ETH_ADDR_BROADCAST, spa=IP_ADDR_AN
 	route_handle(void) {
 		route_t *r = route_open();
 		if (r == NULL)
-			dnet_exception(SWIG_RuntimeError, NULL);
+			dnet_error(SWIG_RuntimeError, NULL);
 		return (r);
 	}
 	~route_handle(void) {

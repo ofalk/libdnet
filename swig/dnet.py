@@ -31,6 +31,30 @@ ADDR_TYPE_NONE = _dnet.ADDR_TYPE_NONE
 ADDR_TYPE_ETH = _dnet.ADDR_TYPE_ETH
 ADDR_TYPE_IP = _dnet.ADDR_TYPE_IP
 ADDR_TYPE_IP6 = _dnet.ADDR_TYPE_IP6
+class addr_iter(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, addr_iter, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, addr_iter, name)
+    def __init__(self,*args):
+        _swig_setattr(self, addr_iter, 'this', apply(_dnet.new_addr_iter,args))
+        _swig_setattr(self, addr_iter, 'thisown', 1)
+    def __del__(self, destroy= _dnet.delete_addr_iter):
+        try:
+            if self.thisown: destroy(self)
+        except: pass
+    def __iter__(*args): return apply(_dnet.addr_iter___iter__,args)
+    def next(*args): return apply(_dnet.addr_iter_next,args)
+    def __repr__(self):
+        return "<C addr_iter instance at %s>" % (self.this,)
+
+class addr_iterPtr(addr_iter):
+    def __init__(self,this):
+        _swig_setattr(self, addr_iter, 'this', this)
+        if not hasattr(self,"thisown"): _swig_setattr(self, addr_iter, 'thisown', 0)
+        _swig_setattr(self, addr_iter,self.__class__,addr_iter)
+_dnet.addr_iter_swigregister(addr_iterPtr)
+
 class addr(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, addr, name, value)
@@ -62,6 +86,7 @@ class addr(_object):
     def net(*args): return apply(_dnet.addr_net,args)
     def __cmp__(*args): return apply(_dnet.addr___cmp__,args)
     def __contains__(*args): return apply(_dnet.addr___contains__,args)
+    def __iter__(*args): return apply(_dnet.addr___iter__,args)
     def __len__(*args): return apply(_dnet.addr___len__,args)
     def __str__(*args): return apply(_dnet.addr___str__,args)
     def __repr__(self):
