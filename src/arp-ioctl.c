@@ -79,18 +79,22 @@ arp_open(void)
 
 #ifdef HAVE_ARPREQ_ARP_DEV
 static int
-arp_set_dev(const char *device, const struct intf_info *info, void *arg)
+_arp_set_dev(const struct intf_entry *entry, void *arg)
 {
 	struct arpreq *ar = (struct arpreq *)arg;
 	struct addr dst;
 	uint32_t mask;
+
+	if (entry->intf_type == INTF_TYPE_ETH && entry->intf_addr != NULL) {
+		addr_btom(entry->intf_addr->addr_bits, &mask, IP_ADDR_LEN);
+		addr_ston((struct sockaddr *)&ar->arp_pa, &dst);
 	
-	addr_btom(info->intf_addr.addr_bits, &mask, IP_ADDR_LEN);
-	addr_ston((struct sockaddr *)&ar->arp_pa, &dst);
-	
-	if ((info->intf_addr.addr_ip & mask) == (dst.addr_ip & mask)) {
-		strlcpy(ar->arp_dev, device, sizeof(ar->arp_dev));
-		return (1);
+		if ((entry->intf_addr->addr_ip & mask) ==
+		    (dst.addr_ip & mask)) {
+			strlcpy(ar->arp_dev, entry->intf_name,
+			    sizeof(ar->arp_dev));
+			return (1);
+		}
 	}
 	return (0);
 }
@@ -116,7 +120,7 @@ arp_add(arp_t *a, const struct addr *pa, const struct addr *ha)
 #endif
 
 #ifdef HAVE_ARPREQ_ARP_DEV
-	if (intf_loop(a->intf, arp_set_dev, &ar) != 1) {
+	if (intf_loop(a->intf, _arp_set_dev, &ar) != 1) {
 		errno = ESRCH;
 		return (-1);
 	}
@@ -186,7 +190,7 @@ arp_get(arp_t *a, const struct addr *pa, struct addr *ha)
 		return (-1);
 	
 #ifdef HAVE_ARPREQ_ARP_DEV
-	if (intf_loop(a->intf, arp_set_dev, &ar) != 1) {
+	if (intf_loop(a->intf, _arp_set_dev, &ar) != 1) {
 		errno = ESRCH;
 		return (-1);
 	}

@@ -97,12 +97,13 @@ ip_open(void)
 
 #ifdef HAVE_RAWIP_COOKED
 static int
-ip_match_intf(const char *device, const struct intf_info *info, void *arg)
+_ip_match_intf(const struct intf_entry *entry, void *arg)
 {
 	ip_t *i = (ip_t *)arg;
-	
-	if (info->intf_addr.addr_ip == i->ip_src.addr_ip ||
-	    i->ip_src.addr_ip == IP_ADDR_ANY) {
+
+	if (entry->intf_type == INTF_TYPE_ETH && entry->intf_addr != NULL &&
+	    (entry->intf_addr->addr_ip == i->ip_src.addr_ip ||
+		i->ip_src.addr_ip == IP_ADDR_ANY)) {
 		if (i->eth != NULL)
 			i->eth = eth_close(i->eth);
 		if ((i->eth = eth_open(device)) == NULL)
@@ -139,9 +140,9 @@ ip_lookup(ip_t *i, ip_addr_t dst)
 
 	addr_ston((struct sockaddr *)&sin, &i->ip_src);
 	
-	if (intf_loop(i->intf, ip_match_intf, i) != 1) {
+	if (intf_loop(i->intf, _ip_match_intf, i) != 1) {
 		i->ip_src.addr_ip = IP_ADDR_ANY;
-		if (intf_loop(i->intf, ip_match_intf, i) != 1)
+		if (intf_loop(i->intf, _ip_match_intf, i) != 1)
 			return (-1);
 	}
 	/* Lookup our destination address. */
