@@ -26,6 +26,11 @@
 
 #include "dnet.h"
 
+#ifdef PF_RULE_LABEL_SIZE
+/* XXX */
+#define addr		addr.addr
+#endif
+
 struct fw_handle {
 	int	fd;
 };
