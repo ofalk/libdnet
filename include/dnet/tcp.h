@@ -28,7 +28,7 @@ struct tcp_hdr {
 	uint16_t	th_sport;	/* source port */
 	uint16_t	th_dport;	/* destination port */
 	uint32_t	th_seq;		/* sequence number */
-	uint32_t	th_ack;		/* acknowledgement number */
+	uint32_t	th_ack;		/* acknowledgment number */
 #if DNET_BYTESEX == DNET_BIG_ENDIAN
 	uint8_t		th_off:4,	/* data offset */
 			th_x2:4;	/* (unused) */
@@ -51,7 +51,7 @@ struct tcp_hdr {
 #define TH_SYN		0x02		/* synchronize sequence numbers */
 #define TH_RST		0x04		/* reset connection */
 #define TH_PUSH		0x08		/* push */
-#define TH_ACK		0x10		/* acknowledgement number set */
+#define TH_ACK		0x10		/* acknowledgment number set */
 #define TH_URG		0x20		/* urgent pointer set */
 #define TH_ECE		0x40		/* ECN echo, RFC 3168 */
 #define TH_CWR		0x80		/* congestion window reduced */
