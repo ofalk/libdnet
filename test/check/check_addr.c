@@ -191,7 +191,6 @@ START_TEST(test_addr_pton)
 	fail_unless(addr_pton("1.2.3.4/33", &b) < 0, "accepted /33");
 	fail_unless(addr_pton("1.2.3.256", &b) < 0, "accepted .256");
 	fail_unless(addr_pton("1.2.3.4.5", &b) < 0, "accepted quint octet");
-	fail_unless(addr_pton("1.2.3", &b) < 0, "accepted quint octet");
 	fail_unless(addr_pton("1.2.3", &b) < 0, "accepted triple octet");
 	fail_unless(addr_pton("localhost", &b) == 0, "barfed on localhost");
 	fail_unless(addr_pton("localhost/24", &b) == 0,
