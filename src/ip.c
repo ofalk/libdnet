@@ -209,7 +209,7 @@ ip_send(ip_t *i, const void *buf, size_t len)
 			ip->ip_off = htons(((p + fraglen < end) ? IP_MF : 0) |
 			    ((p - start) >> 3));
 			
-			ip_cksum(ip);
+			ip_checksum(ip);
 			
 			if (eth_send(i->eth, frame,
 			    ETH_HDR_LEN + ip_hl + fraglen) < 0)
@@ -283,36 +283,87 @@ ip_close(ip_t *i)
 	return (0);
 }
 
-void
-ip_cksum(struct ip_hdr *ip)
+size_t
+ip_add_opt(void *buf, size_t len, const void *optbuf, size_t optlen)
 {
-	int hl, len, sum;
+	struct ip_hdr *ip;
+	struct ip_opt *opt;
+	u_char *p;
+	int datalen, padlen;
 
+	ip = (struct ip_hdr *)buf;
+	p = (u_char *)ip + (ip->ip_hl << 2);
+	datalen = ntohs(ip->ip_len) - (p - (u_char *)buf);
+	
+	if ((padlen = 4 - (optlen % 4)) == 4)
+		padlen = 0;
+	
+	assert(ntohs(ip->ip_len) + optlen + padlen < len);
+	assert((ip->ip_hl << 2) + optlen + padlen < IP_HDR_LEN_MAX);
+	
+	opt = (struct ip_opt *)optbuf;
+	if (IP_OPT_TYPEONLY(opt->opt_type))
+		optlen = 1;
+	else
+		assert(opt->opt_len == optlen);
+
+	/* XXX - shift any existing IP data. */
+	if (datalen) {
+		memmove(p + optlen + padlen, p, datalen);
+	}
+	memmove(p, &opt->opt_type, optlen);
+	p += optlen;
+	
+	/* XXX - pad with NOPs to word boundary. */
+	if (padlen) {
+		memset(p, IP_OPT_NOP, padlen);
+		p += padlen;
+		optlen += padlen;
+	}
+	ip->ip_hl = (p - (u_char *)ip) >> 2;
+	ip->ip_len = htons(ntohs(ip->ip_len) + optlen);
+	
+	return (optlen);
+}
+
+void
+ip_checksum(void *buf, size_t len)
+{
+	struct ip_hdr *ip;
+	int hl, sum;
+
+	ip = (struct ip_hdr *)buf;
 	hl = ip->ip_hl << 2;
+	
+	assert(hl <= IP_HDR_LEN_MAX);
+	assert(ntohs(ip->ip_len) <= len);
+	
 	len = ntohs(ip->ip_len) - hl;
 	
 	ip->ip_sum = 0;
 	sum = ip_cksum_add(ip, hl, 0);
 	ip->ip_sum = ip_cksum_carry(sum);
 	
-	if (ip->ip_p == IP_PROTO_TCP && len >= TCP_HDR_LEN) {
+	if (ip->ip_p == IP_PROTO_TCP) {
 		struct tcp_hdr *tcp = (struct tcp_hdr *)((u_char *)ip + hl);
 		
+		assert(len >= TCP_HDR_LEN);
 		tcp->th_sum = 0;
 		sum = ip_cksum_add(tcp, len, 0) + htons(ip->ip_p + len);
 		sum = ip_cksum_add(&ip->ip_src, 8, sum);
 		tcp->th_sum = ip_cksum_carry(sum);
-	} else if (ip->ip_p == IP_PROTO_UDP && len >= UDP_HDR_LEN) {
+	} else if (ip->ip_p == IP_PROTO_UDP) {
 		struct udp_hdr *udp = (struct udp_hdr *)((u_char *)ip + hl);
-		
+
+		assert(len >= UDP_HDR_LEN);
 		udp->uh_sum = 0;
 		sum = ip_cksum_add(udp, len, 0) + htons(ip->ip_p + len);
 		sum = ip_cksum_add(&ip->ip_src, 8, sum);
 		udp->uh_sum = ip_cksum_carry(sum);
-	} else if ((ip->ip_p == IP_PROTO_ICMP || ip->ip_p == IP_PROTO_IGMP) &&
-	    len >= ICMP_HDR_LEN) {
+	} else if (ip->ip_p == IP_PROTO_ICMP || ip->ip_p == IP_PROTO_IGMP) {
 		struct icmp_hdr *icmp = (struct icmp_hdr *)((u_char *)ip + hl);
 		
+		assert(len >= ICMP_HDR_LEN);
 		icmp->icmp_cksum = 0;
 		sum = ip_cksum_add(icmp, len, 0);
 		icmp->icmp_cksum = ip_cksum_carry(sum);
@@ -320,7 +371,7 @@ ip_cksum(struct ip_hdr *ip)
 }
 
 int
-ip_cksum_add(void *buf, u_int len, int cksum)
+ip_cksum_add(void *buf, size_t len, int cksum)
 {
 	u_short *sp = (u_short *)buf;
 	int n, sn;
