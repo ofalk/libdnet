@@ -18,8 +18,7 @@
 #include "dnet.h"
 
 struct route_handle {
-	struct addr	*dst;
-	struct addr	*gw;
+	int	dummy;
 };
 
 route_t *
@@ -118,17 +117,17 @@ route_loop(route_t *route, route_handler callback, void *arg)
 	if (GetIpForwardTable(ipftable, &len, FALSE) != NO_ERROR)
 		return (-1);
 
-	entry.dst.addr_type = ADDR_TYPE_IP;
-	entry.dst.addr_bits = IP_ADDR_BITS;
+	entry.route_dst.addr_type = ADDR_TYPE_IP;
+	entry.route_dst.addr_bits = IP_ADDR_BITS;
 	
-	entry.gw.addr_type = ADDR_TYPE_IP;
-	entry.gw.addr_bits = IP_ADDR_BITS;
+	entry.route_gw.addr_type = ADDR_TYPE_IP;
+	entry.route_gw.addr_bits = IP_ADDR_BITS;
 	
 	for (i = 0; i < ipftable->dwNumEntries; i++) {
-		entry.dst.addr_ip = ipftable->table[i].dwForwardDest;
+		entry.route_dst.addr_ip = ipftable->table[i].dwForwardDest;
 		addr_mtob(&ipftable->table[i].dwForwardMask, IP_ADDR_LEN,
-		    &entry.dst.addr_bits);
-		entry.gw.addr_ip = ipftable->table[i].dwForwardNextHop;
+		    &entry.route_dst.addr_bits);
+		entry.route_gw.addr_ip = ipftable->table[i].dwForwardNextHop;
 
 		if ((ret = (*callback)(&entry, arg)) != 0)
 			return (ret);
