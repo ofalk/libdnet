@@ -36,19 +36,15 @@ main(int argc, char *argv[])
 
 	if (addr_pton(argv[1], &addr) < 0)
 		err(1, "addr_pton");
-
 	printf("addr_pton: %s -> %s\n", argv[1], addr_ntoa(&addr));
 
 	if (addr_ntop(&addr, buf, sizeof(buf)) < 0)
 		err(1, "addr_ntop");
-
 	printf("addr_ntop: %s -> %s\n", addr_ntoa(&addr), buf);
 
 	if (addr_bcast(&addr, &bcast) < 0)
 		err(1, "addr_bcast");
-	
-	printf("addr_bcast: %s -> %s\n",
-	    addr_ntoa(&addr), addr_ntoa(&bcast));
+	printf("addr_bcast: %s -> %s\n", addr_ntoa(&addr), addr_ntoa(&bcast));
 	
 	if (addr.addr_type == ADDR_TYPE_IP) {
 		mask.addr_type = ADDR_TYPE_IP;
@@ -56,39 +52,36 @@ main(int argc, char *argv[])
 		
 		if (addr_btom(addr.addr_bits, &mask.addr_ip, IP_ADDR_LEN) < 0)
 			err(1, "addr_btom");
-		
 		printf("addr_btom: %d -> 0x%08x\n",
 		    addr.addr_bits, (u_int)ntohl(mask.addr_ip));
+
+		if (addr_mtob(&mask.addr_ip, IP_ADDR_LEN, &addr.addr_bits) < 0)
+			err(1, "addr_mtob");
+		printf("addr_mtob: 0x%08x -> %d\n",
+		    (u_int)ntohl(mask.addr_ip), addr.addr_bits);
 	} else if (addr.addr_type == ADDR_TYPE_ETH) {
 		mask.addr_type = ADDR_TYPE_ETH;
 		mask.addr_bits = ETH_ADDR_BITS;
 		
-		if (addr_btom(addr.addr_bits, &mask.addr_eth, ETH_ADDR_LEN) < 0)
+		if (addr_btom(addr.addr_bits, &mask.addr_eth,
+		    ETH_ADDR_LEN) < 0)
 			err(1, "addr_btom");
-
 		printf("addr_btom: %d -> %s\n",
 		    addr.addr_bits, addr_ntoa(&mask));
-	}
-	if (addr_ntos(&addr, &sa) < 0)
-		err(1, "addr_ntos");
 
-	if (addr_ston(&sa, &addr) < 0)
-		err(1, "addr_ston");
-
-	printf("addr_ntos -> addr_ston: %s\n", addr_ntoa(&addr));
-	
-	if (addr.addr_type == ADDR_TYPE_IP) {
-		if (addr_mtob(&mask.addr_ip, IP_ADDR_LEN, &addr.addr_bits) < 0)
+		if (addr_mtob(&mask.addr_eth, ETH_ADDR_LEN,
+		    &addr.addr_bits) < 0)
 			err(1, "addr_mtob");
-
-		printf("addr_mtob: 0x%08x -> %d\n",
-		    (u_int)ntohl(mask.addr_ip), addr.addr_bits);
-	} else if (addr.addr_type == ADDR_TYPE_ETH) {
-		if (addr_mtob(&mask.addr_eth, ETH_ADDR_LEN, &addr.addr_bits) < 0)
-			err(1, "addr_mtob");
-
 		printf("addr_mtob: %s -> %d\n",
 		    addr_ntoa(&mask), addr.addr_bits);
 	}
+	if (addr_ntos(&addr, &sa) < 0)
+		err(1, "addr_ntos");
+	
+	if (addr_ston(&sa, &addr) < 0)
+		err(1, "addr_ston");
+	
+	printf("addr_ntos -> addr_ston: %s\n", addr_ntoa(&addr));
+	
 	exit(0);
 }
