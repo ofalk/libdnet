@@ -4530,72 +4530,72 @@ EOF
 fi
 
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS arp-win32.o"
+	LIBOBJS="$LIBOBJS arp-win32.$ac_objext"
 elif test "$ac_cv_dnet_ioctl_arp" = yes ; then
-	LIBOBJS="$LIBOBJS arp-ioctl.o"
+	LIBOBJS="$LIBOBJS arp-ioctl.$ac_objext"
 elif test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
-	LIBOBJS="$LIBOBJS arp-bsd.o"
+	LIBOBJS="$LIBOBJS arp-bsd.$ac_objext"
 else
-	LIBOBJS="$LIBOBJS arp-none.o"
+	LIBOBJS="$LIBOBJS arp-none.$ac_objext"
 fi
 
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS eth-win32.o"
+	LIBOBJS="$LIBOBJS eth-win32.$ac_objext"
 elif test "$ac_cv_dnet_bsd_bpf" = yes ; then
-	LIBOBJS="$LIBOBJS eth-bsd.o"
+	LIBOBJS="$LIBOBJS eth-bsd.$ac_objext"
 elif test "$ac_cv_dnet_linux_pf_packet" = yes ; then
-	LIBOBJS="$LIBOBJS eth-linux.o"
+	LIBOBJS="$LIBOBJS eth-linux.$ac_objext"
 elif test "$ac_cv_header_net_raw_h" = yes ; then
-	LIBOBJS="$LIBOBJS eth-snoop.o"
+	LIBOBJS="$LIBOBJS eth-snoop.$ac_objext"
 elif test "$ac_cv_header_sys_ndd_var_h" = yes ; then
-	LIBOBJS="$LIBOBJS eth-ndd.o"
+	LIBOBJS="$LIBOBJS eth-ndd.$ac_objext"
 elif test "$ac_cv_header_sys_dlpi_h" = yes || \
      test "$ac_cv_header_sys_dlpihdr_h" = yes ; then
-	LIBOBJS="$LIBOBJS eth-dlpi.o"
+	LIBOBJS="$LIBOBJS eth-dlpi.$ac_objext"
 else
-	LIBOBJS="$LIBOBJS eth-none.o"
+	LIBOBJS="$LIBOBJS eth-none.$ac_objext"
 fi
 
 if test "$ac_cv_header_net_pfvar_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-pf.o"
+	LIBOBJS="$LIBOBJS fw-pf.$ac_objext"
 elif test "$ac_cv_header_netinet_ip_fw_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipfw.o"
+	LIBOBJS="$LIBOBJS fw-ipfw.$ac_objext"
 elif test "$ac_cv_header_netinet_ip_fil_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipf.o"
+	LIBOBJS="$LIBOBJS fw-ipf.$ac_objext"
 elif test "$ac_cv_header_linux_ip_fw_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipchains.o"
+	LIBOBJS="$LIBOBJS fw-ipchains.$ac_objext"
 elif test "$ac_cv_header_linux_ip_fwchains_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipchains.o"
+	LIBOBJS="$LIBOBJS fw-ipchains.$ac_objext"
 elif test "$ac_cv_header_linux_netfilter_ipv4_ipchains_core_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipchains.o"
+	LIBOBJS="$LIBOBJS fw-ipchains.$ac_objext"
 else
-	LIBOBJS="$LIBOBJS fw-none.o"
+	LIBOBJS="$LIBOBJS fw-none.$ac_objext"
 fi
 
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS intf-win32.o"
+	LIBOBJS="$LIBOBJS intf-win32.$ac_objext"
 else
-	LIBOBJS="$LIBOBJS intf.o"
+	LIBOBJS="$LIBOBJS intf.$ac_objext"
 fi
 
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS ip-win32.o"
+	LIBOBJS="$LIBOBJS ip-win32.$ac_objext"
 elif test "$ac_cv_dnet_rawip_cooked" = yes ; then
-	LIBOBJS="$LIBOBJS ip-cooked.o"
+	LIBOBJS="$LIBOBJS ip-cooked.$ac_objext"
 else
-	LIBOBJS="$LIBOBJS ip.o"
+	LIBOBJS="$LIBOBJS ip.$ac_objext"
 fi
 
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS route-win32.o"
+	LIBOBJS="$LIBOBJS route-win32.$ac_objext"
 elif test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
-	LIBOBJS="$LIBOBJS route-bsd.o"
+	LIBOBJS="$LIBOBJS route-bsd.$ac_objext"
 elif test "$ac_cv_dnet_linux_procfs" = yes ; then
-	LIBOBJS="$LIBOBJS route-linux.o"
+	LIBOBJS="$LIBOBJS route-linux.$ac_objext"
 elif test "$ac_cv_header_hpsecurity_h" = yes ; then
-	LIBOBJS="$LIBOBJS route-hpux.o"
+	LIBOBJS="$LIBOBJS route-hpux.$ac_objext"
 else
-	LIBOBJS="$LIBOBJS route-none.o"
+	LIBOBJS="$LIBOBJS route-none.$ac_objext"
 fi
 
 ac_config_files="$ac_config_files Makefile dnet-config include/Makefile include/dnet/Makefile man/Makefile src/Makefile test/Makefile test/check/Makefile test/dnet/Makefile"
