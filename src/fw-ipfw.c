@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "dnet.h"
 
@@ -120,7 +121,7 @@ ipfw_to_fr(struct ip_fw *ipfw, struct fw_rule *fr)
 			fr->dport[0] = ipfw->fw_uar.fw_pts[i];
 			fr->dport[1] = ipfw->fw_uar.fw_pts[i + 1];
 		} else
-			fr->dport[0] = fr->dport[1] = ipfw->fw_uar.fw_pts[i];
+			fr->dport[0] = fr->dport[1] = ipfw->fw_uar.fw_pts[0];
 		break;
 	}
 }
