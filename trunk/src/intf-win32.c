@@ -126,9 +126,9 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	return (0);
 }
 
-int
+intf_t *
 intf_close(intf_t *intf)
 {
 	free(intf);
-	return (0);
+	return (NULL);
 }

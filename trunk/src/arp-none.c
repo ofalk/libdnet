@@ -51,9 +51,8 @@ arp_loop(arp_t *a, arp_handler callback, void *arg)
 	return (-1);
 }
 
-int
+arp_t *
 arp_close(arp_t *a)
 {
-	errno = ENOSYS;
-	return (-1);
+	return (NULL);
 }

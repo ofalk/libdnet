@@ -49,18 +49,18 @@
 .Fn arp_get "arp_t *a" "const struct addr *pa" "struct addr *ha"
 .Ft int
 .Fn arp_loop "arp_t *a" "arp_handler callback" "void *arg"
-.Ft int
+.Ft arp_t *
 .Fn arp_close "arp_t *a"
 .Ss Ethernet
 .Ft eth_t *
 .Fn eth_open "const char *device"
 .Ft int
-.Fn eth_set "eth_t *e" "const eth_addr_t *ea"
-.Ft int
 .Fn eth_get "eth_t *e" "eth_addr_t *ea"
+.Ft int
+.Fn eth_set "eth_t *e" "const eth_addr_t *ea"
 .Ft ssize_t
 .Fn eth_send "eth_t *e" "const void *buf" "size_t len"
-.Ft int
+.Ft eth_t *
 .Fn eth_close "eth_t *e"
 .Ss Firewalling
 .Pp
@@ -73,7 +73,7 @@
 .Fn fw_delete "fw_t *f" "const struct fw_rule *rule"
 .Ft int
 .Fn fw_loop "fw_t *f" "fw_handler callback" "void *arg"
-.Ft int
+.Ft fw_t *
 .Fn fw_close "fw_t *f"
 .Ss Network interfaces
 .Pp
@@ -85,13 +85,13 @@
 .\".Ft int
 .\".Fn intf_delete "intf_t *i" "const char *device" "const struct addr *addr"
 .Ft int
-.Fn intf_set "intf_t *i" "const char *device" "const struct intf_info *info"
-.Ft int
 .Fn intf_get "intf_t *i" "const char *device" "struct intf_info *info"
 .Ft int
-.Fn intf_loop "intf_t *i" "intf_handler callback" "void *arg"
+.Fn intf_set "intf_t *i" "const char *device" "const struct intf_info *info"
 .Ft int
-.Fn intf_close "void"
+.Fn intf_loop "intf_t *i" "intf_handler callback" "void *arg"
+.Ft intf_t *
+.Fn intf_close "intf_t *i"
 .Ss Internet Protocol
 .Ft ip_t *
 .Fn ip_open "void"
@@ -101,7 +101,7 @@
 .Fn ip_checksum "void *buf" "size_t len"
 .Ft ssize_t
 .Fn ip_send "ip_t *i" "const void *buf" "size_t len"
-.Ft int
+.Ft ip_t *
 .Fn ip_close "ip_t *i"
 .Ss Routing
 .Pp
@@ -116,7 +116,7 @@
 .Fn route_get "route_t *r" "const struct addr *dst" "struct addr *gw"
 .Ft int
 .Fn route_loop "route_t *r" "route_handler callback" "void *arg"
-.Ft int
+.Ft route_t *
 .Fn route_close "route_t *r"
 .Sh DESCRIPTION
 .Nm
@@ -267,12 +267,12 @@ is used to obtain a handle to transmit raw Ethernet frames via the
 specified network
 .Fa device .
 .Pp
-.Fn eth_set
-configures the hardware MAC address for the interface specified by
-.Ar e .
-.Pp
 .Fn eth_get
 retrieves the hardware MAC address for the interface specified by
+.Ar e .
+.Pp
+.Fn eth_set
+configures the hardware MAC address for the interface specified by
 .Ar e .
 .Pp
 .Fn eth_send
@@ -372,17 +372,17 @@ The following bitmask values are defined for
 is used to obtain a handle to access the network interface
 configuration.
 .Pp
-.Fn intf_set
-configures the specified 
-.Fa device
-with the configuration 
-.Fa info .
-.Pp
 .Fn intf_get
 retrieves the configuration
 .Fa info
 for the specified 
 .Fa device .
+.Pp
+.Fn intf_set
+configures the specified 
+.Fa device
+with the configuration 
+.Fa info .
 .Pp
 .Fn intf_loop
 iterates over all network interfaces, invoking the specified 
@@ -484,6 +484,15 @@ address, or NULL on failure.
 and
 .Fn route_open
 return a valid handle on success, or NULL on failure.
+.Pp
+.Fn arp_close ,
+.Fn eth_close ,
+.Fn fw_close ,
+.Fn intf_close ,
+.Fn ip_close ,
+and
+.Fn route_close
+always return NULL.
 .Pp
 .Fn eth_send
 and

@@ -35,16 +35,14 @@ ip_open(void)
 		return (NULL);
 	}
 	if ((ip->fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) ==
-	    INVALID_SOCKET) {
-		ip_close(ip);
-		return (NULL);
-	}
+	    INVALID_SOCKET)
+		return (ip_close(ip));
+	
 	on = TRUE;
 	if (setsockopt(ip->fd, IPPROTO_IP, IP_HDRINCL,
-	    (const char *)&on, sizeof(on)) == SOCKET_ERROR) {
-		ip_close(ip);
-		return (NULL);
-	}
+	    (const char *)&on, sizeof(on)) == SOCKET_ERROR)
+		return (ip_close(ip));
+	
 	ip->sin.sin_family = AF_INET;
 	ip->sin.sin_port = htons(666);
 	
@@ -65,12 +63,12 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 	return (-1);
 }
 
-int
+ip_t *
 ip_close(ip_t *ip)
 {
 	WSACleanup();
 	if (ip->fd != INVALID_SOCKET)
 		closesocket(ip->fd);
 	free(ip);
-	return (0);
+	return (NULL);
 }

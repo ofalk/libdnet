@@ -51,11 +51,9 @@ ip_open(void)
 	
 	if ((i->intf = intf_open()) == NULL ||
 	    (i->arp = arp_open()) == NULL ||
-	    (i->route = route_open()) == NULL) {
-		ip_close(i);
-		free(i);
-		return (NULL);
-	}
+	    (i->route = route_open()) == NULL)
+		return (ip_close(i));
+	
 	return (i);
 }
 #else /* !HAVE_RAWIP_COOKED */
@@ -63,44 +61,36 @@ ip_t *
 ip_open(void)
 {
 	ip_t *i;
-	int n, fd, len;
+	int n, len;
 
-	if ((fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) < 0)
+	if ((i = calloc(1, sizeof(*i))) == NULL)
 		return (NULL);
+
+	if ((i->fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) < 0)
+		return (ip_close(i));
 #ifdef IP_HDRINCL
 	n = 1;
-	if (setsockopt(fd, IPPROTO_IP, IP_HDRINCL, &n, sizeof(n)) < 0) {
-		close(fd);
-		return (NULL);
-	}
+	if (setsockopt(i->fd, IPPROTO_IP, IP_HDRINCL, &n, sizeof(n)) < 0)
+		return (ip_close(i));
 #endif
 #ifdef SO_SNDBUF
 	len = sizeof(n);
-	if (getsockopt(fd, SOL_SOCKET, SO_SNDBUF, &n, &len) < 0) {
-		close(fd);
-		return (NULL);
-	}
+	if (getsockopt(i->fd, SOL_SOCKET, SO_SNDBUF, &n, &len) < 0)
+		return (ip_close(i));
+
 	for (n += 128; n < 1048576; n += 128) {
-		if (setsockopt(fd, SOL_SOCKET, SO_SNDBUF, &n, len) < 0) {
+		if (setsockopt(i->fd, SOL_SOCKET, SO_SNDBUF, &n, len) < 0) {
 			if (errno == ENOBUFS)
 				break;
-			close(fd);
-			return (NULL);
+			return (ip_close(i));
 		}
 	}
 #endif
 #ifdef SO_BROADCAST
 	n = 1;
-	if (setsockopt(fd, SOL_SOCKET, SO_BROADCAST, &n, sizeof(n)) < 0) {
-		close(fd);
-		return (NULL);
-	}
+	if (setsockopt(i->fd, SOL_SOCKET, SO_BROADCAST, &n, sizeof(n)) < 0)
+		return (ip_close(i));
 #endif
-	if ((i = malloc(sizeof(*i))) == NULL) {
-		close(fd);
-		return (NULL);
-	}
-	i->fd = fd;
 	return (i);
 }
 #endif /* !HAVE_RAWIP_COOKED */
@@ -114,12 +104,11 @@ ip_match_intf(const char *device, const struct intf_info *info, void *arg)
 	if (info->intf_addr.addr_ip == i->ip_src.addr_ip ||
 	    i->ip_src.addr_ip == IP_ADDR_ANY) {
 		if (i->eth != NULL)
-			eth_close(i->eth);
+			i->eth = eth_close(i->eth);
 		if ((i->eth = eth_open(device)) == NULL)
 			return (-1);
 		if (eth_get(i->eth, &i->eth_src.addr_eth) < 0) {
-			eth_close(i->eth);
-			i->eth = NULL;
+			i->eth = eth_close(i->eth);
 			return (-1);
 		}
 		return (1);
@@ -261,21 +250,19 @@ ip_send(ip_t *i, const void *buf, size_t len)
 }
 #endif /* !HAVE_RAWIP_COOKED */
 
-int
+ip_t *
 ip_close(ip_t *i)
 {
-	if (close(i->fd) < 0)
-		return (-1);
+	if (i->fd > 0)
+		close(i->fd);
 #ifdef HAVE_RAWIP_COOKED	
 	if (i->intf != NULL)
 		intf_close(i->intf);
-
 	if (i->arp != NULL)
 		arp_close(i->arp);
-
 	if (i->route != NULL)
 		route_close(i->route);
 #endif
 	free(i);
-	return (0);
+	return (NULL);
 }

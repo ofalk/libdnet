@@ -51,9 +51,8 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	return (-1);
 }
 
-int
+route_t *
 route_close(route_t *r)
 {
-	errno = ENOSYS;
-	return (-1);
+	return (NULL);
 }

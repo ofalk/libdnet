@@ -128,41 +128,36 @@ eth_open(const char *device)
 		return (NULL);
 	
 #ifdef HAVE_SYS_DLPIHDR_H
-	if ((e->fd = open("/dev/streams/dlb", O_RDWR)) < 0) {
-		free(e);
-		return (NULL);
-	}
+	if ((e->fd = open("/dev/streams/dlb", O_RDWR)) < 0)
+		return (eth_close(e));
+	
 	if ((ppa = eth_match_ppa(e, device)) < 0) {
 		errno = ESRCH;
-		eth_close(e);
-		return (NULL);
+		return (eth_close(e));
 	}
 #else
 	snprintf(dev, sizeof(dev), "/dev/%s", device);
 	
 	if ((p = strpbrk(dev, "0123456789")) == NULL) {
 		errno = EINVAL;
-		return (NULL);
+		return (eth_close(e));
 	}
 	ppa = atoi(p);
 	*p = '\0';
 
 	if ((e->fd = open(dev, O_RDWR)) < 0) {
 		snprintf(dev, sizeof(dev), "/dev/%s", device);
-		if ((e->fd = open(dev, O_RDWR)) < 0) {
-			free(e);
-			return (NULL);
-		}
+		if ((e->fd = open(dev, O_RDWR)) < 0)
+			return (eth_close(e));
 	}
 #endif
 	dlp = (union DL_primitives *)buf;
 	dlp->info_req.dl_primitive = DL_INFO_REQ;
 	
 	if (dlpi_msg(e->fd, dlp, DL_INFO_REQ_SIZE, RS_HIPRI,
-	    DL_INFO_ACK, DL_INFO_ACK_SIZE, sizeof(buf)) < 0) {
-		eth_close(e);
-		return (NULL);
-	}
+	    DL_INFO_ACK, DL_INFO_ACK_SIZE, sizeof(buf)) < 0)
+		return (eth_close(e));
+	
 	e->sap_first = (dlp->info_ack.dl_sap_length > 0);
 	
 	if (dlp->info_ack.dl_provider_style == DL_STYLE2) {
@@ -170,10 +165,8 @@ eth_open(const char *device)
 		dlp->attach_req.dl_ppa = ppa;
 		
 		if (dlpi_msg(e->fd, dlp, DL_ATTACH_REQ_SIZE, 0,
-		    DL_OK_ACK, DL_OK_ACK_SIZE, sizeof(buf)) < 0) {
-			eth_close(e);
-			return (NULL);
-		}
+		    DL_OK_ACK, DL_OK_ACK_SIZE, sizeof(buf)) < 0)
+			return (eth_close(e));
 	}
 	memset(&dlp->bind_req, 0, DL_BIND_REQ_SIZE);
 	dlp->bind_req.dl_primitive = DL_BIND_REQ;
@@ -185,15 +178,11 @@ eth_open(const char *device)
 	dlp->bind_req.dl_service_mode = DL_CLDLS;
 #endif
 	if (dlpi_msg(e->fd, dlp, DL_BIND_REQ_SIZE, 0,
-	    DL_BIND_ACK, DL_BIND_ACK_SIZE, sizeof(buf)) < 0) {
-		eth_close(e);
-		return (NULL);
-	}
+	    DL_BIND_ACK, DL_BIND_ACK_SIZE, sizeof(buf)) < 0)
+		return (eth_close(e));
 #ifdef DLIOCRAW
-	if (strioctl(e->fd, DLIOCRAW, 0, NULL) < 0) {
-		eth_close(e);
-		return (NULL);
-	}
+	if (strioctl(e->fd, DLIOCRAW, 0, NULL) < 0)
+		return (eth_close(e));
 #endif
 	return (e);
 }
@@ -248,16 +237,15 @@ eth_send(eth_t *e, const void *buf, size_t len)
 #endif
 }
 
-int
+eth_t *
 eth_close(eth_t *e)
 {
 	assert(e != NULL);
 
-	if (close(e->fd) < 0)
-		return (-1);
-	
+	if (e->fd > 0)
+		close(e->fd);
 	free(e);
-	return (0);
+	return (NULL);
 }
 
 int

@@ -118,10 +118,9 @@ fw_open(void)
 	if ((fw = calloc(1, sizeof(*fw))) == NULL)
 		return (NULL);
 
-	if ((fw->fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) < 0) {
-		free(fw);
-		return (NULL);
-	}
+	if ((fw->fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) < 0)
+		return (fw_close(fw));
+
 	return (fw);
 }
 
@@ -217,14 +216,13 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 	return (0);
 }
 
-int
+fw_t *
 fw_close(fw_t *fw)
 {
 	assert(fw != NULL);
 
-	if (close(fw->fd) < 0)
-		return (-1);
-	
+	if (fw->fd > 0)
+		close(fw->fd);
 	free(fw);
-	return (0);
+	return (NULL);
 }

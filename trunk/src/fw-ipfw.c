@@ -188,10 +188,9 @@ fw_open(void)
 	if ((fw = calloc(1, sizeof(*fw))) == NULL)
 		return (NULL);
 
-	if ((fw->fd = socket(AF_INET, SOCK_RAW, IPPROTO_IP)) < 0) {
-		free(fw);
-		return (NULL);
-	}
+	if ((fw->fd = socket(AF_INET, SOCK_RAW, IPPROTO_IP)) < 0)
+		return (fw_close(fw));
+	
 	return (fw);
 }
 
@@ -250,24 +249,28 @@ fw_delete(fw_t *fw, const struct fw_rule *rule)
 			return (-1);
 		}
 	}
-	ret = 0;
+	ret = -1;
 
 	/* XXX - 65535 is the fixed ipfw default rule. */
 	for (ipfw = (struct ip_fw *)buf; ipfw->fw_number < 65535; ipfw++) {
 		ipfw_to_fr(ipfw, &fr);
 		if (fw_cmp(&fr, rule) == 0) {
 			if (setsockopt(fw->fd, IPPROTO_IP, IP_FW_DEL,
-			    ipfw, sizeof(*ipfw)) < 0) {
-				free(buf);
-				return (-1);
-			}
-			free(buf);
-			return (0);
+			    ipfw, sizeof(*ipfw)) < 0)
+				ret = -2;
+			else
+				ret = 0;
+			break;
 		}
 	}
-	errno = ESRCH;
 	free(buf);
-	return (-1);
+	
+	if (ret < 0) {
+		if (ret == -1)
+			errno = ESRCH;
+		return (-1);
+	}
+	return (0);
 }
 
 int
@@ -310,14 +313,13 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 	return (ret);
 }
 
-int
+fw_t *
 fw_close(fw_t *fw)
 {
 	assert(fw != NULL);
 
-	if (close(fw->fd) < 0)
-		return (-1);
-
+	if (fw->fd > 0)
+		close(fw->fd);
 	free(fw);
-	return (0);
+	return (NULL);
 }

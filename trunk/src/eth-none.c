@@ -30,11 +30,10 @@ eth_send(eth_t *e, const void *buf, size_t len)
 	return (-1);
 }
 
-int
+eth_t *
 eth_close(eth_t *e)
 {
-	errno = ENOSYS;
-	return (-1);
+	return (NULL);
 }
 
 int

@@ -42,9 +42,8 @@ fw_loop(fw_t *f, fw_handler callback, void *arg)
 	return (-1);
 }
 
-int
+fw_t *
 fw_close(fw_t *f)
 {
-	errno = ENOSYS;
-	return (-1);
+	return (NULL);
 }
