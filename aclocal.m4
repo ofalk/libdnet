@@ -3776,6 +3776,19 @@ fi
 AC_MSG_RESULT([$SED])
 ])
 
+# Define a conditional.
+
+AC_DEFUN([AM_CONDITIONAL],
+[AC_SUBST($1_TRUE)
+AC_SUBST($1_FALSE)
+if $2; then
+  $1_TRUE=
+  $1_FALSE='#'
+else
+  $1_TRUE='#'
+  $1_FALSE=
+fi])
+
 dnl
 dnl Check for 4.4 BSD sa_len member in sockaddr struct
 dnl
@@ -4092,17 +4105,4 @@ AC_DEFUN(AC_LBL_LIBRARY_NET, [
     # DLPI needs putmsg under HPUX so test for -lstr while we're at it
     AC_CHECK_LIB(str, putmsg)
     ])
-
-# Define a conditional.
-
-AC_DEFUN([AM_CONDITIONAL],
-[AC_SUBST($1_TRUE)
-AC_SUBST($1_FALSE)
-if $2; then
-  $1_TRUE=
-  $1_FALSE='#'
-else
-  $1_TRUE='#'
-  $1_FALSE=
-fi])
 

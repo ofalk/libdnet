@@ -25,7 +25,42 @@ fi
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
+AC_LIBTOOL_DLOPEN
 AM_PROG_LIBTOOL
+
+dnl Checks for Python.
+AC_MSG_CHECKING(for Python)
+AC_ARG_WITH(python,
+[  --with-python=DIR       build Python module (using python in DIR)],
+[ case "$withval" in
+  yes)
+     AC_MSG_RESULT(yes)
+     PYTHON="python"
+     ;;
+  no)
+     AC_MSG_RESULT(no)
+     ;;
+  *)
+     AC_MSG_RESULT($withval)
+     for subdir in . bin; do
+        if test -x $withval/$subdir/python; then
+	   owd=`pwd`
+	   if cd $withval/$subdir; then withval=`pwd`; cd $owd; fi
+	   PYTHON="$withval/python"
+	   break
+	fi
+     done
+     if test "x$PYTHON" = "x"; then
+        AC_ERROR(python not found in $withval)
+     fi
+     ;;
+  esac 
+])
+AC_SUBST(PYTHON)
+AC_SUBST(TCLINC)
+AC_SUBST(TCLLIB)
+AM_CONDITIONAL(PYTHON, [test "x$PYTHON" != "x"])
+AM_CONDITIONAL(TCL, [test "x$TCLINC" != "x"])
 
 dnl XXX - stupid IRIX cpp
 if test -r /usr/include/sgidefs.h ; then
@@ -250,6 +285,6 @@ LTLIBOBJS=`echo X"$LIBOBJS"|\
 AC_SUBST(LTLIBOBJS)
 
 AC_OUTPUT([Makefile dnet-config include/Makefile include/dnet/Makefile
-	man/Makefile src/Makefile test/Makefile test/check/Makefile
-	test/dnet/Makefile],
+	man/Makefile src/Makefile swig/Makefile 
+	test/Makefile test/check/Makefile test/dnet/Makefile],
 	[chmod 755 dnet-config])

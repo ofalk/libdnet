@@ -2,7 +2,7 @@
 
 include $(top_srcdir)/Makefile.am.common
 
-SUBDIRS =	include man src test
+SUBDIRS =	include man src swig test
 
 bin_SCRIPTS =	dnet-config
 
