@@ -12,8 +12,10 @@
 #include "config.h"
 
 #ifdef WIN32
+#include <windows.h>
 #include <wincrypt.h>
 #else
+#include <sys/types.h>
 #include <sys/time.h>
 #endif
 #include <fcntl.h>
@@ -66,7 +68,7 @@ rand_open(void)
 	CryptAcquireContext(&hcrypt, NULL, NULL, PROV_RSA_FULL,
 	    CRYPT_VERIFYCONTEXT);
 	CryptGenRandom(hcrypt, sizeof(seed), seed);
-	CryptReleaseContext(&hcrypt, 0);
+	CryptReleaseContext(hcrypt, 0);
 #else
 	struct timeval *tv = (struct timeval *)seed;
 	int fd;
