@@ -67,7 +67,6 @@ ip_open(void)
 ip_t *
 ip_open(void)
 {
-	struct sockaddr_in sin;
 	ip_t *i;
 	int n, fd, len;
 
@@ -101,15 +100,6 @@ ip_open(void)
 		return (NULL);
 	}
 #endif
-	memset(&sin, 0, sizeof(sin));
-	sin.sin_family = AF_INET;
-#ifdef HAVE_SOCKADDR_SA_LEN
-	sin.sin_len = sizeof(sin);
-#endif
-	if (connect(fd, (struct sockaddr *)&sin, sizeof(sin)) < 0) {
-		close(fd);
-		return (NULL);
-	}
 	if ((i = malloc(sizeof(*i))) == NULL) {
 		close(fd);
 		return (NULL);
@@ -242,21 +232,32 @@ ip_send(ip_t *i, const void *buf, size_t len)
 ssize_t
 ip_send(ip_t *i, const void *buf, size_t len)
 {
-#ifdef HAVE_RAWIP_HOST_OFFLEN
 	struct ip_hdr *ip;
-	
+	struct sockaddr_in sin;
+
 	ip = (struct ip_hdr *)buf;
+
+	memset(&sin, 0, sizeof(sin));
+#ifdef HAVE_SOCKADDR_SA_LEN       
+	sin.sin_len = sizeof(sin);
+#endif
+	sin.sin_family = AF_INET;
+	sin.sin_addr.s_addr = ip->ip_dst;
+	
+#ifdef HAVE_RAWIP_HOST_OFFLEN
 	ip->ip_len = ntohs(ip->ip_len);
 	ip->ip_off = ntohs(ip->ip_off);
-	
-	len = write(i->fd, buf, len);
+
+	len = sendto(i->fd, buf, len, 0,
+	    (struct sockaddr *)&sin, sizeof(sin));
 	
 	ip->ip_len = htons(ip->ip_len);
 	ip->ip_off = htons(ip->ip_off);
-	
+
 	return (len);
 #else
-	return (write(i->fd, buf, len));
+	return (sendto(i->fd, buf, len, 0,
+	    (struct sockaddr *)&sin, sizeof(sin)));
 #endif
 }
 #endif /* !HAVE_RAWIP_COOKED */
