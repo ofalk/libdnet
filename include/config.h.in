@@ -112,8 +112,14 @@
 /* Define if you have the <net/if_var.h> header file. */
 #undef HAVE_NET_IF_VAR_H
 
+/* Define if you have the <net/pfilt.h> header file. */
+#undef HAVE_NET_PFILT_H
+
 /* Define if you have the <net/pfvar.h> header file. */
 #undef HAVE_NET_PFVAR_H
+
+/* Define if you have the <net/radix.h> header file. */
+#undef HAVE_NET_RADIX_H
 
 /* Define if you have the <net/raw.h> header file. */
 #undef HAVE_NET_RAW_H
@@ -242,7 +248,11 @@
 #include <sys/types.h>
 
 #ifdef __svr4__
-#define BSD_COMP	1
+# define BSD_COMP	1
+#endif
+
+#if defined(__osf__) && !defined(_SOCKADDR_LEN)
+# define _SOCKADDR_LEN	1
 #endif
 
 #ifndef HAVE_INET_PTON
