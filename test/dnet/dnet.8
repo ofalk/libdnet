@@ -79,12 +79,10 @@ echo "hello, world!" | dnet udp sport 555 dport 666 | \\
 dnet ip proto udp src 1.2.3.4 dst 5.6.7.8 send
 .Ed
 .Pp
-Save an ARP request in a file, and send it three times:
+Save an ARP request in a file, and send it:
 .Bd -literal -offset -indent
 dnet arp op req sha 0:d:e:a:d:0 spa 10.0.0.3 tpa 10.0.0.4 > foo
-for i in 1 2 3; do
-	dnet eth type arp src 0:d:e:a:d:0 dst ff:ff:ff:ff:ff < foo
-done
+dnet eth type arp src 0:d:e:a:d:0 dst 0:c:a:f:e:0 send wi0 < foo
 .Ed
 .Pp
 Send a completely random ICMP packet:
