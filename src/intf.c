@@ -417,7 +417,8 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 	}
 	entry->intf_alias_num = 0;
 	ap = entry->intf_alias_addrs;
-	lifr = (struct ifreq *)&intf->ifc.ifc_buf[intf->ifc.ifc_len];
+	lifr = (struct ifreq *)intf->ifc.ifc_buf + 
+	    (intf->ifc.ifc_len / sizeof(*lifr));
 	lap = (struct addr *)((u_char *)entry + entry->intf_len);
 	
 	/* Get addresses for this interface. */
