@@ -16,7 +16,7 @@
 .Fn addr_cmp "const struct addr *a" "const struct addr *b"
 .Ft int
 .Fn addr_bcast "const struct addr *a" "struct addr *b"
-.Ft int
+.Ft char *
 .Fn addr_ntop "const struct addr *src" "char *dst" "size_t size"
 .Ft int
 .Fn addr_pton "const char *src" "struct addr *dst"
@@ -713,6 +713,11 @@ passed to
 closes the specified handle.
 .Pp
 .Sh RETURN VALUES
+.Fn addr_ntop
+returns a pointer to the
+.Fa dst
+argument, or NULL on failure.
+.Pp
 .Fn addr_ntoa
 returns a pointer to a static memory area containing the printable
 address, or NULL on failure.
