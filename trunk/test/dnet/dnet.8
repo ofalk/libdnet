@@ -214,7 +214,7 @@ Delete the route for the destination
 .El
 .Sh EXAMPLES
 Send a UDP datagram containing random shellcode:
-.Bd -literal -offset -indent
+.Bd -literal -offset indent
 dnet hex "\\xeb\\x1f\\x5e\\x89\\x76\\x08\\x31\\xc0\\x88\\x46\\x07\\x89" \\
 "\\x46\\x0c\\xb0\\x0b\\x89\\xf3\\x8d\\x4e\\x08\\x8d\\x56\\x0c\\xcd\\x80" \\
 "\\x31\\xdb\\x89\\xd8\\x40\\xcd\\x80\\xe8\\xdc\\xff\\xff\\xff/bin/sh" | \\
@@ -223,7 +223,7 @@ dnet ip proto udp src 1.2.3.4 dst 5.6.7.8 | dnet send
 .Ed
 .Pp
 Save an ARP request in a file and send it twice:
-.Bd -literal -offset -indent
+.Bd -literal -offset indent
 dnet arp op req sha 0:d:e:a:d:0 spa 10.0.0.3 tpa 10.0.0.4 | \\
 dnet eth type arp src 0:d:e:a:d:0 dst ff:ff:ff:ff:ff:ff > arp.pkt
 dnet send fxp0 < arp.pkt
@@ -231,7 +231,7 @@ dnet send fxp0 < arp.pkt
 .Ed
 .Pp
 Send a fragmented ping packet:
-.Bd -literal -offset -indent
+.Bd -literal -offset indent
 # Create ping packet with IP header, to set ICMP checksum
 echo "monkey monkey monkey monkey" | dnet icmp type 8 code 0 | \\
 dnet ip proto icmp src 1.2.3.4 dst 5.6.7.8 > ping.pkt
