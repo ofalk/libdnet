@@ -21,6 +21,11 @@
 #endif
 #include <net/if.h>
 #undef IP_MULTICAST
+/* XXX - IPv6 ioctls */
+#ifdef HAVE_NETINET_IN_VAR_H
+#include <netinet/in.h>
+#include <netinet/in_var.h>
+#endif
 
 #include <errno.h>
 #include <stdio.h>
@@ -49,7 +54,8 @@
 
 #ifdef HAVE_SOCKADDR_SA_LEN
 # define NEXTIFR(i)	((struct ifreq *)((u_char *)&i->ifr_addr + \
-				i->ifr_addr.sa_len))
+				(i->ifr_addr.sa_len ? i->ifr_addr.sa_len : \
+				 sizeof(i->ifr_addr))))
 #else
 # define NEXTIFR(i)	(i + 1)
 #endif
@@ -65,6 +71,7 @@ struct dnet_ifaliasreq {
 
 struct intf_handle {
 	int		fd;
+	int		fd6;
 	struct ifconf	ifc;
 	u_char		ifcbuf[4192];
 };
@@ -110,12 +117,16 @@ intf_open(void)
 {
 	intf_t *intf;
 	
-	if ((intf = calloc(1, sizeof(*intf))) == NULL)
-		return (NULL);
-
-	if ((intf->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-		return (intf_close(intf));
-
+	if ((intf = calloc(1, sizeof(*intf))) != NULL) {
+		intf->fd = intf->fd6 = -1;
+		
+		if ((intf->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+			return (intf_close(intf));
+#ifdef SIOCGIFNETMASK_IN6
+		if ((intf->fd6 = socket(AF_INET6, SOCK_DGRAM, 0)) < 0)
+			return (intf_close(intf));
+#endif
+	}
 	return (intf);
 }
 
@@ -209,7 +220,11 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 	
 	if (intf_get(intf, orig) < 0)
 		return (-1);
-
+	
+	/* Delete any existing aliases. */
+	if (_intf_delete_aliases(intf, orig) < 0)
+		return (-1);
+	
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, entry->intf_name, sizeof(ifr.ifr_name));
 	
@@ -283,11 +298,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 		    errno != EEXIST)
 			return (-1);
 	}
-	/* Delete any existing aliases. */
-	if (_intf_delete_aliases(intf, orig) < 0)
-		return (-1);
-	
-	/* Add aliases. */
+	/* Set aliases. */
 	if (_intf_add_aliases(intf, entry) < 0)
 		return (-1);
 	
@@ -431,14 +442,35 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 		if (strcmp(ifr->ifr_name, entry->intf_name) != 0)
 			continue;
 		
-		if (addr_ston(&ifr->ifr_addr, ap) < 0 ||
-		    ap->addr_type != ADDR_TYPE_IP)
+		if (addr_ston(&ifr->ifr_addr, ap) < 0)
 			continue;
 		
-		if (ap->addr_ip == entry->intf_addr.addr_ip ||
-		    ap->addr_ip == entry->intf_dst_addr.addr_ip)
+		/* XXX */
+		if (ap->addr_type == ADDR_TYPE_ETH) {
+			memcpy(&entry->intf_link_addr, ap, sizeof(*ap));
 			continue;
-		
+		} else if (ap->addr_type == ADDR_TYPE_IP) {
+			if (ap->addr_ip == entry->intf_addr.addr_ip ||
+			    ap->addr_ip == entry->intf_dst_addr.addr_ip)
+				continue;
+		}
+#ifdef SIOCGIFNETMASK_IN6
+		else if (ap->addr_type == ADDR_TYPE_IP6) {
+			struct in6_ifreq ifr6;
+
+			memset(&ifr6, 0, sizeof(ifr6));
+			strlcpy(ifr6.ifr_name, ifr->ifr_name,
+			    sizeof(ifr6.ifr_name));
+			memcpy(&ifr6.ifr_addr, &ifr->ifr_addr,
+			    sizeof(struct sockaddr_in6));
+			
+			if (ioctl(intf->fd6, SIOCGIFNETMASK_IN6, &ifr6) == 0) {
+				addr_stob((struct sockaddr *)&ifr6.ifr_addr,
+				    &ap->addr_bits);
+			}
+			else perror("SIOCGIFNETMASK_IN6");
+		}
+#endif
 		ap++, entry->intf_alias_num++;
 	}
 	entry->intf_len = (u_char *)ap - (u_char *)entry;
@@ -541,7 +573,8 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 		*p = '\0';
 		for (p = buf; *p == ' '; p++)
 			;
-		
+
+		memset(ebuf, 0, sizeof(ebuf));
 		strlcpy(entry->intf_name, p, sizeof(entry->intf_name));
 		entry->intf_len = sizeof(ebuf);
 		
@@ -591,6 +624,7 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 		if (pifr != NULL && strcmp(ifr->ifr_name, pifr->ifr_name) == 0)
 			continue;
 
+		memset(ebuf, 0, sizeof(ebuf));
 		strlcpy(entry->intf_name, ifr->ifr_name,
 		    sizeof(entry->intf_name));
 		entry->intf_len = sizeof(ebuf);
@@ -612,8 +646,10 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 intf_t *
 intf_close(intf_t *intf)
 {
-	if (intf->fd > 0)
+	if (intf->fd >= 0)
 		close(intf->fd);
+	if (intf->fd6 >= 0)
+		close(intf->fd6);
 	free(intf);
 	return (NULL);
 }
