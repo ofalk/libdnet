@@ -233,7 +233,7 @@ ip_send(ip_t *i, const void *buf, size_t len)
 	return (len);
 }
 #else /* !HAVE_RAWIP_COOKED */
-ssize_t
+size_t
 ip_send(ip_t *i, const void *buf, size_t len)
 {
 	struct ip_hdr *ip;
