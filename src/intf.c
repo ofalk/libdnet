@@ -15,6 +15,10 @@
 #ifdef HAVE_SYS_SOCKIO_H
 #include <sys/sockio.h>
 #endif
+/* XXX - AIX */
+#ifndef IP_MULTICAST
+# define IP_MULTICAST
+#endif
 #include <net/if.h>
 
 #include <errno.h>
