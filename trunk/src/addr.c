@@ -92,29 +92,28 @@ static const char *octet2hex[] = {
 int
 addr_cmp(struct addr *a, struct addr *b)
 {
-	int i;
+	int i, j, k;
 	
-	if (a->addr_type != b->addr_type) {
-		errno = EINVAL;
-		return (-1);
+	if ((i = b->addr_bits - a->addr_bits) != 0)
+		return (i);
+	
+	if ((i = b->addr_type - a->addr_type) != 0)
+		return (i);
+
+	j = a->addr_bits / 8;
+
+	for (i = 0; i < j; i++) {
+		if ((k = b->addr_data8[i] - a->addr_data8[i]) != 0)
+			return (k);
 	}
-	switch (a->addr_type) {
-	case ADDR_TYPE_ETH:
-		i = memcmp(&a->addr_eth, &b->addr_eth, ETH_ADDR_LEN);
-		break;
-	case ADDR_TYPE_IP:
-		i = memcmp(&a->addr_ip, &b->addr_ip, IP_ADDR_LEN);
-		if (i == 0) {
-			i = memcmp(&a->addr_bits, &b->addr_bits,
-			    sizeof(a->addr_bits));
-		}
-		break;
-	default:
-		errno = EAFNOSUPPORT;
-		i = -1;
-		break;
-	}
-	return (i);
+	if ((k = a->addr_bits % 8) == 0)
+		return (0);
+
+	k = ~(~0 << (8 - k));
+	i = a->addr_data8[j] & k;
+	j = b->addr_data8[j] & k;
+	
+	return (j - i);
 }
 
 int
@@ -393,7 +392,7 @@ addr_btom(u_short bits, u_int32_t *mask)
 	if (bits == 0)
 		*mask = 0;
 	else
-		*mask = htonl(0xffffffff << (IP_ADDR_BITS - bits));
+		*mask = htonl(~0 << (IP_ADDR_BITS - bits));
 
 	return (0);
 }
