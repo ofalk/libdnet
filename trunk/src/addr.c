@@ -35,6 +35,20 @@
 # define MAXHOSTNAMELEN	256
 #endif
 
+union sockunion {
+#ifdef HAVE_NET_IF_DL_H
+	struct sockaddr_dl	sdl;
+#endif
+	struct sockaddr_in	sin;
+#ifdef AF_INET6
+	struct sockaddr_in6	sin6;
+#endif
+	struct sockaddr		sa;
+#ifdef AF_RAW
+	struct sockaddr_raw	sr;
+#endif
+};
+
 int
 addr_cmp(const struct addr *a, const struct addr *b)
 {
@@ -175,38 +189,42 @@ addr_ntoa(const struct addr *a)
 int
 addr_ntos(const struct addr *a, struct sockaddr *sa)
 {
+	union sockunion *so = (union sockunion *)sa;
+	
 	switch (a->addr_type) {
 	case ADDR_TYPE_ETH:
-	{
 #ifdef HAVE_NET_IF_DL_H
-		struct sockaddr_dl *sdl = (struct sockaddr_dl *)sa;
-
-		memset(sa, 0, sizeof(*sa));
+		memset(&so->sdl, 0, sizeof(so->sdl));
 #ifdef HAVE_SOCKADDR_SA_LEN
-		sdl->sdl_len = sizeof(*sdl);
+		so->sdl.sdl_len = sizeof(so->sdl);
 #endif
-		sdl->sdl_family = AF_LINK;
-		sdl->sdl_alen = ETH_ADDR_LEN;
-		memcpy(LLADDR(sdl), &a->addr_eth, ETH_ADDR_LEN);
+		so->sdl.sdl_family = AF_LINK;
+		so->sdl.sdl_alen = ETH_ADDR_LEN;
+		memcpy(LLADDR(&so->sdl), &a->addr_eth, ETH_ADDR_LEN);
 #else
 		memset(sa, 0, sizeof(*sa));
 		sa->sa_family = AF_UNSPEC;
 		memcpy(sa->sa_data, &a->addr_eth, ETH_ADDR_LEN);
 #endif
 		break;
-	}
-	case ADDR_TYPE_IP:
-	{
-		struct sockaddr_in *sin = (struct sockaddr_in *)sa;
-
-		memset(sin, 0, sizeof(*sin));
+#ifdef AF_INET6
+	case ADDR_TYPE_IP6:
+		memset(&so->sin6, 0, sizeof(so->sin6));
 #ifdef HAVE_SOCKADDR_SA_LEN
-		sin->sin_len = sizeof(*sin);
+		so->sin6.sin6_len = sizeof(so->sin6);
 #endif
-		sin->sin_family = AF_INET;
-		sin->sin_addr.s_addr = a->addr_ip;
+		so->sin6.sin6_family = AF_INET6;
+		memcpy(&so->sin6.sin6_addr, &a->addr_ip6, IP6_ADDR_LEN);
 		break;
-	}
+#endif
+	case ADDR_TYPE_IP:
+		memset(&so->sin, 0, sizeof(so->sin));
+#ifdef HAVE_SOCKADDR_SA_LEN
+		so->sin.sin_len = sizeof(so->sin);
+#endif
+		so->sin.sin_family = AF_INET;
+		so->sin.sin_addr.s_addr = a->addr_ip;
+		break;
 	default:
 		errno = EINVAL;
 		return (-1);
@@ -217,23 +235,21 @@ addr_ntos(const struct addr *a, struct sockaddr *sa)
 int
 addr_ston(const struct sockaddr *sa, struct addr *a)
 {
+	union sockunion *so = (union sockunion *)sa;
+	
 	memset(a, 0, sizeof(*a));
 	
 	switch (sa->sa_family) {
 #ifdef HAVE_NET_IF_DL_H
 	case AF_LINK:
-	{
-		struct sockaddr_dl *sdl = (struct sockaddr_dl *)sa;
-
-		if (sdl->sdl_alen != ETH_ADDR_LEN) {
+		if (so->sdl.sdl_alen != ETH_ADDR_LEN) {
 			errno = EINVAL;
 			return (-1);
 		}
 		a->addr_type = ADDR_TYPE_ETH;
 		a->addr_bits = ETH_ADDR_BITS;
-		memcpy(&a->addr_eth, LLADDR(sdl), ETH_ADDR_LEN);
+		memcpy(&a->addr_eth, LLADDR(&so->sdl), ETH_ADDR_LEN);
 		break;
-	}
 #endif
 	case AF_UNSPEC:
 	case ARP_HRD_ETH:	/* XXX- Linux arp(7) */
@@ -246,19 +262,21 @@ addr_ston(const struct sockaddr *sa, struct addr *a)
 	case AF_RAW:		/* XXX - IRIX raw(7f) */
 		a->addr_type = ADDR_TYPE_ETH;
 		a->addr_bits = ETH_ADDR_BITS;
-		memcpy(&a->addr_eth, ((struct sockaddr_raw *)sa)->sr_addr,
-		    ETH_ADDR_LEN);
+		memcpy(&a->addr_eth, so->sr.sr_addr, ETH_ADDR_LEN);
+		break;
+#endif
+#ifdef AF_INET6
+	case AF_INET6:
+		a->addr_type = ADDR_TYPE_IP6;
+		a->addr_bits = IP6_ADDR_BITS;
+		memcpy(&a->addr_ip6, &so->sin6.sin6_addr, IP6_ADDR_LEN);
 		break;
 #endif
 	case AF_INET:
-	{
-		struct sockaddr_in *sin = (struct sockaddr_in *)sa;
-
 		a->addr_type = ADDR_TYPE_IP;
 		a->addr_bits = IP_ADDR_BITS;
-		a->addr_ip = sin->sin_addr.s_addr;
+		a->addr_ip = so->sin.sin_addr.s_addr;
 		break;
-	}
 	default:
 		errno = EINVAL;
 		return (-1);
@@ -269,35 +287,55 @@ addr_ston(const struct sockaddr *sa, struct addr *a)
 int
 addr_btos(uint16_t bits, struct sockaddr *sa)
 {
-	struct sockaddr_in *sin;
-	
-	sin = (struct sockaddr_in *)sa;
-	memset(sin, 0, sizeof(*sin));
-	sin->sin_family = AF_INET;
-	if (addr_btom(bits, &sin->sin_addr.s_addr, IP_ADDR_LEN) < 0)
-		return (-1);
+	union sockunion *so = (union sockunion *)sa;
+
+#ifdef AF_INET6
+	if (bits > IP_ADDR_BITS && bits < IP6_ADDR_BITS) {
+		memset(&so->sin6, 0, sizeof(so->sin6));
 #ifdef HAVE_SOCKADDR_SA_LEN
-	sin->sin_len = IP_ADDR_LEN + (bits / 8) + (bits % 8);
+		so->sin6.sin6_len = IP6_ADDR_LEN + (bits / 8) + (bits % 8);
 #endif
-	return (0);
+		so->sin6.sin6_family = AF_INET6;
+		return (addr_btom(bits, &so->sin6.sin6_addr, IP6_ADDR_LEN));
+	} else
+#endif
+	if (bits < IP_ADDR_BITS) {
+		memset(&so->sin, 0, sizeof(so->sin));
+#ifdef HAVE_SOCKADDR_SA_LEN
+		so->sin.sin_len = IP_ADDR_LEN + (bits / 8) + (bits % 8);
+#endif
+		so->sin.sin_family = AF_INET;
+		return (addr_btom(bits, &so->sin.sin_addr, IP_ADDR_LEN));
+	}
+	errno = EINVAL;
+	return (-1);
 }
 
 int
 addr_stob(const struct sockaddr *sa, uint16_t *bits)
 {
-	struct sockaddr_in *sin;
+	union sockunion *so = (union sockunion *)sa;
 	int i, j, len;
 	uint16_t n;
 	u_char *p;
-	
-	sin = (struct sockaddr_in *)sa;
-#ifdef HAVE_SOCKADDR_SA_LEN
-	if ((len = sa->sa_len - IP_ADDR_LEN) > IP_ADDR_LEN)
-#endif
-	len = IP_ADDR_LEN;
-	
-	p = (u_char *)&sin->sin_addr.s_addr;
 
+	if (sa->sa_family == AF_INET) {
+#ifdef HAVE_SOCKADDR_SA_LEN
+		if ((len = sa->sa_len - IP_ADDR_LEN) > IP_ADDR_LEN)
+#endif
+		len = IP_ADDR_LEN;
+		p = (u_char *)&so->sin.sin_addr.s_addr;
+	}
+#ifdef AF_INET6
+	else if (sa->sa_family == AF_INET6) {
+		len = IP6_ADDR_LEN;
+		p = (u_char *)&so->sin6.sin6_addr;
+	}
+#endif
+	else {
+		errno = EINVAL;
+		return (-1);
+	}
 	for (n = i = 0; i < len; i++, n += 8) {
 		if (p[i] != 0xff)
 			break;
