@@ -253,7 +253,7 @@ addr_ntos(struct addr *a, struct sockaddr *sa)
 		memset(sa, 0, sizeof(*sa));
 #ifdef HAVE_SOCKADDR_SA_LEN
 		sdl->sdl_len = sizeof(*sdl);
-#endf
+#endif
 		sdl->sdl_family = AF_LINK;
 		sdl->sdl_alen = ETH_ADDR_LEN;
 		memcpy(LLADDR(sdl), &a->addr_eth, ETH_ADDR_LEN);
