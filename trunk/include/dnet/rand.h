@@ -19,6 +19,7 @@ rand_t	*rand_open(void);
 
 int	 rand_get(rand_t *r, void *buf, size_t len);
 int	 rand_set(rand_t *r, const void *seed, size_t len);
+int	 rand_add(rand_t *r, const void *buf, size_t len);
 
 uint8_t	 rand_uint8(rand_t *r);
 uint16_t rand_uint16(rand_t *r);

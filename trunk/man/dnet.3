@@ -111,6 +111,8 @@
 .Fn rand_get "rand_t *r" "void *buf" "size_t len"
 .Ft int
 .Fn rand_set "rand_t *r" "const void *seed" "size_t len"
+.Ft int
+.Fn rand_add "rand_t *r" "const void *buf" "size_t len"
 .Ft uint8_t
 .Fn rand_uint8 "rand_t *r"
 .Ft uint16_t
@@ -474,10 +476,12 @@ closes the specified handle.
 .Ss Random number generation
 .Fn rand_open
 is used to obtain a handle for fast, cryptographically strong
-pseudo-random number generation, starting from a random seed.
+pseudo-random number generation. The starting seed is derived from the
+system random data source device (if one exists), or from the current
+time and random stack contents.
 .Pp
 .Fn rand_set
-initializes the PRNG to start from a known 
+re-initializes the PRNG to start from a known 
 .Fa seed
 value, useful in generating repeatable sequences.
 .Pp
@@ -486,6 +490,13 @@ writes
 .Fa len
 random bytes into
 .Fa buf .
+.Pp
+.Fn rand_add
+adds
+.Fa len
+bytes of entropy data from
+.Fa buf
+into the random mix.
 .Pp
 .Fn rand_uint8 ,
 .Fn rand_uint16 ,
