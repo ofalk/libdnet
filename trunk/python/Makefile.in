@@ -77,6 +77,7 @@ GCJFLAGS = @GCJFLAGS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
@@ -108,7 +109,7 @@ CONFIG_HEADER = ../include/config.h
 CONFIG_CLEAN_FILES =  setup.py
 SCRIPTS =  $(noinst_SCRIPTS)
 
-DIST_COMMON =  Makefile.am Makefile.in setup.py.in
+DIST_COMMON =  README Makefile.am Makefile.in setup.py.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -117,7 +118,7 @@ TAR = tar
 GZIP_ENV = --best
 all: all-redirect
 .SUFFIXES:
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) $(top_srcdir)/Makefile.am.common
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) $(top_srcdir)/Makefile.am.common
 	cd $(top_srcdir) && $(AUTOMAKE) --foreign python/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status

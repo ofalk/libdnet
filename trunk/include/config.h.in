@@ -57,6 +57,9 @@
 /* Define if you have the `ws2_32' library (-lws2_32). */
 #undef HAVE_LIBWS2_32
 
+/* Define if you have the <linux/if_tun.h> header file. */
+#undef HAVE_LINUX_IF_TUN_H
+
 /* Define if you have the <linux/ip_fwchains.h> header file. */
 #undef HAVE_LINUX_IP_FWCHAINS_H
 
@@ -102,6 +105,9 @@
 
 /* Define if you have the <net/if.h> header file. */
 #undef HAVE_NET_IF_H
+
+/* Define if you have the <net/if_tun.h> header file. */
+#undef HAVE_NET_IF_TUN_H
 
 /* Define if you have the <net/if_var.h> header file. */
 #undef HAVE_NET_IF_VAR_H
@@ -153,6 +159,9 @@
 
 /* Define if you have the `strlcpy' function. */
 #undef HAVE_STRLCPY
+
+/* Define if you have the <stropts.h> header file. */
+#undef HAVE_STROPTS_H
 
 /* Define if you have the `strsep' function. */
 #undef HAVE_STRSEP
