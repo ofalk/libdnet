@@ -762,12 +762,12 @@ closes the specified handle.
 .Ss Tunnel interface
 .Fn tun_open
 is used to obtain a handle to a network tunnel interface, to which
-packets destined for 
+IP packets destined for 
 .Fa dst
 are delivered (with source addresses rewritten to
 .Fa src
 ), where they may be read by a userland process and processed as
-desired. Packets written back to the handle are injected into the
+desired. IP packets written back to the handle are injected into the
 kernel networking subsystem.
 .Pp
 .Fn tun_fileno
