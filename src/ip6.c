@@ -25,7 +25,7 @@ ip6_checksum(void *buf, size_t len)
 	nxt = ip6->ip6_nxt;
 	
 	for (i = IP6_HDR_LEN; IP6_IS_EXT(nxt); i += (ext->ext_len + 1) << 3) {
-		if (i >= len) return;
+		if (i >= (int)len) return;
 		ext = (struct ip6_ext_hdr *)((u_char *)buf + i);
 		nxt = ext->ext_nxt;
 	}

@@ -128,7 +128,7 @@ route_msg(route_t *r, int type, struct addr *dst, struct addr *gw)
 	pid = getpid();
 	
 	while (type == RTM_GET && (len = read(r->fd, buf, sizeof(buf))) > 0) {
-		if (len < sizeof(*rtm)) {
+		if (len < (int)sizeof(*rtm)) {
 			return (-1);
 		}
 		if (rtm->rtm_type == type && rtm->rtm_pid == pid &&
@@ -356,7 +356,7 @@ route_loop(route_t *r, route_handler callback, void *arg)
 		if (msg.len >= sizeof(*tea) && tea->PRIM_type == T_ERROR_ACK)
 			return (-1);
 		
-		if (rc != MOREDATA || msg.len < sizeof(*toa) ||
+		if (rc != MOREDATA || msg.len < (int)sizeof(*toa) ||
 		    toa->PRIM_type != T_OPTMGMT_ACK ||
 		    toa->MGMT_flags != T_SUCCESS)
 			return (-1);

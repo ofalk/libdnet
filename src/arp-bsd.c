@@ -83,7 +83,7 @@ arp_msg(arp_t *arp, struct arpmsg *msg)
 	
 	/* XXX - should we only read RTM_GET responses here? */
 	while ((len = read(arp->fd, msg, sizeof(*msg))) > 0) {
-		if (len < sizeof(msg->rtm))
+		if (len < (int)sizeof(msg->rtm))
 			return (-1);
 
 		if (msg->rtm.rtm_pid == pid) {
@@ -133,7 +133,7 @@ arp_add(arp_t *arp, const struct arp_entry *entry)
 	if (arp_msg(arp, &msg) < 0)
 		return (-1);
 	
-	if (msg.rtm.rtm_msglen < sizeof(msg.rtm) +
+	if (msg.rtm.rtm_msglen < (int)sizeof(msg.rtm) +
 	    sizeof(*sin) + sizeof(*sa)) {
 		errno = EADDRNOTAVAIL;
 		return (-1);
@@ -197,7 +197,7 @@ arp_delete(arp_t *arp, const struct arp_entry *entry)
 	if (arp_msg(arp, &msg) < 0)
 		return (-1);
 	
-	if (msg.rtm.rtm_msglen < sizeof(msg.rtm) +
+	if (msg.rtm.rtm_msglen < (int)sizeof(msg.rtm) +
 	    sizeof(*sin) + sizeof(*sa)) {
 		errno = ESRCH;
 		return (-1);
@@ -244,7 +244,7 @@ arp_get(arp_t *arp, struct arp_entry *entry)
 	if (arp_msg(arp, &msg) < 0)
 		return (-1);
 	
-	if (msg.rtm.rtm_msglen < sizeof(msg.rtm) +
+	if (msg.rtm.rtm_msglen < (int)sizeof(msg.rtm) +
 	    sizeof(*sin) + sizeof(*sa) ||
 	    sin->sin_addr.s_addr != entry->arp_pa.addr_ip ||
 	    sa->sa_family != AF_LINK) {

@@ -6,6 +6,8 @@
  * $Id$
  */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -262,7 +264,7 @@ ip6_pton(const char *p, ip6_addr_t *ip6)
 			ep = ""; /* XXX */
 			break;
 		} else if (l >= 0 && l <= 0xffff) {
-			data[n] = (uint16_t)htons(l);
+			data[n] = htons((uint16_t)l);
 
 			if (ep[0] == '\0') {
 				n++;
