@@ -87,6 +87,9 @@
 /* Define if you have the <sys/ioctl.h> header file.  */
 #undef HAVE_SYS_IOCTL_H
 
+/* Define if you have the <sys/mib.h> header file.  */
+#undef HAVE_SYS_MIB_H
+
 /* Define if you have the <sys/sockio.h> header file.  */
 #undef HAVE_SYS_SOCKIO_H
 
@@ -98,6 +101,9 @@
 
 /* Define if you have the <unistd.h> header file.  */
 #undef HAVE_UNISTD_H
+
+/* Define if you have the nm library (-lnm).  */
+#undef HAVE_LIBNM
 
 /* Define if you have the resolv library (-lresolv).  */
 #undef HAVE_LIBRESOLV
