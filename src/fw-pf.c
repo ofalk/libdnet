@@ -165,6 +165,19 @@ pr_to_fr(const struct pf_rule *pr, struct fw_rule *fr)
 	return (0);
 }
 
+static int
+_fw_cmp(const struct fw_rule *a, const struct fw_rule *b)
+{
+	if (strcmp(a->fw_device, b->fw_device) != 0 || a->fw_op != b->fw_op ||
+	                a->fw_dir != b->fw_dir || a->fw_proto != b->fw_proto ||
+	    addr_cmp(&a->fw_src, &b->fw_src) != 0 ||
+	    addr_cmp(&a->fw_dst, &b->fw_dst) != 0 ||
+	    memcmp(a->fw_sport, b->fw_sport, sizeof(a->fw_sport)) != 0 ||
+	    memcmp(a->fw_dport, b->fw_dport, sizeof(a->fw_dport)) != 0)
+		return (-1);
+	return (0);
+}
+
 fw_t *
 fw_open(void)
 {
@@ -177,14 +190,35 @@ fw_open(void)
 	return (fw);
 }
 
+struct rule_nr {
+	const struct fw_rule *rule;
+	uint32_t	      nr;
+};
+
+static int
+_get_rule_nr(const struct fw_rule *rule, void *arg)
+{
+	struct rule_nr *rulenr = (struct rule_nr *)arg;
+
+	if (_fw_cmp(rule, rulenr->rule) == 0)
+		return (1);
+	rulenr->nr++;
+	return (0);
+}
+
 int
 fw_add(fw_t *fw, const struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
+	struct rule_nr rulenr = { rule, 0 };
 #ifdef DIOCBEGINADDRS
 	struct pfioc_pooladdr ppa;
 #endif
 	assert(fw != NULL && rule != NULL);
+	if (fw_loop(fw, _get_rule_nr, &rulenr) != 0) {
+		errno = EEXIST;
+		return (-1);
+	}
 	memset(&pcr, 0, sizeof(pcr));
 	fr_to_pr(rule, &pcr.newrule);
 #ifdef HAVE_PF_CHANGE_GET_TICKET
@@ -206,16 +240,22 @@ int
 fw_delete(fw_t *fw, const struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
+	struct rule_nr rulenr = { rule, 0 };
 #ifdef DIOCBEGINADDRS
 	struct pfioc_pooladdr ppa;
 #endif
 	assert(fw != NULL && rule != NULL);
+	if (fw_loop(fw, _get_rule_nr, &rulenr) != 1) {
+		errno = ENOENT;
+		return (-1);
+	}
 	memset(&pcr, 0, sizeof(pcr));
 	fr_to_pr(rule, &pcr.oldrule);
 #ifdef HAVE_PF_CHANGE_GET_TICKET
 	pcr.action = PF_CHANGE_GET_TICKET;
 	if (ioctl(fw->fd, DIOCCHANGERULE, &pcr) < 0)
 		return (-1);
+	pcr.nr = rulenr.nr;
 # ifdef DIOCBEGINADDRS
 	if (ioctl(fw->fd, DIOCBEGINADDRS, &ppa) < 0)
 		return (-1);
