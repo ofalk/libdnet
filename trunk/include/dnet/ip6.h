@@ -146,7 +146,6 @@ struct ip6_ext_hdr {
 	union {
 		struct ip6_ext_data_routing	routing;
 		struct ip6_ext_data_fragment	fragment;
-		uint8_t				data8 __flexarr;
 	} ext_data;
 } __attribute__((__packed__));
 
