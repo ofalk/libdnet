@@ -140,6 +140,8 @@
 .Fn rand_uint16 "rand_t *r"
 .Ft uint32_t
 .Fn rand_uint32 "rand_t *r"
+.Ft int
+.Fn rand_shuffle "rand_t *r" "void *base" "size_t nmemb" "size_t size"
 .Ft rand_t *
 .Fn rand_close "rand_t *r"
 .Ss Routing
@@ -653,6 +655,14 @@ into the random mix.
 and
 .Fn rand_uint32
 return 8, 16, and 32-bit unsigned random values, respectively.
+.Pp
+.Fn rand_shuffle
+randomly shuffles an array of
+.Fa nmemb
+elements of 
+.Fa size
+bytes, starting at
+.Fa base .
 .Pp
 .Fn rand_close
 closes the specified handle.

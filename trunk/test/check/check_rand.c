@@ -52,6 +52,20 @@ START_TEST(test_rand_set)
 }
 END_TEST
 
+START_TEST(test_rand_shuffle)
+{
+	rand_t *r;
+	char buf[BUFSIZ];
+
+#define SHUFFLE_TEXT	"hello how are you doing today?"
+	r = rand_open();
+	strcpy(buf, SHUFFLE_TEXT);
+	rand_shuffle(r, buf, strlen(buf), 1);
+	fail_unless(strcmp(buf, SHUFFLE_TEXT) != 0, "shuffle failed");
+	r = rand_close(r);
+}
+END_TEST
+	
 Suite *
 rand_suite(void)
 {
@@ -62,6 +76,7 @@ rand_suite(void)
 	tcase_add_test(tc_core, test_rand_openclose);
 	tcase_add_test(tc_core, test_rand_get);
 	tcase_add_test(tc_core, test_rand_set);
+	tcase_add_test(tc_core, test_rand_shuffle);
 	
 	return (s);
 }

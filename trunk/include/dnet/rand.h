@@ -25,6 +25,8 @@ uint8_t	 rand_uint8(rand_t *r);
 uint16_t rand_uint16(rand_t *r);
 uint32_t rand_uint32(rand_t *r);
 
+int	 rand_shuffle(rand_t *r, void *base, size_t nmemb, size_t size);
+
 rand_t	*rand_close(rand_t *r);
 __END_DECLS
 
