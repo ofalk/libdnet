@@ -53,45 +53,54 @@ rule_to_ipf(struct fw_rule *rule, struct frentry *fr)
 {
 	memset(fr, 0, sizeof(*fr));
 
-	if (*rule->device != '\0') {
-		strlcpy(fr->fr_ifname, rule->device, IFNAMSIZ);
-		strlcpy(fr->fr_oifname, rule->device, IFNAMSIZ);
+	if (*rule->fw_device != '\0') {
+		strlcpy(fr->fr_ifname, rule->fw_device, IFNAMSIZ);
+		strlcpy(fr->fr_oifname, rule->fw_device, IFNAMSIZ);
 	}
-	if (rule->op == FW_OP_ALLOW)
+	if (rule->fw_op == FW_OP_ALLOW)
 		fr->fr_flags |= FR_PASS;
 	else
 		fr->fr_flags |= FR_BLOCK;
+
+	if (rule->fw_dir == FW_DIR_IN)
+		fr->fr_flags |= FR_INQUE;
+	else
+		fr->fr_flags |= FR_OUTQUE;
 	
-	fr->fr_ip.fi_p = rule->proto;
+	fr->fr_ip.fi_p = rule->fw_proto;
 #ifdef HAVE_IP6ADDR
-	fr->fr_ip.fi_saddr = rule->src.addr_ip;
-	fr->fr_ip.fi_daddr = rule->dst.addr_ip;
-	addr_btom(rule->src.addr_bits, &fr->fr_mip.fi_saddr, IP_ADDR_LEN);
-	addr_btom(rule->dst.addr_bits, &fr->fr_mip.fi_daddr, IP_ADDR_LEN);
+	fr->fr_ip.fi_saddr = rule->fw_src.addr_ip;
+	fr->fr_ip.fi_daddr = rule->fw_dst.addr_ip;
+	addr_btom(rule->fw_src.addr_bits, &fr->fr_mip.fi_saddr, IP_ADDR_LEN);
+	addr_btom(rule->fw_dst.addr_bits, &fr->fr_mip.fi_daddr, IP_ADDR_LEN);
 #else
-	fr->fr_ip.fi_src.s_addr = rule->src.addr_ip;
-	fr->fr_ip.fi_dst.s_addr = rule->dst.addr_ip;
-	addr_btom(rule->src.addr_bits, &fr->fr_mip.fi_src.s_addr, IP_ADDR_LEN);
-	addr_btom(rule->dst.addr_bits, &fr->fr_mip.fi_dst.s_addr, IP_ADDR_LEN);
+	fr->fr_ip.fi_src.s_addr = rule->fw_src.addr_ip;
+	fr->fr_ip.fi_dst.s_addr = rule->fw_dst.addr_ip;
+	addr_btom(rule->fw_src.addr_bits, &fr->fr_mip.fi_src.s_addr,
+	    IP_ADDR_LEN);
+	addr_btom(rule->fw_dst.addr_bits, &fr->fr_mip.fi_dst.s_addr,
+	    IP_ADDR_LEN);
 #endif
-	switch (rule->proto) {
+	switch (rule->fw_proto) {
 	case IPPROTO_ICMP:
-		fr->fr_icmpm = rule->sport[1] << 8 | (rule->dport[1] & 0xff);
-		fr->fr_icmp = rule->sport[0] << 8 | (rule->dport[0] & 0xff);
+		fr->fr_icmpm = rule->fw_sport[1] << 8 |
+		    (rule->fw_dport[1] & 0xff);
+		fr->fr_icmp = rule->fw_sport[0] << 8 |
+		    (rule->fw_dport[0] & 0xff);
 		break;
 	case IPPROTO_TCP:
 	case IPPROTO_UDP:
-		fr->fr_sport = rule->sport[0];
-		if (rule->sport[0] != rule->sport[1]) {
+		fr->fr_sport = rule->fw_sport[0];
+		if (rule->fw_sport[0] != rule->fw_sport[1]) {
 			fr->fr_scmp = FR_INRANGE;
-			fr->fr_stop = rule->sport[1];
+			fr->fr_stop = rule->fw_sport[1];
 		} else
 			fr->fr_scmp = FR_EQUAL;
 
-		fr->fr_dport = rule->dport[0];
-		if (rule->dport[0] != rule->dport[1]) {
+		fr->fr_dport = rule->fw_dport[0];
+		if (rule->fw_dport[0] != rule->fw_dport[1]) {
 			fr->fr_dcmp = FR_INRANGE;
-			fr->fr_dtop = rule->dport[1];
+			fr->fr_dtop = rule->fw_dport[1];
 		} else
 			fr->fr_dcmp = FR_EQUAL;
 		break;
@@ -144,40 +153,40 @@ ipf_to_rule(struct frentry *fr, struct fw_rule *rule)
 {
 	memset(rule, 0, sizeof(*rule));
 
-	strlcpy(rule->device, fr->fr_ifname, sizeof(rule->device));
-	rule->op = (fr->fr_flags & FR_PASS) ? FW_OP_ALLOW : FW_OP_BLOCK;
-	rule->direction = (fr->fr_flags & FR_INQUE) ? FW_DIR_IN : FW_DIR_OUT;
-	rule->proto = fr->fr_ip.fi_p;
+	strlcpy(rule->fw_device, fr->fr_ifname, sizeof(rule->fw_device));
+	rule->fw_op = (fr->fr_flags & FR_PASS) ? FW_OP_ALLOW : FW_OP_BLOCK;
+	rule->fw_dir = (fr->fr_flags & FR_INQUE) ? FW_DIR_IN : FW_DIR_OUT;
+	rule->fw_proto = fr->fr_ip.fi_p;
 
-	rule->src.addr_type = rule->dst.addr_type = ADDR_TYPE_IP;
+	rule->fw_src.addr_type = rule->fw_dst.addr_type = ADDR_TYPE_IP;
 #ifdef HAVE_I6ADDR
-	rule->src.addr_ip = fr->fr_ip.fi_saddr;
-	rule->dst.addr_ip = fr->fr_ip.fi_daddr;
+	rule->fw_src.addr_ip = fr->fr_ip.fi_saddr;
+	rule->fw_dst.addr_ip = fr->fr_ip.fi_daddr;
 	addr_mtob(&fr->fr_mip.fi_saddr, IP_ADDR_LEN,
-	    &rule->src.addr_bits);
+	    &rule->fw_src.addr_bits);
 	addr_mtob(&fr->fr_mip.fi_daddr, IP_ADDR_LEN,
-	    &rule->dst.addr_bits);
+	    &rule->fw_dst.addr_bits);
 #else
-	rule->src.addr_ip = fr->fr_ip.fi_src.s_addr;
-	rule->dst.addr_ip = fr->fr_ip.fi_dst.s_addr;
+	rule->fw_src.addr_ip = fr->fr_ip.fi_src.s_addr;
+	rule->fw_dst.addr_ip = fr->fr_ip.fi_dst.s_addr;
 	addr_mtob(&fr->fr_mip.fi_src.s_addr, IP_ADDR_LEN,
-	    &rule->src.addr_bits);
+	    &rule->fw_src.addr_bits);
 	addr_mtob(&fr->fr_mip.fi_dst.s_addr, IP_ADDR_LEN,
-	    &rule->dst.addr_bits);
+	    &rule->fw_dst.addr_bits);
 #endif
-	switch (rule->proto) {
+	switch (rule->fw_proto) {
 	case IPPROTO_ICMP:
-		rule->sport[0] = ntohs(fr->fr_icmp & fr->fr_icmpm) >> 8;
-		rule->sport[1] = ntohs(fr->fr_icmpm) >> 8;
-		rule->dport[0] = ntohs(fr->fr_icmp & fr->fr_icmpm) & 0xff;
-		rule->dport[1] = ntohs(fr->fr_icmpm) & 0xff;
+		rule->fw_sport[0] = ntohs(fr->fr_icmp & fr->fr_icmpm) >> 8;
+		rule->fw_sport[1] = ntohs(fr->fr_icmpm) >> 8;
+		rule->fw_dport[0] = ntohs(fr->fr_icmp & fr->fr_icmpm) & 0xff;
+		rule->fw_dport[1] = ntohs(fr->fr_icmpm) & 0xff;
 		break;
 	case IPPROTO_TCP:
 	case IPPROTO_UDP:
 		ipf_ports_to_rule(fr->fr_scmp, fr->fr_sport,
-		    fr->fr_stop, rule->sport);
+		    fr->fr_stop, rule->fw_sport);
 		ipf_ports_to_rule(fr->fr_dcmp, fr->fr_dport,
-		    fr->fr_dtop, rule->dport);
+		    fr->fr_dtop, rule->fw_dport);
 		break;
 	}
 }
@@ -260,14 +269,16 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 #endif
 		return (-1);
 
-	for (frp = fio.f_fout[(int)fio.f_active]; frp != NULL; frp = fr.fr_next) {
+	for (frp = fio.f_fout[(int)fio.f_active]; frp != NULL;
+	    frp = fr.fr_next) {
 		if (fw_kcopy(fw, (u_char *)&fr, (u_long)frp, sizeof(fr)) < 0)
 			return (-1);
 		ipf_to_rule(&fr, &rule);
 		if ((ret = callback(&rule, arg)) != 0)
 			return (ret);
 	}
-	for (frp = fio.f_fin[(int)fio.f_active]; frp != NULL; frp = fr.fr_next) {
+	for (frp = fio.f_fin[(int)fio.f_active]; frp != NULL;
+	    frp = fr.fr_next) {
 		if (fw_kcopy(fw, (u_char *)&fr, (u_long)frp, sizeof(fr)) < 0)
 			return (-1);
 		ipf_to_rule(&fr, &rule);

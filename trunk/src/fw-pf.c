@@ -35,36 +35,38 @@ fr_to_pr(struct fw_rule *fr, struct pf_rule *pr)
 {
 	memset(pr, 0, sizeof(*pr));
 	
-	strlcpy(pr->ifname, fr->device, sizeof(pr->ifname));
+	strlcpy(pr->ifname, fr->fw_device, sizeof(pr->ifname));
 	
-	pr->action = (fr->op == FW_OP_ALLOW) ? PF_PASS : PF_DROP;
-	pr->direction = (fr->direction == FW_DIR_IN) ? PF_IN : PF_OUT;
-	pr->proto = fr->proto;
+	pr->action = (fr->fw_op == FW_OP_ALLOW) ? PF_PASS : PF_DROP;
+	pr->direction = (fr->fw_dir == FW_DIR_IN) ? PF_IN : PF_OUT;
+	pr->proto = fr->fw_proto;
 
-	pr->src.addr.v4.s_addr = fr->src.addr_ip;
-	addr_btom(fr->src.addr_bits, &pr->src.mask.v4.s_addr, IP_ADDR_LEN);
+	pr->src.addr.v4.s_addr = fr->fw_src.addr_ip;
+	addr_btom(fr->fw_src.addr_bits, &pr->src.mask.v4.s_addr, IP_ADDR_LEN);
 	
-	pr->dst.addr.v4.s_addr = fr->dst.addr_ip;
-	addr_btom(fr->dst.addr_bits, &pr->dst.mask.v4.s_addr, IP_ADDR_LEN);
+	pr->dst.addr.v4.s_addr = fr->fw_dst.addr_ip;
+	addr_btom(fr->fw_dst.addr_bits, &pr->dst.mask.v4.s_addr, IP_ADDR_LEN);
 	
-	switch (fr->proto) {
+	switch (fr->fw_proto) {
 	case IP_PROTO_ICMP:
-		if (fr->sport[1])
-			pr->type = (u_char)(fr->sport[0] & fr->sport[1]) + 1;
-		if (fr->dport[1])
-			pr->code = (u_char)(fr->dport[0] & fr->dport[1]) + 1;
+		if (fr->fw_sport[1])
+			pr->type = (u_char)(fr->fw_sport[0] &
+			    fr->fw_sport[1]) + 1;
+		if (fr->fw_dport[1])
+			pr->code = (u_char)(fr->fw_dport[0] &
+			    fr->fw_dport[1]) + 1;
 		break;
 	case IP_PROTO_TCP:
 	case IP_PROTO_UDP:
-		pr->src.port[0] = htons(fr->sport[0]);
-		pr->src.port[1] = htons(fr->sport[1]);
+		pr->src.port[0] = htons(fr->fw_sport[0]);
+		pr->src.port[1] = htons(fr->fw_sport[1]);
 		if (pr->src.port[0] == pr->src.port[1])
 			pr->src.port_op = PF_OP_EQ;
 		else
 			pr->src.port_op = PF_OP_IRG;
 
-		pr->dst.port[0] = htons(fr->dport[0]);
-		pr->dst.port[1] = htons(fr->dport[1]);
+		pr->dst.port[0] = htons(fr->fw_dport[0]);
+		pr->dst.port[1] = htons(fr->fw_dport[1]);
 		if (pr->dst.port[0] == pr->dst.port[1])
 			pr->dst.port_op = PF_OP_EQ;
 		else
@@ -78,48 +80,48 @@ pr_to_fr(struct pf_rule *pr, struct fw_rule *fr)
 {
 	memset(fr, 0, sizeof(*fr));
 	
-	strlcpy(fr->device, pr->ifname, sizeof(fr->device));
+	strlcpy(fr->fw_device, pr->ifname, sizeof(fr->fw_device));
 
 	if (pr->action == PF_DROP)
-		fr->op = FW_OP_BLOCK;
+		fr->fw_op = FW_OP_BLOCK;
 	else if (pr->action == PF_PASS)
-		fr->op = FW_OP_ALLOW;
+		fr->fw_op = FW_OP_ALLOW;
 	else
 		return (-1);
 	
-	fr->direction = pr->direction == PF_IN ? FW_DIR_IN : FW_DIR_OUT;
-	fr->proto = pr->proto;
+	fr->fw_dir = pr->direction == PF_IN ? FW_DIR_IN : FW_DIR_OUT;
+	fr->fw_proto = pr->proto;
 
-	fr->src.addr_type = ADDR_TYPE_IP;
-	addr_mtob(&pr->src.mask.v4.s_addr, IP_ADDR_LEN, &fr->src.addr_bits);
-	fr->src.addr_ip = pr->src.addr.v4.s_addr;
+	fr->fw_src.addr_type = ADDR_TYPE_IP;
+	addr_mtob(&pr->src.mask.v4.s_addr, IP_ADDR_LEN, &fr->fw_src.addr_bits);
+	fr->fw_src.addr_ip = pr->src.addr.v4.s_addr;
 	
- 	fr->dst.addr_type = ADDR_TYPE_IP;
-	addr_mtob(&pr->dst.mask.v4.s_addr, IP_ADDR_LEN, &fr->dst.addr_bits);
-	fr->dst.addr_ip = pr->dst.addr.v4.s_addr;
+ 	fr->fw_dst.addr_type = ADDR_TYPE_IP;
+	addr_mtob(&pr->dst.mask.v4.s_addr, IP_ADDR_LEN, &fr->fw_dst.addr_bits);
+	fr->fw_dst.addr_ip = pr->dst.addr.v4.s_addr;
 	
-	switch (fr->proto) {
+	switch (fr->fw_proto) {
 	case IP_PROTO_ICMP:
 		if (pr->type) {
-			fr->sport[0] = pr->type - 1;
-			fr->sport[1] = 0xff;
+			fr->fw_sport[0] = pr->type - 1;
+			fr->fw_sport[1] = 0xff;
 		}
 		if (pr->code) {
-			fr->dport[0] = pr->code - 1;
-			fr->dport[1] = 0xff;
+			fr->fw_dport[0] = pr->code - 1;
+			fr->fw_dport[1] = 0xff;
 		}
 		break;
 	case IP_PROTO_TCP:
 	case IP_PROTO_UDP:
-		fr->sport[0] = ntohs(pr->src.port[0]);
-		fr->sport[1] = ntohs(pr->src.port[1]);
+		fr->fw_sport[0] = ntohs(pr->src.port[0]);
+		fr->fw_sport[1] = ntohs(pr->src.port[1]);
 		if (pr->src.port_op == PF_OP_EQ)
-			fr->sport[1] = fr->sport[0];
+			fr->fw_sport[1] = fr->fw_sport[0];
 
-		fr->dport[0] = ntohs(pr->dst.port[0]);
-		fr->dport[1] = ntohs(pr->dst.port[1]);
+		fr->fw_dport[0] = ntohs(pr->dst.port[0]);
+		fr->fw_dport[1] = ntohs(pr->dst.port[1]);
 		if (pr->dst.port_op == PF_OP_EQ)
-			fr->dport[1] = fr->dport[0];
+			fr->fw_dport[1] = fr->fw_dport[0];
 	}
 	return (0);
 }
