@@ -1,0 +1,14 @@
+## $Id$
+
+include $(top_srcdir)/Makefile.am.common
+
+sbin_PROGRAMS = dnet
+
+dnet_SOURCES = addr.c arp.c aton.c aton.h dnet.c eth.c fw.c hex.c \
+	icmp.c intf.c ip.c mod.h route.c send.c tcp.c udp.c
+
+man_MANS = dnet.8
+
+EXTRA_DIST = $(man_MANS)
+
+LDADD = $(top_srcdir)/src/libdnet.a
