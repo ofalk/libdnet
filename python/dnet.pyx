@@ -1079,9 +1079,9 @@ cdef extern from *:
     int     rand_get(rand_t *rand, char *buf, int len)
     int     rand_set(rand_t *rand, char *seed, int len)
     int     rand_add(rand_t *rand, char *buf, int len)
-    int     rand_uint8(rand_t *rand)
-    int     rand_uint16(rand_t *rand)
-    int     rand_uint32(rand_t *rand)
+    unsigned int     rand_uint8(rand_t *rand)
+    unsigned int     rand_uint16(rand_t *rand)
+    unsigned long     rand_uint32(rand_t *rand)
     rand_t *rand_close(rand_t *rand)
 
 cdef class rand:
