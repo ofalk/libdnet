@@ -16,15 +16,15 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "aton.h"
 #include "dnet.h"
-#include "dnet-int.h"
+#include "mod.h"
 
 void
-eth_usage(int die)
+eth_usage(void)
 {
 	fprintf(stderr, "Usage: dnet eth [type|src|dst <value>] ... \n");
-	if (die)
-		exit(1);
+	exit(1);
 }
 
 int
@@ -40,32 +40,32 @@ eth_main(int argc, char *argv[])
 	memset(eth, 0, sizeof(*eth));
 	eth->eth_type = htons(ETH_TYPE_IP);
 
-	for (c = 0; c + 1 < argc; c += 2) {
+	for (c = 1; c + 1 < argc; c += 2) {
 		name = argv[c];
 		value = argv[c + 1];
 
 		if (strcmp(name, "type") == 0) {
 			if (type_aton(value, &eth->eth_type) < 0)
-				eth_usage(1);
+				eth_usage();
 		} else if (strcmp(name, "src") == 0) {
 			if (addr_aton(value, &addr) < 0)
-				eth_usage(1);
+				eth_usage();
 			memcpy(&eth->eth_src, &addr.addr_eth, ETH_ADDR_LEN);
 		} else if (strcmp(name, "dst") == 0) {
 			if (addr_aton(value, &addr) < 0)
-				eth_usage(1);
+				eth_usage();
 			memcpy(&eth->eth_dst, &addr.addr_eth, ETH_ADDR_LEN);
 		} else
-			eth_usage(1);
+			eth_usage();
 	}
 	argc -= c;
 	argv += c;
 
 	if (argc != 0)
-		eth_usage(1);
+		eth_usage();
 	
 	if (isatty(STDIN_FILENO))
-		err(1, "can't read Ethernet payload from tty");
+		errx(1, "can't read Ethernet payload from tty");
 	
 	p = buf + ETH_HDR_LEN;
 	len = sizeof(buf) - (p - buf);
@@ -81,3 +81,9 @@ eth_main(int argc, char *argv[])
 	
 	return (0);
 }
+
+struct mod mod_eth = {
+	"eth",
+	MOD_TYPE_ENCAP,
+	eth_main
+};

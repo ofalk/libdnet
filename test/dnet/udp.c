@@ -17,15 +17,15 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "aton.h"
 #include "dnet.h"
-#include "dnet-int.h"
+#include "mod.h"
 
 void
-udp_usage(int die)
+udp_usage(void)
 {
 	fprintf(stderr, "Usage: dnet udp [sport|dport <value>] ...\n");
-	if (die)
-		exit(1);
+	exit(1);
 }
 
 int
@@ -44,24 +44,24 @@ udp_main(int argc, char *argv[])
 	udp->uh_sport = rand() & 0xffff;
 	udp->uh_dport = rand() & 0xffff;
 	
-	for (c = 0; c + 1 < argc; c += 2) {
+	for (c = 1; c + 1 < argc; c += 2) {
 		name = argv[c];
 		value = argv[c + 1];
 
 		if (strcmp(name, "sport") == 0) {
 			if (port_aton(value, &udp->uh_sport) < 0)
-				udp_usage(1);
+				udp_usage();
 		} else if (strcmp(name, "dport") == 0) {
 			if (port_aton(value, &udp->uh_dport) < 0)
-				udp_usage(1);
+				udp_usage();
 		} else
-			udp_usage(1);
+			udp_usage();
 	}
 	argc -= c;
 	argv += c;
 
 	if (argc != 0)
-		udp_usage(1);
+		udp_usage();
 
 	p = buf + UDP_HDR_LEN;
 	
@@ -80,3 +80,9 @@ udp_main(int argc, char *argv[])
 
 	return (0);
 }
+
+struct mod mod_udp = {
+	"udp",
+	MOD_TYPE_ENCAP,
+	udp_main
+};

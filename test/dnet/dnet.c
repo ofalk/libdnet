@@ -17,50 +17,80 @@
 #include <unistd.h>
 
 #include "dnet.h"
-#include "dnet-int.h"
+#include "mod.h"
 
-struct module {
-	char	 *name;
-	void	(*usage)(int die);
-	int	(*main)(int argc, char *argv[]);
-};
+/*
+ * XXX - new modules should be registered here
+ */
+extern struct mod mod_addr;
+extern struct mod mod_hex;
+extern struct mod mod_eth;
+extern struct mod mod_arp;
+extern struct mod mod_ip;
+extern struct mod mod_icmp;
+extern struct mod mod_tcp;
+extern struct mod mod_udp;
+extern struct mod mod_send;
+extern struct mod mod_fw;
+extern struct mod mod_intf;
+extern struct mod mod_route;
 
-static struct module dnet_modules[] = {
-	{ "addr",	addr_usage,	addr_main },
-	{ "hex",	hex_usage,	hex_main },
-	{ "eth",	eth_usage,	eth_main },
-	{ "arp",	arp_usage,	arp_main },
-	{ "ip",		ip_usage,	ip_main },
-	{ "icmp",	icmp_usage,	icmp_main },
-	{ "tcp",	tcp_usage,	tcp_main },
-	{ "udp",	udp_usage,	udp_main },
-	{ "send",	send_usage,	send_main },
-	{ NULL,		NULL,		NULL }
+static struct mod *modules[] = {
+	&mod_addr, &mod_hex, &mod_eth, &mod_arp, &mod_ip, &mod_icmp,
+	&mod_tcp, &mod_udp, &mod_send, &mod_fw, &mod_intf, &mod_route,
+	NULL
 };
 
 static void
-usage(void)
+print_modules(int type, char *string)
 {
-	struct module *m;
+	struct mod **m;
+	int i;
+	
+	fprintf(stderr, "%s commands:\n", string);
+	for (i = 1, m = modules; *m != NULL; m++) {
+		if ((m[0]->type & type) != 0) {
+			fprintf(stderr, "%-10s", m[0]->name);
+			if ((i++ % 8) == 0)
+				fprintf(stderr, "\n");
+		}
+	}
+	fprintf(stderr, "\n\n");
+}
 
-	for (m = dnet_modules; m->name != NULL; m++)
-		m->usage(0);
-	exit(1);
+static void
+print_usage(void)
+{
+	fprintf(stderr, "Usage: dnet <command> <args> ...\n\n");
+
+	print_modules(MOD_TYPE_DATA, "Payload generation");
+	print_modules(MOD_TYPE_ENCAP, "Packet encapsulation");
+	print_modules(MOD_TYPE_XMIT, "Packet transmission");
+	print_modules(MOD_TYPE_KERN, "Kernel interface");
+}
+
+static int
+do_command(int argc, char *argv[])
+{
+	struct mod **m;
+
+	for (m = modules; *m != NULL; m++) {
+		if (strcmp(argv[0], m[0]->name) == 0)
+			return (m[0]->main(argc, argv));
+	}
+	return (-1);
 }
 
 int
 main(int argc, char *argv[])
 {
-	struct module *m;
-	
-	if (argc < 2)
-		usage();
-
-	for (m = dnet_modules; m->name != NULL; m++) {
-		if (strcmp(argv[1], m->name) == 0)
-			return (m->main(argc - 2, argv + 2));
+	if (argc < 2) {
+		print_usage();
+		exit(1);
 	}
-	usage();
-	
-	exit(1);
+	if (do_command(argc - 1, argv + 1) < 0) {
+		print_usage();
+		exit(1);
+	}
+	exit(0);
 }

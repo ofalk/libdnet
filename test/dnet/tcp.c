@@ -17,16 +17,16 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "aton.h"
 #include "dnet.h"
-#include "dnet-int.h"
+#include "mod.h"
 
 void
-tcp_usage(int die)
+tcp_usage(void)
 {
 	fprintf(stderr, "Usage: dnet tcp [sport|dport|flags|seq|ack|"
 	    "win|urp <value>] ...\n");
-	if (die)
-		exit(1);
+	exit(1);
 }
 
 int
@@ -51,39 +51,39 @@ tcp_main(int argc, char *argv[])
 	tcp->th_win = TCP_WIN_MAX;
 	tcp->th_urp = 0;
 
-	for (c = 0; c + 1 < argc; c += 2) {
+	for (c = 1; c + 1 < argc; c += 2) {
 		name = argv[c];
 		value = argv[c + 1];
 		
 		if (strcmp(name, "sport") == 0) {
 			if (port_aton(value, &tcp->th_sport) < 0)
-				tcp_usage(1);
+				tcp_usage();
 		} else if (strcmp(name, "dport") == 0) {
 			if (port_aton(value, &tcp->th_dport) < 0)
-				tcp_usage(1);
+				tcp_usage();
 		} else if (strcmp(name, "flags") == 0) {
 			if (flags_aton(value, &tcp->th_flags) < 0)
-				tcp_usage(1);
+				tcp_usage();
 		} else if (strcmp(name, "seq") == 0) {
 			if (seq_aton(value, &tcp->th_seq) < 0)
-				tcp_usage(1);
+				tcp_usage();
 		} else if (strcmp(name, "ack") == 0) {
 			if (seq_aton(value, &tcp->th_ack) < 0)
-				tcp_usage(1);
+				tcp_usage();
 		} else if (strcmp(name, "win") == 0) {
 			if (port_aton(value, &tcp->th_win) < 0)
-				tcp_usage(1);
+				tcp_usage();
 		} else if (strcmp(name, "urp") == 0) {
 			if (port_aton(value, &tcp->th_urp) < 0)
-				tcp_usage(1);
+				tcp_usage();
 		} else
-			tcp_usage(1);
+			tcp_usage();
 	}
 	argc -= c;
 	argv += c;
 	
 	if (argc != 0)
-		tcp_usage(1);
+		tcp_usage();
 
 	p = buf + TCP_HDR_LEN;
 	
@@ -101,3 +101,9 @@ tcp_main(int argc, char *argv[])
 
 	return (0);
 }
+
+struct mod mod_tcp = {
+	"tcp",
+	MOD_TYPE_ENCAP,
+	&tcp_main
+};

@@ -17,16 +17,16 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "aton.h"
 #include "dnet.h"
-#include "dnet-int.h"
+#include "mod.h"
 
 void
-ip_usage(int die)
+ip_usage(void)
 {
 	fprintf(stderr, "Usage: dnet ip [tos|id|off|ttl|proto|src|dst "
 	    "<value>] ... \n");
-	if (die)
-		exit(1);
+	exit(1);
 }
 
 int
@@ -47,12 +47,12 @@ ip_main(int argc, char *argv[])
 	ip->ip_id = rand() & 0xffff;
 	ip->ip_off = 0;
 	ip->ip_ttl = IP_TTL_MAX;
-	ip->ip_p = IP_PROTO_IP;
+	ip->ip_p = rand() & 0xff;
 	ip->ip_sum = 0;
 	ip->ip_src = rand();
 	ip->ip_dst = rand();
 
-	for (c = 0; c + 1 < argc; c += 2) {
+	for (c = 1; c + 1 < argc; c += 2) {
 		name = argv[c];
 		value = argv[c + 1];
 		
@@ -62,31 +62,31 @@ ip_main(int argc, char *argv[])
 			ip->ip_id = ntohs(atoi(value));
 		else if (strcmp(name, "off") == 0) {
 			if (off_aton(value, &ip->ip_off) < 0)
-				ip_usage(1);
+				ip_usage();
 		} else if (strcmp(name, "ttl") == 0)
 			ip->ip_ttl = atoi(value);
 		else if (strcmp(name, "proto") == 0) {
 			if (proto_aton(value, &ip->ip_p) < 0)
-				ip_usage(1);
+				ip_usage();
 		} else if (strcmp(name, "src") == 0) {
 			if (addr_aton(value, &addr) < 0)
-				ip_usage(1);
+				ip_usage();
 			ip->ip_src = addr.addr_ip;
 		} else if (strcmp(name, "dst") == 0) {
 			if (addr_aton(value, &addr) < 0)
-				ip_usage(1);
+				ip_usage();
 			ip->ip_dst = addr.addr_ip;
 		} else
-			ip_usage(1);
+			ip_usage();
 	}
 	argc -= c;
 	argv += c;
 	
 	if (argc != 0)
-		ip_usage(1);
+		ip_usage();
 	
 	if (isatty(STDIN_FILENO))
-		err(1, "can't read IP payload from tty");
+		errx(1, "can't read IP payload from tty");
 	
 	p = buf + IP_HDR_LEN;
 	len = sizeof(buf) - (p - buf);
@@ -106,3 +106,9 @@ ip_main(int argc, char *argv[])
 
 	return (0);
 }
+
+struct mod mod_ip = {
+	"ip",
+	MOD_TYPE_ENCAP,
+	ip_main
+};

@@ -17,23 +17,21 @@
 #include <unistd.h>
 
 #include "dnet.h"
-#include "dnet-int.h"
+#include "aton.h"
 
 int
 type_aton(char *string, uint16_t *type)
 {
-	long l;
-	char *p;
+	u_int i;
 
 	if (strcmp(string, "ip") == 0)
 		*type = htons(ETH_TYPE_IP);
 	else if (strcmp(string, "arp") == 0)
 		*type = htons(ETH_TYPE_ARP);
 	else {
-		l = strtol(string, &p, 10);
-		if (*string == '\0' || *p != '\0' || l > 0xffff)
+		if (sscanf(string, "%i", &i) != 1 || i > 0xffff)
 			return (-1);
-		*type = htons(l & 0xffff);
+		*type = htons(i & 0xffff);
 	}
 	return (0);
 }
@@ -41,8 +39,7 @@ type_aton(char *string, uint16_t *type)
 int
 op_aton(char *string, uint16_t *op)
 {
-	long l;
-	char *p;
+	u_int i;
 
 	if (strncasecmp(string, "req", 3) == 0)
 		*op = htons(ARP_OP_REQUEST);
@@ -53,10 +50,9 @@ op_aton(char *string, uint16_t *op)
 	else if (strncasecmp(string, "revrep", 6) == 0)
 		*op = htons(ARP_OP_REVREPLY);
 	else {
-		l = strtol(string, &p, 10);
-		if (*string == '\0' || *p != '\0' || l > 0xffff)
+		if (sscanf(string, "%i", &i) != 1 || i > 0xffff)
 			return (-1);
-		*op = htons(l & 0xffff);
+		*op = htons(i & 0xffff);
 	}
 	return (0);
 }
@@ -65,16 +61,14 @@ int
 proto_aton(char *string, uint8_t *proto)
 {
 	struct protoent *pp;
-	long l;
-	char *p;
+	u_int i;
 	
 	if ((pp = getprotobyname(string)) != NULL)
 		*proto = pp->p_proto;
 	else {
-		l = strtol(string, &p, 10);
-		if (*string == '\0' || *p != '\0' || l > 0xffff)
+		if (sscanf(string, "%i", &i) != 1 || i > 0xff)
 			return (-1);
-		*proto = l & 0xff;
+		*proto = i & 0xff;
 	}
 	return (0);
 }
@@ -103,19 +97,17 @@ int
 port_aton(char *string, uint16_t *port)
 {
 	struct servent *sp;
-	long l;
-	char *p;
-
+	u_int i;
+	
 	/* XXX */
 	if ((sp = getservbyname(string, "tcp")) != NULL) {
 		*port = sp->s_port;
 	} else if ((sp = getservbyname(string, "udp")) != NULL) {
 		*port = sp->s_port;
 	} else {
-		l = strtol(string, &p, 10);
-		if (*string == '\0' || *p != '\0' || l > 0xffff)
+		if (sscanf(string, "%i", &i) != 1 || i > 0xffff)
 			return (-1);
-		*port = htons(l & 0xffff);
+		*port = htons(i & 0xffff);
 	}
 	return (0);
 }
@@ -136,9 +128,17 @@ int
 flags_aton(char *string, uint8_t *flags)
 {
 	char *p;
+	u_int i;
 
 	*flags = 0;
 	
+	if (strncmp(string, "0x", 2) == 0) {
+		if (sscanf(string, "%i", &i) != 1 || i > 0xff)
+			return (-1);
+		*flags = i & 0xff;
+		
+		return (0);
+	}
 	for (p = string; *p != '\0'; p++) {
 		switch (*p) {
 		case 'S':
