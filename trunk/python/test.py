@@ -145,7 +145,8 @@ class FwTestCase(unittest.TestCase):
 
     def test_fw_loop(self):
         assert self.fw.loop(self.__fw_cb, 0) == 0
-        assert self.fw.loop(self.__fw_cb, 123) == 123
+        # XXX - no guarantee of existing fw rules.
+        #assert self.fw.loop(self.__fw_cb, 123) == 123
 
 class IntfTestCase(unittest.TestCase):
     def setUp(self):
@@ -215,7 +216,7 @@ class RouteTestCase(unittest.TestCase):
         del self.route
 
     def test_route(self):
-        dst = dnet.addr('1.2.3.4')
+        dst = dnet.addr('1.2.3.4/24')
         gw = dnet.addr('127.0.0.1')
         self.route.add(dst, gw)
         self.failUnless(self.route.get(dst) == gw)
