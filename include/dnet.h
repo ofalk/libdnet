@@ -22,5 +22,6 @@
 #include <dnet/intf.h>
 #include <dnet/route.h>
 #include <dnet/fw.h>
+#include <dnet/rand.h>
 
 #endif /* DNET_H */
