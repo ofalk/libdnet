@@ -480,13 +480,16 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 		strlcpy(entry->intf_name, p, sizeof(entry->intf_name));
 		entry->intf_len = sizeof(ebuf);
 		
-		if (_intf_get_noalias(intf, entry) < 0)
-			return (-1);
-		if (_intf_get_aliases(intf, entry) < 0)
-			return (-1);
-		
+		if (_intf_get_noalias(intf, entry) < 0) {
+			ret = -1;
+			break;
+		}
+		if (_intf_get_aliases(intf, entry) < 0) {
+			ret = -1;
+			break;
+		}
 		if ((ret = (*callback)(entry, arg)) != 0)
-			return (ret);
+			break;
 	}
 	if (ferror(fp))
 		ret = -1;
