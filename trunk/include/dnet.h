@@ -9,9 +9,6 @@
 #ifndef DNET_H
 #define DNET_H
 
-#include <sys/types.h>
-#include <sys/socket.h>
-
 #include <dnet/os.h>
 
 #include <dnet/eth.h>
