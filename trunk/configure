@@ -2743,7 +2743,9 @@ EOF
     fi
 fi
 
-if test "$ac_cv_dnet_ioctl_arp" = yes ; then
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+	LIBOBJS="$LIBOBJS arp-win32.o"
+elif test "$ac_cv_dnet_ioctl_arp" = yes ; then
 	LIBOBJS="$LIBOBJS arp-ioctl.o"
 elif test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
 	LIBOBJS="$LIBOBJS arp-bsd.o"
