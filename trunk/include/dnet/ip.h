@@ -236,12 +236,21 @@ struct ip_opt {
 #define IP_ADDR_MCAST_ALL	(htonl(0xe0000001))	/* 224.0.0.1 */
 #define IP_ADDR_MCAST_LOCAL	(htonl(0xe00000ff))	/* 224.0.0.225 */
 
+#define ip_fill_hdr(hdr, tos, len, id, off, ttl, p, src, dst) do {	\
+	struct ip_hdr *ip_fill_p = (struct ip_hdr *)(hdr);		\
+	ip_fill_p->ip_v = 4; ip_fill_p->ip_hl = 5;			\
+	ip_fill_p->ip_tos = tos; ip_fill_p->ip_len = htons(len);	\
+ 	ip_fill_p->ip_id = htons(id); ip_fill_p->ip_off = htons(off);	\
+	ip_fill_p->ip_ttl = ttl; ip_fill_p->ip_p = p;			\
+	ip_fill_p->ip_src = src; ip_fill_p->ip_dst = dst;		\
+} while (0)
+
 typedef struct ip_handle ip_t;
 
 __BEGIN_DECLS
 ip_t	*ip_open(void);
 size_t	 ip_send(ip_t *i, const void *buf, size_t len);
-int	 ip_close(ip_t *i);
+ip_t	*ip_close(ip_t *i);
 
 char	*ip_ntoa(const ip_addr_t *ip);
 int	 ip_aton(const char *src, ip_addr_t *dst);
@@ -253,15 +262,6 @@ void	 ip_checksum(void *buf, size_t len);
 int	 ip_cksum_add(const void *buf, size_t len, int cksum);
 #define	 ip_cksum_carry(x) \
 	    (x = (x >> 16) + (x & 0xffff), (~(x + (x >> 16)) & 0xffff))
-
-#define ip_fill_hdr(hdr, tos, len, id, off, ttl, p, src, dst) do {	\
-	struct ip_hdr *ip_fill_p = (struct ip_hdr *)(hdr);		\
-	ip_fill_p->ip_v = 4; ip_fill_p->ip_hl = 5;			\
-	ip_fill_p->ip_tos = tos; ip_fill_p->ip_len = htons(len);	\
- 	ip_fill_p->ip_id = htons(id); ip_fill_p->ip_off = htons(off);	\
-	ip_fill_p->ip_ttl = ttl; ip_fill_p->ip_p = p;			\
-	ip_fill_p->ip_src = src; ip_fill_p->ip_dst = dst;		\
-} while (0)
 __END_DECLS
 
 #endif /* DNET_IP_H */
