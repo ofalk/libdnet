@@ -28,27 +28,36 @@
 
 /*
  * XXX - cope with moving pf API
- *     $OpenBSD: pfvar.h,v 1.130 2003/01/09 10:40:45 cedric Exp $
- *     $OpenBSD: pfvar.h,v 1.102 2002/11/23 05:16:58 mcbride Exp $
- *     $OpenBSD: pfvar.h,v 1.68 2002/04/24 18:10:25 dhartmei Exp $
  */
 #if defined(DIOCRINABEGIN)
+/* OpenBSD 3.3 */
+/*     $OpenBSD: pfvar.h,v 1.130 2003/01/09 10:40:45 cedric Exp $ */
+/*     $OpenBSD: pfvar.h,v 1.127 2003/01/05 22:14:23 dhartmei Exp $ */
 # define PFRA_ADDR(ra)	(ra)->addr.v.a.addr.v4.s_addr
 # define PFRA_MASK(ra)	(ra)->addr.v.a.mask.v4.s_addr
 # define pfioc_changerule	pfioc_rule
 # define oldrule	rule
 # define newrule	rule
+/*     $OpenBSD: pfvar.h,v 1.112 2002/12/17 12:30:13 mcbride Exp $ */
+# define HAVE_PF_CHANGE_GET_TICKET	1
 #elif defined(DIOCBEGINADDRS)
+/*     $OpenBSD: pfvar.h,v 1.102 2002/11/23 05:16:58 mcbride Exp $ */
 # define PFRA_ADDR(ra)	(ra)->addr.addr.v4.s_addr
 # define PFRA_MASK(ra)	(ra)->addr.mask.v4.s_addr
 #elif defined(PFRULE_FRAGMENT)
 /* OpenBSD 3.2 */
+/*     $OpenBSD: pfvar.h,v 1.68 2002/04/24 18:10:25 dhartmei Exp $ */
 # define PFRA_ADDR(ra)	(ra)->addr.addr.v4.s_addr
 # define PFRA_MASK(ra)	(ra)->mask.v4.s_addr
-#else
+#elif defined (PF_AEQ)
 /* OpenBSD 3.1 */
+/*     $OpenBSD: pfvar.h,v 1.51 2001/09/15 03:54:40 frantzen Exp $ */
 # define PFRA_ADDR(ra)	(ra)->addr.v4.s_addr
 # define PFRA_MASK(ra)	(ra)->mask.v4.s_addr
+#else
+/* OpenBSD 3.0 */
+# define PFRA_ADDR(ra)	(ra)->addr
+# define PFRA_ADDR(ra)	(ra)->mask
 #endif
 
 struct fw_handle {
@@ -177,7 +186,7 @@ fw_add(fw_t *fw, const struct fw_rule *rule)
 	assert(fw != NULL && rule != NULL);
 	memset(&pcr, 0, sizeof(pcr));
 	fr_to_pr(rule, &pcr.newrule);
-#ifdef PF_CHANGE_GET_TICKET
+#ifdef HAVE_PF_CHANGE_GET_TICKET
 	pcr.action = PF_CHANGE_GET_TICKET;
 	if (ioctl(fw->fd, DIOCCHANGERULE, &pcr) < 0)
 		return (-1);
@@ -195,7 +204,7 @@ fw_delete(fw_t *fw, const struct fw_rule *rule)
 	assert(fw != NULL && rule != NULL);
 	memset(&pcr, 0, sizeof(pcr));
 	fr_to_pr(rule, &pcr.oldrule);
-#ifdef PF_CHANGE_GET_TICKET
+#ifdef HAVE_PF_CHANGE_GET_TICKET
 	pcr.action = PF_CHANGE_GET_TICKET;
 	if (ioctl(fw->fd, DIOCCHANGERULE, &pcr) < 0)
 		return (-1);
