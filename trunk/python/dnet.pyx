@@ -8,8 +8,8 @@
 This module provides a simplified interface to several low-level
 networking routines, including network address manipulation, kernel
 arp(4) cache and route(4) table lookup and manipulation, network
-firewalling, network interface lookup and manipulation, and raw IP
-packet and Ethernet frame transmission.
+firewalling, network interface lookup and manipulation, IP tunnelling,
+and raw IP packet and Ethernet frame transmission.
 """
 
 __author__ = 'Dug Song <dugsong@monkey.org>'
@@ -1433,7 +1433,7 @@ cdef extern from *:
     tun_t *tun_close(tun_t *tun)
 
 cdef class tun:
-    """tun(src, dst, mtu) -> Network tunnel interface handle
+    """tun(src, dst[, mtu]) -> Network tunnel interface handle
     
     Obtain a handle to a network tunnel interface, to which packets
     destined for dst are delivered (with source addresses rewritten to
@@ -1445,7 +1445,7 @@ cdef class tun:
     cdef char *buf
     cdef int mtu
 
-    def __init__(self, addr src, addr dst, mtu):
+    def __init__(self, addr src, addr dst, mtu=1500):
         self.tun = tun_open(&src._addr, &dst._addr, mtu)
         self.mtu = mtu
         if not self.tun:
