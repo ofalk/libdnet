@@ -11,8 +11,8 @@
 #include "config.h"
 
 #include <sys/types.h>
-#include <sys/socket.h>
 #ifdef HAVE_NET_IF_H
+# include <sys/socket.h>
 # include <net/if.h>
 #endif
 #ifdef HAVE_NET_IF_DL_H
@@ -21,7 +21,6 @@
 #ifdef HAVE_NET_RAW_H
 # include <net/raw.h>
 #endif
-#include <netinet/in.h>
 
 #include <ctype.h>
 #include <errno.h>
