@@ -56,7 +56,6 @@
 
 struct route_handle {
 	int	fd;
-	pid_t	pid;
 	int	seq;
 #ifdef HAVE_STREAMS_MIB2
 	int	ip_fd;
@@ -79,6 +78,7 @@ route_msg(route_t *r, int type, struct addr *dst, struct addr *gw)
 	struct rt_msghdr *rtm;
 	struct sockaddr *sa;
 	u_char buf[BUFSIZ];
+	pid_t pid;
 	int len;
 
 	memset(buf, 0, sizeof(buf));
@@ -88,7 +88,6 @@ route_msg(route_t *r, int type, struct addr *dst, struct addr *gw)
 	if ((rtm->rtm_type = type) != RTM_DELETE)
 		rtm->rtm_flags = RTF_UP;
 	rtm->rtm_addrs = RTA_DST;
-	rtm->rtm_pid = r->pid;
 	rtm->rtm_seq = ++r->seq;
 
 	/* Destination */
@@ -124,12 +123,14 @@ route_msg(route_t *r, int type, struct addr *dst, struct addr *gw)
 #else
 	if (write(r->fd, buf, rtm->rtm_msglen) < 0)
 		return (-1);
+
+	pid = getpid();
 	
 	while (type == RTM_GET && (len = read(r->fd, buf, sizeof(buf))) > 0) {
 		if (len < sizeof(*rtm)) {
 			return (-1);
 		}
-		if (rtm->rtm_type == type && rtm->rtm_pid == r->pid &&
+		if (rtm->rtm_type == type && rtm->rtm_pid == pid &&
 		    rtm->rtm_seq == r->seq) {
 			if (rtm->rtm_errno) {
 				errno = rtm->rtm_errno;
@@ -170,9 +171,6 @@ route_open(void)
 	if ((r->ip_fd = open(IP_DEV_NAME, O_RDWR)) < 0)
 		return (route_close(r));
 #endif
-	r->pid = getpid();
-	r->seq = 0;
-	
 	return (r);
 }
 
