@@ -111,6 +111,10 @@ _lookup_ip_intf(ip_t *ip, ip_addr_t dst)
 				if ((ipi->eth = eth_open(ipi->name)) == NULL)
 					return (NULL);
 			}
+			if (ipi != LIST_FIRST(&ip->ip_intf_list)) {
+				LIST_REMOVE(ipi, next);
+				LIST_INSERT_HEAD(&ip->ip_intf_list, ipi, next);
+			}
 			return (ipi);
 		}
 	}
