@@ -49,6 +49,7 @@ tun_open(struct addr *src, struct addr *dst, int mtu)
 		if ((tun->fd = open(dev, O_RDWR, 0)) != -1 &&
 		    intf_get(tun->intf, &tun->save) == 0) {
 			ifent.intf_flags = INTF_FLAG_UP|INTF_FLAG_POINTOPOINT;
+			// XXX - need to use dst netmask for interface netmask
 			ifent.intf_addr = *src;
 			ifent.intf_dst_addr = *dst;	
 			ifent.intf_mtu = mtu;
@@ -75,13 +76,13 @@ tun_fileno(tun_t *tun)
 	return (tun->fd);
 }
 
-size_t
+ssize_t
 tun_send(tun_t *tun, const void *buf, size_t size)
 {
 	return (write(tun->fd, buf, size));
 }
 
-size_t
+ssize_t
 tun_recv(tun_t *tun, void *buf, size_t size)
 {
 	return (read(tun->fd, buf, size));

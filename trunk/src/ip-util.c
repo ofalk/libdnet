@@ -14,7 +14,7 @@
 
 #include "dnet.h"
 
-size_t
+ssize_t
 ip_add_option(void *buf, size_t len, int proto,
     const void *optbuf, size_t optlen)
 {

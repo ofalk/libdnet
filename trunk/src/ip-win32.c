@@ -48,7 +48,7 @@ ip_open(void)
 	return (ip);
 }
 
-size_t
+ssize_t
 ip_send(ip_t *ip, const void *buf, size_t len)
 {
 	struct ip_hdr *hdr = (struct ip_hdr *)buf;

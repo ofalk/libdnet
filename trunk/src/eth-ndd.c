@@ -57,10 +57,10 @@ eth_open(const char *device)
 	return (e);
 }
 
-size_t
+ssize_t
 eth_send(eth_t *e, const void *buf, size_t len)
 {
-	return ((ssize_t)write(e->fd, buf, len));
+	return (write(e->fd, buf, len));
 }
 
 eth_t *

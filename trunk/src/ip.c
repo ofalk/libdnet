@@ -59,7 +59,7 @@ ip_open(void)
 	return (i);
 }
 
-size_t
+ssize_t
 ip_send(ip_t *i, const void *buf, size_t len)
 {
 	struct ip_hdr *ip;

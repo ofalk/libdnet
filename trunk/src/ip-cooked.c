@@ -137,7 +137,7 @@ _request_arp(struct ip_intf *ipi, struct addr *dst)
 	eth_send(ipi->eth, frame, sizeof(frame));
 }
 
-size_t
+ssize_t
 ip_send(ip_t *ip, const void *buf, size_t len)
 {
 	struct ip_hdr *iph;
