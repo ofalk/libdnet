@@ -15,6 +15,7 @@
 
 #include <net/route.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,10 +47,8 @@ route_add(route_t *r, struct addr *dst, struct addr *gw)
 {
 	struct rtentry rt;
 	
-	if (r == NULL || dst == NULL || gw == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(r != NULL && dst != NULL && gw != NULL);
+
 	memset(&rt, 0, sizeof(rt));
 
 	if (addr_ntos(dst, &rt.rt_dst) < 0 ||
@@ -73,10 +72,8 @@ route_delete(route_t *r, struct addr *dst)
 {
 	struct rtentry rt;
 
-	if (r == NULL || dst == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(r != NULL && dst != NULL);
+
 	memset(&rt, 0, sizeof(rt));
 
 	if (addr_ntos(dst, &rt.rt_dst) < 0)
@@ -99,10 +96,8 @@ route_get(route_t *r, struct addr *dst, struct addr *gw)
 {
 	struct rtreq rtr;
 
-	if (r == NULL || dst == NULL || gw == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(r != NULL && dst != NULL && gw != NULL);
+
 	memset(&rtr, 0, sizeof(rtr));
 	memcpy(&rtr.rtr_destaddr, &dst->addr_ip, IP_ADDR_LEN);
 	
@@ -170,10 +165,8 @@ route_loop(route_t *r, route_handler callback, void *arg)
 int
 route_close(route_t *r)
 {
-	if (r == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(r != NULL);
+
 	if (close(r->fd) < 0)
 		return (-1);
 	

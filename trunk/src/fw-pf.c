@@ -16,6 +16,7 @@
 #include <netinet/in.h>
 #include <net/pfvar.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -143,10 +144,8 @@ fw_add(fw_t *fw, struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
 	
-	if (fw == NULL || rule == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}	
+	assert(fw != NULL && rule != NULL);
+
 	fr_to_pr(rule, &pcr.newrule);
 	
 	pcr.action = PF_CHANGE_ADD_TAIL;
@@ -159,10 +158,8 @@ fw_delete(fw_t *fw, struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
 	
-	if (fw == NULL || rule == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(fw != NULL && rule != NULL);
+
 	fr_to_pr(rule, &pcr.oldrule);
 	
 	pcr.action = PF_CHANGE_REMOVE;
@@ -199,10 +196,8 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 int
 fw_close(fw_t *fw)
 {
-	if (fw == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(fw != NULL);
+
 	if (close(fw->fd) < 0)
 		return (-1);
 	

@@ -21,6 +21,7 @@
 #include <net/bpf.h>
 #include <net/if.h>
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -85,10 +86,8 @@ eth_send(eth_t *e, const void *buf, size_t len)
 int
 eth_close(eth_t *e)
 {
-	if (e == NULL) {
-		errno = EINVAL;
-		return (-1);
-	}
+	assert(e != NULL);
+
 	if (close(e->fd) < 0)
 		return (-1);
 	
@@ -98,14 +97,15 @@ eth_close(eth_t *e)
 
 #if defined(HAVE_SYS_SYSCTL_H) && defined(HAVE_ROUTE_RT_MSGHDR)
 int
-eth_get_hwaddr(eth_t *e, struct addr *ha)
+eth_get(eth_t *e, eth_addr_t *ea)
 {
 	struct if_msghdr *ifm;
 	struct sockaddr_dl *sdl;
+	struct addr ha;
 	u_char *p, *buf;
 	size_t len;
 	int mib[] = { CTL_NET, AF_ROUTE, 0, AF_LINK, NET_RT_IFLIST, 0 };
-	
+
 	if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0)
 		return (-1);
 	
@@ -128,7 +128,7 @@ eth_get_hwaddr(eth_t *e, struct addr *ha)
 		    memcmp(sdl->sdl_data, e->device, sdl->sdl_nlen) != 0)
 			continue;
 		
-		if (!addr_ston((struct sockaddr *)sdl, ha))
+		if (addr_ston((struct sockaddr *)sdl, &ha) == 0)
 			break;
 	}
 	free(buf);
@@ -137,20 +137,41 @@ eth_get_hwaddr(eth_t *e, struct addr *ha)
 		errno = ESRCH;
 		return (-1);
 	}
+	memcpy(ea, &ha.addr_eth, sizeof(*ea));
+	
 	return (0);
 }
 #else
 int
-eth_get_hwaddr(eth_t *e, struct addr *ha)
+eth_get(eth_t *e, eth_addr_t *ea)
 {
 	errno = EOPNOTSUPP;
 	return (-1);
 }
 #endif
 
+#if defined(SIOCSIFLLADDR)
 int
-eth_set_hwaddr(eth_t *e, struct addr *ha)
+eth_set(eth_t *e, eth_addr_t *ea)
+{
+	struct ifreq ifr;
+	struct addr ha;
+
+	ha.addr_type = ADDR_TYPE_ETH;
+	ha.addr_bits = ETH_ADDR_BITS;
+	memcpy(&ha.addr_eth, ea, ETH_ADDR_LEN);
+	
+	memset(&ifr, 0, sizeof(ifr));
+	strlcpy(ifr.ifr_name, e->device, sizeof(ifr.ifr_name));
+	addr_ntos(&ha, &ifr.ifr_addr);
+	
+	return (ioctl(e->fd, SIOCSIFLLADDR, &ifr));
+}
+#else
+int
+eth_set(eth_t *e, eth_addr_t *ea)
 {
 	errno = EOPNOTSUPP;
 	return (-1);
 }
+#endif
