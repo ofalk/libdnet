@@ -485,6 +485,10 @@ and
 .Fn route_open
 return a valid handle on success, or NULL on failure.
 .Pp
+.Fn eth_send
+and
+.Fn ip_send
+return the length of the datagram successfully sent, or -1 on failure.
 .Pp
 .Fn arp_loop ,
 .Fn fw_loop ,
