@@ -13,13 +13,20 @@
 
 #define IP_ADDR_LEN	4
 #define IP_ADDR_BITS	32
+
 #define IP_HDR_LEN	20
+#define IP_OPT_LEN	2
+#define IP_OPT_LEN_MAX	40
+#define IP_HDR_LEN_MAX	(IP_HDR_LEN + IP_OPT_LEN_MAX)
 
 #define IP_LEN_MAX	65535
 #define IP_LEN_MIN	IP_HDR_LEN
 
 typedef u_int32_t	ip_addr_t;
 
+/*
+ * IP header
+ */
 struct ip_hdr {
 #if DNET_BYTESEX == DNET_LIL_ENDIAN
 	u_char		ip_hl:4,	/* header length */
@@ -124,14 +131,59 @@ struct ip_hdr {
 #define IP_OPT_SATID		136		/* satnet id */
 #define IP_OPT_SSRR		137		/* strict source route */
 
-#define IP_OPT_LEN_MAX		40
+#define IP_OPT_TYPEONLY(type)	((type) == IP_OPT_EOL || (type) == IP_OPT_NOP)
 
-struct ip_opt {
-	u_char		ip_opt_type;
-	u_char		ip_opt_len;
-	/* data follows */
+struct ip_opt_data_security {
+	u_short		s;
+	u_short		c;
+	u_short		h;
+	u_char		tcc[3];
+	u_char		nop;		/* XXX - pad with NOP for alignment */
+};
+#define IP_OPT_SECUR_UNCLASS	0x0000
+#define IP_OPT_SECUR_CONFID	0xf135
+#define IP_OPT_SECUR_EFTO	0x789a
+#define IP_OPT_SECUR_MMMM	0xbc4d
+#define IP_OPT_SECUR_RESTR	0xaf13
+#define IP_OPT_SECUR_SECRET	0xd788
+#define IP_OPT_SECUR_TOPSECRET	0x6bc5
+
+struct ip_opt_data_route {
+	u_char		ptr;		/* from start of option, >= 4 */
+	u_char		iplist[0];	/* list of IP addresses */
 };
 
+struct ip_opt_data_ts {
+	u_char		ptr;		/* from start of option, >= 5 */
+#if DNET_BYTESEX == DNET_BIG_ENDIAN
+	u_char		oflw:4,
+			flg:4;
+#elif DNET_BYTESEX == DNET_LIL_ENDIAN
+	u_char		flg:4,
+			oflw:4;
+#endif
+	u_int32_t	ipts[0];	/* IP address [ / timestamp] pairs */
+};
+#define IP_OPT_TS_TSONLY	0	/* timestamps only */
+#define IP_OPT_TS_TSADDR	1	/* IP address / timestamp pairs */
+#define IP_OPT_TS_PRESPEC	3	/* IP address / zero timestamp pairs */
+
+struct ip_opt {
+	u_char		__opt_void[2];	/* XXX - word-align union */
+	u_char		opt_type;
+	u_char		opt_len;	/* length of entire option */
+	union ip_opt_data {
+		struct ip_opt_data_security	security;
+		struct ip_opt_data_route	route;
+		struct ip_opt_data_ts		timestamp;
+		u_short				satid;
+		u_char				data8[0];
+	} opt_data;
+};
+
+/*
+ * Classful addressing
+ */
 #define	IP_CLASSA(i)		(((u_int32_t)(i) & htonl(0x80000000)) == \
 				 htonl(0x00000000))
 #define	IP_CLASSA_NET		(htonl(0xff000000))
@@ -166,7 +218,9 @@ struct ip_opt {
 				 htonl(0xf0000000))
 #define	IP_LOCAL_GROUP(i)	(((u_int32_t)(i) & htonl(0xffffff00)) == \
 				 htonl(0xe0000000))
-
+/*
+ * Reserved addresses
+ */
 #define IP_ADDR_ANY		(htonl(0x00000000))	/* 0.0.0.0 */
 #define IP_ADDR_BROADCAST	(htonl(0xffffffff))	/* 255.255.255.255 */
 #define IP_ADDR_LOOPBACK	(htonl(0x7f000001))	/* 127.0.0.1 */
@@ -179,14 +233,15 @@ ip_t	*ip_open(void);
 ssize_t	 ip_send(ip_t *i, const void *buf, size_t len);
 int	 ip_close(ip_t *i);
 
-void	 ip_cksum(struct ip_hdr *ip);
+size_t	 ip_add_opt(void *buf, size_t len, const void *optbuf, size_t optlen);
+void	 ip_checksum(void *buf, size_t len);
 
-int	 ip_cksum_add(void *buf, u_int len, int cksum);
+int	 ip_cksum_add(void *buf, size_t len, int cksum);
 #define	 ip_cksum_carry(x) \
 	    (x = (x >> 16) + (x & 0xffff), (~(x + (x >> 16)) & 0xffff))
 
-#define ip_fill_hdr(h, tos, len, id, off, ttl, p, src, dst) do {	\
-	struct ip_hdr *ip_fill_p = (struct ip_hdr *)(h);		\
+#define ip_fill_hdr(hdr, tos, len, id, off, ttl, p, src, dst) do {	\
+	struct ip_hdr *ip_fill_p = (struct ip_hdr *)(hdr);		\
 	ip_fill_p->ip_v = 4; ip_fill_p->ip_hl = 5;			\
 	ip_fill_p->ip_tos = tos; ip_fill_p->ip_len = htons(len);	\
  	ip_fill_p->ip_id = htons(id); ip_fill_p->ip_off = htons(off);	\
