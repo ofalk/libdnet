@@ -29,8 +29,13 @@
 /*
  * XXX - cope with moving pf API
  */
-#if defined(DIOCRINABEGIN) || defined(DIOCXBEGIN)
-/* OpenBSD 3.3 - 3.6 */
+#if defined(DIOCRCLRTABLES)
+/* XXX - can't isolate the following change:
+ *     $OpenBSD: pfvar.h,v 1.112 2002/12/17 12:30:13 mcbride Exp $
+ *  so i'll take 1.119's DIOCRCLRTABLES - 12 days of pf unsupported.
+ */
+# define HAVE_PF_CHANGE_GET_TICKET	1
+/* OpenBSD 3.3+ - 3.6 */
 /*     $OpenBSD: pfvar.h,v 1.197 2004/06/14 20:53:27 cedric Exp $ */
 /*     $OpenBSD: pfvar.h,v 1.130 2003/01/09 10:40:45 cedric Exp $ */
 /*     $OpenBSD: pfvar.h,v 1.127 2003/01/05 22:14:23 dhartmei Exp $ */
@@ -39,8 +44,6 @@
 # define pfioc_changerule	pfioc_rule
 # define oldrule	rule
 # define newrule	rule
-/*     $OpenBSD: pfvar.h,v 1.112 2002/12/17 12:30:13 mcbride Exp $ */
-# define HAVE_PF_CHANGE_GET_TICKET	1
 #elif defined(DIOCBEGINADDRS)
 /*     $OpenBSD: pfvar.h,v 1.102 2002/11/23 05:16:58 mcbride Exp $ */
 # define PFRA_ADDR(ra)	(ra)->addr.addr.v4.s_addr
@@ -96,16 +99,18 @@ fr_to_pr(const struct fw_rule *fr, struct pf_rule *pr)
 	case IP_PROTO_UDP:
 		pr->src.port[0] = htons(fr->fw_sport[0]);
 		pr->src.port[1] = htons(fr->fw_sport[1]);
-		if (pr->src.port[0] == pr->src.port[1])
-			pr->src.port_op = PF_OP_EQ;
-		else
+		if (pr->src.port[0] == pr->src.port[1]) {
+			if (pr->src.port[0] != 0)
+				pr->src.port_op = PF_OP_EQ;
+		} else
 			pr->src.port_op = PF_OP_IRG;
 
 		pr->dst.port[0] = htons(fr->fw_dport[0]);
 		pr->dst.port[1] = htons(fr->fw_dport[1]);
-		if (pr->dst.port[0] == pr->dst.port[1])
-			pr->dst.port_op = PF_OP_EQ;
-		else
+		if (pr->dst.port[0] == pr->dst.port[1]) {
+			if (pr->dst.port[0] != 0)
+				pr->dst.port_op = PF_OP_EQ;
+		} else
 			pr->dst.port_op = PF_OP_IRG;
 		break;
 	}
@@ -165,6 +170,7 @@ pr_to_fr(const struct pf_rule *pr, struct fw_rule *fr)
 	return (0);
 }
 
+#ifdef HAVE_PF_CHANGE_GET_TICKET
 static int
 _fw_cmp(const struct fw_rule *a, const struct fw_rule *b)
 {
@@ -177,6 +183,7 @@ _fw_cmp(const struct fw_rule *a, const struct fw_rule *b)
 		return (-1);
 	return (0);
 }
+#endif
 
 fw_t *
 fw_open(void)
@@ -190,48 +197,41 @@ fw_open(void)
 	return (fw);
 }
 
-struct rule_nr {
-	const struct fw_rule *rule;
-	uint32_t	      nr;
-};
-
-static int
-_get_rule_nr(const struct fw_rule *rule, void *arg)
-{
-	struct rule_nr *rulenr = (struct rule_nr *)arg;
-
-	if (_fw_cmp(rule, rulenr->rule) == 0)
-		return (1);
-	rulenr->nr++;
-	return (0);
-}
-
 int
 fw_add(fw_t *fw, const struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
-	struct rule_nr rulenr = { rule, 0 };
-#ifdef DIOCBEGINADDRS
-	struct pfioc_pooladdr ppa;
-#endif
+
 	assert(fw != NULL && rule != NULL);
-	if (fw_loop(fw, _get_rule_nr, &rulenr) != 0) {
-		errno = EEXIST;
-		return (-1);
-	}
 	memset(&pcr, 0, sizeof(pcr));
-	fr_to_pr(rule, &pcr.newrule);
 #ifdef HAVE_PF_CHANGE_GET_TICKET
-	pcr.action = PF_CHANGE_GET_TICKET;
-	if (ioctl(fw->fd, DIOCCHANGERULE, &pcr) < 0)
-		return (-1);
-# ifdef DIOCBEGINADDRS
-	if (ioctl(fw->fd, DIOCBEGINADDRS, &ppa) < 0)
-		return (-1);
-	pcr.pool_ticket = ppa.ticket;
-# endif
+	{
+		struct fw_rule fr;
+		
+		if (ioctl(fw->fd, DIOCGETRULES, &pcr) < 0)
+			return (-1);
+		while ((int)--pcr.nr >= 0) {
+			if (ioctl(fw->fd, DIOCGETRULE, &pcr) == 0 &&
+			    pr_to_fr(&pcr.rule, &fr) == 0) {
+				if (_fw_cmp(rule, &fr) == 0) {
+					errno = EEXIST;
+					return (-1);
+				}
+			}
+		}
+	}
+#endif
+#ifdef DIOCBEGINADDRS
+	{
+		struct pfioc_pooladdr ppa;
+		
+		if (ioctl(fw->fd, DIOCBEGINADDRS, &ppa) < 0)
+			return (-1);
+		pcr.pool_ticket = ppa.ticket;
+	}
 #endif
 	pcr.action = PF_CHANGE_ADD_TAIL;
+	fr_to_pr(rule, &pcr.newrule);
 	
 	return (ioctl(fw->fd, DIOCCHANGERULE, &pcr));
 }
@@ -240,29 +240,42 @@ int
 fw_delete(fw_t *fw, const struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
-	struct rule_nr rulenr = { rule, 0 };
-#ifdef DIOCBEGINADDRS
-	struct pfioc_pooladdr ppa;
-#endif
+	
 	assert(fw != NULL && rule != NULL);
-	if (fw_loop(fw, _get_rule_nr, &rulenr) != 1) {
-		errno = ENOENT;
-		return (-1);
-	}
 	memset(&pcr, 0, sizeof(pcr));
-	fr_to_pr(rule, &pcr.oldrule);
 #ifdef HAVE_PF_CHANGE_GET_TICKET
-	pcr.action = PF_CHANGE_GET_TICKET;
-	if (ioctl(fw->fd, DIOCCHANGERULE, &pcr) < 0)
-		return (-1);
-	pcr.nr = rulenr.nr;
-# ifdef DIOCBEGINADDRS
-	if (ioctl(fw->fd, DIOCBEGINADDRS, &ppa) < 0)
-		return (-1);
-	pcr.pool_ticket = ppa.ticket;
-# endif
+	{
+		struct fw_rule fr;
+		int found = 0;
+		
+		if (ioctl(fw->fd, DIOCGETRULES, &pcr) < 0)
+			return (-1);
+		while ((int)--pcr.nr >= 0) {
+			if (ioctl(fw->fd, DIOCGETRULE, &pcr) == 0 &&
+			    pr_to_fr(&pcr.rule, &fr) == 0) {
+				if (_fw_cmp(rule, &fr) == 0) {
+					found = 1;
+					break;
+				}
+			}
+		}
+		if (!found) {
+			errno = ENOENT;
+			return (-1);
+		}
+	}
+#endif
+#ifdef DIOCBEGINADDRS
+	{
+		struct pfioc_pooladdr ppa;
+		
+		if (ioctl(fw->fd, DIOCBEGINADDRS, &ppa) < 0)
+			return (-1);
+		pcr.pool_ticket = ppa.ticket;
+	}
 #endif
 	pcr.action = PF_CHANGE_REMOVE;
+	fr_to_pr(rule, &pcr.oldrule);
 	
 	return (ioctl(fw->fd, DIOCCHANGERULE, &pcr));
 }
