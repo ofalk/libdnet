@@ -146,6 +146,7 @@ route_loop(route_t *route, route_handler callback, void *arg)
 route_t *
 route_close(route_t *route)
 {
-	free(route);
+	if (route != NULL)
+		free(route);
 	return (NULL);
 }

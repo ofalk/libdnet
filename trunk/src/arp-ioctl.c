@@ -57,23 +57,20 @@ arp_open(void)
 {
 	arp_t *a;
 	
-	if ((a = calloc(1, sizeof(*a))) == NULL)
-		return (NULL);
-
-#ifdef HAVE_ARPREQ_ARP_DEV
-	if ((a->intf = intf_open()) == NULL)
-		return (arp_close(a));
-#endif
+	if ((a = calloc(1, sizeof(*a))) != NULL) {
 #ifdef HAVE_STREAMS_MIB2
-	if ((a->fd = open(IP_DEV_NAME, O_RDWR)) < 0)
-		return (arp_close(a));
+		if ((a->fd = open(IP_DEV_NAME, O_RDWR)) < 0)
 #elif defined(HAVE_STREAMS_ROUTE)
-	if ((a->fd = open("/dev/route", O_WRONLY, 0)) < 0)
-		return (arp_close(a));
+		if ((a->fd = open("/dev/route", O_WRONLY, 0)) < 0)
 #else
-	if ((a->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-		return (arp_close(a));
+		if ((a->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 #endif
+			return (arp_close(a));
+#ifdef HAVE_ARPREQ_ARP_DEV
+		if ((a->intf = intf_open()) == NULL)
+			return (arp_close(a));
+#endif
+	}
 	return (a);
 }
 
@@ -399,12 +396,14 @@ arp_loop(arp_t *a, arp_handler callback, void *arg)
 arp_t *
 arp_close(arp_t *a)
 {
-	if (a->fd > 0)
-		close(a->fd);
+	if (a != NULL) {
+		if (a->fd >= 0)
+			close(a->fd);
 #ifdef HAVE_ARPREQ_ARP_DEV
-	if (a->intf != NULL)
-		intf_close(a->intf);
+		if (a->intf != NULL)
+			intf_close(a->intf);
 #endif
-	free(a);
+		free(a);
+	}
 	return (NULL);
 }

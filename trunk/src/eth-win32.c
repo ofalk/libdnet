@@ -118,11 +118,13 @@ eth_send(eth_t *eth, const void *buf, size_t len)
 eth_t *
 eth_close(eth_t *eth)
 {
-	if (eth->pkt != NULL)
-		PacketFreePacket(eth->pkt);
-	if (eth->lpa != NULL)
-		PacketCloseAdapter(eth->lpa);
-	free(eth);
+	if (eth != NULL) {
+		if (eth->pkt != NULL)
+			PacketFreePacket(eth->pkt);
+		if (eth->lpa != NULL)
+			PacketCloseAdapter(eth->lpa);
+		free(eth);
+	}
 	return (NULL);
 }
 

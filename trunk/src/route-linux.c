@@ -46,21 +46,22 @@ route_open(void)
 	struct sockaddr_nl snl;
 	route_t *r;
 
-	if ((r = calloc(1, sizeof(*r))) == NULL)
-		return (NULL);
-
-	if ((r->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-		return (route_close(r));
-	
-	if ((r->nlfd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE)) < 0)
-		return (route_close(r));
-	
-	memset(&snl, 0, sizeof(snl));
-	snl.nl_family = AF_NETLINK;
-
-	if (bind(r->nlfd, (struct sockaddr *)&snl, sizeof(snl)) < 0)
-		return (route_close(r));
-	
+	if ((r = calloc(1, sizeof(*r))) != NULL) {
+		r->fd = r->nlfd = -1;
+		
+		if ((r->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+			return (route_close(r));
+		
+		if ((r->nlfd = socket(AF_NETLINK, SOCK_RAW,
+			 NETLINK_ROUTE)) < 0)
+			return (route_close(r));
+		
+		memset(&snl, 0, sizeof(snl));
+		snl.nl_family = AF_NETLINK;
+		
+		if (bind(r->nlfd, (struct sockaddr *)&snl, sizeof(snl)) < 0)
+			return (route_close(r));
+	}
 	return (r);
 }
 
@@ -246,10 +247,12 @@ route_loop(route_t *r, route_handler callback, void *arg)
 route_t *
 route_close(route_t *r)
 {
-	if (r->fd > 0)
-		close(r->fd);
-	if (r->nlfd > 0)
-		close(r->nlfd);
-	free(r);
+	if (r != NULL) {
+		if (r->fd >= 0)
+			close(r->fd);
+		if (r->nlfd >= 0)
+			close(r->nlfd);
+		free(r);
+	}
 	return (NULL);
 }

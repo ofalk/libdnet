@@ -94,8 +94,10 @@ ip_send(ip_t *i, const void *buf, size_t len)
 ip_t *
 ip_close(ip_t *i)
 {
-	if (i->fd > 0)
-		close(i->fd);
-	free(i);
+	if (i != NULL) {
+		if (i->fd >= 0)
+			close(i->fd);
+		free(i);
+	}
 	return (NULL);
 }

@@ -26,9 +26,7 @@ arp_open(void)
 {
 	arp_t *arp;
 
-	if ((arp = calloc(1, sizeof(*arp))) == NULL)
-		return (NULL);
-
+	arp = calloc(1, sizeof(*arp));
 	return (arp);
 }
 
@@ -136,6 +134,8 @@ arp_loop(arp_t *arp, arp_handler callback, void *arg)
 arp_t *
 arp_close(arp_t *arp)
 {
-	free(arp);
+	if (arp != NULL) {
+		free(arp);
+	}
 	return (NULL);
 }

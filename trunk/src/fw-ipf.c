@@ -181,15 +181,13 @@ fw_open(void)
 {
 	fw_t *fw;
 	
-	if ((fw = calloc(1, sizeof(*fw))) == NULL)
-		return (NULL);
-
-	if ((fw->fd = open(IPL_NAME, O_RDWR, 0)) < 0)
-		return (fw_close(fw));
-	
-	if ((fw->kfd = open(KMEM_NAME, O_RDONLY)) < 0)
-		return (fw_close(fw));
-
+	if ((fw = calloc(1, sizeof(*fw))) != NULL) {
+		fw->fd = fw->kfd = -1;
+		if ((fw->fd = open(IPL_NAME, O_RDWR, 0)) < 0)
+			return (fw_close(fw));
+		if ((fw->kfd = open(KMEM_NAME, O_RDONLY)) < 0)
+			return (fw_close(fw));
+	}
 	return (fw);
 }
 
@@ -273,12 +271,12 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 fw_t *
 fw_close(fw_t *fw)
 {
-	assert(fw != NULL);
-
-	if (fw->fd > 0)
-		close(fw->fd);
-	if (fw->kfd > 0)
-		close(fw->kfd);
-	free(fw);
+	if (fw != NULL) {
+		if (fw->fd >= 0)
+			close(fw->fd);
+		if (fw->kfd >= 0)
+			close(fw->kfd);
+		free(fw);
+	}
 	return (NULL);
 }

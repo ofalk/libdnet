@@ -50,16 +50,14 @@ arp_open(void)
 {
 	arp_t *arp;
 
-	if ((arp = calloc(1, sizeof(*arp))) == NULL)
-		return (NULL);
-
+	if ((arp = calloc(1, sizeof(*arp))) != NULL) {
 #ifdef HAVE_STREAMS_ROUTE
-	if ((arp->fd = open("/dev/route", O_RDWR, 0)) < 0)
+		if ((arp->fd = open("/dev/route", O_RDWR, 0)) < 0)
 #else
-	if ((arp->fd = socket(PF_ROUTE, SOCK_RAW, 0)) < 0)
+		if ((arp->fd = socket(PF_ROUTE, SOCK_RAW, 0)) < 0)
 #endif
-		return (arp_close(arp));
-	
+			return (arp_close(arp));
+	}
 	return (arp);
 }
 
@@ -316,8 +314,10 @@ arp_loop(arp_t *arp, arp_handler callback, void *arg)
 arp_t *
 arp_close(arp_t *arp)
 {
-	if (arp->fd > 0)
-		close(arp->fd);
-	free(arp);
+	if (arp != NULL) {
+		if (arp->fd >= 0)
+			close(arp->fd);
+		free(arp);
+	}
 	return (NULL);
 }

@@ -169,12 +169,10 @@ fw_open(void)
 {
 	fw_t *fw;
 
-	if ((fw = calloc(1, sizeof(*fw))) == NULL)
-		return (NULL);
-
-	if ((fw->fd = open("/dev/pf", O_RDWR)) < 0)
-		return (fw_close(fw));
-	
+	if ((fw = calloc(1, sizeof(*fw))) != NULL) {
+		if ((fw->fd = open("/dev/pf", O_RDWR)) < 0)
+			return (fw_close(fw));
+	}
 	return (fw);
 }
 
@@ -242,10 +240,10 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 fw_t *
 fw_close(fw_t *fw)
 {
-	assert(fw != NULL);
-
-	if (fw->fd > 0)
-		close(fw->fd);
-	free(fw);
+	if (fw != NULL) {
+		if (fw->fd >= 0)
+			close(fw->fd);
+		free(fw);
+	}
 	return (NULL);
 }
