@@ -211,12 +211,12 @@ fw_add(fw_t *fw, struct fw_rule *rule)
 static int
 fw_cmp(struct fw_rule *a, struct fw_rule *b)
 {
-	if (strcmp(a->device, b->device) != 0 || a->op != b->op ||
-	    a->dir != b->dir || a->proto != b->proto || 
-	    addr_cmp(&a->src, &b->src) != 0 ||
-	    addr_cmp(&a->dst, &b->dst) != 0 ||
-	    memcmp(a->sport, b->sport, sizeof(a->sport)) != 0 ||
-	    memcmp(a->dport, b->dport, sizeof(a->dport)) != 0)
+	if (strcmp(a->fw_device, b->fw_device) != 0 || a->fw_op != b->fw_op ||
+	    a->fw_dir != b->fw_dir || a->fw_proto != b->fw_proto || 
+	    addr_cmp(&a->fw_src, &b->fw_src) != 0 ||
+	    addr_cmp(&a->fw_dst, &b->fw_dst) != 0 ||
+	    memcmp(a->fw_sport, b->fw_sport, sizeof(a->fw_sport)) != 0 ||
+	    memcmp(a->fw_dport, b->fw_dport, sizeof(a->fw_dport)) != 0)
 		return (-1);
 	return (0);
 }
