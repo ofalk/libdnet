@@ -18,13 +18,13 @@
 #include "dnet.h"
 
 struct route_handle {
-	int	dummy;
+	MIB_IPFORWARDTABLE *ipftable;
 };
 
 route_t *
 route_open(void)
 {
-	return ((route_t *)calloc(1, sizeof(route_t)));
+	return (calloc(1, sizeof(route_t)));
 }
 
 int
@@ -110,33 +110,35 @@ route_get(route_t *route, struct route_entry *entry)
 }
 
 int
-route_loop(route_t *route, route_handler callback, void *arg)
+route_loop(route_t *r, route_handler callback, void *arg)
 {
-	MIB_IPFORWARDTABLE *ipftable;
-	ULONG len;
 	struct route_entry entry;
-	u_char buf[4096];
-	u_long i;
-	int ret;
+	ULONG len;
+	int i, ret;
 	
-	ipftable = (MIB_IPFORWARDTABLE *)buf;
-	len = sizeof(buf);
-	
-	if (GetIpForwardTable(ipftable, &len, FALSE) != NO_ERROR)
-		return (-1);
-
+	for (len = sizeof(r->ipftable[0]); ; ) {
+		if (r->ipftable)
+			free(r->ipftable);
+		r->ipftable = malloc(len);
+		ret = GetIpForwardTable(r->ipftable, &len, FALSE);
+		if (ret == NO_ERROR)
+			break;
+		else if (ret != ERROR_INSUFFICIENT_BUFFER)
+			return (-1);
+	}
 	entry.route_dst.addr_type = ADDR_TYPE_IP;
 	entry.route_dst.addr_bits = IP_ADDR_BITS;
 	
 	entry.route_gw.addr_type = ADDR_TYPE_IP;
 	entry.route_gw.addr_bits = IP_ADDR_BITS;
 	
-	for (i = 0; i < ipftable->dwNumEntries; i++) {
-		entry.route_dst.addr_ip = ipftable->table[i].dwForwardDest;
-		addr_mtob(&ipftable->table[i].dwForwardMask, IP_ADDR_LEN,
+	for (i = 0; i < r->ipftable->dwNumEntries; i++) {
+		entry.route_dst.addr_ip = r->ipftable->table[i].dwForwardDest;
+		addr_mtob(&r->ipftable->table[i].dwForwardMask, IP_ADDR_LEN,
 		    &entry.route_dst.addr_bits);
-		entry.route_gw.addr_ip = ipftable->table[i].dwForwardNextHop;
-
+		entry.route_gw.addr_ip =
+		    r->ipftable->table[i].dwForwardNextHop;
+		
 		if ((ret = (*callback)(&entry, arg)) != 0)
 			return (ret);
 	}
@@ -144,9 +146,12 @@ route_loop(route_t *route, route_handler callback, void *arg)
 }
 
 route_t *
-route_close(route_t *route)
+route_close(route_t *r)
 {
-	if (route != NULL)
-		free(route);
+	if (r != NULL) {
+		if (r->ipftable != NULL)
+			free(r->ipftable);
+		free(r);
+	}
 	return (NULL);
 }
