@@ -12,6 +12,7 @@
 #include <sys/queue.h>
 #include <sys/socket.h>
 
+#include <net/if.h>
 #include <netinet/in.h>
 #include <netinet/ip_fw.h>
 
