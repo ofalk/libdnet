@@ -2362,6 +2362,8 @@ elif test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
 	LIBOBJS="$LIBOBJS arp-bsd.o"
 elif test $ac_cv_dnet_linux_procfs = yes ; then
 	LIBOBJS="$LIBOBJS arp-linux.o"
+elif test -f /usr/include/hpsecurity.h ; then
+	LIBOBJS="$LIBOBJS arp-hpux.o"
 else
 	LIBOBJS="$LIBOBJS arp-none.o"
 fi
