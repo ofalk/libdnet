@@ -8948,7 +8948,7 @@ Xsed="sed -e s/^X//"
 LTLIBOBJS=`echo X"$LIBOBJS"|\
 	$Xsed -e "s,\.[^.]* ,.lo ,g;s,\.[^.]*$,.lo,"`
 
-ac_config_files="$ac_config_files Makefile dnet-config include/Makefile include/dnet/Makefile man/Makefile src/Makefile swig/Makefile test/Makefile test/check/Makefile test/dnet/Makefile"
+ac_config_files="$ac_config_files Makefile dnet-config include/Makefile include/dnet/Makefile man/Makefile src/Makefile python/Makefile test/Makefile test/check/Makefile test/dnet/Makefile"
 ac_config_commands="$ac_config_commands default"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -9272,7 +9272,7 @@ do
   "include/dnet/Makefile" ) CONFIG_FILES="$CONFIG_FILES include/dnet/Makefile" ;;
   "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
-  "swig/Makefile" ) CONFIG_FILES="$CONFIG_FILES swig/Makefile" ;;
+  "python/Makefile" ) CONFIG_FILES="$CONFIG_FILES python/Makefile" ;;
   "test/Makefile" ) CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
   "test/check/Makefile" ) CONFIG_FILES="$CONFIG_FILES test/check/Makefile" ;;
   "test/dnet/Makefile" ) CONFIG_FILES="$CONFIG_FILES test/dnet/Makefile" ;;
