@@ -171,7 +171,7 @@ union icmp_msg {
 
 #define icmp_fill_hdr(hdr, type, code) do {				\
 	struct icmp_hdr *icmp_fill_p = (struct icmp_hdr *)(hdr);	\
-	icmp_fill_p->type = type; icmp_fill_p->code = code;		\
+	icmp_fill_p->icmp_type = type; icmp_fill_p->icmp_code = code;	\
 } while (0)
 
 #define icmp_fill_hdr_echo(hdr, type, code, id, seq, data, len) do {	\
@@ -180,6 +180,7 @@ union icmp_msg {
 	icmp_fill_hdr(hdr, type, code);					\
 	echo_fill_p->icmp_id = htonl(id);				\
 	echo_fill_p->icmp_seq = htonl(seq);				\
+	memmove(echo_fill_p->icmp_data, data, len);			\
 } while (0)
 
 #define icmp_fill_hdr_quote(hdr, type, code, word, pkt, len) do {	\
