@@ -182,13 +182,44 @@ ip_send(ip_t *i, const void *buf, size_t len)
 		if (ip_lookup(i, ip->ip_dst) < 0)
 			return (-1);
 	}
-	/* XXX - handle fragmentation here */
-
 	eth = (struct eth_hdr *)frame;
 	memcpy(&eth->eth_src, &i->eth_src.addr_eth, ETH_ADDR_LEN);
 	memcpy(&eth->eth_dst, &i->eth_dst.addr_eth, ETH_ADDR_LEN);
 	eth->eth_type = htons(ETH_TYPE_IP);
-	
+
+	if (len > ETH_MTU) {
+		u_char *p, *start, *end, *ip_data;
+		int ip_hl, fraglen;
+
+		ip_hl = ip->ip_hl << 2;
+		fraglen = ETH_MTU - ip_hl;
+		
+		ip = (struct ip_hdr *)(frame + ETH_HDR_LEN);
+		memcpy(ip, buf, ip_hl);
+		ip_data = (u_char *)ip + ip_hl;
+
+		start = (u_char *)buf + ip_hl;
+		end = (u_char *)buf + len;
+		
+		for (p = start; p < end; ) {
+			memcpy(ip_data, p, fraglen);
+			
+			ip->ip_len = htons(ip_hl + fraglen);
+			ip->ip_off = htons(((p + fraglen < end) ? IP_MF : 0) |
+			    ((p - start) >> 3));
+			
+			ip_cksum(ip);
+			
+			if (eth_send(i->eth, frame,
+			    ETH_HDR_LEN + ip_hl + fraglen) < 0)
+				return (-1);
+			
+			p += fraglen;
+			if (end - p < fraglen)
+				fraglen = end - p;
+		}
+		return (len);
+	}
 	memcpy(frame + ETH_HDR_LEN, buf, len);
 	
 	if (eth_send(i->eth, frame, ETH_HDR_LEN + len) != ETH_HDR_LEN + len)
@@ -261,43 +292,32 @@ ip_cksum(struct ip_hdr *ip)
 	hl = ip->ip_hl << 2;
 	len = ntohs(ip->ip_len) - hl;
 	
-	switch (ip->ip_p) {
-	case IP_PROTO_TCP:
-	{
+	ip->ip_sum = 0;
+	sum = ip_cksum_add(ip, hl, 0);
+	ip->ip_sum = ip_cksum_carry(sum);
+	
+	if (ip->ip_p == IP_PROTO_TCP && len >= TCP_HDR_LEN) {
 		struct tcp_hdr *tcp = (struct tcp_hdr *)((u_char *)ip + hl);
 		
 		tcp->th_sum = 0;
 		sum = ip_cksum_add(tcp, len, 0) + htons(ip->ip_p + len);
 		sum = ip_cksum_add(&ip->ip_src, 8, sum);
 		tcp->th_sum = ip_cksum_carry(sum);
-		break;
-	}
-	case IP_PROTO_UDP:
-	{
+	} else if (ip->ip_p == IP_PROTO_UDP && len >= UDP_HDR_LEN) {
 		struct udp_hdr *udp = (struct udp_hdr *)((u_char *)ip + hl);
 		
 		udp->uh_sum = 0;
 		sum = ip_cksum_add(udp, len, 0) + htons(ip->ip_p + len);
 		sum = ip_cksum_add(&ip->ip_src, 8, sum);
 		udp->uh_sum = ip_cksum_carry(sum);
-		break;
-	}
-	case IP_PROTO_ICMP:
-	case IP_PROTO_IGMP:
-	{
+	} else if ((ip->ip_p == IP_PROTO_ICMP || ip->ip_p == IP_PROTO_IGMP) &&
+	    len >= ICMP_HDR_LEN) {
 		struct icmp_hdr *icmp = (struct icmp_hdr *)((u_char *)ip + hl);
 		
 		icmp->icmp_cksum = 0;
 		sum = ip_cksum_add(icmp, len, 0);
 		icmp->icmp_cksum = ip_cksum_carry(sum);
-		break;
 	}
-	default:
-		break;
-	}
-	ip->ip_sum = 0;
-	sum = ip_cksum_add(ip, hl, 0);
-	ip->ip_sum = ip_cksum_carry(sum);
 }
 
 int
