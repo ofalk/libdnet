@@ -47,6 +47,23 @@ arp_open(void)
 	return (a);
 }
 
+static int
+arp_intf_match(char *device, struct addr *pa, int flags, void *arg)
+{
+	struct arpreq *ar = (struct arpreq *)arg;
+	struct addr dst;
+	u_int32_t mask;
+	
+	addr_btom(pa->addr_bits, &mask);
+	addr_ston((struct sockaddr *)&ar->arp_pa, &dst);
+	
+	if ((pa->addr_ip & mask) == (dst.addr_ip & mask)) {
+		strlcpy(ar->arp_dev, device, sizeof(ar->arp_dev));
+		return (1);
+	}
+	return (0);
+}
+	
 int
 arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 {
@@ -60,8 +77,10 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 
 	ar.arp_flags = ATF_PERM | ATF_COM;
 
-	strlcpy(ar.arp_dev, "eth0", sizeof(ar.arp_dev));	/* XXX */
-	
+	if (intf_loop(a->intf, arp_intf_match, &ar) != 1) {
+		errno = ESRCH;
+		return (-1);
+	}
 	if (ioctl(a->fd, SIOCSARP, &ar) < 0)
 		return (-1);
 
@@ -94,8 +113,10 @@ arp_get(arp_t *a, struct addr *pa, struct addr *ha)
 	if (addr_ntos(pa, &ar.arp_pa) < 0)
 		return (-1);
 
-	strlcpy(ar.arp_dev, "eth0", sizeof(ar.arp_dev));	/* XXX */
-	
+	if (intf_loop(a->intf, arp_intf_match, &ar) != 1) {
+		errno = ESRCH;
+		return (-1);
+	}
 	if (ioctl(a->fd, SIOCGARP, &ar) < 0)
 		return (-1);
 
