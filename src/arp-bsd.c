@@ -37,7 +37,6 @@
 
 struct arp_handle {
 	int	fd;
-	pid_t	pid;
 	int	seq;
 };
 
@@ -61,8 +60,6 @@ arp_open(void)
 #endif
 		return (arp_close(arp));
 	
-	arp->pid = getpid();
-
 	return (arp);
 }
 
@@ -71,6 +68,7 @@ arp_msg(arp_t *arp, struct arpmsg *msg)
 {
 	struct arpmsg smsg;
 	int len, i = 0;
+	pid_t pid;
 	
 	msg->rtm.rtm_version = RTM_VERSION;
 	msg->rtm.rtm_seq = ++arp->seq; 
@@ -83,12 +81,14 @@ arp_msg(arp_t *arp, struct arpmsg *msg)
 		if (errno != ESRCH || msg->rtm.rtm_type != RTM_DELETE)
 			return (-1);
 	}
+	pid = getpid();
+	
 	/* XXX - should we only read RTM_GET responses here? */
 	while ((len = read(arp->fd, msg, sizeof(*msg))) > 0) {
 		if (len < sizeof(msg->rtm))
 			return (-1);
 
-		if (msg->rtm.rtm_pid == arp->pid) {
+		if (msg->rtm.rtm_pid == pid) {
 			if (msg->rtm.rtm_seq == arp->seq)
 				break;
 			continue;
