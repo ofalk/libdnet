@@ -11,6 +11,10 @@
 #ifndef DNET_IP_H
 #define DNET_IP_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define IP_ADDR_LEN	4
 #define IP_ADDR_BITS	32
 
@@ -248,5 +252,9 @@ int	 ip_cksum_add(void *buf, size_t len, int cksum);
 	ip_fill_p->ip_ttl = ttl; ip_fill_p->ip_p = p;			\
 	ip_fill_p->ip_src = src; ip_fill_p->ip_dst = dst;		\
 } while (0)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* DNET_IP_H */

@@ -11,6 +11,10 @@
 #ifndef DNET_TCP_H
 #define DNET_TCP_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+	
 #define TCP_HDR_LEN	20
 #define TCP_OPT_LEN	2
 #define TCP_OPT_LEN_MAX	44
@@ -97,5 +101,9 @@ struct tcp_opt {
 } while (0)
 
 size_t	tcp_add_opt(void *buf, size_t len, const void *optbuf, size_t optlen);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* DNET_TCP_H */

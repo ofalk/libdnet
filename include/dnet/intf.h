@@ -11,6 +11,10 @@
 #ifndef DNET_INTF_H
 #define DNET_INTF_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+	
 #define INTF_FLAG_UP		0x01	/* interface is up */
 #define INTF_FLAG_LOOPBACK	0x02	/* is a loopback net (r/o) */
 #define INTF_FLAG_POINTOPOINT	0x04	/* point-to-point link (r/o) */
@@ -32,5 +36,9 @@ int	 intf_set(intf_t *i, char *device, struct addr *addr, int *flags);
 int	 intf_get(intf_t *i, char *device, struct addr *addr, int *flags);
 int	 intf_loop(intf_t *i, intf_handler callback, void *arg); 
 int	 intf_close(intf_t *i);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* DNET_INTF_H */
