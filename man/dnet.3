@@ -103,6 +103,22 @@
 .Fn ip_send "ip_t *i" "const void *buf" "size_t len"
 .Ft ip_t *
 .Fn ip_close "ip_t *i"
+.Ss Random number generation
+.Pp
+.Ft rand_t *
+.Fn rand_open "void"
+.Ft int
+.Fn rand_get "rand_t *r" "void *buf" "size_t len"
+.Ft int
+.Fn rand_set "rand_t *r" "const void *seed" "size_t len"
+.Ft uint8_t
+.Fn rand_uint8 "rand_t *r"
+.Ft uint16_t
+.Fn rand_uint16 "rand_t *r"
+.Ft uint32_t
+.Fn rand_uint32 "rand_t *r"
+.Ft rand_t *
+.Fn rand_close "rand_t *r"
 .Ss Routing
 .Pp
 .Li typedef Ar int Fn (*route_handler) "const struct route_entry *entry" "void *arg"
@@ -455,6 +471,31 @@ bytes of the IP packet pointed to by
 .Fn ip_close
 closes the specified handle.
 .Pp
+.Ss Random number generation
+.Fn rand_open
+is used to obtain a handle for fast, cryptographically strong
+pseudo-random number generation, starting from a random seed.
+.Pp
+.Fn rand_set
+initializes the PRNG to start from a known 
+.Fa seed
+value, useful in generating repeatable sequences.
+.Pp
+.Fn rand_get
+writes 
+.Fa len
+random bytes into
+.Fa buf .
+.Pp
+.Fn rand_uint8 ,
+.Fn rand_uint16 ,
+and
+.Fn rand_uint32
+return 8, 16, and 32-bit unsigned random values, respectively.
+.Pp
+.Fn rand_close
+closes the specified handle.
+.Pp
 .Ss Routing
 Routing table entries are described by the following structure:
 .Bd -literal
@@ -510,6 +551,7 @@ address, or NULL on failure.
 .Fn fw_open ,
 .Fn intf_open ,
 .Fn ip_open ,
+.Fn rand_open ,
 and
 .Fn route_open
 return a valid handle on success, or NULL on failure.
@@ -519,6 +561,7 @@ return a valid handle on success, or NULL on failure.
 .Fn fw_close ,
 .Fn intf_close ,
 .Fn ip_close ,
+.Fn rand_close ,
 and
 .Fn route_close
 always return NULL.
@@ -540,8 +583,14 @@ routines. Any non-zero return from a
 will cause the loop to exit immediately.
 .Pp
 .Fn ip_add_option
-returns the length of the inserted option, which may have been padded
-with NOPs to meet a word boundary, or -1 on failure.
+returns the length of the inserted option (which may have been padded
+with NOPs for memory alignment) or -1 on failure.
+.Pp
+.Fn rand_uint8 ,
+.Fn rand_uint16 ,
+and
+.Fn rand_uint32
+return 8, 16, and 32-bit unsigned random values, respectively.
 .Pp
 All other 
 .Nm
