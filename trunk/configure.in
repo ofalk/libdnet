@@ -38,6 +38,30 @@ if test "$CYGWIN" = yes ; then
 	else
 		AC_MSG_ERROR([need MingW32 package to build under Cygwin])
 	fi
+	AC_MSG_CHECKING(for WinPcap developer's pack)
+	AC_ARG_WITH(wpdpack,
+	[  --with-wpdpack=DIR      use WinPcap developer's pack in DIR],
+	[ AC_MSG_RESULT($withval)
+	  if test -f $withval/include/packet32.h -a -f $withval/lib/packet.a; then
+	     owd=`pwd`
+	     if cd $withval; then withval=`pwd`; cd $owd; fi
+	     CFLAGS="$CFLAGS -I$withval/include"
+	     LIBS="$LIBS -L$withval/lib -lpacket"
+	  else
+	     AC_MSG_ERROR(packet32.h or packet.a not found in $withval)
+	  fi ],
+	[ for dir in ${prefix} ${HOME}/WPdpack ; do
+	     if test -f ${prefix}/include/packet32.h -a -f ${prefix}/lib/packet.a; then
+	        CFLAGS="$CFLAGS -I${prefix}/include"
+		LIBS="$LIBS -L${prefix}/lib -lpacket"
+		have_pcap=yes
+		break;
+	     fi
+	  done
+	  if test "$have_pcap" != yes; then
+	     AC_MSG_ERROR(WinPcap developer's pack not found)
+	  fi
+	  AC_MSG_RESULT(yes) ])
 fi
 
 dnl Checks for libraries.
@@ -109,7 +133,9 @@ else
 fi
 
 dnl Check for Ethernet interface.
-if test "$ac_cv_dnet_bsd_bpf" = yes ; then
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+	LIBOBJS="$LIBOBJS eth-win32.o"
+elif test "$ac_cv_dnet_bsd_bpf" = yes ; then
 	LIBOBJS="$LIBOBJS eth-bsd.o"
 elif test "$ac_cv_dnet_linux_pf_packet" = yes ; then
 	LIBOBJS="$LIBOBJS eth-linux.o"
