@@ -8,8 +8,6 @@
 
 #include "config.h"
 
-#include "dnet.h"
-
 /* XXX - VC++ 6.0 bogosity */
 #define sockaddr_storage sockaddr
 #include <Packet32.h>
@@ -18,6 +16,8 @@
 
 #include <errno.h>
 #include <stdlib.h>
+
+#include "dnet.h"
 
 struct eth_handle {
 	LPADAPTER	 lpa;
