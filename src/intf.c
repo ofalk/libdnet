@@ -333,10 +333,11 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	for (ifr = ifc.ifc_req; ifr < lifr; ) {
 		memset(entry, 0, sizeof(*entry));
 		
-		strcpy(iftmp.ifr_name, ifr->ifr_name);
+		strlcpy(iftmp.ifr_name, ifr->ifr_name,
+		    sizeof(iftmp.ifr_name));
 		strlcpy(entry->intf_name, ifr->ifr_name,
 		    sizeof(entry->intf_name));
-
+		
 		/* Get addresses for this interface. */
 		for (ap = entry->intf_addr_data; ifr < lifr && ap < lap;
 		    ifr = NEXTIFR(ifr)) {
@@ -391,12 +392,6 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 				return (-1);
 			if (addr_ston(&iftmp.ifr_addr, ap) < 0)
 				return (-1);
-#elif defined(SIOCGENADDR)
-			if (ioctl(intf->fd, SIOCGENADDR, &iftmp) < 0)
-				return (-1);
-			ap->addr_type = ADDR_TYPE_ETH;
-			ap->addr_bits = ETH_ADDR_BITS;
-			memcpy(&ap->addr_eth, iftmp.ifr_enaddr, ETH_ADDR_LEN);
 #else
 			eth_t *eth;
 
