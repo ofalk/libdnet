@@ -25,8 +25,8 @@ AC_LBL_LIBRARY_NET
 dnl Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(fcntl.h unistd.h)
-AC_CHECK_HEADERS(sys/bufmod.h sys/dlpi.h sys/ioctl.h sys/sockio.h \
-	sys/sysctl.h sys/time.h)
+AC_CHECK_HEADERS(sys/bufmod.h sys/dlpi.h sys/dlpi_ext.h sys/ioctl.h \
+	sys/sockio.h sys/sysctl.h sys/time.h)
 AC_CHECK_HEADERS(net/bpf.h net/if_dl.h net/pfvar.h net/raw.h netinet/ip_fw.h \
 	linux/ip_fw.h linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h)
 AC_CHECK_HEADERS(ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h \
@@ -109,6 +109,8 @@ if test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
 	LIBOBJS="$LIBOBJS route-bsd.o"
 elif test $ac_cv_dnet_linux_procfs = yes ; then
 	LIBOBJS="$LIBOBJS route-linux.o"
+elif test -f /usr/include/hpsecurity.h ; then
+	LIBOBJS="$LIBOBJS route-hpux.o"
 else
 	LIBOBJS="$LIBOBJS route-none.o"
 fi
