@@ -37,14 +37,14 @@ tun_fileno(tun_t *tun)
 	return (-1);
 }
 
-size_t
+ssize_t
 tun_send(tun_t *tun, const void *buf, size_t size)
 {
 	errno = ENOSYS;
 	return (-1);
 }
 
-size_t
+ssize_t
 tun_recv(tun_t *tun, void *buf, size_t size)
 {
 	errno = ENOSYS;
