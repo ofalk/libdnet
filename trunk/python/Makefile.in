@@ -249,8 +249,12 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 @PYTHON_TRUE@distclean: clean
 
-@PYTHON_TRUE@install-exec-local:
+@PYTHON_TRUE@python-install:
 @PYTHON_TRUE@	$(PYTHON) setup.py install --prefix=$(DESTDIR)$(prefix)
+
+@PYTHON_TRUE@install-exec-local: python-install
+
+@PYTHON_FALSE@install-exec-local:
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
