@@ -25,15 +25,14 @@ static void
 usage(void)
 {
 	fprintf(stderr, "Usage: intf show\n"
-	                "Usage: intf any\n"
-			"Usage: intf get device [ip|eth]\n"
+			"Usage: intf get device\n"
 			"Usage: intf set device addr "
 	    "[[up|down|arp|noarp] ...]\n");
 	exit(1);
 }
 
 static char *
-flags2string(int flags)
+flags2string(u_int flags)
 {
 	static char buf[256];
 
@@ -57,29 +56,29 @@ flags2string(int flags)
 }
 
 static int
-print_intf(char *device, struct addr *addr, int flags, void *arg)
+print_intf(char *device, struct intf_info *info, void *arg)
 {
-	printf("%s: flags=%x<%s>\n", device, flags, flags2string(flags));
-
-	if (addr != NULL) {
-		if (addr->addr_type == ADDR_TYPE_IP)
-			printf("\tinet %s\n", addr_ntoa(addr));
-		else if (addr->addr_type == ADDR_TYPE_ETH)
-			printf("\teth %s\n", addr_ntoa(addr));
-	}
-	return (0);
-}
-
-static int
-lookup_intf(char *device, struct addr *addr, int flags, void *arg)
-{
-	struct addr ea;
+	struct addr bcast;
+	u_int32_t mask;
 	
-	ea.addr_type = ADDR_TYPE_ETH;
+	printf("%s:", device);
 	
-	if (intf_get(intf, device, &ea, NULL) == 0) {
-		print_intf(device, &ea, flags, NULL);
-		return (1);
+	if ((info->intf_info & INTF_INFO_FLAGS) != 0)
+		printf(" flags=%x<%s>", info->intf_flags,
+		    flags2string(info->intf_flags));
+
+	if ((info->intf_info & INTF_INFO_MTU) != 0)
+		printf(" mtu %d", info->intf_mtu);
+
+	printf("\n");
+
+	if ((info->intf_info & INTF_INFO_ADDR) != 0) {
+		addr_btom(info->intf_addr.addr_bits, &mask, IP_ADDR_LEN);
+		mask = ntohl(mask);
+		addr_bcast(&info->intf_addr, &bcast);
+
+		printf("\tinet %s netmask 0x%x broadcast %s\n",
+		    addr_ntoa(&info->intf_addr), mask, addr_ntoa(&bcast));
 	}
 	return (0);
 }
@@ -87,9 +86,9 @@ lookup_intf(char *device, struct addr *addr, int flags, void *arg)
 int
 main(int argc, char *argv[])
 {
-	struct addr addr;
+	struct intf_info info;
 	char *cmd, *device;
-	int i, flags;
+	int i;
 
 	if (argc < 2)
 		usage();
@@ -102,49 +101,35 @@ main(int argc, char *argv[])
 	if (strcmp(cmd, "show") == 0) {
 		if (intf_loop(intf, print_intf, NULL) < 0)
 			err(1, "intf_loop");
-	} else if (strcmp(cmd, "any") == 0) {
-		if (intf_loop(intf, lookup_intf, &device) < 0)
-			err(1, "intf_loop");
 	} else if (strcmp(cmd, "get") == 0) {
 		device = argv[2];
-		    
-		if (argc > 3) {
-			if (strcmp(argv[3], "ip") == 0)
-				addr.addr_type = ADDR_TYPE_IP;
-			else if (strcmp(argv[3], "eth") == 0)
-				addr.addr_type = ADDR_TYPE_ETH;
-			else
-				usage();
-		} else
-			addr.addr_type = ADDR_TYPE_IP;
-		
-		if (intf_get(intf, device, &addr, &flags) < 0) {
-			if (errno == EADDRNOTAVAIL)
-				print_intf(device, NULL, flags, NULL);
-			else
-				err(1, "intf_get");
-		} else
-			print_intf(device, &addr, flags, NULL);
-	} else if (strcmp(cmd, "set") == 0) {
-		device = argv[2];
-		
-		if (intf_get(intf, device, NULL, &flags) < 0)
+
+		if (intf_get(intf, device, &info) < 0)
 			err(1, "intf_get");
 
-		if (addr_pton(argv[3], &addr) < 0)
-			err(1, "addr_pton");
+		print_intf(device, &info, NULL);
+	} else if (strcmp(cmd, "set") == 0) {
+		device = argv[2];
 
+		if (intf_get(intf, device, &info) < 0)
+			err(1, "intf_get");
+
+		if (addr_pton(argv[3], &info.intf_addr) < 0)
+			err(1, "addr_pton");
+		
+		info.intf_info |= INTF_INFO_ADDR;
+		
 		for (i = 4; i < argc; i++) {
 			if (strcmp(argv[i], "up") == 0)
-				flags |= INTF_FLAG_UP;
+				info.intf_flags |= INTF_FLAG_UP;
 			else if (strcmp(argv[i], "down") == 0)
-				flags &= ~INTF_FLAG_UP;
+				info.intf_flags &= ~INTF_FLAG_UP;
 			else if (strcmp(argv[i], "arp") == 0)
-				flags &= ~INTF_FLAG_NOARP;
+				info.intf_flags &= ~INTF_FLAG_NOARP;
 			else if (strcmp(argv[i], "noarp") == 0)
-				flags |= INTF_FLAG_NOARP;
+				info.intf_flags |= INTF_FLAG_NOARP;
 		}
-		if (intf_set(intf, device, &addr, &flags) < 0)
+		if (intf_set(intf, device, &info) < 0)
 			err(1, "intf_set");
 	} else
 		usage();
