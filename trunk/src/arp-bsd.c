@@ -97,7 +97,7 @@ arp_msg(arp_t *a, struct arpmsg *msg)
 }
 
 int
-arp_add(arp_t *a, struct addr *pa, struct addr *ha)
+arp_add(arp_t *a, const struct addr *pa, const struct addr *ha)
 {
 	struct arpmsg msg;
 	struct sockaddr_in *sin;
@@ -162,7 +162,7 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 }
 
 int
-arp_delete(arp_t *a, struct addr *pa)
+arp_delete(arp_t *a, const struct addr *pa)
 {
 	struct arpmsg msg;
 	struct sockaddr_in *sin;
@@ -209,7 +209,7 @@ arp_delete(arp_t *a, struct addr *pa)
 }
 
 int
-arp_get(arp_t *a, struct addr *pa, struct addr *ha)
+arp_get(arp_t *a, const struct addr *pa, struct addr *ha)
 {
 	struct arpmsg msg;
 	struct sockaddr_in *sin;

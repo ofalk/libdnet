@@ -24,21 +24,21 @@ arp_open(void)
 }
 
 int
-arp_add(arp_t *a, struct addr *pa, struct addr *ha)
+arp_add(arp_t *a, const struct addr *pa, const struct addr *ha)
 {
 	errno = ENOSYS;
 	return (-1);
 }
 
 int
-arp_delete(arp_t *a, struct addr *pa)
+arp_delete(arp_t *a, const struct addr *pa)
 {
 	errno = ENOSYS;
 	return (-1);
 }
 
 int
-arp_get(arp_t *a, struct addr *pa, struct addr *ha)
+arp_get(arp_t *a, const struct addr *pa, struct addr *ha)
 {
 	errno = ENOSYS;
 	return (-1);
