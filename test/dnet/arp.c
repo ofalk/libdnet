@@ -130,7 +130,7 @@ arp_main(int argc, char *argv[])
 		} else if (strcmp(name, "spa") == 0) {			
 			if (addr_aton(value, &addr) < 0)
 				arp_usage();
-			memcpy(ethip->ar_spa, &addr.addr_eth, IP_ADDR_LEN);
+			memcpy(ethip->ar_spa, &addr.addr_ip, IP_ADDR_LEN);
 		} else if (strcmp(name, "tha") == 0) {
 			if (addr_aton(value, &addr) < 0)
 				arp_usage();
@@ -138,7 +138,7 @@ arp_main(int argc, char *argv[])
 		} else if (strcmp(name, "tpa") == 0) {
 			if (addr_aton(value, &addr) < 0)
 				arp_usage();
-			memcpy(ethip->ar_tpa, &addr.addr_eth, IP_ADDR_LEN);
+			memcpy(ethip->ar_tpa, &addr.addr_ip, IP_ADDR_LEN);
 		}
 		else
 			arp_usage();
