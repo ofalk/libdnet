@@ -157,9 +157,9 @@ denotes the length of the network mask in bits.
 .Pp
 .Fn addr_cmp
 compares network addresses
-.Ar a
+.Fa a
 and
-.Ar b ,
+.Fa b ,
 returning zero if the two addresses are identical, or else the
 difference between the first two differing bytes. Both addresses must
 be of the same address type.
@@ -207,25 +207,25 @@ cache.
 .Pp
 .Fn arp_add
 adds a new ARP mapping for the protocol address
-.Ar pa
+.Fa pa
 to the hardware address
-.Ar ha .
+.Fa ha .
 .Pp
 .Fn arp_delete
 deletes the ARP entry for the specified protocol address
-.Ar pa .
+.Fa pa .
 .Pp
 .Fn arp_get
 retrieves the hardware address 
-.Ar ha 
+.Fa ha 
 for the specified protocol address
-.Ar pa .
+.Fa pa .
 .Pp
 .Fn arp_loop
 iterates over all entries in the kernel
 .Xr arp 4
 cache, invoking the specified
-.Ar callback
+.Fa callback
 routine on each entry.
 .Pp
 .Fn arp_close
@@ -235,13 +235,13 @@ closes the specified handle.
 .Fn eth_open
 is used to obtain a handle to transmit raw Ethernet frames via the
 specified network
-.Ar device .
+.Fa device .
 .Pp
 .Fn eth_send
 transmits 
-.Ar len
+.Fa len
 bytes of the Ethernet frame pointed to by
-.Ar buf .
+.Fa buf .
 .Pp
 .Fn eth_close
 closes the specified handle.
@@ -253,9 +253,9 @@ kernel.
 .Pp
 .Fn ip_send
 transmits
-.Ar len
+.Fa len
 bytes of the IP packet pointed to by
-.Ar buf .
+.Fa buf .
 .Pp
 .Fn ip_close
 closes the specified handle.
@@ -263,7 +263,7 @@ closes the specified handle.
 .Fn ip_cksum
 sets the IP checksum and the appropriate transport protocol checksum
 for the packet pointed to by
-.Ar ip .
+.Fa ip .
 .Pp
 .Ss Firewalling
 Firewall rules adhere to a general structure, described below.
@@ -273,10 +273,10 @@ struct fw_rule {
 	u_char		op:4,		/* operation */
 			direction:4;	/* direction */
 	u_char		proto;		/* IP protocol */
-	struct addr	src;		/* src address / net */
-	struct addr	dst;		/* dst address / net */
-	u_short		sport[2];	/* range or ICMP type / mask */
-	u_short		dport[2];	/* range or ICMP code / mask */
+	struct addr	src;		/* src address/net */
+	struct addr	dst;		/* dst address/net */
+	u_short		sport[2];	/* range or ICMP type/mask */
+	u_short		dport[2];	/* range or ICMP code/mask */
 };
 .Ed
 .Pp
@@ -302,16 +302,16 @@ configuration.
 .Pp
 .Fn fw_add
 adds the specified firewall
-.Ar rule .
+.Fa rule .
 .Pp
 .Fn fw_delete
 deletes the specified firewall
-.Ar rule .
+.Fa rule .
 .Pp
 .Fn fw_loop
 iterates over all rules in the local firewall configuration, invoking
 the specified 
-.Ar callback
+.Fa callback
 on each entry.
 .Pp
 .Fn fw_close
@@ -324,29 +324,29 @@ configuration.
 .Pp
 .Fn intf_set
 configures the specified 
-.Ar device
+.Fa device
 with the network address pointed to by
-.Ar addr
+.Fa addr
 (if non-null)
 and/or the flag bitmask pointed to by
-.Ar flags 
+.Fa flags 
 (if non-null).
 .Pp
 .Fn intf_get
 retrieves the network address
-.Ar addr
+.Fa addr
 (if non-null, with its
-.Ar type
+.Fa type
 field set)
 and/or the interface flag bitmask pointed to by
-.Ar flags
+.Fa flags
 (if non-null)
 for the specified interface
-.Ar device .
+.Fa device .
 .Pp
 .Fn intf_loop
 iterates over all configured up interfaces, invoking the specified 
-.Ar callback
+.Fa callback
 on each entry.
 .Pp
 .Fn intf_close
@@ -360,25 +360,25 @@ table.
 .Pp
 .Fn route_add
 adds a new route for the network address
-.Ar dst
+.Fa dst
 to the gateway address
-.Ar gw .
+.Fa gw .
 .Pp
 .Fn route_delete
 deletes the route for the specified network address
-.Ar dst .
+.Fa dst .
 .Pp
 .Fn route_get
 retrieves the gateway address
-.Ar gw
+.Fa gw
 for the specified network address
-.Ar dst .
+.Fa dst .
 .Pp
 .Fn route_loop
 iterates over all entries in the kernel
 .Xr route 4
 table, invoking the specified
-.Ar callback
+.Fa callback
 routine on each entry.
 .Pp
 .Fn route_close
@@ -405,8 +405,10 @@ return a valid handle on success, or NULL on failure.
 and
 .Fn route_loop
 return the status of their
-.Ar callback
-routines - if non-zero, the loop is exited prematurely.
+.Fa callback
+routines. Any non-zero return from a 
+.Fa callback
+will cause the loop to exit immediately.
 .Pp
 All other 
 .Nm
