@@ -243,7 +243,7 @@ ip_send(ip_t *i, const void *buf, size_t len)
 	sin.sin_family = AF_INET;
 	sin.sin_addr.s_addr = ip->ip_dst;
 	
-#if (defined(BSD) && !defined(OpenBSD)) || defined(UNIXWARE)
+#ifdef HAVE_RAWIP_HOST_OFFLEN
 	ip->ip_len = ntohs(ip->ip_len);
 	ip->ip_off = ntohs(ip->ip_off);
 
