@@ -113,8 +113,8 @@ CONFIG_HEADER = ./include/config.h
 CONFIG_CLEAN_FILES =  dnet-config
 SCRIPTS =  $(bin_SCRIPTS)
 
-DIST_COMMON =  README Makefile.am Makefile.in THANKS TODO aclocal.m4 \
-configure configure.in dnet-config.in
+DIST_COMMON =  README INSTALL Makefile.am Makefile.in THANKS TODO \
+aclocal.m4 configure configure.in dnet-config.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
