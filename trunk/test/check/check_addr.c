@@ -1,4 +1,6 @@
 
+#include "config.h"
+
 #include <sys/types.h>
 #include <sys/socket.h>
 
@@ -18,11 +20,18 @@
 	(a)->addr_bits = IP_ADDR_BITS;	\
 	(a)->addr_ip = (ip)
 
+#ifdef HAVE_SOCKADDR_SA_LEN
 #define SIN_PACK(s, ip, port)				\
 	(s)->sin_len = sizeof(struct sockaddr_in);	\
 	(s)->sin_family = AF_INET;			\
 	(s)->sin_port = htons(port);			\
 	(s)->sin_addr.s_addr = (ip)
+#else
+#define SIN_PACK(s, ip, port)				\
+	(s)->sin_family = AF_INET;			\
+	(s)->sin_port = htons(port);			\
+	(s)->sin_addr.s_addr = (ip)
+#endif
 
 typedef struct sockaddr SA;
 
@@ -255,9 +264,11 @@ START_TEST(test_addr_ston)
 	
 	addr_ston((SA *)&s, &b);
 	fail_unless(memcmp(&a, &b, sizeof(a)) == 0, "bad addr");
+#ifdef HAVE_SOCKADDR_SA_LEN
 	s.sin_len = 0;
 	fail_unless(addr_ston((SA *)&s, &b) == 0 && addr_cmp(&a, &b) == 0,
 	    "sin_len == 0");
+#endif
 	s.sin_family = 123;
 	fail_unless(addr_ston((SA *)&s, &b) < 0, "sin_family == 123");
 }
