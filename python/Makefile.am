@@ -11,7 +11,7 @@ dnet.c: dnet.pyx
 	pyrexc dnet.pyx
 
 python-build: dnet.c
-	$(PYTHON) setup.py build
+	$(PYTHON) setup.py build --build-lib build
 	touch python-build
 
 python-clean:
@@ -19,14 +19,12 @@ python-clean:
 
 clean: python-clean
 
-endif
-
 install-exec-local:
-if PYTHON
 	python setup.py install --prefix=$(DESTDIR)$(prefix)
-endif
-	@true
 
-EXTRA_DIST = setup.py dnet.pyx dnet.c
+TESTS = test.py
+endif
+
+EXTRA_DIST = dnet.pyx dnet.c setup.py test.py
 
 DISTCLEANFILES = *~
