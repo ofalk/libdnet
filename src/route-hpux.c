@@ -10,6 +10,7 @@
 
 #include <sys/types.h>
 #include <sys/ioctl.h>
+#include <sys/mib.h>
 #include <sys/socket.h>
 
 #include <net/route.h>
@@ -122,39 +123,43 @@ route_get(route_t *r, struct addr *dst, struct addr *gw)
 	return (0);
 }
 
-#define MAX_RTENTRIES	128	/* XXX */
+#define MAX_RTENTRIES	256	/* XXX */
 
 int
 route_loop(route_t *r, route_handler callback, void *arg)
 {
-	struct rtreq *rtr, rtbuf[MAX_RTENTRIES];
-	struct rtlist rtl;
+	struct nmparms nm;
 	struct addr dst, gw;
-	int i, ret;
+	mib_ipRouteEnt rtentries[MAX_RTENTRIES];
+	int fd, i, n, ret;
 	
-	if (r == NULL || callback == NULL) {
-		errno = EINVAL;
+	if ((fd = open_mib("/dev/ip", O_RDWR, 0 /* XXX */, 0)) < 0)
+		return (-1);
+	
+	nm.objid = ID_ipRouteTable;
+	nm.buffer = rtentries;
+	n = sizeof(rtentries);
+	nm.len = &n;
+	
+	if (get_mib_info(fd, &nm) < 0) {
+		close_mib(fd);
 		return (-1);
 	}
-	memset(&rtl, 0, sizeof(rtl));
-
-	rtl.rtl_len = sizeof(rtbuf);
-	rtl.rtl_rtreq = (uint32_t)rtbuf;
-
-	if (ioctl(r->fd, SIOCGRTTABLE, &rtl) < 0)
-		return (-1);
+	close_mib(fd);
 
 	dst.addr_type = gw.addr_type = ADDR_TYPE_IP;
+	dst.addr_bits = gw.addr_bits = IP_ADDR_BITS;
+	n /= sizeof(*rtentries);
+	ret = 0;
 	
-	for (i = ret = 0; i < rtl.rtl_cnt; i++) {
-		rtr = (struct rtreq *)(rtl.rtl_rtreq + i);
-
-		if (rtr->rtr_gwayaddr == 0)
+	for (i = 0; i < n; i++) {
+		if (rtentries[i].Type != NMDIRECT &&
+		    rtentries[i].Type != NMREMOTE)
 			continue;
 		
-		memcpy(&dst.addr_ip, &rtr->rtr_destaddr, IP_ADDR_LEN);
-		addr_mtob((u_int32_t)rtr->rtr_subnetmask, &dst.addr_bits);
-		memcpy(&gw.addr_ip, &rtr->rtr_gwayaddr, IP_ADDR_LEN);
+		dst.addr_ip = rtentries[i].Dest;
+		addr_mtob(rtentries[i].Mask, &dst.addr_bits);
+		gw.addr_ip = rtentries[i].NextHop;
 
 		if ((ret = callback(&dst, &gw, arg)) != 0)
 			break;
