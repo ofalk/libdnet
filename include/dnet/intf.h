@@ -41,7 +41,7 @@ intf_t	*intf_open(void);
 int	 intf_get(intf_t *i, const char *device, struct intf_info *info);
 int	 intf_set(intf_t *i, const char *device, const struct intf_info *info);
 int	 intf_loop(intf_t *i, intf_handler callback, void *arg);
-int	 intf_close(intf_t *i);
+intf_t	*intf_close(intf_t *i);
 __END_DECLS
 
 #endif /* DNET_INTF_H */

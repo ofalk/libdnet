@@ -28,8 +28,8 @@ struct icmp_hdr {
  * ICMP message definitions.
  */
 struct icmp_msg_echo {
-	uint32_t	icmp_id;
-	uint32_t	icmp_seq;
+	uint16_t	icmp_id;
+	uint16_t	icmp_seq;
 	uint8_t		icmp_data __flexarr;	/* optional data */
 };
 
@@ -178,8 +178,8 @@ union icmp_msg {
 	struct icmp_msg_echo *echo_fill_p = (struct icmp_msg_echo *)	\
 		((uint8_t *)(hdr) + ICMP_HDR_LEN);			\
 	icmp_fill_hdr(hdr, type, code);					\
-	echo_fill_p->icmp_id = htonl(id);				\
-	echo_fill_p->icmp_seq = htonl(seq);				\
+	echo_fill_p->icmp_id = htons(id);				\
+	echo_fill_p->icmp_seq = htons(seq);				\
 	memmove(echo_fill_p->icmp_data, data, len);			\
 } while (0)
 
@@ -195,8 +195,8 @@ union icmp_msg {
 	struct icmp_msg_mask *mask_fill_p = (struct icmp_msg_mask *)	\
 		((uint8_t *)(hdr) + ICMP_HDR_LEN);			\
 	icmp_fill_hdr(hdr, type, code);					\
-	mask_fill_p->icmp_id = htonl(id);				\
-	mask_fill_p->icmp_seq = htonl(seq);				\
+	mask_fill_p->icmp_id = htons(id);				\
+	mask_fill_p->icmp_seq = htons(seq);				\
 	mask_fill_p->icmp_mask = htonl(mask);				\
 } while (0)
 

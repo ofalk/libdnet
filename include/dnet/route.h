@@ -22,7 +22,7 @@ int	 route_add(route_t *r, const struct addr *dst, const struct addr *gw);
 int	 route_delete(route_t *r, const struct addr *dst);
 int	 route_get(route_t *r, const struct addr *dst, struct addr *gw);
 int	 route_loop(route_t *r, route_handler callback, void *arg);
-int	 route_close(route_t *r);
+route_t	*route_close(route_t *r);
 __END_DECLS
 
 #endif /* DNET_ROUTE_H */
