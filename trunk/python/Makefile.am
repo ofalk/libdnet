@@ -21,10 +21,17 @@ clean: python-clean
 
 distclean: clean
 
-install-exec-local:
+python-install:
 	$(PYTHON) setup.py install --prefix=$(DESTDIR)$(prefix)
 
+install-exec-local: python-install
+
 TESTS = test.py
+
+else
+
+install-exec-local:
+
 endif
 
 EXTRA_DIST = dnet.pyx dnet.c setup.py.in test.py
