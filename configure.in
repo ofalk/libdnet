@@ -41,33 +41,39 @@ if test "$CYGWIN" = yes ; then
 fi
 
 dnl Checks for libraries.
-AC_LBL_LIBRARY_NET
-AC_CHECK_LIB(nm, open_mib)
+if test "$CYGWIN" != yes ; then
+	AC_LBL_LIBRARY_NET
+	AC_CHECK_LIB(nm, open_mib)
+fi
 
 dnl Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(fcntl.h unistd.h)
-AC_CHECK_HEADERS(sys/bufmod.h sys/dlpi.h sys/dlpihdr.h sys/dlpi_ext.h \
-    sys/ioctl.h sys/mib.h sys/ndd_var.h sys/socket.h sys/sockio.h \
-    sys/sysctl.h sys/time.h)
-AC_CHECK_HEADERS(net/bpf.h net/if.h net/if_arp.h net/if_dl.h \
-    net/pfvar.h net/raw.h net/route.h netinet/ip_fw.h linux/ip_fw.h \
-    linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h)
-AC_CHECK_HEADERS(ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h \
-    netinet/ip_compat.h ip_fil.h netinet/ip_fil.h)
-AC_CHECK_HEADERS(Iphlpapi.h winsock2.h)
+if test "$CYGWIN" = yes ; then
+	AC_CHECK_HEADERS(Iphlpapi.h winsock2.h)
+else
+	AC_CHECK_HEADERS(fcntl.h unistd.h)
+	AC_CHECK_HEADERS(sys/bufmod.h sys/dlpi.h sys/dlpihdr.h sys/dlpi_ext.h \
+	    sys/ioctl.h sys/mib.h sys/ndd_var.h sys/socket.h sys/sockio.h \
+	    sys/sysctl.h sys/time.h)
+	AC_CHECK_HEADERS(net/bpf.h net/if.h net/if_arp.h net/if_dl.h \
+	    net/pfvar.h net/raw.h net/route.h netinet/ip_fw.h linux/ip_fw.h \
+	    linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h)
+	AC_CHECK_HEADERS(ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h \
+	    netinet/ip_compat.h ip_fil.h netinet/ip_fil.h)
+	AC_CHECK_HEADERS(hpsecurity.h)
+fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
-if test $ac_cv_header_sys_socket_h = yes ; then
+if test "$ac_cv_header_sys_socket_h" = yes ; then
 	AC_DNET_SOCKADDR_SA_LEN
 fi
-if test $ac_cv_header_net_if_arp_h = yes ; then
+if test "$ac_cv_header_net_if_arp_h" = yes ; then
 	AC_DNET_ARPREQ_ARP_DEV
 fi
-if test $ac_cv_header_net_route_h = yes ; then
+if test "$ac_cv_header_net_route_h" = yes ; then
 	AC_DNET_ROUTE_RT_MSGHDR
 fi
 AC_PROG_GCC_TRADITIONAL
@@ -81,59 +87,61 @@ AC_CHECK_FUNCS(socket)
 AC_REPLACE_FUNCS(err inet_pton strlcat strlcpy)
 
 dnl Checks for other system-specific jonks.
-AC_DNET_BSD_BPF
-AC_DNET_LINUX_PROCFS
-AC_DNET_LINUX_PF_PACKET
-AC_DNET_STREAMS_MIB2
-AC_DNET_STREAMS_ROUTE
-AC_DNET_IOCTL_ARP
-AC_DNET_RAWIP_HOST_OFFLEN
-AC_DNET_RAWIP_COOKED
+if test "$CYGWIN" != yes ; then
+	AC_DNET_BSD_BPF
+	AC_DNET_LINUX_PROCFS
+	AC_DNET_LINUX_PF_PACKET
+	AC_DNET_STREAMS_MIB2
+	AC_DNET_STREAMS_ROUTE
+	AC_DNET_IOCTL_ARP
+	AC_DNET_RAWIP_HOST_OFFLEN
+	AC_DNET_RAWIP_COOKED
+fi
 
 dnl Check for arp interface.
-if test $ac_cv_dnet_ioctl_arp = yes ; then
+if test "$ac_cv_dnet_ioctl_arp" = yes ; then
 	LIBOBJS="$LIBOBJS arp-ioctl.o"
-elif test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
+elif test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
 	LIBOBJS="$LIBOBJS arp-bsd.o"
 else
 	LIBOBJS="$LIBOBJS arp-none.o"
 fi
 
 dnl Check for Ethernet interface.
-if test $ac_cv_dnet_bsd_bpf = yes ; then
+if test "$ac_cv_dnet_bsd_bpf" = yes ; then
 	LIBOBJS="$LIBOBJS eth-bsd.o"
-elif test $ac_cv_dnet_linux_pf_packet = yes ; then
+elif test "$ac_cv_dnet_linux_pf_packet" = yes ; then
 	LIBOBJS="$LIBOBJS eth-linux.o"
-elif test $ac_cv_header_net_raw_h = yes ; then
+elif test "$ac_cv_header_net_raw_h" = yes ; then
 	LIBOBJS="$LIBOBJS eth-snoop.o"
-elif test $ac_cv_header_sys_ndd_var_h = yes ; then
+elif test "$ac_cv_header_sys_ndd_var_h" = yes ; then
 	LIBOBJS="$LIBOBJS eth-ndd.o"
-elif test $ac_cv_header_sys_dlpi_h = yes || \
-     test $ac_cv_header_sys_dlpihdr_h = yes ; then
+elif test "$ac_cv_header_sys_dlpi_h" = yes || \
+     test "$ac_cv_header_sys_dlpihdr_h" = yes ; then
 	LIBOBJS="$LIBOBJS eth-dlpi.o"
 else
 	LIBOBJS="$LIBOBJS eth-none.o"
 fi
 
 dnl Check for firewall interface.
-if test $ac_cv_header_net_pfvar_h = yes ; then
+if test "$ac_cv_header_net_pfvar_h" = yes ; then
 	LIBOBJS="$LIBOBJS fw-pf.o"
-elif test $ac_cv_header_netinet_ip_fw_h = yes ; then
+elif test "$ac_cv_header_netinet_ip_fw_h" = yes ; then
 	LIBOBJS="$LIBOBJS fw-ipfw.o"
-elif test $ac_cv_header_netinet_ip_fil_h = yes ; then
+elif test "$ac_cv_header_netinet_ip_fil_h" = yes ; then
 	LIBOBJS="$LIBOBJS fw-ipf.o"
-elif test $ac_cv_header_linux_ip_fw_h = yes ; then
+elif test "$ac_cv_header_linux_ip_fw_h" = yes ; then
 	LIBOBJS="$LIBOBJS fw-ipchains.o"
-elif test $ac_cv_header_linux_ip_fwchains_h = yes ; then
+elif test "$ac_cv_header_linux_ip_fwchains_h" = yes ; then
 	LIBOBJS="$LIBOBJS fw-ipchains.o"
-elif test $ac_cv_header_linux_netfilter_ipv4_ipchains_core_h = yes ; then
+elif test "$ac_cv_header_linux_netfilter_ipv4_ipchains_core_h" = yes ; then
 	LIBOBJS="$LIBOBJS fw-ipchains.o"
 else
 	LIBOBJS="$LIBOBJS fw-none.o"
 fi
 
 dnl Check for network interface interface.
-if test $ac_cv_header_Iphlpapi_h = yes ; then
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
 	LIBOBJS="$LIBOBJS intf-win32.o"
 else
 	LIBOBJS="$LIBOBJS intf.o"
@@ -143,11 +151,11 @@ dnl Check for raw IP interface.
 LIBOBJS="$LIBOBJS ip.o"
 
 dnl Check for routing interface.
-if test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
+if test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
 	LIBOBJS="$LIBOBJS route-bsd.o"
-elif test $ac_cv_dnet_linux_procfs = yes ; then
+elif test "$ac_cv_dnet_linux_procfs" = yes ; then
 	LIBOBJS="$LIBOBJS route-linux.o"
-elif test -f /usr/include/hpsecurity.h ; then
+elif test "$ac_cv_header_hpsecurity_h" = yes ; then
 	LIBOBJS="$LIBOBJS route-hpux.o"
 else
 	LIBOBJS="$LIBOBJS route-none.o"

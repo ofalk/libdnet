@@ -33,6 +33,9 @@
 /* Define if you have the <fcntl.h> header file.  */
 #undef HAVE_FCNTL_H
 
+/* Define if you have the <hpsecurity.h> header file.  */
+#undef HAVE_HPSECURITY_H
+
 /* Define if you have the <ip_compat.h> header file.  */
 #undef HAVE_IP_COMPAT_H
 
