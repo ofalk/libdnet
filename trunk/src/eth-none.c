@@ -19,20 +19,20 @@
 eth_t *
 eth_open(char *device)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (NULL);
 }
 
 ssize_t
 eth_send(eth_t *e, const void *buf, size_t len)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 
 int
 eth_close(eth_t *e)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }

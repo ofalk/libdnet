@@ -428,7 +428,7 @@ route_loop(route_t *r, route_handler callback, void *arg)
 int
 route_loop(route_t *r, route_handler callback, void *arg)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 #endif

@@ -17,34 +17,34 @@
 fw_t *
 fw_open(void)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (NULL);
 }
 
 int
 fw_add(fw_t *f, struct fw_rule *rule)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 
 int
 fw_delete(fw_t *f, struct fw_rule *rule)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 
 int
 fw_loop(fw_t *f, fw_handler callback, void *arg)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 
 int
 fw_close(fw_t *f)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }

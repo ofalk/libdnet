@@ -19,41 +19,41 @@
 arp_t *
 arp_open(void)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (NULL);
 }
 
 int
 arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 
 int
 arp_delete(arp_t *a, struct addr *pa)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 
 int
 arp_get(arp_t *a, struct addr *pa, struct addr *ha)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 
 int
 arp_loop(arp_t *a, arp_handler callback, void *arg)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 
 int
 arp_close(arp_t *a)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }

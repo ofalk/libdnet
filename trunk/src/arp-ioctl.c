@@ -392,7 +392,7 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 int
 arp_loop(arp_t *a, arp_handler callback, void *arg)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
 #endif

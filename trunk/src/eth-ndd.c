@@ -111,6 +111,6 @@ eth_get(eth_t *e, eth_addr_t *ea)
 int
 eth_set(eth_t *e, eth_addr_t *ea)
 {
-	errno = EOPNOTSUPP;
+	errno = ENOSYS;
 	return (-1);
 }
