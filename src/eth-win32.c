@@ -33,23 +33,44 @@ eth_open(const char *device)
 	struct adapter alist[16];
 	WCHAR *name, wbuf[2048];
 	ULONG wlen;
-	char *desc;
+	char *desc, *namea;
 	int i, j, alen;
+	OSVERSIONINFO osvi;
 
 	alen = sizeof(alist) / sizeof(alist[0]);
 	wlen = sizeof(wbuf) / sizeof(wbuf[0]);
 	
 	PacketGetAdapterNames((char *)wbuf, &wlen);
 
-	for (name = wbuf, i = 0; *name != '\0' && i < alen; i++) {
-		wcstombs(alist[i].name, name, sizeof(alist[0].name));
-		while (*name++ != '\0')
-			;
-	}
-	for (desc = (char *)name + 2, j = 0; *desc != '\0' && j < alen; j++) {
-		alist[j].desc = desc;
-		while (*desc++ != '\0')
-			;
+	/* Determine Windows version */
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+	GetVersionEx(&osvi);
+
+	if ((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) &&
+	    (osvi.dwMajorVersion >= 4)) {
+		for (name = wbuf, i = 0; *name != '\0' && i < alen; i++) {
+			wcstombs(alist[i].name, name, sizeof(alist[0].name));
+			while (*name++ != '\0')
+				;
+		}
+		for (desc = (char *)name + 2, j = 0; *desc != '\0' && j < alen;
+		    j++) {
+			alist[j].desc = desc;
+			while (*desc++ != '\0')
+				;
+		}
+	} else {
+		for (namea = (char *)wbuf, i = 0; *namea != '\0' && i < alen;
+		    i++) {
+			strlcpy(alist[i].name, namea, sizeof(alist[0].name));
+			while (*namea++ != '\0')
+				;
+		}
+		for (desc = namea + 1, j = 0; *desc != '\0' && j < alen; j++) {
+			alist[j].desc = desc;
+			while (*desc++ != '\0')
+				;
+		}
 	}
 	for (i = 0; i < j; i++) {
 		if (strcmp(device, alist[i].desc) == 0)
