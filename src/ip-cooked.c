@@ -143,7 +143,7 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 	struct arp_entry arpent;
 	struct route_entry rtent;
 	u_char frame[ETH_LEN_MAX];
-	int i;
+	int i, usec;
 
 	iph = (struct ip_hdr *)buf;
 	
@@ -155,7 +155,7 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 	arpent.arp_pa.addr_bits = IP_ADDR_BITS;
 	arpent.arp_pa.addr_ip = iph->ip_dst;
 
-	for (i = 0; i < 3; i++) {
+	for (i = 0, usec = 10; i < 3; i++, usec *= 100) {
 		if (arp_get(ip->arp, &arpent) == 0)
 			break;
 		
@@ -168,7 +168,7 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 		}
 		_request_arp(ipi, &arpent.arp_pa);
 
-		usleep(10 << i);
+		usleep(usec);
 	}
 	if (i == 3)
 		memset(&arpent.arp_ha.addr_eth, 0xff, ETH_ADDR_LEN);
