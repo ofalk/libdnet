@@ -117,13 +117,16 @@ ip_match_intf(char *device, struct intf_info *info, void *arg)
 	
 	if (info->intf_addr.addr_ip == i->ip_src.addr_ip ||
 	    i->ip_src.addr_ip == IP_ADDR_ANY) {
-		if (intf_get(i->intf, device, &i->eth_src, NULL) == 0) {
-			if (i->eth != NULL)
-				eth_close(i->eth);
-			if ((i->eth = eth_open(device)) == NULL)
-				return (-1);
-			return (1);
+		if (i->eth != NULL)
+			eth_close(i->eth);
+		if ((i->eth = eth_open(device)) == NULL)
+			return (-1);
+		if (eth_get(i->eth, &i->eth_src) < 0) {
+			eth_close(i->eth);
+			i->eth = NULL;
+			return (-1);
 		}
+		return (1);
 	}
 	return (0);
 }
