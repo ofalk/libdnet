@@ -57,6 +57,9 @@
 /* Define if you have the <net/if.h> header file.  */
 #undef HAVE_NET_IF_H
 
+/* Define if you have the <net/if_arp.h> header file.  */
+#undef HAVE_NET_IF_ARP_H
+
 /* Define if you have the <net/if_dl.h> header file.  */
 #undef HAVE_NET_IF_DL_H
 
@@ -65,6 +68,9 @@
 
 /* Define if you have the <net/raw.h> header file.  */
 #undef HAVE_NET_RAW_H
+
+/* Define if you have the <net/route.h> header file.  */
+#undef HAVE_NET_ROUTE_H
 
 /* Define if you have the <netinet/ip_compat.h> header file.  */
 #undef HAVE_NETINET_IP_COMPAT_H
@@ -98,6 +104,9 @@
 
 /* Define if you have the <sys/ndd_var.h> header file.  */
 #undef HAVE_SYS_NDD_VAR_H
+
+/* Define if you have the <sys/socket.h> header file.  */
+#undef HAVE_SYS_SOCKET_H
 
 /* Define if you have the <sys/sockio.h> header file.  */
 #undef HAVE_SYS_SOCKIO_H
