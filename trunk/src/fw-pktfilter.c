@@ -9,6 +9,8 @@
 
 #include "config.h"
 
+#include <iphlpapi.h>
+
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -16,8 +18,6 @@
 #include <string.h>
 
 #include "dnet.h"
-
-#include <iphlpapi.h>
 
 #define PKTFILTER_PIPE "\\\\.\\pipe\\PktFltPipe"	
 #define MAX_RULE_LENGTH 256
