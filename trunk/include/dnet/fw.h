@@ -39,13 +39,13 @@ int	 fw_delete(fw_t *f, struct fw_rule *rule);
 int	 fw_loop(fw_t *f, fw_handler callback, void *arg);
 int	 fw_close(fw_t *f);
 
-#define fw_fill_rule(rule, dev, op, dir, p, src, dst, sp1, sp2, dp1, dp2) \
+#define fw_fill_rule(rule, dev, o, dir, p, s, d, sp1, sp2, dp1, dp2) \
 do {									\
-	strlcpy((rule)->device, device, sizeof((rule)->device));	\
-	(rule)->op = op; (rule)->direction = dir;			\
+	strlcpy((rule)->device, dev, sizeof((rule)->device));		\
+	(rule)->op = o; (rule)->direction = dir;			\
 	(rule)->proto = p;						\
-	memset(&(rule)->src, src, sizeof(&(rule)->src));		\
-	memset(&(rule)->dst, dst, sizeof(&(rule)->dst));		\
+	memmove(&(rule)->src, &(s), sizeof((rule)->src));		\
+	memmove(&(rule)->dst, &(d), sizeof((rule)->dst));		\
 	(rule)->sport[0] = sp1; (rule)->sport[1] = sp2;			\
 	(rule)->dport[0] = dp1; (rule)->dport[1] = dp2;			\
 } while (0)
