@@ -1,0 +1,46 @@
+
+figure out interface aliases on non-BSD platforms for intf_{add,delete}
+
+port to other target platforms: AIX, HP-UX, IRIX, win32
+
+code cleanup
+
+documentation
+
+example code
+
+automated regression (automake 'check' target)
+
+fw-pf.c: fix loop for 'flush'
+
+IRIX must be built with CPPFLAGS=-D__sgi ./configure
+
+successfully built on:
+--------+------+-----+-----+----+----+------+-------+
+        | addr | arp | eth | fw | ip | intf | route |
+--------+------+-----+-----+----+----+------+-------+
+openbsd |   X  |  X  |  X  |  X |  X |   X  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+freebsd |   X  |  X  |  X  |  ? |  X |   X  |   X   |   X = works, tested
+--------+------+-----+-----+----+----+------+-------+
+netbsd  |      |     |     |    |    |      |       |   ? = untested
+--------+------+-----+-----+----+----+------+-------+
+linux   |   X  |  X  |  X  |  X |  X |   X  |   X   |   - = broken
+--------+------+-----+-----+----+----+------+-------+
+solaris |   X  |  X  |  X  |  ? |  X |   X  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+macosx  |   X  |     |     |    |    |      |       |
+--------+------+-----+-----+----+----+------+-------+
+irix    |   X  |  X  |  X  |  - |    |   X  |   X   |
+--------+------+-----+-----+----+----+------+-------+
+
+never built on:
+--------+------+-----+-----+----+----+------+-------+
+hp-ux   |      |     |     |    |    |      |       |
+--------+------+-----+-----+----+----+------+-------+
+aix     |      |     |     |    |    |      |       |
+--------+------+-----+-----+----+----+------+-------+
+win32   |      |     |     |    |    |      |       |
+--------+------+-----+-----+----+----+------+-------+
+
+$Id$

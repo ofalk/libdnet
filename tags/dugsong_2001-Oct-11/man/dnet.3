@@ -1,0 +1,418 @@
+.\"
+.\" Copyright (c) 2000 Dug Song <dugsong@monkey.org>
+.\"
+.\" $Id$
+.\"
+.Dd August 21, 2001
+.Dt DNET 3
+.Os
+.Sh NAME
+.Nm dnet
+.Nd dumb networking library
+.Sh SYNOPSIS
+.Fd #include <dnet.h>
+.Ss Addressing
+.Ft int
+.Fn addr_cmp "struct addr *a" "struct addr *b"
+.Ft int
+.Fn addr_ntop "struct addr *src" "char *dst" "size_t size"
+.Ft int
+.Fn addr_pton "char *src" "struct addr *dst"
+.Ft char *
+.Fn addr_ntoa "struct addr *a"
+.Ft int
+.Fn addr_aton "char *src" "struct addr *dst"
+.Ft int
+.Fn addr_ntos "struct addr *a" "struct sockaddr *sa"
+.Ft int
+.Fn addr_ston "struct sockaddr *sa" "struct addr *a"
+.Ft int
+.Fn addr_btos "u_short bits" "struct sockaddr *sa"
+.Ft int
+.Fn addr_stob "struct sockaddr *sa" "u_short *bits"
+.Ft int
+.Fn addr_btom "u_short bits" "u_int32_t mask"
+.Ft int
+.Fn addr_mtob "u_int32_t mask" "u_short *bits"
+.Ss Address Resolution Protocol
+.Ft arp_t *
+.Fn arp_open "void"
+.Ft int
+.Fn arp_add "arp_t *a" "struct addr *pa" "struct addr *ha"
+.Ft int
+.Fn arp_delete "arp_t *a" "struct addr *pa"
+.Ft int
+.Fn arp_get "arp_t *a" "struct addr *pa" "struct addr *ha"
+.Ft int
+.Fn arp_loop "arp_t *a" "arp_handler callback" "void *arg"
+.Ft int
+.Fn arp_close "arp_t *a"
+.Ss Ethernet
+.Ft eth_t *
+.Fn eth_open "char *device"
+.Ft ssize_t
+.Fn eth_send "eth_t *e" "const void *buf" "size_t len"
+.Ft int
+.Fn eth_close "eth_t *e"
+.Ss Internet Protocol
+.Ft ip_t *
+.Fn ip_open "void"
+.Ft ssize_t
+.Fn ip_send "ip_t *i" "const void *buf" "size_t len"
+.Ft int
+.Fn ip_close "ip_t *i"
+.Ft void
+.Fn ip_cksum "struct ip_hdr *ip"
+.Ss Firewalling
+.Ft fw_t *
+.Fn fw_open "void"
+.Ft int
+.Fn fw_add "fw_t *f" "struct fw_rule *rule"
+.Ft int
+.Fn fw_delete "fw_t *f" "struct fw_rule *rule"
+.Ft int
+.Fn fw_loop "fw_t *f" "fw_handler callback" "void *arg"
+.Ft int
+.Fn fw_close "fw_t *f"
+.Ss Interfaces
+.Ft intf_t *
+.Fn intf_open "void"
+.\".Ft int
+.\".Fn intf_add "intf_t *i" "char *device" "struct addr *addr"
+.\".Ft int
+.\".Fn intf_delete "intf_t *i" "char *device" "struct addr *addr"
+.Ft int
+.Fn intf_set "intf_t *i" "char *device" "struct addr *addr" "int *flags"
+.Ft int
+.Fn intf_get "intf_t *i" "char *device" "struct addr *addr" "int *flags"
+.Ft int
+.Fn intf_loop "intf_t *i" "intf_handler callback" "void *arg"
+.Ft int
+.Fn intf_close "void"
+.Ss Routing
+.Ft route_t *
+.Fn route_open "void"
+.Ft int
+.Fn route_add "route_t *r" "struct addr *dst" "struct addr *gw"
+.Ft int
+.Fn route_delete "route_t *r" "struct addr *dst"
+.Ft int
+.Fn route_get "route_t *r" "struct addr *dst" "struct addr *gw"
+.Ft int
+.Fn route_loop "route_t *r" "route_handler callback" "void *arg"
+.Ft int
+.Fn route_close "route_t *r"
+.Sh DESCRIPTION
+.Nm
+provides a simplified, portable interface to several low-level
+networking routines, including network address manipulation, kernel
+.Xr arp 4
+cache and 
+.Xr route 4
+table lookup and manipulation, network firewalling, network interface
+lookup and manipulation, and raw IP packet and Ethernet frame
+transmission. It is intended to complement the functionality provided
+by
+.Xr pcap 3 .
+.Pp
+In addition, 
+.Nm
+also provides platform-independent definitions of various network
+protocol formats and values for portable low-level network
+programming.
+.Pp
+.Ss Addressing
+All network addresses adhere to a general structure, described below.
+.Bd -literal -offset indent
+struct addr {
+	u_short			addr_type;
+	u_short			addr_bits;
+	union {
+		eth_addr_t	__eth;
+		ip_addr_t	__ip;
+		
+		u_int8_t	__data8[20];
+		u_int16_t	__data16[10];
+		u_int32_t	__data32[5];
+	} __addr_u;
+};
+#define addr_eth	__addr_u.__eth
+#define addr_ip		__addr_u.__ip
+#define addr_data8	__addr_u.__data8
+#define addr_data16	__addr_u.__data16
+#define addr_data32	__addr_u.__data32
+.Ed
+.Pp
+The following address values for
+.Ar addr_type
+are known to the system:
+.Bd -literal
+#define	ADDR_TYPE_IP		1	/* Internet protocol */
+#define	ADDR_TYPE_ETH		2	/* Ethernet */
+.Ed
+.Pp
+The field
+.Ar addr_bits
+denotes the length of the network mask in bits.
+.Pp
+.Fn addr_cmp
+compares network addresses
+.Ar a
+and
+.Ar b ,
+returning zero if the two addresses are identical, or else the
+difference between the first two differing bytes. Both addresses must
+be of the same address type.
+.Pp
+.Fn addr_ntop
+converts an address from network format to a string.
+.Pp
+.Fn addr_pton
+converts an address (or hostname) from a string to network format.
+.Pp
+.Fn addr_ntoa
+converts an address from network format to a string, returning a
+pointer to the result in static memory.
+.Pp
+.Fn addr_aton
+is a synonym for
+.Fn addr_pton .
+.Pp
+.Fn addr_ntos
+converts an address from network format to the appropriate struct
+sockaddr.
+.Pp
+.Fn addr_ston
+converts an address from a struct sockaddr to network format.
+.Pp
+.Fn addr_btos
+converts a network mask length to a network mask specified in a struct
+sockaddr.
+.Pp
+.Fn addr_stob
+converts a network mask specified in a struct sockaddr to a network
+mask length.
+.Pp
+.Fn addr_btom
+converts a network mask length to a network mask in network byte
+order.
+.Pp
+.Fn addr_mtob
+converts a network mask in network byte order to a network mask length.
+.Ss Address Resolution Protocol
+.Fn arp_open
+is used to obtain a handle to access the kernel
+.Xr arp 4
+cache.
+.Pp
+.Fn arp_add
+adds a new ARP mapping for the protocol address
+.Ar pa
+to the hardware address
+.Ar ha .
+.Pp
+.Fn arp_delete
+deletes the ARP entry for the specified protocol address
+.Ar pa .
+.Pp
+.Fn arp_get
+retrieves the hardware address 
+.Ar ha 
+for the specified protocol address
+.Ar pa .
+.Pp
+.Fn arp_loop
+iterates over all entries in the kernel
+.Xr arp 4
+cache, invoking the specified
+.Ar callback
+routine on each entry.
+.Pp
+.Fn arp_close
+closes the specified handle.
+.Pp
+.Ss Ethernet
+.Fn eth_open
+is used to obtain a handle to transmit raw Ethernet frames via the
+specified network
+.Ar device .
+.Pp
+.Fn eth_send
+transmits 
+.Ar len
+bytes of the Ethernet frame pointed to by
+.Ar buf .
+.Pp
+.Fn eth_close
+closes the specified handle.
+.Pp
+.Ss Internet Protocol
+.Fn ip_open
+is used to obtain a handle to transmit raw IP packets, routed by the
+kernel.
+.Pp
+.Fn ip_send
+transmits
+.Ar len
+bytes of the IP packet pointed to by
+.Ar buf .
+.Pp
+.Fn ip_close
+closes the specified handle.
+.Pp
+.Fn ip_cksum
+sets the IP checksum and the appropriate transport protocol checksum
+for the packet pointed to by
+.Ar ip .
+.Pp
+.Ss Firewalling
+Firewall rules adhere to a general structure, described below.
+.Bd -literal -offset indent
+struct fw_rule {
+	char		device[14];	/* interface name */
+	u_char		op:4,		/* allow / block */
+			direction:4;	/* in / out */
+	int		proto;		/* IP protocol */
+	struct addr	src;		/* src address / net */
+	struct addr	dst;		/* dst address / net */
+	short		sport[2];	/* range or ICMP type/mask */
+	short		dport[2];	/* range or ICMP code/mask */
+};
+.Ed
+.Pp
+The following values for
+.Ar op
+are known to the system:
+.Bd -literal
+#define FW_OP_ALLOW	1
+#define FW_OP_BLOCK	2
+.Ed
+.Pp
+The following values for
+.Ar direction
+are known to the system:
+.Bd -literal
+#define FW_DIR_IN	1
+#define FW_DIR_OUT	2
+.Ed
+.Pp
+.Fn fw_open
+is used to obtain a handle to access the local network firewall
+configuration.
+.Pp
+.Fn fw_add
+adds the specified firewall
+.Ar rule .
+.Pp
+.Fn fw_delete
+deletes the specified firewall
+.Ar rule .
+.Pp
+.Fn fw_loop
+iterates over all rules in the local firewall configuration, invoking
+the specified 
+.Ar callback
+on each entry.
+.Pp
+.Fn fw_close
+closes the specified handle.
+.Pp 
+.Ss Interfaces
+.Fn intf_open
+is used to obtain a handle to access the local network interface
+configuration.
+.Pp
+.Fn intf_set
+configures the specified 
+.Ar device
+with the network address pointed to by
+.Ar addr
+(if non-null)
+and/or the flag bitmask pointed to by
+.Ar flags 
+(if non-null).
+.Pp
+.Fn intf_get
+retrieves the network address
+.Ar addr
+(if non-null, with its
+.Ar type
+field set)
+and/or the interface flag bitmask pointed to by
+.Ar flags
+(if non-null)
+for the specified interface
+.Ar device .
+.Pp
+.Fn intf_loop
+iterates over all configured up interfaces, invoking the specified 
+.Ar callback
+on each entry.
+.Pp
+.Fn intf_close
+closes the specified handle.
+.Pp
+.Ss Routing
+.Fn route_open
+is used to obtain a handle to access the kernel
+.Xr route 4
+table.
+.Pp
+.Fn route_add
+adds a new route for the network address
+.Ar dst
+to the gateway address
+.Ar gw .
+.Pp
+.Fn route_delete
+deletes the route for the specified network address
+.Ar dst .
+.Pp
+.Fn route_get
+retrieves the gateway address
+.Ar gw
+for the specified network address
+.Ar dst .
+.Pp
+.Fn route_loop
+iterates over all entries in the kernel
+.Xr route 4
+table, invoking the specified
+.Ar callback
+routine on each entry.
+.Pp
+.Fn route_close
+closes the specified handle.
+.Pp
+.Sh RETURN VALUES
+.Fn addr_ntoa
+returns a pointer to a static memory area containing the printable
+address, or NULL on failure.
+.Pp
+.Fn arp_open ,
+.Fn eth_open ,
+.Fn fw_open ,
+.Fn intf_open ,
+.Fn ip_open ,
+and
+.Fn route_open
+return a valid handle on success, or NULL on failure.
+.Pp
+.Pp
+.Fn arp_loop ,
+.Fn fw_loop ,
+.Fn intf_loop ,
+and
+.Fn route_loop
+return the status of their
+.Ar callback
+routines - if non-zero, the loop was exited prematurely.
+.Pp
+All other 
+.Nm
+routines return 0 on success, or -1 on failure.
+.Sh SEE ALSO
+.Xr pcap 3
+.Sh AUTHORS
+Dug Song
+.Aq dugsong@monkey.org
