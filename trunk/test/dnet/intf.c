@@ -64,8 +64,6 @@ flags2string(u_short flags)
 static int
 print_intf(const struct intf_entry *entry, void *arg)
 {
-	struct addr bcast;
-	uint32_t mask;
 	int i;
 	
 	printf("%s:", entry->intf_name);
@@ -79,20 +77,12 @@ print_intf(const struct intf_entry *entry, void *arg)
 	printf("\n");
 	
 	if (entry->intf_addr.addr_type == ADDR_TYPE_IP) {
-		addr_btom(entry->intf_addr.addr_bits, &mask, IP_ADDR_LEN);
-		mask = ntohl(mask);
-		addr_bcast(&entry->intf_addr, &bcast);
-
 		if (entry->intf_dst_addr.addr_type == ADDR_TYPE_IP) {
-			printf("\tinet %s --> %s netmask 0x%x broadcast %s\n",
-			    ip_ntoa(&entry->intf_addr.addr_ip),
-			    addr_ntoa(&entry->intf_dst_addr),
-			    mask, addr_ntoa(&bcast));
-		} else {
-			printf("\tinet %s netmask 0x%x broadcast %s\n",
-			    ip_ntoa(&entry->intf_addr.addr_ip),
-			    mask, addr_ntoa(&bcast));
-		}
+			printf("\tinet %s --> %s\n",
+			    addr_ntoa(&entry->intf_addr),
+			    addr_ntoa(&entry->intf_dst_addr));
+		} else
+			printf("\tinet %s\n", addr_ntoa(&entry->intf_addr));
 	}
 	if (entry->intf_link_addr.addr_type == ADDR_TYPE_ETH)
 		printf("\tlink %s\n", addr_ntoa(&entry->intf_link_addr));
