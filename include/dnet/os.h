@@ -22,6 +22,9 @@
   typedef u_char	uint8_t;
   typedef u_short	uint16_t;
   typedef u_int		uint32_t;
+# ifndef __CYGWIN__
+  typedef long		ssize_t;
+# endif
 #else
 # include <sys/param.h>
 # include <sys/types.h>
