@@ -28,8 +28,7 @@ int
 main(int argc, char *argv[])
 {
 	struct sockaddr sa;
-	struct addr addr;
-	u_int32_t mask;
+	struct addr addr, bcast, mask;
 	char buf[128];
 
 	if (argc != 2)
@@ -45,6 +44,31 @@ main(int argc, char *argv[])
 
 	printf("addr_ntop: %s -> %s\n", addr_ntoa(&addr), buf);
 
+	if (addr_bcast(&addr, &bcast) < 0)
+		err(1, "addr_bcast");
+	
+	printf("addr_bcast: %s -> %s\n",
+	    addr_ntoa(&addr), addr_ntoa(&bcast));
+	
+	if (addr.addr_type == ADDR_TYPE_IP) {
+		mask.addr_type = ADDR_TYPE_IP;
+		mask.addr_bits = IP_ADDR_BITS;
+		
+		if (addr_btom(addr.addr_bits, &mask.addr_ip, IP_ADDR_LEN) < 0)
+			err(1, "addr_btom");
+		
+		printf("addr_btom: %d -> 0x%08x\n",
+		    addr.addr_bits, (u_int)ntohl(mask.addr_ip));
+	} else if (addr.addr_type == ADDR_TYPE_ETH) {
+		mask.addr_type = ADDR_TYPE_ETH;
+		mask.addr_bits = ETH_ADDR_BITS;
+		
+		if (addr_btom(addr.addr_bits, &mask.addr_eth, ETH_ADDR_LEN) < 0)
+			err(1, "addr_btom");
+
+		printf("addr_btom: %d -> %s\n",
+		    addr.addr_bits, addr_ntoa(&mask));
+	}
 	if (addr_ntos(&addr, &sa) < 0)
 		err(1, "addr_ntos");
 
@@ -54,17 +78,17 @@ main(int argc, char *argv[])
 	printf("addr_ntos -> addr_ston: %s\n", addr_ntoa(&addr));
 	
 	if (addr.addr_type == ADDR_TYPE_IP) {
-		if (addr_btom(addr.addr_bits, &mask) < 0)
-			err(1, "addr_btom");
-		
-		printf("addr_btom: %d -> 0x%08x\n",
-		    addr.addr_bits, (u_int)ntohl(mask));
-		
-		if (addr_mtob(mask, &addr.addr_bits) < 0)
+		if (addr_mtob(&mask.addr_ip, IP_ADDR_LEN, &addr.addr_bits) < 0)
 			err(1, "addr_mtob");
 
 		printf("addr_mtob: 0x%08x -> %d\n",
-		    (u_int)ntohl(mask), addr.addr_bits);
+		    (u_int)ntohl(mask.addr_ip), addr.addr_bits);
+	} else if (addr.addr_type == ADDR_TYPE_ETH) {
+		if (addr_mtob(&mask.addr_eth, ETH_ADDR_LEN, &addr.addr_bits) < 0)
+			err(1, "addr_mtob");
+
+		printf("addr_mtob: %s -> %d\n",
+		    addr_ntoa(&mask), addr.addr_bits);
 	}
 	exit(0);
 }

@@ -118,6 +118,28 @@ addr_cmp(struct addr *a, struct addr *b)
 }
 
 int
+addr_bcast(struct addr *a, struct addr *b)
+{
+	struct addr mask;
+	
+	if (a->addr_type == ADDR_TYPE_IP) {
+		addr_btom(a->addr_bits, &mask.addr_ip, IP_ADDR_LEN);
+		b->addr_type = ADDR_TYPE_IP;
+		b->addr_bits = IP_ADDR_BITS;
+		b->addr_ip = (a->addr_ip & mask.addr_ip) |
+		    (~0L & ~mask.addr_ip);
+	} else if (a->addr_type == ADDR_TYPE_ETH) {
+		b->addr_type = ADDR_TYPE_ETH;
+		b->addr_bits = ETH_ADDR_BITS;
+		memcpy(&b->addr_eth, ETH_ADDR_BROADCAST, ETH_ADDR_LEN);
+	} else {
+		errno = EINVAL;
+		return (-1);
+	}
+	return (0);
+}
+
+int
 addr_ntop(struct addr *src, char *dst, size_t size)
 {
 	const char *p;
@@ -176,17 +198,20 @@ addr_pton(char *src, struct addr *dst)
 		
 		for (i = 0; i < ETH_ADDR_LEN; i++) {
 			l = strtol(src, &p, 16);
-			if (p == src || l > 0xff || l < 0) {
+			if (p == src || l < 0 || l > 0xff) {
 				errno = EINVAL;
 				return (-1);
 			}
-			if (!(*p == ':' ||
-			    (i == 5 && (isspace((int)*p) || *p == '\0')))) {
+			if (i < 5 && *p != ':') {
 				errno = EINVAL;
 				return (-1);
 			}
 			dst->addr_data8[i] = (u_char)l;
 			src = p + 1;
+		}
+		if (*p != '\0') {
+			errno = EINVAL;
+			return (-1);
 		}
 	} else {
 		dst->addr_type = ADDR_TYPE_IP;
@@ -196,19 +221,18 @@ addr_pton(char *src, struct addr *dst)
 				errno = EINVAL;
 				return (-1);
 			}
-			l = strtol(p, NULL, 10);
-			
-			if (l < 0 || l > IP_ADDR_BITS) {
+			strlcpy(tmp, src, p - src);
+			src = p;
+			l = strtol(src, &p, 10);
+			if (p == src || l < 0 || l > IP_ADDR_BITS) {
 				errno = EINVAL;
 				return (-1);
 			}
-			strlcpy(tmp, src, p - src);
 			dst->addr_bits = l;
 		} else {
 			strlcpy(tmp, src, sizeof(tmp));
 			dst->addr_bits = IP_ADDR_BITS;
 		}
-		
 		if (inet_pton(AF_INET, tmp, &dst->addr_ip) != 1) {
 			struct hostent *hp = gethostbyname(tmp);
 			
@@ -342,7 +366,7 @@ addr_btos(u_short bits, struct sockaddr *sa)
 	sin = (struct sockaddr_in *)sa;
 	memset(sin, 0, sizeof(*sin));
 	sin->sin_family = AF_INET;
-	if (addr_btom(bits, (u_int32_t *)&sin->sin_addr.s_addr) < 0)
+	if (addr_btom(bits, &sin->sin_addr.s_addr, IP_ADDR_LEN) < 0)
 		return (-1);
 #ifdef HAVE_SOCKADDR_SA_LEN
 	sin->sin_len = IP_ADDR_LEN + (bits / 8) + (bits % 8);
@@ -382,32 +406,45 @@ addr_stob(struct sockaddr *sa, u_short *bits)
 }
 	
 int
-addr_btom(u_short bits, u_int32_t *mask)
+addr_btom(u_short bits, void *mask, size_t size)
 {
-	assert(bits <= IP_ADDR_BITS);
-	
-	if (bits == 0)
-		*mask = 0;
-	else
-		*mask = htonl(~0 << (IP_ADDR_BITS - bits));
+	int net, host;
+	u_char *p;
 
+	if (size == IP_ADDR_LEN) {
+		assert(bits <= IP_ADDR_BITS);
+		*(u_int32_t *)mask = bits ?
+		    htonl(~0 << (IP_ADDR_BITS - bits)) : 0;
+	} else {
+		assert(size * 8 >= bits);
+		p = (u_char *)mask;
+		
+		if ((net = bits / 8) > 0)
+			memset(p, 0xff, net);
+		
+		if ((host = bits % 8) > 0) {
+			p[net] = 0xff << (8 - host);
+			memset(&p[net + 1], 0, size - net - 1);
+		} else
+			memset(&p[net], 0, size - net);
+	}
 	return (0);
 }
 
 int
-addr_mtob(u_int32_t mask, u_short *bits)
+addr_mtob(void *mask, size_t size, u_short *bits)
 {
 	u_short n;
 	u_char *p;
 	int i, j;
 
-	p = (u_char *)&mask;
+	p = (u_char *)mask;
 	
-	for (n = i = 0; i < IP_ADDR_LEN; i++, n += 8) {
+	for (n = i = 0; i < size; i++, n += 8) {
 		if (p[i] != 0xff)
 			break;
 	}
-	if (i != IP_ADDR_LEN && p[i]) {
+	if (i != size && p[i]) {
 		for (j = 7; j > 0; j--, n++) {
 			if ((p[i] & (1 << j)) == 0)
 				break;
