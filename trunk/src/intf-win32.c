@@ -9,8 +9,9 @@
 #include "config.h"
 
 #include <ws2tcpip.h>
-#include <Iphlpapi.h>
+#include <iphlpapi.h>
 
+#include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,116 +19,97 @@
 
 #include "dnet.h"
 
-/* XXX - wonky */
-#define ETHIDXSZ	 24
-#define LOOPIDXSZ	 8
-#define IFTABLESZ	 4096
-#define IPTABLESZ	 1024
+struct ifcombo {
+	DWORD		*idx;
+	int		 cnt;
+	int		 max;
+};
+
+#define MIB_IF_TYPE_MAX	 32	/* XXX - ipifcons.h */
 
 struct intf_handle {
-	DWORD		 eth_idx[ETHIDXSZ];
-	int		 eth_cnt;
-	DWORD		 loop_idx[LOOPIDXSZ];
-	int		 loop_cnt;
+	struct ifcombo	 ifcombo[MIB_IF_TYPE_MAX];
 	MIB_IFTABLE	*iftable;
 	MIB_IPADDRTABLE	*iptable;
 };
 
-intf_t *
-intf_open(void)
+static char *
+_ifcombo_name(int type)
 {
-	intf_t *intf;
-
-	if ((intf = calloc(1, sizeof(*intf) + IFTABLESZ + IPTABLESZ)) != NULL){
-		intf->iftable = (MIB_IFTABLE *)((u_char *)intf +
-		    sizeof(*intf));
-		intf->iptable = (MIB_IPADDRTABLE *)((u_char *)intf->iftable +
-		    IFTABLESZ);
+	char *name = "if";	/* XXX */
+	
+	if (type == MIB_IF_TYPE_ETHERNET) {
+		name = "eth";
+	} else if (type == MIB_IF_TYPE_TOKENRING) {
+		name = "tr";
+	} else if (type == MIB_IF_TYPE_FDDI) {
+		name = "fd";
+	} else if (type == MIB_IF_TYPE_PPP) {
+		name = "ppp";
+	} else if (type == MIB_IF_TYPE_LOOPBACK) {
+		name = "lo";
+	} else if (type == MIB_IF_TYPE_SLIP) {
+		name = "sl";
 	}
-	return (intf);
+	return (name);
 }
 
 static int
-_match_intf_name(const struct intf_entry *entry, void *arg)
+_ifcombo_type(const char *device)
 {
-	struct intf_entry *e = (struct intf_entry *)arg;
+	int type = INTF_TYPE_OTHER;
 	
-	if (strcmp(e->intf_name, entry->intf_name) == 0) {
-		/* XXX - truncated result if entry is too small. */
-		memcpy(e, entry, e->intf_len);
-		return (1);
+	if (strncmp(device, "eth", 3) == 0) {
+		type = INTF_TYPE_ETH;
+	} else if (strncmp(device, "tr", 2) == 0) {
+		type = INTF_TYPE_TOKENRING;
+	} else if (strncmp(device, "fd", 2) == 0) {
+		type = INTF_TYPE_FDDI;
+	} else if (strncmp(device, "ppp", 3) == 0) {
+		type = INTF_TYPE_PPP;
+	} else if (strncmp(device, "lo", 2) == 0) {
+		type = INTF_TYPE_LOOPBACK;
+	} else if (strncmp(device, "sl", 2) == 0) {
+		type = INTF_TYPE_SLIP;
 	}
-	return (0);
+	return (type);
 }
 
-int
-intf_get(intf_t *intf, struct intf_entry *entry)
+static void
+_ifcombo_add(struct ifcombo *ifc, DWORD idx)
 {
-	if (intf_loop(intf, _match_intf_name, entry) != 1) {
-		errno = ENXIO;
-		SetLastError(ERROR_NO_DATA);
-		return (-1);
+	if (ifc->cnt == ifc->max) {
+		if (ifc->idx) {
+			ifc->max *= 2;
+			ifc->idx = realloc(ifc->idx,
+			    sizeof(ifc->idx[0] * ifc->max));
+		} else {
+			ifc->max = 8;
+			ifc->idx = malloc(sizeof(ifc->idx[0] * ifc->max));
+		}
 	}
-	return (0);
-}
-
-static int
-_match_intf_src(const struct intf_entry *entry, void *arg)
-{
-	struct intf_entry *save = (struct intf_entry *)arg;
-	
-	if (entry->intf_addr.addr_type == ADDR_TYPE_IP &&
-	    entry->intf_addr.addr_ip == save->intf_addr.addr_ip) {
-		/* XXX - truncated result if entry is too small. */
-		memcpy(save, entry, save->intf_len);
-		return (1);
-	}
-	return (0);
-}
-
-int
-intf_get_src(intf_t *intf, struct intf_entry *entry, struct addr *src)
-{
-	memcpy(&entry->intf_addr, src, sizeof(*src));
-	
-	if (intf_loop(intf, _match_intf_src, entry) != 1) {
-		errno = ENXIO;
-		return (-1);
-	}
-	return (0);
+	ifc->idx[ifc->cnt++] = idx;
 }
 
 static void
 _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 {
-	struct addr *ap;
+	struct addr *ap, *lap;
 	u_long i;
 	
 	memset(entry, 0, sizeof(*entry));
 
-	/* XXX - dwType matches MIB-II ifType. */
-	if (ifrow->dwType == MIB_IF_TYPE_ETHERNET) {
-		for (i = 0; i < intf->eth_cnt; i++) {
-			if (intf->eth_idx[i] == ifrow->dwIndex)
-				break;
-		}
-		sprintf(entry->intf_name, "eth%lu", i);
-		entry->intf_type = (u_short)ifrow->dwType;
-	} else if (ifrow->dwType == MIB_IF_TYPE_LOOPBACK) {
-		for (i = 0; i < intf->loop_cnt; i++) {
-			if (intf->loop_idx[i] == ifrow->dwIndex)
-				break;
-		}
-		sprintf(entry->intf_name, "lo%lu", i);
-		entry->intf_type = ifrow->dwType;
-	} else {
-		/* XXX */
-		sprintf(entry->intf_name, "nic%lu", ifrow->dwIndex);
-		entry->intf_type = INTF_TYPE_OTHER;
+	for (i = 0; i < intf->ifcombo[ifrow->dwType].cnt; i++) {
+		if (intf->ifcombo[ifrow->dwType].idx[i] == ifrow->dwIndex)
+			break;
 	}
+	/* XXX - dwType matches MIB-II ifType. */
+	snprintf(entry->intf_name, sizeof(entry->intf_name), "%s%lu",
+	    _ifcombo_name(ifrow->dwType), i);
+	entry->intf_type = ifrow->dwType;
+	
 	/* Get interface flags. */
 	entry->intf_flags = 0;
-	
 	if (ifrow->dwAdminStatus == MIB_IF_ADMIN_STATUS_UP)
 		entry->intf_flags |= INTF_FLAG_UP;
 	if (ifrow->dwType == MIB_IF_TYPE_LOOPBACK)
@@ -139,8 +121,7 @@ _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 	entry->intf_mtu = ifrow->dwMtu;
 	
 	/* Get hardware address. */
-	if (ifrow->dwType == MIB_IF_TYPE_ETHERNET &&
-	    ifrow->dwPhysAddrLen == ETH_ADDR_LEN) {
+	if (ifrow->dwPhysAddrLen == ETH_ADDR_LEN) {
 		entry->intf_link_addr.addr_type = ADDR_TYPE_ETH;
 		entry->intf_link_addr.addr_bits = ETH_ADDR_BITS;
 		memcpy(&entry->intf_link_addr.addr_eth, ifrow->bPhysAddr,
@@ -148,15 +129,19 @@ _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 	}
 	/* Get addresses. */
 	ap = entry->intf_alias_addrs;
+	lap = ap + ((entry->intf_len - sizeof(*entry)) /
+	    sizeof(entry->intf_alias_addrs[0]));
 	for (i = 0; i < intf->iptable->dwNumEntries; i++) {
 		if (intf->iptable->table[i].dwIndex == ifrow->dwIndex) {
-			if (entry->intf_addr.addr_type != ADDR_TYPE_IP) {
+			if (entry->intf_addr.addr_type == ADDR_TYPE_NONE) {
+				/* Set primary address if unset. */
 				entry->intf_addr.addr_type = ADDR_TYPE_IP;
 				entry->intf_addr.addr_ip =
 				    intf->iptable->table[i].dwAddr;
 				addr_mtob(&intf->iptable->table[i].dwMask,
 				    IP_ADDR_LEN, &entry->intf_addr.addr_bits);
-			} else {
+			} else if (ap < lap) {
+				/* Set aliases. */
 				ap->addr_type = ADDR_TYPE_IP;
 				ap->addr_ip = intf->iptable->table[i].dwAddr;
 				addr_mtob(&intf->iptable->table[i].dwMask,
@@ -171,33 +156,129 @@ _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 static int
 _refresh_tables(intf_t *intf)
 {
+	MIB_IFROW *ifrow;
 	ULONG len;
-	u_int i;
-	
-        len = IFTABLESZ;
-	if (GetIfTable(intf->iftable, &len, FALSE) != NO_ERROR)
-		return (-1);
+	u_int i, ret;
 
-	/* Map "unfriendly" win32 interface indices to ours. */
-	intf->eth_cnt = intf->loop_cnt = 0;
-	
+	/* Get interface table. */
+	for (len = sizeof(intf->iftable[0]); ; ) {
+		if (intf->iftable)
+			free(intf->iftable);
+		intf->iftable = malloc(len);
+		ret = GetIfTable(intf->iftable, &len, FALSE);
+		if (ret == NO_ERROR)
+			break;
+		else if (ret != ERROR_INSUFFICIENT_BUFFER)
+			return (-1);
+	}
+	/* Get IP address table. */
+	for (len = sizeof(intf->iptable[0]); ; ) {
+		if (intf->iptable)
+			free(intf->iptable);
+		intf->iptable = malloc(len);
+		ret = GetIpAddrTable(intf->iptable, &len, FALSE);
+		if (ret == NO_ERROR)
+			break;
+		else if (ret != ERROR_INSUFFICIENT_BUFFER)
+			return (-1);
+	}
+	/*
+	 * Map "unfriendly" win32 interface indices to ours.
+	 * XXX - like IP_ADAPTER_INFO ComboIndex
+	 */
 	for (i = 0; i < intf->iftable->dwNumEntries; i++) {
-		if (intf->iftable->table[i].dwType == MIB_IF_TYPE_ETHERNET &&
-		    intf->eth_cnt < ETHIDXSZ) {
-			intf->eth_idx[intf->eth_cnt++] =
-			    intf->iftable->table[i].dwIndex;
-		} else if (intf->iftable->table[i].dwType ==
-		    MIB_IF_TYPE_LOOPBACK && intf->loop_cnt < LOOPIDXSZ) {
-			intf->loop_idx[intf->loop_cnt++] =
-			    intf->iftable->table[i].dwIndex;
+		ifrow = &intf->iftable->table[i];
+		if (ifrow->dwType < MIB_IF_TYPE_MAX) {
+			_ifcombo_add(&intf->ifcombo[ifrow->dwType],
+			    ifrow->dwIndex);
 		} else
 			return (-1);
 	}
-	len = IPTABLESZ;
-	if (GetIpAddrTable(intf->iptable, &len, FALSE) != NO_ERROR)
+	return (0);
+}
+
+static int
+_find_ifindex(intf_t *intf, const char *device)
+{
+	char *p = (char *)device;
+	int n, type = _ifcombo_type(device);
+	
+	while (isalpha(*p)) p++;
+	n = atoi(p);
+
+	return (intf->ifcombo[type].idx[n]);
+}
+
+intf_t *
+intf_open(void)
+{
+	return (calloc(1, sizeof(struct intf_handle)));
+}
+
+int
+intf_get(intf_t *intf, struct intf_entry *entry)
+{
+	MIB_IFROW ifrow;
+	
+	if (_refresh_tables(intf) < 0)
 		return (-1);
 	
+	ifrow.dwIndex = _find_ifindex(intf, entry->intf_name);
+	
+	if (GetIfEntry(&ifrow) != NO_ERROR)
+		return (-1);
+
+	_ifrow_to_entry(intf, &ifrow, entry);
+	
 	return (0);
+}
+
+/* XXX - gross hack required by eth-win32:eth_open() */
+const char *
+intf_get_desc(intf_t *intf, const char *name)
+{
+	static char desc[MAXLEN_IFDESCR + 1];
+	MIB_IFROW ifrow;
+	
+	if (_refresh_tables(intf) < 0)
+		return (NULL);
+	
+	ifrow.dwIndex = _find_ifindex(intf, name);
+	
+	if (GetIfEntry(&ifrow) != NO_ERROR)
+		return (NULL);
+
+	strlcpy(desc, ifrow.bDescr, sizeof(desc));
+	
+	return (desc);
+}
+
+int
+intf_get_src(intf_t *intf, struct intf_entry *entry, struct addr *src)
+{
+	MIB_IFROW ifrow;
+	MIB_IPADDRROW *iprow;
+	int i;
+
+	if (src->addr_type != ADDR_TYPE_IP) {
+		errno = EINVAL;
+		return (-1);
+	}
+	if (_refresh_tables(intf) < 0)
+		return (-1);
+	
+	for (i = 0; i < intf->iptable->dwNumEntries; i++) {
+		iprow = &intf->iptable->table[i];
+		if (iprow->dwAddr == src->addr_ip) {
+			ifrow.dwIndex = iprow->dwIndex;
+			if (GetIfEntry(&ifrow) != NO_ERROR)
+				return (-1);
+			_ifrow_to_entry(intf, &ifrow, entry);
+			return (0);
+		}
+	}
+	errno = ENXIO;
+	return (-1);
 }
 
 int
@@ -206,8 +287,7 @@ intf_get_dst(intf_t *intf, struct intf_entry *entry, struct addr *dst)
 	MIB_IFROW ifrow;
 	
 	if (dst->addr_type != ADDR_TYPE_IP) {
-		errno = ENXIO;
-		SetLastError(ERROR_NO_DATA);
+		errno = EINVAL;
 		return (-1);
 	}
 	if (GetBestInterface(dst->addr_ip, &ifrow.dwIndex) != NO_ERROR)
@@ -224,41 +304,31 @@ intf_get_dst(intf_t *intf, struct intf_entry *entry, struct addr *dst)
 	return (0);
 }
 
-const char *
-intf_get_desc(intf_t *intf, const char *name)
-{
-	static char desc[MAXLEN_IFDESCR + 1];
-	MIB_IFROW ifrow;
-	u_int i;
-
-	if (_refresh_tables(intf) < 0)
-		return (NULL);
-	
-	if (strncmp(name, "eth", 3) == 0 &&
-	    (i = atoi(name + 3)) < ETHIDXSZ) {
-		ifrow.dwIndex = intf->eth_idx[i];
-	} else if (strncmp(name, "lo", 2) == 0 &&
-	    (i = atoi(name + 2)) < LOOPIDXSZ) {
-		ifrow.dwIndex = intf->loop_idx[i];
-	} else
-		return (NULL);
-
-	if (GetIfEntry(&ifrow) != NO_ERROR)
-		return (NULL);
-
-	strlcpy(desc, ifrow.bDescr, sizeof(desc));
-	
-	return (desc);
-}
-
 int
 intf_set(intf_t *intf, const struct intf_entry *entry)
 {
 	/*
-	 * XXX - could set interface down via SetIfEntry(),
+	 * XXX - could set interface up/down via SetIfEntry(),
 	 * but what about the rest of the configuration? :-(
 	 * {Add,Delete}IPAddress for 2000/XP only
 	 */
+#if 0
+	/* Set interface address. XXX - 2000/XP only? */
+	if (entry->intf_addr.addr_type == ADDR_TYPE_IP) {
+		ULONG ctx = 0, inst = 0;
+		UINT ip, mask;
+
+		memcpy(&ip, &entry->intf_addr.addr_ip, IP_ADDR_LEN);
+		addr_btom(entry->intf_addr.addr_bits, &mask, IP_ADDR_LEN);
+		
+		if (AddIPAddress(ip, mask,
+			_find_ifindex(intf, entry->intf_name),
+			&ctx, &inst) != NO_ERROR) {
+			return (-1);
+		}
+		return (0);
+	}
+#endif
 	errno = ENOSYS;
 	SetLastError(ERROR_NOT_SUPPORTED);
 	return (-1);
@@ -277,8 +347,8 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	entry = (struct intf_entry *)ebuf;
 	
 	for (i = 0; i < intf->iftable->dwNumEntries; i++) {
+		entry->intf_len = sizeof(ebuf);
 		_ifrow_to_entry(intf, &intf->iftable->table[i], entry);
-		
 		if ((ret = (*callback)(entry, arg)) != 0)
 			break;
 	}
@@ -288,6 +358,16 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 intf_t *
 intf_close(intf_t *intf)
 {
+	int i;
+
+	for (i = 0; i < MIB_IF_TYPE_MAX; i++) {
+		if (intf->ifcombo[i].idx)
+			free(intf->ifcombo[i].idx);
+	}
+	if (intf->iftable)
+		free(intf->iftable);
+	if (intf->iptable)
+		free(intf->iptable);
 	free(intf);
 	return (NULL);
 }
