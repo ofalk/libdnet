@@ -453,6 +453,57 @@ intf_get(intf_t *intf, struct intf_entry *entry)
 	return (_intf_get_aliases(intf, entry));
 }
 
+static int
+_match_intf_src(const struct intf_entry *entry, void *arg)
+{
+	struct intf_entry *save = (struct intf_entry *)arg;
+	
+	if (entry->intf_addr.addr_type == ADDR_TYPE_IP &&
+	    entry->intf_addr.addr_ip == save->intf_addr.addr_ip &&
+	    entry->intf_len <= save->intf_len) {
+		save->intf_len = entry->intf_len;
+		memcpy(save, entry, entry->intf_len);
+		return (1);
+	}
+	return (0);
+}
+
+int
+intf_get_src(intf_t *intf, struct intf_entry *entry, struct addr *dst)
+{
+	memcpy(&entry->intf_addr, dst, sizeof(*dst));
+	
+	if (intf_loop(intf, _match_intf_src, entry) != 1) {
+		errno = ENXIO;
+		return (-1);
+	}
+	return (0);
+}
+
+int
+intf_get_dst(intf_t *intf, struct intf_entry *entry, struct addr *dst)
+{
+	struct sockaddr_in sin;
+	int n;
+	
+	addr_ntos(dst, (struct sockaddr *)&sin);
+	sin.sin_port = htons(666);
+
+	if (connect(intf->fd, (struct sockaddr *)&sin, sizeof(sin)) < 0)
+		return (-1);
+
+	n = sizeof(sin);
+	if (getsockname(intf->fd, (struct sockaddr *)&sin, &n) < 0)
+		return (-1);
+
+	addr_ston((struct sockaddr *)&sin, &entry->intf_addr);
+	
+	if (intf_loop(intf, _match_intf_src, entry) != 1)
+		return (-1);
+	
+	return (0);
+}
+
 #ifdef HAVE_LINUX_PROCFS
 #define PROC_DEV_FILE	"/proc/net/dev"
 

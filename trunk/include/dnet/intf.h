@@ -52,6 +52,8 @@ typedef int (*intf_handler)(const struct intf_entry *entry, void *arg);
 __BEGIN_DECLS
 intf_t	*intf_open(void);
 int	 intf_get(intf_t *i, struct intf_entry *entry);
+int	 intf_get_src(intf_t *i, struct intf_entry *entry, struct addr *src);
+int	 intf_get_dst(intf_t *i, struct intf_entry *entry, struct addr *dst);
 int	 intf_set(intf_t *i, const struct intf_entry *entry);
 int	 intf_loop(intf_t *i, intf_handler callback, void *arg);
 intf_t	*intf_close(intf_t *i);
