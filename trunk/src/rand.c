@@ -61,7 +61,7 @@ rand_t *
 rand_open(void)
 {
 	rand_t *r;
-	u_char seed[128];
+	u_char seed[256];
 #ifdef WIN32
 	HCRYPTPROV hcrypt = 0;
 
@@ -81,7 +81,8 @@ rand_open(void)
 #endif
 	if ((r = malloc(sizeof(*r))) != NULL) {
 		rand_init(r);
-		rand_addrandom(r, seed, sizeof(seed));
+		rand_addrandom(r, seed, 128);
+		rand_addrandom(r, seed + 128, 128);
 	}
 	return (r);
 }
