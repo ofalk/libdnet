@@ -404,7 +404,6 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 				}
 				eth_close(eth);
 			}
-			entry->intf_link_addr = ap++;
 #endif
 		}
 		/* Get interface MTU. */
