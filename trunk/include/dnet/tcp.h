@@ -59,12 +59,15 @@ struct tcp_hdr {
 #define TCP_OPT_EOL		0
 #define TCP_OPT_NOP		1
 #define TCP_OPT_MSS		2
-#define TCP_OPT_WSCALE		3
-#define TCP_OPT_SACKOK		4
-#define TCP_OPT_SACK		5
-#define TCP_OPT_CC		11
-#define TCP_OPT_CCNEW		12
-#define TCP_OPT_CCECHO		13
+#define TCP_OPT_WSCALE		3	/* RFC 1072 */
+#define TCP_OPT_SACKOK		4	/* RFC 2018 */
+#define TCP_OPT_SACK		5	/* RFC 2018 */
+#define TCP_OPT_ECHO		6	/* RFC 1072 */
+#define TCP_OPT_ECHOREPLY	7	/* RFC 1072 */
+#define TCP_OPT_TIMESTAMP	8	/* RFC 1323 */
+#define TCP_OPT_CC		11	/* RFC 1644 */
+#define TCP_OPT_CCNEW		12	/* RFC 1644 */
+#define TCP_OPT_CCECHO		13	/* RFC 1644 */
 #define TCP_OPT_MD5		19
 
 #define TCP_OPT_TYPEONLY(type)	\
