@@ -203,9 +203,9 @@ AC_DEFUN(AC_DNET_RAWIP_HOST_OFFLEN,
     [AC_MSG_CHECKING([for raw IP sockets ip_{len,off} host byte ordering])
     AC_CACHE_VAL(ac_cv_dnet_rawip_host_offlen, [
 	case "$host_os" in
-	*OpenBSD*)
+	*openbsd*)
 	    ac_cv_dnet_rawip_host_offlen=no ;;
-	*BSD*|*UnixWare*)
+	*bsd*|*unixware*)
 	    ac_cv_dnet_rawip_host_offlen=yes ;;
 	*)
 	    ac_cv_dnet_rawip_host_offlen=no ;;

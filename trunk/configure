@@ -2531,9 +2531,9 @@ echo "configure:2529: checking for raw IP sockets ip_{len,off} host byte orderin
 else
   
 	case "$host_os" in
-	*OpenBSD*)
+	*openbsd*)
 	    ac_cv_dnet_rawip_host_offlen=no ;;
-	*BSD*|*UnixWare*)
+	*bsd*|*unixware*)
 	    ac_cv_dnet_rawip_host_offlen=yes ;;
 	*)
 	    ac_cv_dnet_rawip_host_offlen=no ;;
