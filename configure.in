@@ -1,0 +1,116 @@
+dnl
+dnl configure.in
+dnl
+dnl Copyright (c) 2000 Dug Song <dugsong@monkey.org>
+dnl
+dnl $Id$
+
+AC_INIT(include/dnet.h)
+
+AM_INIT_AUTOMAKE(libdnet, 0.1)
+AM_CONFIG_HEADER(include/config.h)
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_RANLIB
+dnl XXX - stupid IRIX cpp
+if test -r /usr/include/sgidefs.h ; then
+   CPPFLAGS="$CPPFLAGS -D__sgi"
+fi
+
+dnl Checks for libraries.
+AC_LBL_LIBRARY_NET
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(fcntl.h unistd.h)
+AC_CHECK_HEADERS(sys/bufmod.h sys/dlpi.h sys/ioctl.h sys/sockio.h \
+	sys/sysctl.h sys/time.h)
+AC_CHECK_HEADERS(net/bpf.h net/if_dl.h net/pfvar.h net/raw.h netinet/ip_fw.h \
+	linux/ip_fw.h linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h)
+AC_CHECK_HEADERS(ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h \
+	netinet/ip_compat.h ip_fil.h netinet/ip_fil.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+AC_DNET_SOCKADDR_SA_LEN
+AC_DNET_ROUTE_RT_MSGHDR
+AC_PROG_GCC_TRADITIONAL
+if test "$GCC" = yes ; then
+   CFLAGS="$CFLAGS -Wall"
+fi
+
+dnl Checks for library functions.
+AC_FUNC_MEMCMP
+AC_CHECK_FUNCS(socket)
+AC_REPLACE_FUNCS(err inet_pton strlcat strlcpy)
+
+dnl Checks for other crap.
+AC_DNET_BSD_BPF
+AC_DNET_LINUX_PROCFS
+AC_DNET_LINUX_PF_PACKET
+AC_DNET_SOLARIS_DEV_IP
+
+dnl Check for arp interface.
+if test $ac_cv_dnet_solaris_dev_ip = yes ; then
+	LIBOBJS="$LIBOBJS arp-solaris.o"
+elif test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
+	LIBOBJS="$LIBOBJS arp-bsd.o"
+elif test $ac_cv_dnet_linux_procfs = yes ; then
+	LIBOBJS="$LIBOBJS arp-linux.o"
+else
+	LIBOBJS="$LIBOBJS arp-none.o"
+fi
+
+dnl Check for Ethernet interface.
+if test $ac_cv_dnet_bsd_bpf = yes ; then
+	LIBOBJS="$LIBOBJS eth-bsd.o"
+elif test $ac_cv_dnet_linux_pf_packet = yes ; then
+	LIBOBJS="$LIBOBJS eth-linux.o"
+elif test $ac_cv_header_net_raw_h = yes ; then
+	LIBOBJS="$LIBOBJS eth-snoop.o"
+elif test $ac_cv_header_sys_dlpi_h = yes ; then
+	LIBOBJS="$LIBOBJS eth-dlpi.o"
+else
+	LIBOBJS="$LIBOBJS eth-none.o"
+fi
+
+dnl Check for firewall interface.
+if test $ac_cv_header_net_pfvar_h = yes ; then
+	LIBOBJS="$LIBOBJS fw-pf.o"
+elif test $ac_cv_header_netinet_ip_fw_h = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipfw.o"
+elif test $ac_cv_header_netinet_ip_fil_h = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipf.o"
+elif test $ac_cv_header_linux_ip_fw_h = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipchains.o"
+elif test $ac_cv_header_linux_ip_fwchains_h = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipchains.o"
+elif test $ac_cv_header_linux_netfilter_ipv4_ipchains_core_h = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipchains.o"
+else
+	LIBOBJS="$LIBOBJS fw-none.o"
+fi
+
+dnl Check for cooked raw IP sockets.
+dnl XXX - Solaris, what else?
+if test $ac_cv_dnet_solaris_dev_ip = yes ; then
+	LIBOBJS="$LIBOBJS ip-cooked.o"
+else
+	LIBOBJS="$LIBOBJS ip.o"
+fi
+
+dnl Check for routing interface.
+if test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
+	LIBOBJS="$LIBOBJS route-bsd.o"
+elif test $ac_cv_dnet_linux_procfs = yes ; then
+	LIBOBJS="$LIBOBJS route-linux.o"
+else
+	LIBOBJS="$LIBOBJS route-none.o"
+fi
+
+AC_OUTPUT(Makefile include/Makefile include/dnet/Makefile man/Makefile \
+	src/Makefile test/Makefile test/dnet/Makefile)
