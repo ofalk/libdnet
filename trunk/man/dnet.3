@@ -11,7 +11,7 @@
 .Nd dumb networking library
 .Sh SYNOPSIS
 .Fd #include <dnet.h>
-.Ss Addressing
+.Ss Network addressing
 .Ft int
 .Fn addr_cmp "struct addr *a" "struct addr *b"
 .Ft int
@@ -75,7 +75,7 @@
 .Fn fw_loop "fw_t *f" "fw_handler callback" "void *arg"
 .Ft int
 .Fn fw_close "fw_t *f"
-.Ss Interfaces
+.Ss Network interfaces
 .Pp
 .Li typedef Ar int Fn (*intf_handler) "char *device" "struct intf_info *info" "void *arg"
 .Ft intf_t *
@@ -85,9 +85,9 @@
 .\".Ft int
 .\".Fn intf_delete "intf_t *i" "char *device" "struct addr *addr"
 .Ft int
-.Fn intf_set "intf_t *i" "char *device" "struct addr *addr" "int *flags"
+.Fn intf_set "intf_t *i" "char *device" "struct intf_info *info"
 .Ft int
-.Fn intf_get "intf_t *i" "char *device" "struct addr *addr" "int *flags"
+.Fn intf_get "intf_t *i" "char *device" "struct intf_info *info"
 .Ft int
 .Fn intf_loop "intf_t *i" "intf_handler callback" "void *arg"
 .Ft int
@@ -137,7 +137,7 @@ also provides platform-independent definitions of various network
 protocol formats and values for portable low-level network
 programming.
 .Pp
-.Ss Addressing
+.Ss Network addressing
 All network addresses adhere to a general structure, described below.
 .Bd -literal -offset indent
 struct addr {
@@ -342,39 +342,56 @@ passed to
 .Fn fw_close
 closes the specified handle.
 .Pp 
-.Ss Interfaces
+.Ss Network interfaces
+Network interface information is described by the following structure:
+.Bd -literal -offset indent
+struct intf_info {
+	u_int		intf_info;	/* bitmask of fields set */
+	struct addr	intf_addr;	/* interface IP address */
+	u_int		intf_flags;	/* interface flags */
+	u_int		intf_mtu;	/* interface MTU */
+};
+.Ed
+.Pp
+The following bitmask values are defined for
+.Ar intf_info :
+.Bd -literal
+#define INTF_INFO_ADDR	0x01		/* intf_addr is set */
+#define INTF_INFO_FLAGS	0x02		/* intf_flags is set */
+#define INTF_INFO_MTU	0x04		/* intf_mtu is set */
+.Ed
+.Pp
+The following bitmask values are defined for
+.Ar intf_flags :
+.Bd -literal
+#define INTF_FLAG_UP		0x01	/* enable interface */
+#define INTF_FLAG_LOOPBACK	0x02	/* is a loopback net (r/o) */
+#define INTF_FLAG_POINTOPOINT	0x04	/* point-to-point link (r/o) */
+#define INTF_FLAG_NOARP		0x08	/* disable arp */
+#define INTF_FLAG_MULTICAST	0x10	/* supports multicast (r/o) */
+.Ed
+.Pp
 .Fn intf_open
-is used to obtain a handle to access the local network interface
+is used to obtain a handle to access the network interface
 configuration.
 .Pp
 .Fn intf_set
 configures the specified 
 .Fa device
-with the network address pointed to by
-.Fa addr
-(if non-null)
-and/or the flag bitmask pointed to by
-.Fa flags 
-(if non-null).
+with the configuration 
+.Fa info .
 .Pp
 .Fn intf_get
-retrieves the network address
-.Fa addr
-(if non-null, with its
-.Fa type
-field set)
-and/or the interface flag bitmask pointed to by
-.Fa flags
-(if non-null)
-for the specified interface
+retrieves the configuration
+.Fa info
+for the specified 
 .Fa device .
 .Pp
 .Fn intf_loop
-iterates over all active interfaces, invoking the specified 
+iterates over all network interfaces, invoking the specified 
 .Fa callback
-with each entry's interface
-.Fa name ,
-.Fa info ,
+with each entry's configuration
+.Fa info 
 and the context
 .Fa arg
 passed to

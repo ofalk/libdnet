@@ -31,7 +31,7 @@ struct intf_handle {
 };
 
 static void
-intf_flags_to_iff(int flags, short *iff)
+intf_flags_to_iff(u_int flags, short *iff)
 {
 	short n = *iff;
 	
@@ -64,9 +64,9 @@ intf_flags_to_iff(int flags, short *iff)
 }
 
 static void
-intf_iff_to_flags(short iff, int *flags)
+intf_iff_to_flags(short iff, u_int *flags)
 {
-	int n = 0;
+	u_int n = 0;
 
 	if (iff & IFF_UP)
 		n |= INTF_FLAG_UP;	
@@ -97,7 +97,7 @@ intf_open(void)
 	return (intf);
 }
 
-#if 0
+#ifdef notyet
 int
 intf_add(intf_t *i, char *device, struct addr *addr)
 {
@@ -128,120 +128,101 @@ intf_delete(intf_t *i, char *device, struct addr *addr)
 #endif
 
 int
-intf_set(intf_t *i, char *device, struct addr *addr, int *flags)
+intf_set(intf_t *i, char *device, struct intf_info *info)
 {
 	struct addr bcast;
 	struct ifreq ifr;
-	eth_t *eth;
-
-	assert(device != NULL && (addr != NULL || flags != NULL));
+	
+	assert(device != NULL && info != NULL);
 	
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
-	
-	if (addr != NULL) {
-		if (addr_ntos(addr, &ifr.ifr_addr) < 0)
-			return (-1);
 
-		switch (addr->addr_type) {
-		case ADDR_TYPE_IP:
-			if (ioctl(i->fd, SIOCSIFADDR, &ifr) < 0)
+	if ((info->intf_info & INTF_INFO_ADDR) != 0) {
+		if (addr_ntos(&info->intf_addr, &ifr.ifr_addr) < 0)
+			return (-1);
+		
+		if (ioctl(i->fd, SIOCSIFADDR, &ifr) < 0)
+			return (-1);
+		
+		if (addr_btos(info->intf_addr.addr_bits, &ifr.ifr_addr) == 0) {
+			if (ioctl(i->fd, SIOCSIFNETMASK, &ifr) < 0)
 				return (-1);
-			
-			if (addr_btos(addr->addr_bits, &ifr.ifr_addr) == 0) {
-				if (ioctl(i->fd, SIOCSIFNETMASK, &ifr) < 0)
-					return (-1);
-			}
-			if (addr_bcast(addr, &bcast) == 0 &&
-			    addr_ntos(&bcast, &ifr.ifr_broadaddr) == 0) {
+		}
+		if (addr_bcast(&info->intf_addr, &bcast) == 0) {
+			if (addr_ntos(&bcast, &ifr.ifr_broadaddr) == 0) {
 				if (ioctl(i->fd, SIOCSIFBRDADDR, &ifr) < 0)
 					return (-1);
 			}
-			break;
-		case ADDR_TYPE_ETH:
-			if ((eth = eth_open(device)) == NULL)
-				return (-1);
-			
-			if (eth_set(eth, &addr->addr_eth) < 0)
-				return (-1);
-			
-			eth_close(eth);
-			break;
-		default:
-			errno = EAFNOSUPPORT;
-			return (-1);
 		}
 	}
-	if (flags != NULL) {
+	if ((info->intf_info & INTF_INFO_FLAGS) != 0) {
 		if (ioctl(i->fd, SIOCGIFFLAGS, &ifr) < 0)
 			return (-1);
 		
-		intf_flags_to_iff(*flags, &ifr.ifr_flags);
+		intf_flags_to_iff(info->intf_flags, &ifr.ifr_flags);
 		
-		return (ioctl(i->fd, SIOCSIFFLAGS, &ifr));
+		if (ioctl(i->fd, SIOCSIFFLAGS, &ifr) < 0)
+			return (-1);
+	}
+	if ((info->intf_info & INTF_INFO_MTU) != 0) {
+		ifr.ifr_mtu = info->intf_mtu;
+		
+		if (ioctl(i->fd, SIOCSIFMTU, &ifr) < 0)
+			return (-1);
 	}
 	return (0);
 }
 
 int
-intf_get(intf_t *i, char *device, struct addr *addr, int *flags)
+intf_get(intf_t *i, char *device, struct intf_info *info)
 {
 	struct ifreq ifr;
-	eth_t *eth;
-	
-	assert(device != NULL && (addr != NULL || flags != NULL));
+
+	assert(device != NULL && info != NULL);
 
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
+
+	info->intf_info = 0;
 	
-	if (addr != NULL) {
-		switch (addr->addr_type) {
-		case ADDR_TYPE_IP:
-			if (ioctl(i->fd, SIOCGIFADDR, &ifr) < 0)
-				return (-1);
-			
-			if (addr_ston(&ifr.ifr_addr, addr) < 0)
-				return (-1);
-			
-			if (ioctl(i->fd, SIOCGIFNETMASK, &ifr) == 0) {
-				if (addr_stob(&ifr.ifr_addr,
-				    &addr->addr_bits) < 0)
-					return (-1);
-			}
-			break;
-		case ADDR_TYPE_ETH:
-			if ((eth = eth_open(device)) == NULL)
-				return (-1);
-
-			if (eth_get(eth, &addr->addr_eth) < 0)
-				return (-1);
-
-			addr->addr_bits = ETH_ADDR_BITS;
-			eth_close(eth);
-			break;
-		default:
-			errno = EAFNOSUPPORT;
+	if (ioctl(i->fd, SIOCGIFADDR, &ifr) == 0) {
+		if (addr_ston(&ifr.ifr_addr, &info->intf_addr) < 0)
 			return (-1);
-		}
-	}
-	if (flags != NULL) {
-		if (ioctl(i->fd, SIOCGIFFLAGS, &ifr) < 0)
+		info->intf_info |= INTF_INFO_ADDR;
+	} else if (errno != EADDRNOTAVAIL)
+		return (-1);
+	
+	if (ioctl(i->fd, SIOCGIFNETMASK, &ifr) == 0) {
+		if (addr_stob(&ifr.ifr_addr, &info->intf_addr.addr_bits) < 0)
 			return (-1);
-		
-		intf_iff_to_flags(ifr.ifr_flags, flags);
-	}
+	} else if (errno != EADDRNOTAVAIL)
+		return (-1);
+	
+	if (ioctl(i->fd, SIOCGIFFLAGS, &ifr) < 0)
+		return (-1);
+	
+	intf_iff_to_flags(ifr.ifr_flags, &info->intf_flags);
+	info->intf_info |= INTF_INFO_FLAGS;
+	
+	if (ioctl(i->fd, SIOCGIFMTU, &ifr) < 0)
+		return (-1);
+	
+	info->intf_mtu = ifr.ifr_mtu;
+	info->intf_info |= INTF_INFO_MTU;
+	
 	return (0);
 }
 
 int
 intf_loop(intf_t *i, intf_handler callback, void *arg)
 {
-	struct ifreq *ifr, iftmp;
+	struct intf_info info;
+	struct ifreq *ifr;
 	struct ifconf ifc;
-	struct addr addr;
-	u_char *p, buf[BUFSIZ];
-	int flags, ret;
-
+	u_char *p, *pdev, buf[BUFSIZ];
+	int ret;
+	
 	ifc.ifc_len = sizeof(buf);
 	ifc.ifc_buf = (caddr_t)buf;
 
@@ -252,6 +233,8 @@ intf_loop(intf_t *i, intf_handler callback, void *arg)
 		errno = EINVAL;
 		return (-1);
 	}
+	pdev = "";
+	
 	for (p = buf; p < buf + ifc.ifc_len; ) {
 		ifr = (struct ifreq *)p;
 #ifdef HAVE_SOCKADDR_SA_LEN
@@ -259,26 +242,14 @@ intf_loop(intf_t *i, intf_handler callback, void *arg)
 #else
 		p += sizeof(*ifr);
 #endif
-		if (ifr->ifr_addr.sa_family != AF_INET ||
-		    addr_ston(&ifr->ifr_addr, &addr) < 0)
-			continue;
+		if (strcmp(ifr->ifr_name, pdev) != 0) {
+			if (intf_get(i, ifr->ifr_name, &info) < 0)
+				return (-1);
 
-		iftmp = *ifr;
-		if (ioctl(i->fd, SIOCGIFFLAGS, &iftmp) < 0)
-			continue;
-		
-		if ((iftmp.ifr_flags & IFF_UP) == 0)
-			continue;
-
-		intf_iff_to_flags(iftmp.ifr_flags, &flags);
-
-		iftmp = *ifr;
-		if (ioctl(i->fd, SIOCGIFNETMASK, &iftmp) == 0) {
-			if (addr_stob(&iftmp.ifr_addr, &addr.addr_bits) < 0)
-				continue;
+			if ((ret = callback(ifr->ifr_name, &info, arg)) != 0)
+				return (ret);
 		}
-		if ((ret = callback(ifr->ifr_name, &addr, flags, arg)) != 0)
-			return (ret);
+		pdev = ifr->ifr_name;
 	}
 	return (0);
 }
