@@ -64,6 +64,16 @@ struct route_handle {
 #endif
 };
 
+#ifdef DEBUG
+static void
+route_msg_print(struct rt_msghdr *rtm)
+{
+	printf("v: %d type: 0x%x flags: 0x%x addrs: 0x%x pid: %d seq: %d\n",
+	    rtm->rtm_version, rtm->rtm_type, rtm->rtm_flags,
+	    rtm->rtm_addrs, rtm->rtm_pid, rtm->rtm_seq);
+}
+#endif
+
 static int
 route_msg(route_t *r, int type, u_char *buf, int buflen,
     struct addr *dst, struct addr *gw)
@@ -77,11 +87,11 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 		return (-1);
 	}
 	memset(buf, 0, buflen);
-	
+
 	rtm = (struct rt_msghdr *)buf;
 	rtm->rtm_version = RTM_VERSION;
-	rtm->rtm_type = type;
-	rtm->rtm_flags = RTF_UP;
+	if ((rtm->rtm_type = type) != RTM_DELETE)
+		rtm->rtm_flags = RTF_UP;
 	rtm->rtm_addrs = RTA_DST;
 	rtm->rtm_pid = r->pid;
 	rtm->rtm_seq = ++r->seq;
@@ -110,20 +120,21 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 		rtm->rtm_flags |= RTF_HOST;
 	
 	rtm->rtm_msglen = (u_char *)sa - buf;
-
+#ifdef DEBUG
+	route_msg_print(rtm);
+#endif
 #ifdef HAVE_STREAMS_ROUTE
 	if (ioctl(r->fd, RTSTR_SEND, rtm) < 0)
 		return (-1);
 #else
 	if (write(r->fd, buf, rtm->rtm_msglen) < 0)
 		return (-1);
-
-	while ((len = read(r->fd, buf, buflen)) != -1) {
-		if (len < sizeof(*rtm))
+	
+	while (type == RTM_GET && (len = read(r->fd, buf, buflen)) > 0) {
+		if (len < sizeof(*rtm)) {
 			return (-1);
-		
-		if (rtm->rtm_type == type &&
-		    rtm->rtm_pid == r->pid &&
+		}
+		if (rtm->rtm_type == type && rtm->rtm_pid == r->pid &&
 		    rtm->rtm_seq == r->seq) {
 			if (rtm->rtm_errno) {
 				errno = rtm->rtm_errno;
@@ -133,15 +144,16 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 		}
 	}
 #endif
-	if (type == RTM_GET && rtm->rtm_addrs & (RTA_DST|RTA_GATEWAY)){
+	if (type == RTM_GET && (rtm->rtm_addrs & (RTA_DST|RTA_GATEWAY)) ==
+	    (RTA_DST|RTA_GATEWAY)) {
 		sa = (struct sockaddr *)(rtm + 1);
 		sa = NEXTSA(sa);
 		
 		if (addr_ston(sa, gw) < 0)
 			return (-1);
-
+		
 		if (gw->addr_type != ADDR_TYPE_IP) {
-			errno = EINVAL;
+			errno = ESRCH;
 			return (-1);
 		}
 	}
