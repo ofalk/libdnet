@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -70,9 +70,9 @@ VERSION = @VERSION@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
-DISTCLEANFILES = *~
-
 INCLUDES = @CHECKINC@
+
+DISTCLEANFILES = *~
 @HAVE_CHECK_TRUE@TESTS = check_addr check_arp check_blob check_eth check_fw check_ip 	check_intf check_rand check_route
 @HAVE_CHECK_FALSE@TESTS = 
 
@@ -88,7 +88,7 @@ check_ip_SOURCES = check_ip.c
 check_rand_SOURCES = check_rand.c
 check_route_SOURCES = check_route.c
 
-LDADD = $(top_srcdir)/src/libdnet.a @CHECKLIB@
+LDADD = $(top_builddir)/src/libdnet.a @CHECKLIB@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../include/config.h
 CONFIG_CLEAN_FILES = 
@@ -101,39 +101,39 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 check_addr_OBJECTS =  check_addr.o
 check_addr_LDADD = $(LDADD)
-check_addr_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_addr_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 check_addr_LDFLAGS = 
 check_arp_OBJECTS =  check_arp.o
 check_arp_LDADD = $(LDADD)
-check_arp_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_arp_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 check_arp_LDFLAGS = 
 check_blob_OBJECTS =  check_blob.o
 check_blob_LDADD = $(LDADD)
-check_blob_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_blob_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 check_blob_LDFLAGS = 
 check_eth_OBJECTS =  check_eth.o
 check_eth_LDADD = $(LDADD)
-check_eth_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_eth_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 check_eth_LDFLAGS = 
 check_fw_OBJECTS =  check_fw.o
 check_fw_LDADD = $(LDADD)
-check_fw_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_fw_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 check_fw_LDFLAGS = 
 check_ip_OBJECTS =  check_ip.o
 check_ip_LDADD = $(LDADD)
-check_ip_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_ip_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 check_ip_LDFLAGS = 
 check_intf_OBJECTS =  check_intf.o
 check_intf_LDADD = $(LDADD)
-check_intf_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_intf_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 check_intf_LDFLAGS = 
 check_rand_OBJECTS =  check_rand.o
 check_rand_LDADD = $(LDADD)
-check_rand_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_rand_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 check_rand_LDFLAGS = 
 check_route_OBJECTS =  check_route.o
 check_route_LDADD = $(LDADD)
-check_route_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_route_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 check_route_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)

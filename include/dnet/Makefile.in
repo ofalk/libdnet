@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -70,11 +70,13 @@ VERSION = @VERSION@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
+INCLUDES = -I$(top_srcdir)/include
+
 DISTCLEANFILES = *~
 
 dnetincludedir = $(includedir)/dnet
 
-dnetinclude_HEADERS = addr.h arp.h blob.h eth.h fw.h icmp.h intf.h ip.h 	os.h rand.h route.h tcp.h udp.h
+dnetinclude_HEADERS = addr.h arp.h blob.h eth.h fw.h icmp.h intf.h ip.h 	ip6.h os.h rand.h route.h tcp.h udp.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../include/config.h

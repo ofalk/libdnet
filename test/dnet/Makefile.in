@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -70,6 +70,8 @@ VERSION = @VERSION@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
+INCLUDES = -I$(top_srcdir)/include
+
 DISTCLEANFILES = *~
 
 sbin_PROGRAMS = dnet
@@ -81,7 +83,7 @@ man_MANS = dnet.8
 
 EXTRA_DIST = $(man_MANS)
 
-LDADD = $(top_srcdir)/src/libdnet.a
+LDADD = $(top_builddir)/src/libdnet.a
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../include/config.h
 CONFIG_CLEAN_FILES = 
@@ -95,7 +97,7 @@ LIBS = @LIBS@
 dnet_OBJECTS =  addr.o arp.o aton.o dnet.o eth.o fw.o hex.o icmp.o \
 intf.o ip.o rand.o route.o send.o tcp.o udp.o
 dnet_LDADD = $(LDADD)
-dnet_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+dnet_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
 dnet_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)

@@ -1,4 +1,4 @@
-# Makefile.in generated automatically by automake 1.4-p5 from Makefile.am
+# Makefile.in generated automatically by automake 1.4-p6 from Makefile.am
 
 # Copyright (C) 1994, 1995-8, 1999, 2001 Free Software Foundation, Inc.
 # This Makefile.in is free software; the Free Software Foundation
@@ -70,11 +70,13 @@ VERSION = @VERSION@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
+INCLUDES = -I$(top_srcdir)/include
+
 DISTCLEANFILES = *~
 
 lib_LIBRARIES = libdnet.a
 
-libdnet_a_SOURCES = addr.c blob.c ip-util.c rand.c
+libdnet_a_SOURCES = addr.c addr-util.c blob.c ip-util.c ip6.c rand.c
 
 libdnet_a_LIBADD = @LIBOBJS@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -88,14 +90,14 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 libdnet_a_DEPENDENCIES =  @LIBOBJS@
-libdnet_a_OBJECTS =  addr.o blob.o ip-util.o rand.o
+libdnet_a_OBJECTS =  addr.o addr-util.o blob.o ip-util.o ip6.o rand.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
-DIST_COMMON =  Makefile.am Makefile.in err.c inet_pton.c memcmp.c \
-strlcat.c strlcpy.c
+DIST_COMMON =  Makefile.am Makefile.in err.c memcmp.c strlcat.c \
+strlcpy.c
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
