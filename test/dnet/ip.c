@@ -119,7 +119,7 @@ ip_main(int argc, char *argv[])
 
 	ip->ip_len = htons(len);
 
-	ip_cksum(ip);
+	ip_checksum(buf, len);
 	
 	if (i != NULL) {
 		if (ip_send(i, buf, len) != len)
