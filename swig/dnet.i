@@ -144,7 +144,7 @@ int __arp_loop_cb(const struct arp_entry *entry, void *arg)
 
 %name(arp) struct arp_handle {
 %extend {
-	arp_handle() {
+	arp_handle(void) {
 		return (arp_open());
 	}
 	~arp_handle() {
@@ -270,7 +270,7 @@ struct fw_rule *__fw_pack_rule(char *dev, int op, int dir, int p,
 
 %name(fw) struct fw_handle {
 %extend {
-	fw_handle() {
+	fw_handle(void) {
 		return (fw_open());
 	}
 	~fw_handle() {
@@ -393,7 +393,7 @@ void __ip_checksum(char **dstp, int *dlenp, char *src, int slen) {
 
 %name(ip) struct ip_handle {
 %extend {
-	ip_handle() {
+	ip_handle(void) {
 		return (ip_open());
 	}
 	~ip_handle() {
@@ -434,7 +434,7 @@ int __route_loop_cb(const struct route_entry *entry, void *arg)
 
 %name(route) struct route_handle {
 %extend  {
-	route_handle() {
+	route_handle(void) {
 		return (route_open());
 	}
 	~route_handle() {
