@@ -192,7 +192,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 	strlcpy(ifra.ifra_name, entry->intf_name, sizeof(ifra.ifra_name));
 #endif
 	for (i = 0; i < orig->intf_alias_num; i++) {
-#ifdef SIOCDIFADDR
+#ifdef SIOCAIFADDR	/* XXX - Linux has SIOCDIFADDR we want to skip */
 		addr_ntos(&orig->intf_alias_addr[i], &ifra.ifra_addr);
 		ioctl(intf->fd, SIOCDIFADDR, &ifra);
 #else
