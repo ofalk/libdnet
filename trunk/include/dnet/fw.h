@@ -12,14 +12,14 @@
 #define DNET_FW_H
 
 struct fw_rule {
-	char		fw_device[14];	/* interface name */
-	uint8_t		fw_op:4,	/* operation */
-			fw_dir:4;	/* direction */
-	uint8_t		fw_proto;	/* IP protocol */
-	struct addr	fw_src;		/* src address or net */
-	struct addr	fw_dst;		/* dst address or net */
-	uint16_t	fw_sport[2];	/* range or ICMP type/mask */
-	uint16_t	fw_dport[2];	/* range or ICMP code/mask */
+	char		fw_device[INTF_NAME_LEN]; /* interface name */
+	uint8_t		fw_op;			  /* operation */
+	uint8_t		fw_dir;			  /* direction */
+	uint8_t		fw_proto;		  /* IP protocol */
+	struct addr	fw_src;			  /* src address / net */
+	struct addr	fw_dst;			  /* dst address / net */
+	uint16_t	fw_sport[2];		  /* range / ICMP type */
+	uint16_t	fw_dport[2];		  /* range / ICMP code */
 };
 
 #define FW_OP_ALLOW	1
@@ -28,10 +28,10 @@ struct fw_rule {
 #define FW_DIR_IN	1
 #define FW_DIR_OUT	2
 
-#define fw_pack_rule(rule, dev, o, dir, p, s, d, sp1, sp2, dp1, dp2) \
+#define fw_pack_rule(rule, dev, op, dir, p, s, d, sp1, sp2, dp1, dp2)	\
 do {									\
 	strlcpy((rule)->fw_device, dev, sizeof((rule)->fw_device));	\
-	(rule)->fw_op = o; (rule)->fw_dir = dir;			\
+	(rule)->fw_op = op; (rule)->fw_dir = dir;			\
 	(rule)->fw_proto = p;						\
 	memmove(&(rule)->fw_src, &(s), sizeof((rule)->fw_src));		\
 	memmove(&(rule)->fw_dst, &(d), sizeof((rule)->fw_dst));		\
