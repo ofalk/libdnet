@@ -35,10 +35,9 @@ route_open(void)
 	if ((r = calloc(1, sizeof(*r))) == NULL)
 		return (NULL);
 
-	if ((r->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-		free(r);
-		return (NULL);
-	}
+	if ((r->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+		return (route_close(r));
+	
 	return (r);
 }
 
@@ -162,14 +161,13 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	return (ret);
 }
 
-int
+route_t *
 route_close(route_t *r)
 {
 	assert(r != NULL);
 
-	if (close(r->fd) < 0)
-		return (-1);
-	
+	if (r->fd > 0)
+		close(r->fd);
 	free(r);
-	return (0);
+	return (NULL);
 }

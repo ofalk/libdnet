@@ -37,23 +37,20 @@ eth_open(const char *device)
 	if ((e = calloc(1, sizeof(*e))) == NULL)
 		return (NULL);
 
-	if ((e->fd = socket(PF_RAW, SOCK_RAW, RAWPROTO_SNOOP)) < 0) {
-		free(e);
-		return (NULL);
-	}
+	if ((e->fd = socket(PF_RAW, SOCK_RAW, RAWPROTO_SNOOP)) < 0)
+		return (eth_close(e));
+	
 	memset(&sr, 0, sizeof(sr));
 	sr.sr_family = AF_RAW;
 	strlcpy(sr.sr_ifname, device, sizeof(sr.sr_ifname));
 
-	if (bind(e->fd, (struct sockaddr *)&sr, sizeof(sr)) < 0) {
-		eth_close(e);
-		return (NULL);
-	}
+	if (bind(e->fd, (struct sockaddr *)&sr, sizeof(sr)) < 0)
+		return (eth_close(e));
+	
 	n = 60000;
-	if (setsockopt(e->fd, SOL_SOCKET, SO_SNDBUF, &n, sizeof(n)) < 0) {
-		eth_close(e);
-		return (NULL);
-	}
+	if (setsockopt(e->fd, SOL_SOCKET, SO_SNDBUF, &n, sizeof(n)) < 0)
+		return (eth_close(e));
+	
 	strlcpy(e->ifr.ifr_name, device, sizeof(e->ifr.ifr_name));
 	
 	return (e);
@@ -100,14 +97,13 @@ eth_send(eth_t *e, const void *buf, size_t len)
 	return ((ssize_t)write(e->fd, buf, len));
 }
 
-int
+eth_t *
 eth_close(eth_t *e)
 {
 	assert(e != NULL);
 	
-	if (close(e->fd) < 0)
-		return (-1);
-	
+	if (e->fd > 0)
+		close(e->fd);
 	free(e);
-	return (0);
+	return (NULL);
 }

@@ -33,28 +33,25 @@ eth_open(const char *device)
 	struct sockaddr_ndd_8022 sa;
 	eth_t *e;
 	
-	if ((e = malloc(sizeof(*e))) == NULL)
+	if ((e = calloc(1, sizeof(*e))) == NULL)
 		return (NULL);
 
-	if ((e->fd = socket(AF_NDD, SOCK_DGRAM, NDD_PROT_ETHER)) < 0) {
-		free(e);
-		return (NULL);
-	}
+	if ((e->fd = socket(AF_NDD, SOCK_DGRAM, NDD_PROT_ETHER)) < 0)
+		return (eth_close(e));
+	
 	sa.sndd_8022_family = AF_NDD;
         sa.sndd_8022_len = sizeof(sa);
 	sa.sndd_8022_filtertype = NS_ETHERTYPE;
 	sa.sndd_8022_ethertype = ETH_TYPE_IP;
 	sa.sndd_8022_filterlen = sizeof(struct ns_8022);
 	strlcpy(sa.sndd_8022_nddname, device, sizeof(sa.sndd_8022_nddname));
-
-	if (bind(e->fd, (struct sockaddr *)&sa, sizeof(sa)) < 0) {
-		eth_close(e);
-		return (NULL);
-	}
-	if (connect(e->fd, (struct sockaddr *)&sa, sizeof(sa)) < 0) {
-		eth_close(e);
-		return (NULL);
-	}
+	
+	if (bind(e->fd, (struct sockaddr *)&sa, sizeof(sa)) < 0)
+		return (eth_close(e));
+	
+	if (connect(e->fd, (struct sockaddr *)&sa, sizeof(sa)) < 0)
+		return (eth_close(e));
+	
 	/* XXX - SO_BROADCAST needed? */
 	
 	return (e);
@@ -66,16 +63,15 @@ eth_send(eth_t *e, const void *buf, size_t len)
 	return ((ssize_t)write(e->fd, buf, len));
 }
 
-int
+eth_t *
 eth_close(eth_t *e)
 {
 	assert(e != NULL);
 
-	if (close(e->fd) < 0)
-		return (-1);
-	
+	if (e->fd > 0)
+		close(e->fd);
 	free(e);
-	return (0);
+	return (NULL);
 }
 
 int
@@ -94,18 +90,23 @@ eth_get(eth_t *e, eth_addr_t *ea)
 	if ((nddp = malloc(size)) == NULL)
 		return (-1);
                      
-	if (getkerninfo(KINFO_NDD, nddp, &size, 0) < 0)
+	if (getkerninfo(KINFO_NDD, nddp, &size, 0) < 0) {
+		free(nddp);
 		return (-1);
-	
+	}
 	for (end = (void *)nddp + size; (void *)nddp < end; nddp++) {
 		if (strcmp(nddp->ndd_alias, e->device) == 0 ||
 		    strcmp(nddp->ndd_name, e->device) == 0) {
 			memcpy(ea, nddp->ndd_addr, sizeof(*ea));
-			return (0);
 		}
 	}
-	errno = ESRCH;
-	return (-1);
+	free(nddp);
+	
+	if ((void *)nddp >= end) {
+		errno = ESRCH;
+		return (-1);
+	}
+	return (0);
 }
 
 int

@@ -42,36 +42,30 @@ eth_open(const char *device)
 	struct ifreq ifr;
 	char file[32];
 	eth_t *e;
-	int i, fd = -1;
+	int i;
 
+	if ((e = calloc(1, sizeof(*e))) == NULL)
+		return (NULL);
+	
 	for (i = 0; i < 32; i++) {
 		snprintf(file, sizeof(file), "/dev/bpf%d", i);
-		fd = open(file, O_WRONLY);
-		if (fd != -1 || errno != EBUSY)
+		e->fd = open(file, O_WRONLY);
+		if (e->fd != -1 || errno != EBUSY)
 			break;
 	}
-	if (fd < 0)
+	if (e->fd < 0)
 		return (NULL);
 	
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
 	
-	if (ioctl(fd, BIOCSETIF, (char *)&ifr) < 0) {
-		close(fd);
-		return (NULL);
-	}
+	if (ioctl(e->fd, BIOCSETIF, (char *)&ifr) < 0)
+		return (eth_close(e));
 #ifdef BIOCSHDRCMPLT
 	i = 1;
-	if (ioctl(fd, BIOCSHDRCMPLT, &i) < 0) {
-		close(fd);
-		return (NULL);
-	}
+	if (ioctl(e->fd, BIOCSHDRCMPLT, &i) < 0)
+		return (eth_close(e));
 #endif
-	if ((e = calloc(1, sizeof(*e))) == NULL) {
-		close(fd);
-		return (NULL);
-	}
-	e->fd = fd;
 	strlcpy(e->device, device, sizeof(e->device));
 	
 	return (e);
@@ -83,16 +77,15 @@ eth_send(eth_t *e, const void *buf, size_t len)
 	return ((ssize_t)write(e->fd, buf, len));
 }
 
-int
+eth_t *
 eth_close(eth_t *e)
 {
 	assert(e != NULL);
 
-	if (close(e->fd) < 0)
-		return (-1);
-	
+	if (e->fd > 0)
+		close(e->fd);
 	free(e);
-	return (0);
+	return (NULL);
 }
 
 #if defined(HAVE_SYS_SYSCTL_H) && defined(HAVE_ROUTE_RT_MSGHDR)

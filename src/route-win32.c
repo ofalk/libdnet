@@ -133,9 +133,9 @@ route_loop(route_t *route, route_handler callback, void *arg)
 	return (0);
 }
 
-int
+route_t *
 route_close(route_t *route)
 {
 	free(route);
-	return (0);
+	return (NULL);
 }

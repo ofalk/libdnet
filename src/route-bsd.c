@@ -165,23 +165,18 @@ route_open(void)
 {
 	route_t *r;
 	
-	if ((r = malloc(sizeof(*r))) == NULL)
+	if ((r = calloc(1, sizeof(*r))) == NULL)
 		return (NULL);
 
 #ifdef HAVE_STREAMS_ROUTE
-	if ((r->fd = open("/dev/route", O_RDWR, 0)) < 0) {
+	if ((r->fd = open("/dev/route", O_RDWR, 0)) < 0)
 #else
-	if ((r->fd = socket(PF_ROUTE, SOCK_RAW, AF_INET)) < 0) {
+	if ((r->fd = socket(PF_ROUTE, SOCK_RAW, AF_INET)) < 0)
 #endif
-		free(r);
-		return (NULL);
-	}
+		return (route_close(r));
 #ifdef HAVE_STREAMS_MIB2
-	if ((r->ip_fd = open(IP_DEV_NAME, O_RDWR)) < 0) {
-		close(r->fd);
-		free(r);
-		return (NULL);
-	}
+	if ((r->ip_fd = open(IP_DEV_NAME, O_RDWR)) < 0)
+		return (route_close(r));
 #endif
 	r->pid = getpid();
 	r->seq = 0;
@@ -436,18 +431,17 @@ route_loop(route_t *r, route_handler callback, void *arg)
 }
 #endif
 
-int
+route_t *
 route_close(route_t *r)
 {
 	assert(r != NULL);
 
-	if (
 #ifdef HAVE_STREAMS_MIB2
-		close(r->ip_fd) < 0 ||
+	if (r->ip_fd > 0)
+		close(r->ip_fd);
 #endif
-		close(r->fd) < 0)
-		return (-1);
-	
+	if (r->fd > 0)
+		close(r->fd);
 	free(r);
-	return (0);
+	return (NULL);
 }
