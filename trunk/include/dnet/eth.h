@@ -34,7 +34,7 @@ struct eth_hdr {
 };
 
 /*
- * Ethernet payload types
+ * Ethernet payload types - http://standards.ieee.org/regauth/ethertype
  */
 #define ETH_TYPE_PUP	0x0200		/* PUP protocol */
 #define ETH_TYPE_IP	0x0800		/* IP protocol */
@@ -42,6 +42,8 @@ struct eth_hdr {
 #define ETH_TYPE_REVARP	0x8035		/* reverse addr resolution protocol */
 #define ETH_TYPE_8021Q	0x8100		/* IEEE 802.1Q VLAN tagging */
 #define ETH_TYPE_IPV6	0x86DD		/* IPv6 protocol */
+#define ETH_TYPE_MPLS	0x8847		/* MPLS */
+#define ETH_TYPE_MPLS_MCAST	0x8848	/* MPLS Multicast */
 #define ETH_TYPE_PPPOEDISC	0x8863	/* PPP Over Ethernet Discovery Stage */
 #define ETH_TYPE_PPPOE	0x8864		/* PPP Over Ethernet Session Stage */
 #define ETH_TYPE_LOOPBACK	0x9000	/* used to test interfaces */
