@@ -2504,7 +2504,7 @@ fi
 echo "$ac_t""$ac_cv_func_memcmp_clean" 1>&6
 test $ac_cv_func_memcmp_clean = no && LIBOBJS="$LIBOBJS memcmp.${ac_objext}"
 
-for ac_func in socket
+for ac_func in err inet_pton strlcat strlcpy
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
 echo "configure:2511: checking for $ac_func" >&5
@@ -2556,61 +2556,6 @@ EOF
  
 else
   echo "$ac_t""no" 1>&6
-fi
-done
-
-for ac_func in err inet_pton strlcat strlcpy
-do
-echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
-echo "configure:2566: checking for $ac_func" >&5
-if eval "test \"`echo '$''{'ac_cv_func_$ac_func'+set}'`\" = set"; then
-  echo $ac_n "(cached) $ac_c" 1>&6
-else
-  cat > conftest.$ac_ext <<EOF
-#line 2571 "configure"
-#include "confdefs.h"
-/* System header to define __stub macros and hopefully few prototypes,
-    which can conflict with char $ac_func(); below.  */
-#include <assert.h>
-/* Override any gcc2 internal prototype to avoid an error.  */
-/* We use char because int might match the return type of a gcc2
-    builtin and then its argument prototype would still apply.  */
-char $ac_func();
-
-int main() {
-
-/* The GNU C library defines this for functions which it implements
-    to always fail with ENOSYS.  Some functions are actually named
-    something starting with __ and the normal name is an alias.  */
-#if defined (__stub_$ac_func) || defined (__stub___$ac_func)
-choke me
-#else
-$ac_func();
-#endif
-
-; return 0; }
-EOF
-if { (eval echo configure:2594: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
-  rm -rf conftest*
-  eval "ac_cv_func_$ac_func=yes"
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  eval "ac_cv_func_$ac_func=no"
-fi
-rm -f conftest*
-fi
-
-if eval "test \"`echo '$ac_cv_func_'$ac_func`\" = yes"; then
-  echo "$ac_t""yes" 1>&6
-    ac_tr_func=HAVE_`echo $ac_func | tr 'abcdefghijklmnopqrstuvwxyz' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'`
-  cat >> confdefs.h <<EOF
-#define $ac_tr_func 1
-EOF
- 
-else
-  echo "$ac_t""no" 1>&6
 LIBOBJS="$LIBOBJS ${ac_func}.${ac_objext}"
 fi
 done
@@ -2619,7 +2564,7 @@ done
 
 if test "$CYGWIN" != yes ; then
 	echo $ac_n "checking for Berkeley Packet Filter""... $ac_c" 1>&6
-echo "configure:2623: checking for Berkeley Packet Filter" >&5
+echo "configure:2568: checking for Berkeley Packet Filter" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_bsd_bpf'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2638,7 +2583,7 @@ EOF
 
     fi
 	echo $ac_n "checking for Linux proc filesystem""... $ac_c" 1>&6
-echo "configure:2642: checking for Linux proc filesystem" >&5
+echo "configure:2587: checking for Linux proc filesystem" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_linux_procfs'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2657,7 +2602,7 @@ EOF
 
     fi
 	echo $ac_n "checking for Linux PF_PACKET sockets""... $ac_c" 1>&6
-echo "configure:2661: checking for Linux PF_PACKET sockets" >&5
+echo "configure:2606: checking for Linux PF_PACKET sockets" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_linux_pf_packet'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2676,7 +2621,7 @@ EOF
 
     fi
 	echo $ac_n "checking for SNMP MIB2 STREAMS""... $ac_c" 1>&6
-echo "configure:2680: checking for SNMP MIB2 STREAMS" >&5
+echo "configure:2625: checking for SNMP MIB2 STREAMS" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_streams_mib2'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2695,7 +2640,7 @@ EOF
 
     fi
 	echo $ac_n "checking for route(7) STREAMS""... $ac_c" 1>&6
-echo "configure:2699: checking for route(7) STREAMS" >&5
+echo "configure:2644: checking for route(7) STREAMS" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_streams_route'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2714,12 +2659,12 @@ EOF
 
     fi
 	echo $ac_n "checking for arp(7) ioctls""... $ac_c" 1>&6
-echo "configure:2718: checking for arp(7) ioctls" >&5
+echo "configure:2663: checking for arp(7) ioctls" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_ioctl_arp'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 2723 "configure"
+#line 2668 "configure"
 #include "confdefs.h"
 
 #	include <sys/types.h>
@@ -2753,7 +2698,7 @@ EOF
 
     fi
 	echo $ac_n "checking for raw IP sockets ip_{len,off} host byte ordering""... $ac_c" 1>&6
-echo "configure:2757: checking for raw IP sockets ip_{len,off} host byte ordering" >&5
+echo "configure:2702: checking for raw IP sockets ip_{len,off} host byte ordering" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_rawip_host_offlen'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2776,7 +2721,7 @@ EOF
 
     fi
 	echo $ac_n "checking for cooked raw IP sockets""... $ac_c" 1>&6
-echo "configure:2780: checking for cooked raw IP sockets" >&5
+echo "configure:2725: checking for cooked raw IP sockets" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_rawip_cooked'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
