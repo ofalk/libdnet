@@ -84,15 +84,16 @@ addr_net(const struct addr *a, struct addr *b)
 	if (a->addr_type == ADDR_TYPE_IP) {
 		addr_btom(a->addr_bits, &mask, IP_ADDR_LEN);
 		b->addr_type = ADDR_TYPE_IP;
-		b->addr_bits = a->addr_bits;
+		b->addr_bits = IP_ADDR_BITS;
 		b->addr_ip = a->addr_ip & mask;
 	} else if (a->addr_type == ADDR_TYPE_ETH) {
 		memcpy(b, a, sizeof(*b));
 		if (a->addr_data8[0] & 0x1)
 			memset(b->addr_data8 + 3, 0, 3);
+		b->addr_bits = ETH_ADDR_BITS;
 	} else if (a->addr_type == ADDR_TYPE_IP6) {
 		b->addr_type = ADDR_TYPE_IP6;
-		b->addr_bits = a->addr_bits;
+		b->addr_bits = IP6_ADDR_BITS;
 		memset(&b->addr_ip6, 0, IP6_ADDR_LEN);
 		
 		switch ((i = a->addr_bits / 32)) {
@@ -164,7 +165,7 @@ addr_pton(const char *src, struct addr *dst)
 {
 	struct hostent *hp;
 	char *ep, tmp[300];
-	long bits = 0;
+	long bits = -1;
 	int i;
 	
 	for (i = 0; i < sizeof(tmp) - 1; i++) {
