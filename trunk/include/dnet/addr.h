@@ -14,6 +14,7 @@
 #define ADDR_TYPE_NONE		0	/* No address set */
 #define	ADDR_TYPE_ETH		1	/* Ethernet */
 #define	ADDR_TYPE_IP		2	/* Internet Protocol v4 */
+#define	ADDR_TYPE_IP6		3	/* Internet Protocol v6 */
 
 struct addr {
 	uint16_t		addr_type;
@@ -21,14 +22,16 @@ struct addr {
 	union {
 		eth_addr_t	__eth;
 		ip_addr_t	__ip;
+		ip6_addr_t	__ip6;
 		
-		uint8_t		__data8[20];
-		uint16_t	__data16[10];
-		uint32_t	__data32[5];
+		uint8_t		__data8[16];
+		uint16_t	__data16[8];
+		uint32_t	__data32[4];
 	} __addr_u;
 };
 #define addr_eth	__addr_u.__eth
 #define addr_ip		__addr_u.__ip
+#define addr_ip6	__addr_u.__ip6
 #define addr_data8	__addr_u.__data8
 #define addr_data16	__addr_u.__data16
 #define addr_data32	__addr_u.__data32
@@ -43,7 +46,7 @@ __BEGIN_DECLS
 int	 addr_cmp(const struct addr *a, const struct addr *b);
 int	 addr_bcast(const struct addr *a, struct addr *b);
 
-int	 addr_ntop(const struct addr *src, char *dst, size_t size);
+char	*addr_ntop(const struct addr *src, char *dst, size_t size);
 int	 addr_pton(const char *src, struct addr *dst);
 
 char	*addr_ntoa(const struct addr *a);
