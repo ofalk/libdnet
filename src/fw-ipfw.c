@@ -29,7 +29,7 @@ struct fw_handle {
 };
 
 static void
-fr_to_ipfw_device(char *device, char *name, short *unit)
+fr_to_ipfw_device(const char *device, char *name, short *unit)
 {
 	char *p;
 
