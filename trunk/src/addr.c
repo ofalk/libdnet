@@ -11,9 +11,8 @@
 #include "config.h"
 
 #include <sys/types.h>
-
+#include <sys/socket.h>
 #ifdef HAVE_NET_IF_H
-# include <sys/socket.h>
 # include <net/if.h>
 #endif
 #ifdef HAVE_NET_IF_DL_H
@@ -22,6 +21,7 @@
 #ifdef HAVE_NET_RAW_H
 # include <net/raw.h>
 #endif
+#include <netinet/in.h>
 
 #include <ctype.h>
 #include <errno.h>
@@ -40,7 +40,7 @@ union sockunion {
 	struct sockaddr_dl	sdl;
 #endif
 	struct sockaddr_in	sin;
-#ifdef AF_INET6
+#ifdef HAVE_SOCKADDR_IN6
 	struct sockaddr_in6	sin6;
 #endif
 	struct sockaddr		sa;
@@ -207,7 +207,7 @@ addr_ntos(const struct addr *a, struct sockaddr *sa)
 		memcpy(sa->sa_data, &a->addr_eth, ETH_ADDR_LEN);
 #endif
 		break;
-#ifdef AF_INET6
+#ifdef HAVE_SOCKADDR_IN6
 	case ADDR_TYPE_IP6:
 		memset(&so->sin6, 0, sizeof(so->sin6));
 #ifdef HAVE_SOCKADDR_SA_LEN
@@ -265,7 +265,7 @@ addr_ston(const struct sockaddr *sa, struct addr *a)
 		memcpy(&a->addr_eth, so->sr.sr_addr, ETH_ADDR_LEN);
 		break;
 #endif
-#ifdef AF_INET6
+#ifdef HAVE_SOCKADDR_IN6
 	case AF_INET6:
 		a->addr_type = ADDR_TYPE_IP6;
 		a->addr_bits = IP6_ADDR_BITS;
@@ -289,7 +289,7 @@ addr_btos(uint16_t bits, struct sockaddr *sa)
 {
 	union sockunion *so = (union sockunion *)sa;
 
-#ifdef AF_INET6
+#ifdef HAVE_SOCKADDR_IN6
 	if (bits > IP_ADDR_BITS && bits < IP6_ADDR_BITS) {
 		memset(&so->sin6, 0, sizeof(so->sin6));
 #ifdef HAVE_SOCKADDR_SA_LEN
@@ -326,7 +326,7 @@ addr_stob(const struct sockaddr *sa, uint16_t *bits)
 		len = IP_ADDR_LEN;
 		p = (u_char *)&so->sin.sin_addr.s_addr;
 	}
-#ifdef AF_INET6
+#ifdef HAVE_SOCKADDR_IN6
 	else if (sa->sa_family == AF_INET6) {
 		len = IP6_ADDR_LEN;
 		p = (u_char *)&so->sin6.sin6_addr;
