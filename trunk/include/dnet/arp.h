@@ -2,6 +2,7 @@
  * arp.h
  * 
  * Address Resolution Protocol.
+ * RFC 826
  *
  * Copyright (c) 2000 Dug Song <dugsong@monkey.org>
  *
@@ -11,18 +12,12 @@
 #ifndef DNET_ARP_H
 #define DNET_ARP_H
 
+#define ARP_HDR_LEN	8	/* base ARP header length */
+#define ARP_ETHIP_LEN	20	/* base ARP message length */
+
 /*
- * See RFC 826 for protocol description. ARP packets are variable in
- * size; the arp_hdr structure defines the fixed-length portion.
- * Protocol type values are the same as those for 10 Mb/s Ethernet.
- * It is followed by the variable-sized fields ar_sha, arp_spa,
- * arp_tha and arp_tpa in that order, according to the lengths
- * specified.  Field names used correspond to RFC 826.
+ * ARP header
  */
-
-#define ARP_HDR_LEN	8
-#define ARP_ETHIP_LEN	20
-
 struct arp_hdr {
 	uint16_t	ar_hrd;	/* format of hardware address */
 	uint16_t	ar_pro;	/* format of protocol address */
@@ -31,27 +26,41 @@ struct arp_hdr {
 	uint16_t	ar_op;	/* operation */
 };
 
-/* Hardware address format */
+/*
+ * Hardware address format
+ */
 #define ARP_HRD_ETH 	0x0001	/* ethernet hardware */
 #define ARP_HRD_IEEE802	0x0006	/* IEEE 802 hardware */
-#define ARP_HRD_FRELAY 	0x000F	/* frame relay hardware */
 
-/* Protocol address format */
+/*
+ * Protocol address format
+ */
 #define ARP_PRO_IP	0x0800	/* IP protocol */
 
-/* ARP operation */
-#define	ARP_OP_REQUEST	1	/* request to resolve address */
-#define	ARP_OP_REPLY	2	/* response to previous request */
-#define	ARP_OP_REVREQUEST 3	/* request protocol address given hardware */
-#define	ARP_OP_REVREPLY	4	/* response giving protocol address */
-#define	ARP_OP_INVREQUEST 8 	/* request to identify peer */
-#define	ARP_OP_INVREPLY	9	/* response identifying peer */
+/*
+ * ARP operation
+ */
+#define	ARP_OP_REQUEST		1	/* request to resolve ha given pa */
+#define	ARP_OP_REPLY		2	/* response giving hardware address */
+#define	ARP_OP_REVREQUEST	3	/* request to resolve pa given ha */
+#define	ARP_OP_REVREPLY		4	/* response giving protocol address */
 
+/*
+ * Ethernet/IP ARP message
+ */
 struct arp_ethip {
 	uint8_t		ar_sha[ETH_ADDR_LEN];	/* sender hardware address */
 	uint8_t		ar_spa[IP_ADDR_LEN];	/* sender protocol address */
 	uint8_t		ar_tha[ETH_ADDR_LEN];	/* target hardware address */
 	uint8_t		ar_tpa[IP_ADDR_LEN];	/* target protocol address */
+};
+
+/*
+ * ARP cache entry
+ */
+struct arp_entry {
+	struct addr	arp_pa;			/* protocol address */
+	struct addr	arp_ha;			/* hardware address */
 };
 
 #define arp_fill_hdr_ethip(hdr, op, sha, spa, tha, tpa) do {	\
@@ -71,16 +80,15 @@ struct arp_ethip {
 
 typedef struct arp_handle arp_t;
 
-typedef int (*arp_handler)(const struct addr *pa, const struct addr *ha,
-    void *arg);
+typedef int (*arp_handler)(const struct arp_entry *entry, void *arg);
 
 __BEGIN_DECLS
 arp_t	*arp_open(void);
-int	 arp_add(arp_t *a, const struct addr *pa, const struct addr *ha);
-int	 arp_delete(arp_t *a, const struct addr *pa);
-int	 arp_get(arp_t *a, const struct addr *pa, struct addr *ha);
-int	 arp_loop(arp_t *a, arp_handler callback, void *arg);
-arp_t	*arp_close(arp_t *a);
+int	 arp_add(arp_t *arp, const struct arp_entry *entry);
+int	 arp_delete(arp_t *arp, const struct arp_entry *entry);
+int	 arp_get(arp_t *arp, struct arp_entry *entry);
+int	 arp_loop(arp_t *arp, arp_handler callback, void *arg);
+arp_t	*arp_close(arp_t *arp);
 __END_DECLS
 
 #endif /* DNET_ARP_H */

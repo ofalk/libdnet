@@ -18,8 +18,7 @@
 #include "dnet.h"
 
 struct arp_handle {
-	const struct addr	*pa;
-	struct addr		*ha;
+	int	fd;
 };
 
 arp_t *
@@ -34,19 +33,20 @@ arp_open(void)
 }
 
 int
-arp_add(arp_t *arp, const struct addr *pa, const struct addr *ha)
+arp_add(arp_t *arp, const struct arp_entry *entry)
 {
 	MIB_IPFORWARDROW ipfrow;
 	MIB_IPNETROW iprow;
 	
-	if (GetBestRoute(pa->addr_ip, IP_ADDR_ANY, &ipfrow) != NO_ERROR)
+	if (GetBestRoute(entry->arp_pa.addr_ip,
+	    IP_ADDR_ANY, &ipfrow) != NO_ERROR)
 		return (-1);
 
 	iprow.dwIndex = ipfrow.dwForwardIfIndex;
 	iprow.dwPhysAddrLen = ETH_ADDR_LEN;
-	memcpy(iprow.bPhysAddr, &ha->addr_eth, ETH_ADDR_LEN);
-	iprow.dwAddr = pa->addr_ip;
-	iprow.dwType = 4; /* static */
+	memcpy(iprow.bPhysAddr, &entry->arp_ha.addr_eth, ETH_ADDR_LEN);
+	iprow.dwAddr = entry->arp_pa.addr_ip;
+	iprow.dwType = 4;	/* XXX - static */
 
 	if (CreateIpNetEntry(&iprow) != NO_ERROR)
 		return (-1);
@@ -55,17 +55,18 @@ arp_add(arp_t *arp, const struct addr *pa, const struct addr *ha)
 }
 
 int
-arp_delete(arp_t *arp, const struct addr *pa)
+arp_delete(arp_t *arp, const struct arp_entry *entry)
 {
 	MIB_IPFORWARDROW ipfrow;
 	MIB_IPNETROW iprow;
 
-	if (GetBestRoute(pa->addr_ip, IP_ADDR_ANY, &ipfrow) != NO_ERROR)
+	if (GetBestRoute(entry->arp_pa.addr_ip,
+	    IP_ADDR_ANY, &ipfrow) != NO_ERROR)
 		return (-1);
 
 	memset(&iprow, 0, sizeof(iprow));
 	iprow.dwIndex = ipfrow.dwForwardIfIndex;
-	iprow.dwAddr = pa->addr_ip;
+	iprow.dwAddr = entry->arp_pa.addr_ip;
 
 	if (DeleteIpNetEntry(&iprow) != NO_ERROR)
 		return (-1);
@@ -74,35 +75,26 @@ arp_delete(arp_t *arp, const struct addr *pa)
 }
 
 static int
-_arp_get(const struct addr *pa, const struct addr *ha, void *arg)
+_arp_get_entry(const struct arp_entry *entry, void *arg)
 {
-	arp_t *arp = (arp_t *)arg;
+	struct arp_entry *e = (struct arp_entry *)arg;
 	
-	if (addr_cmp(pa, arp->pa) == 0) {
-		memcpy(arp->ha, ha, sizeof(*ha));
+	if (addr_cmp(&entry->arp_pa, &e->arp_pa) == 0) {
+		memcpy(&e->arp_ha, &entry->arp_ha, sizeof(e->arp_ha));
 		return (1);
 	}
 	return (0);
 }
 
 int
-arp_get(arp_t *arp, const struct addr *pa, struct addr *ha)
+arp_get(arp_t *arp, struct arp_entry *entry)
 {
-	int ret;
-	
-	arp->pa = pa;
-	arp->ha = ha;
-
-	ret = arp_loop(arp, _arp_get, arp);
-
-	if (ret == 0) {
+	if (arp_loop(arp, _arp_get_entry, entry) != 1) {
 		errno = ENXIO;
 		SetLastError(ERROR_NO_DATA);
 		return (-1);
-	} else if (ret == 1)
-		return (0);
-
-	return (ret);
+	}
+	return (0);
 }
 
 int
@@ -110,7 +102,7 @@ arp_loop(arp_t *arp, arp_handler callback, void *arg)
 {
 	MIB_IPNETTABLE *iptable;
 	ULONG len;
-	struct addr pa, ha;
+	struct arp_entry entry;
 	u_char buf[2048];
 	int i, ret;
 	
@@ -120,20 +112,20 @@ arp_loop(arp_t *arp, arp_handler callback, void *arg)
 	if (GetIpNetTable(iptable, &len, FALSE) != NO_ERROR)
 		return (-1);
 
-	pa.addr_type = ADDR_TYPE_IP;
-	pa.addr_bits = IP_ADDR_BITS;
+	entry.arp_pa.addr_type = ADDR_TYPE_IP;
+	entry.arp_pa.addr_bits = IP_ADDR_BITS;
 	
-	ha.addr_type = ADDR_TYPE_ETH;
-	ha.addr_bits = ETH_ADDR_BITS;
+	entry.arp_ha.addr_type = ADDR_TYPE_ETH;
+	entry.arp_ha.addr_bits = ETH_ADDR_BITS;
 	
 	for (i = 0; i < iptable->dwNumEntries; i++) {
 		if (iptable->table[i].dwPhysAddrLen != ETH_ADDR_LEN)
 			continue;
-		pa.addr_ip = iptable->table[i].dwAddr;
-		memcpy(&ha.addr_eth, iptable->table[i].bPhysAddr,
+		entry.arp_pa.addr_ip = iptable->table[i].dwAddr;
+		memcpy(&entry.arp_ha.addr_eth, iptable->table[i].bPhysAddr,
 		    ETH_ADDR_LEN);
-
-		if ((ret = (*callback)(&pa, &ha, arg)) != 0)
+		
+		if ((ret = (*callback)(&entry, arg)) != 0)
 			return (ret);
 	}
 	return (0);
