@@ -150,7 +150,7 @@ fi
 
 dnl Checks for library functions.
 AC_FUNC_MEMCMP
-AC_REPLACE_FUNCS(err inet_pton strlcat strlcpy)
+AC_REPLACE_FUNCS(err strlcat strlcpy)
 
 dnl Checks for other system-specific jonks.
 if test "$CYGWIN" != yes ; then
