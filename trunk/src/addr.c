@@ -23,7 +23,6 @@
 # include <net/raw.h>
 #endif
 
-#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -214,8 +213,6 @@ addr_pton(const char *src, struct addr *dst)
 	char *p, tmp[MAXHOSTNAMELEN];
 	long l;
 	int i;
-	
-	assert(src != NULL);
 	
 	if (strchr(src, ':') != NULL) {
 		dst->addr_type = ADDR_TYPE_ETH;
@@ -439,11 +436,17 @@ addr_btom(uint16_t bits, void *mask, size_t size)
 	u_char *p;
 
 	if (size == IP_ADDR_LEN) {
-		assert(bits <= IP_ADDR_BITS);
+		if (bits > IP_ADDR_BITS) {
+			errno = EINVAL;
+			return (-1);
+		}
 		*(uint32_t *)mask = bits ?
 		    htonl(~0 << (IP_ADDR_BITS - bits)) : 0;
 	} else {
-		assert(size * 8 >= bits);
+		if (size * 8 < bits) {
+			errno = EINVAL;
+			return (-1);
+		}
 		p = (u_char *)mask;
 		
 		if ((net = bits / 8) > 0)
