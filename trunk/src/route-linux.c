@@ -19,7 +19,6 @@
 
 #include <net/route.h>
 
-#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -61,21 +60,19 @@ route_open(void)
 }
 
 int
-route_add(route_t *r, const struct addr *dst, const struct addr *gw)
+route_add(route_t *r, const struct route_entry *entry)
 {
 	struct rtentry rt;
 
-	assert(r != NULL && dst != NULL && gw != NULL);
-
 	memset(&rt, 0, sizeof(rt));
 
-	if (addr_ntos(dst, &rt.rt_dst) < 0 ||
-	    addr_ntos(gw, &rt.rt_gateway) < 0)
+	if (addr_ntos(&entry->route_dst, &rt.rt_dst) < 0 ||
+	    addr_ntos(&entry->route_gw, &rt.rt_gateway) < 0)
 		return (-1);
 
-	if (dst->addr_bits < IP_ADDR_BITS) {
+	if (entry->dst.addr_bits < IP_ADDR_BITS) {
 		rt.rt_flags = RTF_UP | RTF_GATEWAY;
-		if (addr_btos(dst->addr_bits, &rt.rt_genmask) < 0)
+		if (addr_btos(entry->route_dst.addr_bits, &rt.rt_genmask) < 0)
 			return (-1);
 	} else {
 		rt.rt_flags = RTF_UP | RTF_HOST | RTF_GATEWAY;
@@ -85,20 +82,18 @@ route_add(route_t *r, const struct addr *dst, const struct addr *gw)
 }
 
 int
-route_delete(route_t *r, const struct addr *dst)
+route_delete(route_t *r, const struct route_entry *entry)
 {
 	struct rtentry rt;
 
-	assert(r != NULL && dst != NULL);
-
 	memset(&rt, 0, sizeof(rt));
 
-	if (addr_ntos(dst, &rt.rt_dst) < 0)
+	if (addr_ntos(&entry->route_dst, &rt.rt_dst) < 0)
 		return (-1);
 
-	if (dst->addr_bits < IP_ADDR_BITS) {
+	if (entry->route_dst.addr_bits < IP_ADDR_BITS) {
 		rt.rt_flags = RTF_UP;
-		if (addr_btos(dst->addr_bits, &rt.rt_genmask) < 0)
+		if (addr_btos(entry->route_dst.addr_bits, &rt.rt_genmask) < 0)
 			return (-1);
 	} else {
 		rt.rt_flags = RTF_UP | RTF_HOST;
@@ -108,7 +103,7 @@ route_delete(route_t *r, const struct addr *dst)
 }
 
 int
-route_get(route_t *r, const struct addr *dst, struct addr *gw)
+route_get(route_t *r, struct route_entry *entry)
 {
 	static int seq;
 	struct nlmsghdr *nmsg;
@@ -120,7 +115,7 @@ route_get(route_t *r, const struct addr *dst, struct addr *gw)
 	u_char buf[512];
 	int i;
 
-	if (dst->addr_type != ADDR_TYPE_IP) {
+	if (entry->route_dst.addr_type != ADDR_TYPE_IP) {
 		errno = EINVAL;
 		return (-1);
 	}
@@ -142,11 +137,11 @@ route_get(route_t *r, const struct addr *dst, struct addr *gw)
 	rta->rta_len = RTA_LENGTH(IP_ADDR_LEN);
 
 	/* XXX - gross hack for default route */
-	if (dst->addr_ip == IP_ADDR_ANY) {
+	if (entry->route_dst.addr_ip == IP_ADDR_ANY) {
 		i = htonl(0x60060606);
 		memcpy(RTA_DATA(rta), &i, IP_ADDR_LEN);
 	} else
-		memcpy(RTA_DATA(rta), &dst->addr_ip, IP_ADDR_LEN);
+		memcpy(RTA_DATA(rta), &entry->route_dst.addr_ip, IP_ADDR_LEN);
 	
 	memset(&snl, 0, sizeof(snl));
 	snl.nl_family = AF_NETLINK;
@@ -181,9 +176,10 @@ route_get(route_t *r, const struct addr *dst, struct addr *gw)
 	
 	while (RTA_OK(rta, i)) {
 		if (rta->rta_type == RTA_GATEWAY) {
-			gw->addr_type = ADDR_TYPE_IP;
-			memcpy(&gw->addr_ip, RTA_DATA(rta), IP_ADDR_LEN);
-			gw->addr_bits = IP_ADDR_BITS;
+			entry->route_gw.addr_type = ADDR_TYPE_IP;
+			memcpy(&entry->route_gw->addr_ip,
+			    RTA_DATA(rta), IP_ADDR_LEN);
+			entry->route_gw.addr_bits = IP_ADDR_BITS;
 			return (0);
 		}
 		rta = RTA_NEXT(rta, i);
@@ -199,11 +195,11 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	FILE *fp;
 	char buf[BUFSIZ], ifbuf[16];
 	int i, iflags, refcnt, use, metric, mss, win, irtt, ret;
-	struct addr dst, gw;
+	struct route_entry entry;
 	uint32_t mask;
 
-	dst.addr_type = gw.addr_type = ADDR_TYPE_IP;
-	dst.addr_bits = gw.addr_bits = IP_ADDR_BITS;
+	entry.dst.addr_type = entry.gw.addr_type = ADDR_TYPE_IP;
+	entry.dst.addr_bits = entry.gw.addr_bits = IP_ADDR_BITS;
 
 	if ((fp = fopen(PROC_ROUTE_FILE, "r")) == NULL)
 		return (-1);
@@ -212,21 +208,21 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	while (fgets(buf, sizeof(buf), fp) != NULL) {
 		i = sscanf(buf,
 		    "%16s %X %X %X %d %d %d %X %d %d %d\n",
-		    ifbuf, &dst.addr_ip, &gw.addr_ip, &iflags, &refcnt,
-		    &use, &metric, &mask, &mss, &win, &irtt);
-
+		    ifbuf, &entry.dst.addr_ip, &entry.gw.addr_ip, &iflags,
+		    &refcnt, &use, &metric, &mask, &mss, &win, &irtt);
+		
 		if (i < 10 || !(iflags & RTF_UP))
 			continue;
 		
-		if (gw.addr_ip == IP_ADDR_ANY)
-			continue;
-
-		dst.addr_type = gw.addr_type = ADDR_TYPE_IP;
-		
-		if (addr_mtob(&mask, IP_ADDR_LEN, &dst.addr_bits) < 0)
+		if (entry.gw.addr_ip == IP_ADDR_ANY)
 			continue;
 		
-		if ((ret = callback(&dst, &gw, arg)) != 0)
+		entry.dst.addr_type = entry.gw.addr_type = ADDR_TYPE_IP;
+		
+		if (addr_mtob(&mask, IP_ADDR_LEN, &entry.dst.addr_bits) < 0)
+			continue;
+		
+		if ((ret = callback(&entry, arg)) != 0)
 			break;
 	}
 	if (ferror(fp)) {
@@ -241,8 +237,6 @@ route_loop(route_t *r, route_handler callback, void *arg)
 route_t *
 route_close(route_t *r)
 {
-	assert(r != NULL);
-
 	if (r->fd > 0)
 		close(r->fd);
 	if (r->nlfd > 0)

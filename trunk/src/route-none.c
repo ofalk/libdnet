@@ -24,21 +24,21 @@ route_open(void)
 }
 
 int
-route_add(route_t *r, const struct addr *dst, const struct addr *gw)
+route_add(route_t *r, const struct route_entry *entry)
 {
 	errno = ENOSYS;
 	return (-1);
 }
 
 int
-route_delete(route_t *r, const struct addr *dst)
+route_delete(route_t *r, const struct route_entry *entry)
 {
 	errno = ENOSYS;
 	return (-1);
 }
 
 int
-route_get(route_t *r, const struct addr *dst, struct addr *gw)
+route_get(route_t *r, struct route_entry *entry)
 {
 	errno = ENOSYS;
 	return (-1);
