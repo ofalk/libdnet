@@ -73,9 +73,8 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 DISTCLEANFILES = *~
 
 INCLUDES = @CHECKINC@
-
-TESTS = check_addr check_arp check_blob check_eth check_fw check_ip 	check_intf check_rand check_route
-
+@HAVE_CHECK_TRUE@TESTS = check_addr check_arp check_blob check_eth check_fw check_ip 	check_intf check_rand check_route
+@HAVE_CHECK_FALSE@TESTS = 
 
 noinst_PROGRAMS = $(TESTS)
 

@@ -110,6 +110,7 @@ AC_ARG_WITH(libcheck,
 ])
 AC_SUBST(CHECKINC)
 AC_SUBST(CHECKLIB)
+AM_CONDITIONAL(HAVE_CHECK, test "x$CHECKLIB" != "x")
 
 dnl Checks for header files.
 AC_HEADER_STDC
