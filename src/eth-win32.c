@@ -14,6 +14,7 @@
 #include "dnet.h"
 
 #include <Packet32.h>
+#include <Ntddndis.h>
 
 struct eth_handle {
 	LPADAPTER	 lpa;
