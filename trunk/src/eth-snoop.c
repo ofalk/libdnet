@@ -33,7 +33,8 @@ eth_open(char *device)
 {
 	struct sockaddr_raw sr;
 	eth_t *e;
-
+	int n;
+	
 	if ((e = calloc(1, sizeof(*e))) == NULL)
 		return (NULL);
 
@@ -46,7 +47,12 @@ eth_open(char *device)
 	strlcpy(sr.sr_ifname, device, sizeof(sr.sr_ifname));
 
 	if (bind(e->fd, (struct sockaddr *)&sr, sizeof(sr)) < 0) {
-		free(e);
+		eth_close(e);
+		return (NULL);
+	}
+	n = 60000;
+	if (setsockopt(e->fd, SOL_SOCKET, SO_SNDBUF, &n, sizeof(n)) < 0) {
+		eth_close(e);
 		return (NULL);
 	}
 	strlcpy(e->device, device, sizeof(e->device));
