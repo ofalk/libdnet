@@ -1,3 +1,4 @@
+
 /*
  * fw-ipf.c
  *
@@ -15,6 +16,7 @@
 #include <sys/socket.h>
 
 #include <net/if.h>
+#define _NETINET_IP6_H_		/* XXX */
 #include <netinet/in.h>
 #define ip_t	ipf_ip_t
 #ifdef HAVE_NETINET_IP_FIL_COMPAT_H
