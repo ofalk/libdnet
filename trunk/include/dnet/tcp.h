@@ -30,6 +30,8 @@ struct tcp_hdr {
 #elif DNET_BYTESEX == DNET_LIL_ENDIAN
 	uint8_t		th_x2:4,
 			th_off:4;
+#else
+# error "need to include <dnet.h>"
 #endif
 	uint8_t		th_flags;	/* control flags */
 	uint16_t	th_win;		/* window */
