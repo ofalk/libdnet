@@ -24,6 +24,7 @@
  */
 extern struct mod mod_addr;
 extern struct mod mod_hex;
+extern struct mod mod_rand;
 extern struct mod mod_eth;
 extern struct mod mod_arp;
 extern struct mod mod_ip;
@@ -36,9 +37,8 @@ extern struct mod mod_intf;
 extern struct mod mod_route;
 
 static struct mod *modules[] = {
-	&mod_addr, &mod_hex, &mod_eth, &mod_arp, &mod_ip, &mod_icmp,
-	&mod_tcp, &mod_udp, &mod_send, &mod_fw, &mod_intf, &mod_route,
-	NULL
+	&mod_addr, &mod_hex, &mod_rand, &mod_eth, &mod_arp, &mod_ip, &mod_icmp,
+	&mod_tcp, &mod_udp, &mod_send, &mod_fw, &mod_intf, &mod_route, NULL
 };
 
 static void
