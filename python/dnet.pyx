@@ -49,6 +49,9 @@ cdef __oserror():
     cdef extern int errno
     return strerror(errno)
 
+def __iter_append(entry, l):
+    l.append(entry)
+
 #
 # eth.h
 #
@@ -496,8 +499,7 @@ cdef class addr:
     
     def __copy__(self):
         a = addr()
-        memcpy(<char *>&(<addr>a)._addr, <char *>&self._addr,
-               sizeof(self._addr))
+        (<addr>a)._addr = self._addr
         return a
     
     def __cmp__(addr x, addr y):
@@ -617,8 +619,10 @@ ARP_OP_REVREPLY =	4	# /* response giving protocol address */
 
 cdef int __arp_callback(arp_entry *entry, void *arg) except -1:
     f, a = <object>arg
-    ret = f(addr(addr_ntoa(&entry.arp_pa)),
-            addr(addr_ntoa(&entry.arp_ha)), a)
+    pa, ha = addr(), addr()
+    (<addr>pa)._addr = entry.arp_pa
+    (<addr>ha)._addr = entry.arp_ha
+    ret = f((pa, ha), a)
     if not ret:
         ret = 0
     return ret
@@ -677,13 +681,18 @@ cdef class arp:
         with each entry, returning the status of the callback routine.
 
         Keyword arguments:
-        callback -- callback function with (pa, ha, arg) prototype.
+        callback -- callback function with ((pa, ha), arg) prototype.
                     If this function returns a non-zero value, the loop
                     will break early.
         arg      -- optional callback argument
         """
         _arg = (callback, arg)
         return arp_loop(self.arp, __arp_callback, <void *>_arg)
+
+    def __iter__(self):
+        l = []
+        self.loop(__iter_append, l)
+        return iter(l)
     
     def __dealloc__(self):
         if self.arp:
@@ -979,7 +988,12 @@ cdef class intf:
         """
         _arg = (callback, arg)
         return intf_loop(self.intf, __intf_callback, <void *>_arg)
-    
+
+    def __iter__(self):
+        l = []
+        self.loop(__iter_append, l)
+        return iter(l)
+            
     def __dealloc__(self):
         if self.intf:
             intf_close(self.intf)
@@ -1004,8 +1018,10 @@ cdef extern from *:
 
 cdef int __route_callback(route_entry *entry, void *arg) except -1:
     f, a = <object>arg
-    ret = f(addr(addr_ntoa(&entry.route_dst)),
-            addr(addr_ntoa(&entry.route_gw)), a)
+    dst, gw = addr(), addr()
+    (<addr>dst)._addr = entry.route_dst
+    (<addr>gw)._addr = entry.route_gw
+    ret = f((dst, gw), a)
     if not ret:
         ret = 0
     return ret
@@ -1064,13 +1080,18 @@ cdef class route:
         with each entry, returning the status of the callback routine.
 
         Keyword arguments:
-        callback -- callback function with (dst, gw, arg) prototype.
+        callback -- callback function with ((dst, gw), arg) prototype.
                     If this function returns a non-zero value, the loop
                     will break early.
         arg      -- optional callback argument
         """
         _arg = (callback, arg)
         return route_loop(self.route, __route_callback, <void *>_arg)
+    
+    def __iter__(self):
+        l = []
+        self.loop(__iter_append, l)
+        return iter(l)
     
     def __dealloc__(self):
         if self.route:
@@ -1203,6 +1224,11 @@ cdef class fw:
         _arg = (callback, arg)
         return fw_loop(self.fw, __fw_callback, <void *>_arg)
 
+    def __iter__(self):
+        l = []
+        self.loop(__iter_append, l)
+        return iter(l)
+    
     def __dealloc__(self):
         if self.fw:
             fw_close(self.fw)
