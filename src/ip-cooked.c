@@ -8,7 +8,7 @@
 
 #include "config.h"
 
-#ifndef WIN32
+#ifndef _WIN32
 #include <netinet/in.h>
 #include <unistd.h>
 #endif

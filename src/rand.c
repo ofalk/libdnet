@@ -11,7 +11,7 @@
 
 #include "config.h"
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <windows.h>
 #include <wincrypt.h>
 #else
@@ -65,7 +65,7 @@ rand_open(void)
 {
 	rand_t *r;
 	u_char seed[256];
-#ifdef WIN32
+#ifdef _WIN32
 	HCRYPTPROV hcrypt = 0;
 
 	CryptAcquireContext(&hcrypt, NULL, NULL, PROV_RSA_FULL,

@@ -37,7 +37,7 @@
  * SUCH DAMAGE.
  */
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <windows.h>
 #endif
 #include <stdio.h>
@@ -57,7 +57,7 @@ err(int eval, const char *fmt, ...)
 		(void)fprintf(stderr, ": ");
 	}
 	va_end(ap);
-#ifdef WIN32
+#ifdef _WIN32
 	(void)fprintf(stderr, "error %lu\n", GetLastError());
 #else
 	(void)fprintf(stderr, "%s\n", strerror(errno));
@@ -76,7 +76,7 @@ warn(const char *fmt, ...)
 		(void)fprintf(stderr, ": ");
 	}
 	va_end(ap);
-#ifdef WIN32
+#ifdef _WIN32
 	(void)fprintf(stderr, "error %lu\n", GetLastError());
 #else
 	(void)fprintf(stderr, "%s\n", strerror(errno));
