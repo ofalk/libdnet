@@ -11,6 +11,7 @@
 #ifndef DNET_ADDR_H
 #define DNET_ADDR_H
 
+#define ADDR_TYPE_NONE		0	/* No address set */
 #define	ADDR_TYPE_ETH		1	/* Ethernet */
 #define	ADDR_TYPE_IP		2	/* Internet Protocol v4 */
 
