@@ -100,16 +100,14 @@ fr_to_pr(const struct fw_rule *fr, struct pf_rule *pr)
 		pr->src.port[0] = htons(fr->fw_sport[0]);
 		pr->src.port[1] = htons(fr->fw_sport[1]);
 		if (pr->src.port[0] == pr->src.port[1]) {
-			if (pr->src.port[0] != 0)
-				pr->src.port_op = PF_OP_EQ;
+			pr->src.port_op = PF_OP_EQ;
 		} else
 			pr->src.port_op = PF_OP_IRG;
 
 		pr->dst.port[0] = htons(fr->fw_dport[0]);
 		pr->dst.port[1] = htons(fr->fw_dport[1]);
 		if (pr->dst.port[0] == pr->dst.port[1]) {
-			if (pr->dst.port[0] != 0)
-				pr->dst.port_op = PF_OP_EQ;
+			pr->dst.port_op = PF_OP_EQ;
 		} else
 			pr->dst.port_op = PF_OP_IRG;
 		break;
