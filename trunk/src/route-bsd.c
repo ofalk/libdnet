@@ -15,7 +15,7 @@
 #ifdef HAVE_SYS_SYSCTL_H
 #include <sys/sysctl.h>
 #endif
-#ifdef HAVE_SOLARIS_DEV_IP
+#ifdef HAVE_STREAMS_MIB2
 #include <sys/stream.h>
 #include <sys/tihdr.h>
 #include <sys/tiuser.h>
@@ -24,7 +24,7 @@
 #include <inet/ip.h>
 #undef IP_ADDR_LEN
 #include <stropts.h>
-#elif defined(HAVE_DEV_ROUTE)
+#elif defined(HAVE_STREAMS_ROUTE)
 #include <sys/stream.h>
 #include <sys/stropts.h>
 #endif
@@ -50,7 +50,7 @@ struct route_handle {
 	int	fd;
 	pid_t	pid;
 	int	seq;
-#ifdef HAVE_SOLARIS_DEV_IP
+#ifdef HAVE_STREAMS_MIB2
 	int	ip_fd;
 #endif
 };
@@ -115,7 +115,7 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 	
 	rtm->rtm_msglen = (u_char *)sa - buf;
 
-#ifdef HAVE_DEV_ROUTE
+#ifdef HAVE_STREAMS_ROUTE
 	if (ioctl(r->fd, RTSTR_SEND, rtm) < 0)
 		return (-1);
 #else
@@ -163,7 +163,7 @@ route_open(void)
 	if ((r = malloc(sizeof(*r))) == NULL)
 		return (NULL);
 
-#ifdef HAVE_DEV_ROUTE
+#ifdef HAVE_STREAMS_ROUTE
 	if ((r->fd = open("/dev/route", O_RDWR, 0)) < 0) {
 #else
 	if ((r->fd = socket(PF_ROUTE, SOCK_RAW, AF_INET)) < 0) {
@@ -171,7 +171,7 @@ route_open(void)
 		free(r);
 		return (NULL);
 	}
-#ifdef HAVE_SOLARIS_DEV_IP
+#ifdef HAVE_STREAMS_MIB2
 	if ((r->ip_fd = open(IP_DEV_NAME, O_RDWR)) < 0) {
 		close(r->fd);
 		free(r);
@@ -236,7 +236,7 @@ route_get(route_t *r, struct addr *dst, struct addr *gw)
 	return (0);
 }
 
-#if defined(HAVE_SYS_SYSCTL_H) || defined(HAVE_DEV_ROUTE)
+#if defined(HAVE_SYS_SYSCTL_H) || defined(HAVE_STREAMS_ROUTE)
 int
 route_loop(route_t *r, route_handler callback, void *arg)
 {
@@ -264,7 +264,7 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	}
 	lim = buf + len;
 	next = buf;
-#else /* HAVE_DEV_ROUTE */
+#else /* HAVE_STREAMS_ROUTE */
 	struct rt_giarg giarg, *gp;
 
 	memset(&giarg, 0, sizeof(giarg));
@@ -328,7 +328,7 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	
 	return (ret);
 }
-#elif defined(HAVE_SOLARIS_DEV_IP)
+#elif defined(HAVE_STREAMS_MIB2)
 
 #ifdef IRE_DEFAULT		/* This means Solaris 5.6 */
 /* I'm not sure if they are compatible, though -- masaki */
@@ -455,7 +455,7 @@ route_close(route_t *r)
 		return (-1);
 	}
 	if (
-#ifdef HAVE_SOLARIS_DEV_IP
+#ifdef HAVE_STREAMS_MIB2
 		close(r->ip_fd) < 0 ||
 #endif
 		close(r->fd) < 0)

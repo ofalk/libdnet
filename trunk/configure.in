@@ -10,6 +10,11 @@ AC_INIT(include/dnet.h)
 AM_INIT_AUTOMAKE(libdnet, 0.2)
 AM_CONFIG_HEADER(include/config.h)
 
+dnl Check for system type.
+dnl XXX - we do this to qualify our later feature checks, since some
+dnl systems claim to support multiple features, but are quite b0rked.
+AC_CANONICAL_HOST
+
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
@@ -50,24 +55,17 @@ AC_FUNC_MEMCMP
 AC_CHECK_FUNCS(socket)
 AC_REPLACE_FUNCS(err inet_pton strlcat strlcpy)
 
-dnl Checks for other crap.
+dnl Checks for other system-specific jonks.
 AC_DNET_BSD_BPF
 AC_DNET_LINUX_PROCFS
 AC_DNET_LINUX_PF_PACKET
-AC_DNET_SOLARIS_DEV_IP
-AC_DNET_DEV_ROUTE
+AC_DNET_STREAMS_MIB2
+AC_DNET_STREAMS_ROUTE
+AC_DNET_IOCTL_ARP
+AC_DNET_RAWIP_COOKED
 
 dnl Check for arp interface.
-arp_api=none
-AC_EGREP_CPP(yes, [
-#include <sys/types.h>
-#define BSD_COMP
-#include <sys/ioctl.h>
-#ifdef SIOCGARP
-yes
-#endif
-], arp_api=ioctl)
-if test $arp_api = ioctl ; then
+if test $ac_cv_dnet_ioctl_arp = yes ; then
 	LIBOBJS="$LIBOBJS arp-ioctl.o"
 elif test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
 	LIBOBJS="$LIBOBJS arp-bsd.o"
@@ -104,12 +102,6 @@ elif test $ac_cv_header_linux_netfilter_ipv4_ipchains_core_h = yes ; then
 	LIBOBJS="$LIBOBJS fw-ipchains.o"
 else
 	LIBOBJS="$LIBOBJS fw-none.o"
-fi
-
-dnl Check for cooked raw IP sockets.
-if test $ac_cv_dnet_solaris_dev_ip = yes || \
-   test $ac_cv_header_net_raw_h = yes ; then
-   AC_DEFINE(HAVE_COOKED_RAWIP)
 fi
 
 dnl Check for routing interface.

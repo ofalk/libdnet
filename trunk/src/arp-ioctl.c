@@ -12,7 +12,7 @@
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
-#ifdef HAVE_SOLARIS_DEV_IP
+#ifdef HAVE_STREAMS_MIB2
 #include <sys/sockio.h>
 #include <sys/stream.h>
 #include <sys/tihdr.h>
@@ -24,7 +24,7 @@
 #endif
 
 #include <net/if_arp.h>
-#ifdef HAVE_SOLARIS_DEV_IP
+#ifdef HAVE_STREAMS_MIB2
 #include <netinet/in.h>
 
 #include <stropts.h>
@@ -63,12 +63,12 @@ arp_open(void)
 		return (NULL);
 	}
 #endif
-#ifdef HAVE_SOLARIS_DEV_IP
+#ifdef HAVE_STREAMS_MIB2
 	if ((a->fd = open(IP_DEV_NAME, O_RDWR)) < 0) {
 		arp_close(a);
 		return (NULL);
 	}
-#elif defined(HAVE_DEV_ROUTE)
+#elif defined(HAVE_STREAMS_ROUTE)
 	if ((a->fd = open("/dev/route", O_WRONLY, 0)) < 0) {
 		arp_close(a);
 		return (NULL);
@@ -133,7 +133,7 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 	if (ioctl(a->fd, SIOCSARP, &ar) < 0)
 		return (-1);
 
-#ifdef HAVE_SOLARIS_DEV_IP
+#ifdef HAVE_STREAMS_MIB2
 	/* XXX - force entry into ipNetToMediaTable. */
 	{
 		struct sockaddr_in sin;
@@ -232,7 +232,7 @@ arp_loop(arp_t *a, arp_handler callback, void *arg)
 	
 	return (ret);
 }
-#elif defined (HAVE_SOLARIS_DEV_IP)
+#elif defined (HAVE_STREAMS_MIB2)
 int
 arp_loop(arp_t *r, arp_handler callback, void *arg)
 {
