@@ -68,9 +68,10 @@ arp_delete(arp_t *arp, const struct arp_entry *entry)
 	iprow.dwIndex = ipfrow.dwForwardIfIndex;
 	iprow.dwAddr = entry->arp_pa.addr_ip;
 
-	if (DeleteIpNetEntry(&iprow) != NO_ERROR)
+	if (DeleteIpNetEntry(&iprow) != NO_ERROR) {
+		errno = ENXIO;
 		return (-1);
-
+	}
 	return (0);
 }
 
