@@ -11,7 +11,7 @@ dnet.c: dnet.pyx
 	pyrexc dnet.pyx
 
 python-build: dnet.c
-	python setup.py build
+	$(PYTHON) setup.py build
 	touch python-build
 
 python-clean:
