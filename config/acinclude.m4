@@ -8,6 +8,9 @@ AC_DEFUN(AC_DNET_SOCKADDR_SA_LEN,
     [AC_MSG_CHECKING(for sa_len in sockaddr struct)
     AC_CACHE_VAL(ac_cv_dnet_sockaddr_has_sa_len,
         AC_TRY_COMPILE([
+# ifndef _SOCKADDR_LEN
+#	define _SOCKADDR_LEN 1 
+# endif
 #       include <sys/types.h>
 #       include <sys/socket.h>],
         [u_int i = sizeof(((struct sockaddr *)0)->sa_len)],
