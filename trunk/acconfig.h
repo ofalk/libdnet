@@ -3,7 +3,11 @@
 #include <sys/types.h>
 
 #ifdef __svr4__
-#define BSD_COMP	1
+# define BSD_COMP	1
+#endif
+
+#if defined(__osf__) && !defined(_SOCKADDR_LEN)
+# define _SOCKADDR_LEN	1
 #endif
 
 #ifndef HAVE_INET_PTON
