@@ -28,6 +28,8 @@ cdef extern from *:
     void   *memset(char *b, int c, int len)
     char   *strerror(int errnum)
     int     strlcpy(char *dst, char *src, int size)
+    unsigned long htonl(unsigned long n)
+    unsigned long ntohl(unsigned long n)
 
 cdef __memcpy(char *dst, object src, int n):
     if PyString_Size(src) != n:
@@ -372,6 +374,7 @@ cdef extern from *:
         unsigned short addr_type
         unsigned short addr_bits
         char           addr_data8[16]
+        unsigned long  addr_ip
 
     int   addr_cmp(addr_t *a, addr_t *b)
     int   addr_bcast(addr_t *a, addr_t *b)
@@ -479,12 +482,40 @@ cdef class addr:
             return 0
         return addr_cmp(&o1, &s1) >= 0 and addr_cmp(&o2, &s2) <= 0
 
+    def __iter__(self):
+        cdef addr_t a, b
+        if self._addr.addr_type != ADDR_TYPE_IP or \
+           addr_net(&self._addr, &a) != 0 or \
+           addr_bcast(&self._addr, &b) != 0:
+            raise ValueError
+        return addr_ip4_iter(a.addr_ip, b.addr_ip)
+    
     def __str__(self):
         cdef char *p
         p = addr_ntoa(&self._addr)
         if not p:
             return '<invalid address>'
         return p
+
+cdef class addr_ip4_iter:
+    cdef unsigned long cur	# XXX - HBO
+    cdef unsigned long max	# XXX - HBO
+
+    def __init__(self, cur, max):
+        self.cur = ntohl(cur)
+        self.max = ntohl(max)
+    
+    def __next__(self):
+        cdef addr next
+        if (self.cur <= self.max):
+            next = addr()
+            next._addr.addr_type = ADDR_TYPE_IP
+            next._addr.addr_bits = IP_ADDR_BITS
+            next._addr.addr_ip = htonl(self.cur)
+            self.cur = self.cur + 1
+            return next
+        else:
+            raise StopIteration
 
 #
 # arp.h
