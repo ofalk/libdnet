@@ -1,3 +1,8 @@
+ipfw2 on FreeBSD/5 (5.1 has pf)
+
+ipchains sleazy exec
+
+audit addr_ntos() for non-zero'd host bits
 
 make *_loop() prevent modification within loop, or modify only
 post-iteration
@@ -23,25 +28,25 @@ maybe Checkpoint FW-1 support, via OPSEC (hrr)
 --------+------+-----+-----+----+----+------+-------+
 openbsd |   X  |  X  |  X  |  X |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
-freebsd |   X  |  X  |  X  |  X |  X |   X  |   X   |   X = works, tested
+freebsd |   X  |  X  |  X  |  8 |  X |   X  |   X   |   X = works, tested
 --------+------+-----+-----+----+----+------+-------+
 netbsd  |   X  |  X  |  X  |  X |  X |   X  |   X   |   ? = untested
 --------+------+-----+-----+----+----+------+-------+
 linux   |   X  |  X  |  X  |  X |  X |   X  |   X   |   - = unimplemented
 --------+------+-----+-----+----+----+------+-------+
-solaris |   X  |  X  |  X  |  ? |  X |   X  |   X   |
+solaris |   X  |  X  |  X  |  7 |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
 macosx  |   X  |  X  |  X  |  X |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
-irix    |   X  |  X  |  X  |  - |  X |   X  |   X   |
+irix    |   X  |  X  |  X  |  7 |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
-bsdi    |   X  |  X  |  X  |  - |  X |   X  |   X   |
+bsdi    |   X  |  X  |  X  |  7 |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
-hp-ux   |   X  |  X  |  X  |  - |  X |   3  |   X   |
+hp-ux   |   X  |  X  |  X  |  7 |  X |   3  |   X   |
 --------+------+-----+-----+----+----+------+-------+
-win32   |   X  |  X  |  X  |  - |  X |   3  |   X   |
+win32   |   X  |  X  |  X  |  X |  X |   3  |   X   |
 --------+------+-----+-----+----+----+------+-------+
-tru64   |   X  |  1  |  2  |  - |  X |   X  |   -   |
+tru64   |   X  |  1  |  2  |  7 |  X |   X  |   -   |
 --------+------+-----+-----+----+----+------+-------+
 unixware|   X  |  -  |  2  |  - |  - |   X  |   4   |
 --------+------+-----+-----+----+----+------+-------+
@@ -54,6 +59,8 @@ aix     |   X  |  5  |  -  |  - |  - |   X  |   6   |
 4. route_loop only works
 5. arp_show doesn't work
 6. route_loop doesn't work
+7. IP Filter should work, but untested
+8. ipfw support, but no ipfw2
 
 arp-{bsd,ioctl} both b0rked on unixware
 
