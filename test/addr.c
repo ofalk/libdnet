@@ -55,13 +55,13 @@ main(int argc, char *argv[])
 			err(1, "addr_btom");
 		
 		printf("addr_btom: %d -> 0x%08x\n",
-		    addr.addr_bits, ntohl(mask));
+		    addr.addr_bits, (u_int)ntohl(mask));
 		
 		if (addr_mtob(mask, &addr.addr_bits) < 0)
 			err(1, "addr_mtob");
 
 		printf("addr_mtob: 0x%08x -> %d\n",
-		    ntohl(mask), addr.addr_bits);
+		    (u_int)ntohl(mask), addr.addr_bits);
 	}
 	exit(0);
 }
