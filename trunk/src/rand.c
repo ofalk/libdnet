@@ -11,13 +11,7 @@
 
 #include "config.h"
 
-#ifdef _WIN32
-/* XXX */
-# undef _WIN32_WINNT
-# define _WIN32_WINNT 0x0400
-# include <wincrypt.h>
-# define inline __inline
-#else
+#ifndef _WIN32
 # include <sys/types.h>
 # include <sys/time.h>
 # include <unistd.h>
@@ -27,6 +21,14 @@
 #include <string.h>
 
 #include "dnet.h"
+
+#ifdef _WIN32
+/* XXX */
+# undef _WIN32_WINNT
+# define _WIN32_WINNT 0x0400
+# include <wincrypt.h>
+# define inline __inline
+#endif
 
 struct rand_handle {
 	uint8_t		 i;
