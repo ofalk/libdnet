@@ -6,6 +6,6 @@ SUBDIRS = include man src test
 
 bin_SCRIPTS = dnet-config
 
-EXTRA_DIST = Makefile.am.common acconfig.h
+EXTRA_DIST = LICENSE Makefile.am.common acconfig.h
 
 CLEANFILES = dnet-config
