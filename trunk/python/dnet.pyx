@@ -283,16 +283,28 @@ def ip_aton(buf):
         raise ValueError, "invalid IP address"
     return PyString_FromStringAndSize(<char *>&ia, 4)
 
-def ip_checksum(buf):
-    """XXX - modify packed binary string representing an IP packet 
-    by setting the IP and transport-layer checksums. The string's hash
-    is invalid after this. use dpkt instead!
-
+def ip_checksum(pkt):
+    """Return packed binary string representing an IP packet 
+    with the IP and transport-layer checksums set.
+    
     Arguments:
     pkt -- binary string representing an IP packet
     """
-    __ip_checksum(buf, PyString_Size(buf))
-    return buf
+    cdef char buf[2048]
+    cdef char *p
+    cdef int n
+    if PyObject_AsReadBuffer(pkt, &p, &n) == 0:
+        if n < 2048:
+            memcpy(buf, p, n)
+            __ip_checksum(buf, n)
+            return PyString_FromStringAndSize(buf, n)
+        p = malloc(n)
+        memcpy(p, pkt, n)
+        __ip_checksum(p, n)
+        s = PyString_FromStringAndSize(p, n)
+        free(p)
+        return s
+    raise TypeError
 
 def ip_cksum_add(buf, int sum):
     cdef char *p
