@@ -23,73 +23,10 @@
 void
 tcp_usage(int die)
 {
-	fprintf(stderr, "Usage: dnet tcp [sport|dport|flags|seq|ack|win|urp value] ...\n");
+	fprintf(stderr, "Usage: dnet tcp [sport|dport|flags|seq|ack|"
+	    "win|urp <value>] ...\n");
 	if (die)
 		exit(1);
-}
-
-static int
-port_aton(char *string, uint16_t *port)
-{
-	struct servent *sp;
-	long l;
-	char *p;
-	
-	if ((sp = getservbyname(string, "tcp")) != NULL) {
-		*port = sp->s_port;
-	} else {
-		l = strtol(string, &p, 10);
-		if (*string == '\0' || *p != '\0' || l > 0xffff)
-			return (-1);
-		*port = htons(l & 0xffff);
-	}
-	return (0);
-}
-
-static int
-seq_aton(char *string, uint32_t *seq)
-{
-	char *p;
-	
-	*seq = strtol(string, &p, 10);
-	if (*string == '\0' || *p != '\0')
-		return (-1);
-
-	return (0);
-}
-
-static int
-flags_aton(char *string, uint8_t *flags)
-{
-	char *p;
-
-	*flags = 0;
-	
-	for (p = string; *p != '\0'; p++) {
-		switch (*p) {
-		case 'S':
-			*flags |= TH_SYN;
-			break;
-		case 'A':
-			*flags |= TH_ACK;
-			break;
-		case 'F':
-			*flags |= TH_FIN;
-			break;
-		case 'R':
-			*flags |= TH_RST;
-			break;
-		case 'P':
-			*flags |= TH_PUSH;
-			break;
-		case 'U':
-			*flags |= TH_URG;
-			break;
-		default:
-			return (-1);
-		}
-	}
-	return (0);
 }
 
 int

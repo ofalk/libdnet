@@ -26,12 +26,15 @@ struct module {
 };
 
 static struct module dnet_modules[] = {
+	{ "addr",	addr_usage,	addr_main },
+	{ "hex",	hex_usage,	hex_main },
 	{ "eth",	eth_usage,	eth_main },
 	{ "arp",	arp_usage,	arp_main },
 	{ "ip",		ip_usage,	ip_main },
 	{ "icmp",	icmp_usage,	icmp_main },
 	{ "tcp",	tcp_usage,	tcp_main },
 	{ "udp",	udp_usage,	udp_main },
+	{ "send",	send_usage,	send_main },
 	{ NULL,		NULL,		NULL }
 };
 
