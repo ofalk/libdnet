@@ -29,6 +29,7 @@ hex_usage(void)
 int
 hex_main(int argc, char *argv[])
 {
+	char buf[IP_LEN_MAX], *p = buf;
 	int c, len;
 	
 	if (argc == 1 || *(argv[1]) == '-')
@@ -41,6 +42,16 @@ hex_main(int argc, char *argv[])
 		if (write(STDOUT_FILENO, argv[c], len) != len)
 			err(1, "write");
 	}
+	if (!isatty(STDIN_FILENO)) {
+		len = sizeof(buf);
+		while ((c = read(STDIN_FILENO, p, len)) > 0) {
+			p += c;
+			len -= c;
+		}
+		len = p - buf;
+		if (write(STDOUT_FILENO, buf, len) != len)
+			err(1, "write");
+	}                                  
 	return (0);
 }
 
