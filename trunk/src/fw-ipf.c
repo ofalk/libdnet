@@ -24,9 +24,6 @@
 #endif
 #include <netinet/ip_fil.h>
 #undef ip_t
-#ifdef IP6EQ
-#define HAVE_I6ADDR	1
-#endif
 
 #include <assert.h>
 #include <errno.h>
@@ -65,19 +62,11 @@ rule_to_ipf(struct fw_rule *rule, struct frentry *fr)
 		fr->fr_flags |= FR_OUTQUE;
 	
 	fr->fr_ip.fi_p = rule->fw_proto;
-#ifdef HAVE_IP6ADDR
 	fr->fr_ip.fi_saddr = rule->fw_src.addr_ip;
 	fr->fr_ip.fi_daddr = rule->fw_dst.addr_ip;
 	addr_btom(rule->fw_src.addr_bits, &fr->fr_mip.fi_saddr, IP_ADDR_LEN);
 	addr_btom(rule->fw_dst.addr_bits, &fr->fr_mip.fi_daddr, IP_ADDR_LEN);
-#else
-	fr->fr_ip.fi_src.s_addr = rule->fw_src.addr_ip;
-	fr->fr_ip.fi_dst.s_addr = rule->fw_dst.addr_ip;
-	addr_btom(rule->fw_src.addr_bits, &fr->fr_mip.fi_src.s_addr,
-	    IP_ADDR_LEN);
-	addr_btom(rule->fw_dst.addr_bits, &fr->fr_mip.fi_dst.s_addr,
-	    IP_ADDR_LEN);
-#endif
+	
 	switch (rule->fw_proto) {
 	case IPPROTO_ICMP:
 		fr->fr_icmpm = rule->fw_sport[1] << 8 |
@@ -156,21 +145,13 @@ ipf_to_rule(struct frentry *fr, struct fw_rule *rule)
 	rule->fw_proto = fr->fr_ip.fi_p;
 
 	rule->fw_src.addr_type = rule->fw_dst.addr_type = ADDR_TYPE_IP;
-#ifdef HAVE_I6ADDR
 	rule->fw_src.addr_ip = fr->fr_ip.fi_saddr;
 	rule->fw_dst.addr_ip = fr->fr_ip.fi_daddr;
 	addr_mtob(&fr->fr_mip.fi_saddr, IP_ADDR_LEN,
 	    &rule->fw_src.addr_bits);
 	addr_mtob(&fr->fr_mip.fi_daddr, IP_ADDR_LEN,
 	    &rule->fw_dst.addr_bits);
-#else
-	rule->fw_src.addr_ip = fr->fr_ip.fi_src.s_addr;
-	rule->fw_dst.addr_ip = fr->fr_ip.fi_dst.s_addr;
-	addr_mtob(&fr->fr_mip.fi_src.s_addr, IP_ADDR_LEN,
-	    &rule->fw_src.addr_bits);
-	addr_mtob(&fr->fr_mip.fi_dst.s_addr, IP_ADDR_LEN,
-	    &rule->fw_dst.addr_bits);
-#endif
+	
 	switch (rule->fw_proto) {
 	case IPPROTO_ICMP:
 		rule->fw_sport[0] = ntohs(fr->fr_icmp & fr->fr_icmpm) >> 8;
