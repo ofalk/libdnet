@@ -392,21 +392,20 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 				return (-1);
 			if (addr_ston(&iftmp.ifr_addr, ap) < 0)
 				return (-1);
+			entry->intf_link_addr = ap++;
 #else
 			eth_t *eth;
 
 			if ((eth = eth_open(entry->intf_name)) != NULL) {
-				ap->addr_type = ADDR_TYPE_ETH;
-				ap->addr_bits = ETH_ADDR_BITS;
-				if (eth_get(eth, &ap->addr_eth) < 0) {
-					/* XXX - hrr */
-					memcpy(&ap->addr_eth,
-					    ETH_ADDR_BROADCAST, ETH_ADDR_LEN);
+				if (eth_get(eth, &ap->addr_eth) == 0) {
+					ap->addr_type = ADDR_TYPE_ETH;
+					ap->addr_bits = ETH_ADDR_BITS;
+					entry->intf_link_addr = ap++;
 				}
 				eth_close(eth);
 			}
-#endif
 			entry->intf_link_addr = ap++;
+#endif
 		}
 		/* Get interface MTU. */
 		if (ioctl(intf->fd, SIOCGIFMTU, &iftmp) < 0)
