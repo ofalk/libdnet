@@ -7,7 +7,7 @@
 #						(see --with-gnu-ld in ./configure)
 #
 %define name libdnet
-%define version 1.8
+%define version 1.9
 %define release 1
 %define appname %{name}-%{version}
 %define rpmname %{name}-%{version}-%{release}
@@ -15,7 +15,7 @@
 Name: %{name}
 Version: %{version}
 Release: %{release}
-Summary: Simplified interface to low-level networking
+Summary: Simplified, portable interface to low-level networking routines
 Group: System Environment/Libraries
 Vendor: Dug Song <dugsong@monkey.org>
 URL: http://libdnet.sourceforge.net
@@ -26,10 +26,11 @@ BuildRoot: %{_tmppath}/%{name}-root
 
 
 %description
-libdnet provides a simplified interface to several low-level networking
-routines, including network address manipulation, kernel arp(4) and route(4)
-table manipulation, firewalling, interface configuration, and raw Ethernet and
-IP datagram transmission.
+libdnet provides a simplified, portable interface to several low-level
+networking routines, including network address manipulation, kernel
+arp(4) cache and route(4) table lookup and manipulation, network
+firewalling, network interface lookup and manipulation, and raw IP
+packet and Ethernet frame transmission.
 
 
 %package devel
