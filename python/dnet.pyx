@@ -401,16 +401,16 @@ cdef class addr:
         """Address type (ADDR_TYPE_*) integer."""
         def __get__(self):
             return self._addr.addr_type
-        def __set__(self, value):
-            # XXX - should sanity-check
+        def __set__(self, unsigned int value):
+            if value > 0xffff: raise OverflowError
             self._addr.addr_type = value
     
     property bits:
         """Address bitlength integer."""
         def __get__(self):
             return self._addr.addr_bits
-        def __set__(self, value):
-            # XXX - should sanity-check
+        def __set__(self, unsigned int value):
+            if value > 0xffff: raise OverflowError
             self._addr.addr_bits = value
 
     property eth:
@@ -451,22 +451,34 @@ cdef class addr:
 
     def bcast(self):
         """Return an addr object for our broadcast address."""
-        bcast = self.__class__(self.__str__())
+        bcast = addr()
         addr_bcast(&self._addr, &(<addr>bcast)._addr)
         return bcast
 
     def net(self):
         """Return an addr object for our network address."""
-        net = self.__class__(self.__str__())
+        net = addr()
         addr_net(&self._addr, &(<addr>net)._addr)
         return net
     
     def __copy__(self):
-        return self.__class__(self.__str__())
+        a = addr()
+        memcpy(<char *>&(<addr>a)._addr, <char *>&self._addr,
+               sizeof(self._addr))
+        return a
     
     def __cmp__(addr x, addr y):
         return addr_cmp(&x._addr, &y._addr)
-    
+
+    def __contains__(self, addr other):
+        cdef addr_t s1, s2, o1, o2
+        if addr_net(&self._addr, &s1) != 0 or \
+           addr_bcast(&self._addr, &s2) != 0 or \
+           addr_net(&other._addr, &o1) != 0 or \
+           addr_bcast(&other._addr, &o2) != 0:
+            return 0
+        return addr_cmp(&o1, &s1) >= 0 and addr_cmp(&o2, &s2) <= 0
+
     def __str__(self):
         cdef char *p
         p = addr_ntoa(&self._addr)
