@@ -75,9 +75,30 @@ END_TEST
 
 START_TEST(test_addr_ntop)
 {
+	struct ntop {
+		u_char *n;
+		char *p;
+	} *ntop, ntop_ip6[] = {
+		{ IP6_ADDR_UNSPEC, "::" },
+		{ IP6_ADDR_LOOPBACK, "::1" },
+		{ "\xfe\x08\x00\x00\x00\x00\x00\x00"
+		  "\x00\x00\x00\x00\x00\x00\x00\x01", "fe08::1" },
+		{ "\xff\xff\xff\xff\xff\xff\xff\xff"
+		  "\xff\xff\xff\xff\xff\xff\xff\xff",
+		  "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff" },
+		{ "\xca\xfe\xba\xbe\x00\x00\x00\x00\x00\x00\x00\x00"
+		  "\xde\xad\xbe\xef", "cafe:babe::dead:beef" },
+		{ "\xfe\xed\xfa\xce\x00\x00\x00\x00\x00\x00\x00\x00"
+		  "\x00\x00\x00\x00", "feed:face::" },
+		{ "\x00\x00\x00\x0a\x00\x0b\x00\x0c\x00"
+		  "\x0d\x00\x0e\x00\x0f\x00\x00", "0:a:b:c:d:e:f:0" },
+		{ "\x00\x00\x00\x00\x00\x00\x00\x00"
+		  "\x00\x00\xff\xff\x01\x02\x03\x04", "::ffff:1.2.3.4" },
+		{ NULL }
+	};
 	struct addr a;
 	char buf[64];
-	
+
 	ADDR_PACK(&a, htonl(0x010203ff));
 	a.addr_bits = 23; addr_ntop(&a, buf, sizeof(buf));
 	fail_unless(strcmp(buf, "1.2.3.255/23") == 0, "bad /23 handling");
@@ -85,16 +106,60 @@ START_TEST(test_addr_ntop)
 	fail_unless(strcmp(buf, "1.2.3.255/0") == 0, "bad /0 handling");
 	a.addr_bits = 32; addr_ntop(&a, buf, sizeof(buf));
 	fail_unless(strcmp(buf, "1.2.3.255") == 0, "bad /32 handling");
-	fail_unless(addr_ntop(&a, buf, 9) < 0, "buffer overflow?");
+	fail_unless(addr_ntop(&a, buf, 9) == NULL, "buffer overflow?");
+
+	addr_pack(&a, ADDR_TYPE_ETH, ETH_ADDR_BITS,
+	    "\x00\x00\x00\x00\x00\x00", ETH_ADDR_LEN);
+	fail_unless(strcmp(addr_ntop(&a, buf, sizeof(buf)),
+	    "00:00:00:00:00:00") == 0, "bad empty MAC handling");
+	memcpy(&a.addr_eth, "\x00\x0d\x0e\x0a\x0d\x00", ETH_ADDR_LEN);
+	fail_unless(strcmp(addr_ntop(&a, buf, sizeof(buf)),
+	    "00:0d:0e:0a:0d:00") == 0, "b0rked");
+	a.addr_bits = 16;
+	fail_unless(addr_ntop(&a, buf, sizeof(buf)) == NULL, "took /16 mask");
+	
+	for (ntop = ntop_ip6; ntop->n != NULL; ntop++) {
+		addr_pack(&a, ADDR_TYPE_IP6, IP6_ADDR_BITS, ntop->n,
+		    IP6_ADDR_LEN);
+		fail_unless(strcmp(addr_ntop(&a, buf, sizeof(buf)),
+		    ntop->p) == 0, ntop->p);
+	}
 }
 END_TEST
 
 START_TEST(test_addr_pton)
 {
+	struct pton {
+		char	*p;
+		u_char	*n;
+	} *pton, pton_ip6[] = {
+		{ "::", IP6_ADDR_UNSPEC },
+		{ "::1", IP6_ADDR_LOOPBACK },
+		{ "fe08::", "\xfe\x08\x00\x00\x00\x00\x00\x00"
+		  "\x00\x00\x00\x00\x00\x00\x00\x00" },
+		{ "fe08::1", "\xfe\x08\x00\x00\x00\x00\x00\x00"
+		  "\x00\x00\x00\x00\x00\x00\x00\x01" },
+		{ "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", "\xff\xff\xff\xff"
+		  "\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff" },
+		{ "cafe::babe:dead:beef:0:ffff", "\xca\xfe\x00\x00\x00\x00"
+		  "\xba\xbe\xde\xad\xbe\xef\x00\x00\xff\xff" },
+		{ "::1.2.3.4", "\x00\x00\x00\x00\x00\x00\x00\x00"
+		  "\x00\x00\x00\x00\x01\x02\x03\x04" },
+		{ ":cafe", NULL }, { ":::", NULL }, { "::fffff", NULL },
+		{ NULL }
+	}, pton_eth[] = {
+		{ "0:d:e:a:d:0", "\x00\x0d\x0e\x0a\x0d\x00" },
+		{ "ff:ff:ff:ff:ff:ff", ETH_ADDR_BROADCAST },
+		{ "00:d:0e:a:0d:0", "\x00\x0d\x0e\x0a\x0d\x00" },
+		{ ":d:e:a:d:0", NULL }, { "0:d:e:a:d:", NULL },
+		{ "0:d:e:a:def:0", NULL }, { "0:d:e:a:d:0:0", NULL },
+		{ "0:0:0:0:0:0", "\x00\x00\x00\x00\x00\x00" },
+		{ NULL }
+	};
 	struct addr a, b;
+	int res;
 
 	ADDR_PACK(&a, htonl(0x010203ff));
-	
 	a.addr_bits = 17; addr_pton("1.2.3.255/17", &b);
 	fail_unless(addr_cmp(&a, &b) == 0, "bad /17 handling");
 	a.addr_bits = 32; addr_pton("1.2.3.255", &b);
@@ -107,6 +172,31 @@ START_TEST(test_addr_pton)
 	fail_unless(addr_pton("localhost", &b) == 0, "barfed on localhost");
 	fail_unless(addr_pton("localhost/24", &b) == 0,
 	    "barfed on localhost/24");
+
+	for (pton = pton_eth; pton->n != NULL; pton++) {
+		res = addr_pton(pton->p, &a);
+		if (pton->n != NULL) {
+			fail_unless(res == 0 &&
+			    a.addr_type == ADDR_TYPE_ETH &&
+			    a.addr_bits == ETH_ADDR_BITS &&
+			    memcmp(&a.addr_eth, pton->n, ETH_ADDR_LEN) == 0,
+			    pton->p);
+		} else {
+			fail_unless(res < 0, pton->p);
+		}
+	}
+	for (pton = pton_ip6; pton->n != NULL; pton++) {
+		res = addr_pton(pton->p, &a);
+		if (pton->n != NULL) {
+			fail_unless(res == 0 &&
+			    a.addr_type == ADDR_TYPE_IP6 &&
+			    a.addr_bits == IP6_ADDR_BITS &&
+			    memcmp(&a.addr_ip6, pton->n, IP6_ADDR_LEN) == 0,
+			    pton->p);
+		} else {
+			fail_unless(res < 0, pton->p);
+		}
+	}
 }
 END_TEST
 
