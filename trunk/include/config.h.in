@@ -148,6 +148,9 @@
 /* Define if you have the `strlcpy' function. */
 #undef HAVE_STRLCPY
 
+/* Define if you have the `strsep' function. */
+#undef HAVE_STRSEP
+
 /* Define if you have the <sys/bufmod.h> header file. */
 #undef HAVE_SYS_BUFMOD_H
 
@@ -237,4 +240,8 @@ size_t	strlcat(char *, const char *, size_t);
 
 #ifndef HAVE_STRLCPY
 size_t	strlcpy(char *, const char *, size_t);
+#endif
+
+#ifndef HAVE_STRSEP
+char	*strsep(char **, const char *);
 #endif
