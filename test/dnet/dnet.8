@@ -123,9 +123,9 @@ may be specified by name or hex, octal, or decimal number.
 .It Nm send Op Ar device
 Read a packet from standard input and send it over the network. If no
 .Ar device
-is specified, the packet is assumed to be an IP datagram, and routed
+is specified, the packet is assumed to be an IP datagram and routed
 to its destination. Otherwise, the packet is assumed to be an Ethernet
-frame, and is transmitted on the specified interface.
+frame and is transmitted on the specified interface.
 .El
 .Ss Kernel interface commands
 .Bl -tag -width "foo"
@@ -169,7 +169,7 @@ may specify an interface name, or
 .Ql any .
 The 
 .Ar protocol
-must be specified in decimal. For TCP and
+may be specified by name, or as a decimal number. For TCP and
 UDP protocols, a 
 .Ar port
 (or range, if specified with a
@@ -248,12 +248,6 @@ dnet send
 dnet ip id 1 off 24 proto icmp src 1.2.3.4 dst 5.6.7.8 < p.ab | \\
 dnet send
 .Ed
-.Pp
-Spew random IP packets:
-.Bd -literal -offset -indent
-while true ; do
-	openssl rand 666 | dnet ip | dnet send
-done
 .Sh SEE ALSO
 .Xr dnet 3
 .Sh AUTHORS
