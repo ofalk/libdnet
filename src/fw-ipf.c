@@ -16,12 +16,14 @@
 
 #include <net/if.h>
 #include <netinet/in.h>
+#define ip_t	ipf_ip_t
 #ifdef HAVE_NETINET_IP_FIL_COMPAT_H
 # include <netinet/ip_fil_compat.h>
 #else
 # include <netinet/ip_compat.h>
 #endif
 #include <netinet/ip_fil.h>
+#undef ip_t
 #ifdef IP6EQ
 #define HAVE_I6ADDR	1
 #endif
@@ -35,8 +37,6 @@
 #include <unistd.h>
 
 #define KMEM_NAME	"/dev/kmem"
-
-typedef u_int32_t ip_addr_t;
 
 #include "dnet.h"
 
