@@ -87,16 +87,16 @@ arp_open(void)
 
 #ifdef HAVE_ARPREQ_ARP_DEV
 static int
-arp_set_dev(char *device, struct addr *pa, int flags, void *arg)
+arp_set_dev(char *device, struct intf_info *info, void *arg)
 {
 	struct arpreq *ar = (struct arpreq *)arg;
 	struct addr dst;
 	u_int32_t mask;
 	
-	addr_btom(pa->addr_bits, &mask, IP_ADDR_LEN);
+	addr_btom(info->intf_addr.addr_bits, &mask, IP_ADDR_LEN);
 	addr_ston((struct sockaddr *)&ar->arp_pa, &dst);
 	
-	if ((pa->addr_ip & mask) == (dst.addr_ip & mask)) {
+	if ((info->intf_addr.addr_ip & mask) == (dst.addr_ip & mask)) {
 		strlcpy(ar->arp_dev, device, sizeof(ar->arp_dev));
 		return (1);
 	}
