@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "dnet.h"
 
@@ -88,6 +89,15 @@ eth_ntop(const eth_addr_t *eth, char *dst, size_t len)
 	return (dst);
 }
 
+char *
+eth_ntoa(const eth_addr_t *eth)
+{
+	struct addr a;
+	
+	addr_pack(&a, ADDR_TYPE_ETH, ETH_ADDR_BITS, eth->data, ETH_ADDR_LEN);
+	return (addr_ntoa(&a));
+}
+
 int
 eth_pton(const char *p, eth_addr_t *eth)
 {
@@ -125,6 +135,15 @@ ip_ntop(const ip_addr_t *ip, char *dst, size_t len)
 	p[-1] = '\0';
 	
 	return (dst);
+}
+
+char *
+ip_ntoa(const ip_addr_t *ip)
+{
+	struct addr a;
+	
+	addr_pack(&a, ADDR_TYPE_IP, IP_ADDR_BITS, &ip, IP_ADDR_LEN);
+	return (addr_ntoa(&a));
 }
 
 int
@@ -202,6 +221,15 @@ ip6_ntop(const ip6_addr_t *ip6, char *dst, size_t len)
 		p[-1] = '\0';
 
 	return (dst);
+}
+
+char *
+ip6_ntoa(const ip6_addr_t *ip6)
+{
+	struct addr a;
+	
+	addr_pack(&a, ADDR_TYPE_IP6, IP6_ADDR_BITS, &ip6->data, IP6_ADDR_LEN);
+	return (addr_ntoa(&a));
 }
 
 int
