@@ -442,6 +442,14 @@ bytes of the IP packet pointed to by
 closes the specified handle.
 .Pp
 .Ss Routing
+Routing table entries are described by the following structure:
+.Bd -literal
+struct route_entry {
+	struct addr	route_dst;	/* destination address */
+	struct addr	route_gw;	/* gateway address */
+};
+.Ed
+.Pp
 .Fn route_open
 is used to obtain a handle to access the kernel
 .Xr route 4
