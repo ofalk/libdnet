@@ -154,21 +154,46 @@ END_TEST
 
 START_TEST(test_addr_btos)
 {
+	struct sockaddr s;
+	struct addr a;
+	
+	ADDR_FILL(&a, htonl(0xffffff00));
+	a.addr_bits = 24;
+	fail_unless(addr_btos(a.addr_bits, &s) == 0, "b0rked");
 }
 END_TEST
 
 START_TEST(test_addr_stob)
 {
+	struct sockaddr_in s;
+	struct addr a;
+
+	SIN_FILL(&s, htonl(0xffffff00), 0);
+	addr_stob((struct sockaddr *)&s, &a.addr_bits);
+	fail_unless(a.addr_bits == 24, "b0rked");
 }
 END_TEST
 
 START_TEST(test_addr_btom)
 {
+	struct addr a;
+	uint32_t mask;
+
+	ADDR_FILL(&a, htonl(0xffffff00));
+	a.addr_bits = 24;
+	addr_btom(a.addr_bits, &mask, sizeof(mask));
+	fail_unless(mask == htonl(0xffffff00), "b0rked");
 }
 END_TEST
 
 START_TEST(test_addr_mtob)
 {
+	struct addr a;
+	uint32_t mask;
+
+	mask = htonl(0xffffff00);
+	addr_mtob(&mask, sizeof(mask), &a.addr_bits);
+	fail_unless(a.addr_bits == 24, "b0rked");
 }
 END_TEST
 

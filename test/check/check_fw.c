@@ -14,8 +14,12 @@ START_TEST(test_fw_fill)
 }
 END_TEST
 
-START_TEST(test_fw_open)
+START_TEST(test_fw_openclose)
 {
+	fw_t *fw;
+
+	fail_unless((fw = fw_open()) != NULL, "open failed");
+	fail_unless((fw = fw_close(fw)) == NULL, "closed failed");
 }
 END_TEST
 
@@ -47,11 +51,10 @@ fw_suite(void)
 
 	suite_add_tcase(s, tc_core);
 	tcase_add_test(tc_core, test_fw_fill);
-	tcase_add_test(tc_core, test_fw_open);
+	tcase_add_test(tc_core, test_fw_openclose);
 	tcase_add_test(tc_core, test_fw_add);
 	tcase_add_test(tc_core, test_fw_delete);
 	tcase_add_test(tc_core, test_fw_loop);
-	tcase_add_test(tc_core, test_fw_close);
 	
 	return (s);
 }

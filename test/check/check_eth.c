@@ -14,7 +14,7 @@ START_TEST(test_eth_fill)
 }
 END_TEST
 
-START_TEST(test_eth_open)
+START_TEST(test_eth_openclose)
 {
 }
 END_TEST
@@ -34,11 +34,6 @@ START_TEST(test_eth_send)
 }
 END_TEST
 
-START_TEST(test_eth_close)
-{
-}
-END_TEST
-
 Suite *
 eth_suite(void)
 {
@@ -47,11 +42,10 @@ eth_suite(void)
 
 	suite_add_tcase(s, tc_core);
 	tcase_add_test(tc_core, test_eth_fill);
-	tcase_add_test(tc_core, test_eth_open);
+	tcase_add_test(tc_core, test_eth_openclose);
 	tcase_add_test(tc_core, test_eth_get);
 	tcase_add_test(tc_core, test_eth_set);
 	tcase_add_test(tc_core, test_eth_send);
-	tcase_add_test(tc_core, test_eth_close);
 	
 	return (s);
 }

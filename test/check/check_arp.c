@@ -14,13 +14,18 @@ START_TEST(test_arp_fill)
 }
 END_TEST
 
-START_TEST(test_arp_open)
+START_TEST(test_arp_openclose)
 {
+	arp_t	*a;
+
+	fail_unless((a = arp_open()) != NULL, "open failed");
+	fail_unless((a = arp_close(a)) == NULL, "close failed");
 }
 END_TEST
 
 START_TEST(test_arp_add)
 {
+	
 }
 END_TEST
 
@@ -39,11 +44,6 @@ START_TEST(test_arp_loop)
 }
 END_TEST
 
-START_TEST(test_arp_close)
-{
-}
-END_TEST
-
 Suite *
 arp_suite(void)
 {
@@ -52,12 +52,11 @@ arp_suite(void)
 
 	suite_add_tcase(s, tc_core);
 	tcase_add_test(tc_core, test_arp_fill);
-	tcase_add_test(tc_core, test_arp_open);
+	tcase_add_test(tc_core, test_arp_openclose);
 	tcase_add_test(tc_core, test_arp_add);
 	tcase_add_test(tc_core, test_arp_delete);
 	tcase_add_test(tc_core, test_arp_get);
 	tcase_add_test(tc_core, test_arp_loop);
-	tcase_add_test(tc_core, test_arp_close);
 	
 	return (s);
 }
