@@ -58,7 +58,7 @@ Supported PROGRAM values:
     exit 1
     ;;
 
-  aclocal)
+  aclocal*)
     echo 1>&2 "\
 WARNING: \`$1' is missing on your system.  You should only need it if
          you modified \`acinclude.m4' or \`configure.in'.  You might want
@@ -67,7 +67,7 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     touch aclocal.m4
     ;;
 
-  autoconf)
+  autoconf*)
     echo 1>&2 "\
 WARNING: \`$1' is missing on your system.  You should only need it if
          you modified \`configure.in'.  You might want to install the
@@ -76,7 +76,7 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     touch configure
     ;;
 
-  autoheader)
+  autoheader*)
     echo 1>&2 "\
 WARNING: \`$1' is missing on your system.  You should only need it if
          you modified \`acconfig.h' or \`configure.in'.  You might want
@@ -93,7 +93,7 @@ WARNING: \`$1' is missing on your system.  You should only need it if
     touch $files
     ;;
 
-  automake)
+  automake*)
     echo 1>&2 "\
 WARNING: \`$1' is missing on your system.  You should only need it if
          you modified \`Makefile.am', \`acinclude.m4' or \`configure.in'.
