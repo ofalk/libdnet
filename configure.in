@@ -29,6 +29,7 @@ AC_LIBTOOL_DLOPEN
 AM_PROG_LIBTOOL
 
 dnl Checks for Python.
+dnl XXX - use AM_PATH_PYTHON after automake upgrade
 AC_MSG_CHECKING(for Python)
 AC_ARG_WITH(python,
 [  --with-python=DIR       build Python module (using python in DIR)],
@@ -295,6 +296,6 @@ LTLIBOBJS=`echo X"$LIBOBJS"|\
 AC_SUBST(LTLIBOBJS)
 
 AC_OUTPUT([Makefile dnet-config include/Makefile include/dnet/Makefile
-	man/Makefile src/Makefile python/Makefile 
+	man/Makefile src/Makefile python/Makefile python/setup.py
 	test/Makefile test/check/Makefile test/dnet/Makefile],
 	[chmod 755 dnet-config])
