@@ -578,6 +578,14 @@ retrieves an interface configuration
 .Fa entry ,
 keyed on
 .Fa intf_name .
+For all 
+.Fn intf_get
+functions, 
+.Fa intf_len
+should be set to the size of the buffer pointed to by
+.Fa entry 
+(usually sizeof(struct intf_entry), but should be larger to accomodate
+any interface alias addresses.
 .Pp
 .Fn intf_get_src
 retrieves the configuration for the interface whose primary address
