@@ -16,12 +16,9 @@
  * SOFTWARE.
  */
 
-#include <sys/param.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
-#include <arpa/nameser.h>
 #include <string.h>
 #include <errno.h>
 
@@ -83,7 +80,7 @@ inet_pton4(src, dst)
 {
 	static const char digits[] = "0123456789";
 	int saw_digit, octets, ch;
-	u_char tmp[INADDRSZ], *tp;
+	u_char tmp[4], *tp;
 
 	saw_digit = 0;
 	octets = 0;
@@ -113,7 +110,7 @@ inet_pton4(src, dst)
 	if (octets < 4)
 		return (0);
 
-	memcpy(dst, tmp, INADDRSZ);
+	memcpy(dst, tmp, 4);
 	return (1);
 }
 
@@ -180,7 +177,7 @@ inet_pton6(src, dst)
 			} else if (*src == '\0') {
 				return (0);
 			}
-			if (tp + INT16SZ > endp)
+			if (tp + 2 > endp)
 				return (0);
 			*tp++ = (u_char) (val >> 8) & 0xff;
 			*tp++ = (u_char) val & 0xff;
@@ -188,16 +185,16 @@ inet_pton6(src, dst)
 			val = 0;
 			continue;
 		}
-		if (ch == '.' && ((tp + INADDRSZ) <= endp) &&
+		if (ch == '.' && ((tp + 4) <= endp) &&
 		    inet_pton4(curtok, tp) > 0) {
-			tp += INADDRSZ;
+			tp += 4;
 			saw_xdigit = 0;
 			break;	/* '\0' was seen by inet_pton4(). */
 		}
 		return (0);
 	}
 	if (saw_xdigit) {
-		if (tp + INT16SZ > endp)
+		if (tp + 2 > endp)
 			return (0);
 		*tp++ = (u_char) (val >> 8) & 0xff;
 		*tp++ = (u_char) val & 0xff;
