@@ -77,17 +77,13 @@
 .Fn fw_close "fw_t *f"
 .Ss Network interfaces
 .Pp
-.Li typedef Ar int Fn (*intf_handler) "const char *device" "const struct intf_info *info" "void *arg"
+.Li typedef Ar int Fn (*intf_handler) "const struct intf_entry *entry" "void *arg"
 .Ft intf_t *
 .Fn intf_open "void"
-.\".Ft int
-.\".Fn intf_add "intf_t *i" "const char *device" "const struct addr *addr"
-.\".Ft int
-.\".Fn intf_delete "intf_t *i" "const char *device" "const struct addr *addr"
 .Ft int
-.Fn intf_get "intf_t *i" "const char *device" "struct intf_info *info"
+.Fn intf_get "intf_t *i" "struct intf_entry *entry"
 .Ft int
-.Fn intf_set "intf_t *i" "const char *device" "const struct intf_info *info"
+.Fn intf_set "intf_t *i" "const struct intf_entry *entry"
 .Ft int
 .Fn intf_loop "intf_t *i" "intf_handler callback" "void *arg"
 .Ft intf_t *
@@ -139,7 +135,7 @@ programming.
 .Pp
 .Ss Network addressing
 Network addresses are described by the following structure:
-.Bd -literal -offset indent
+.Bd -literal
 struct addr {
 	uint16_t		addr_type;
 	uint16_t		addr_bits;
@@ -286,7 +282,7 @@ closes the specified handle.
 .Pp
 .Ss Firewalling
 Firewall rules are described by the following structure:
-.Bd -literal -offset indent
+.Bd -literal
 struct fw_rule {
 	char		fw_device[14];	/* interface name */
 	uint8_t		fw_op:4,	/* operation */
@@ -341,21 +337,29 @@ closes the specified handle.
 .Pp 
 .Ss Network interfaces
 Network interface information is described by the following structure:
-.Bd -literal -offset indent
-struct intf_info {
-	uint32_t	intf_info;	/* bitmask of fields set */
-	struct addr	intf_addr;	/* interface IP address */
-	uint32_t	intf_flags;	/* interface flags */
-	uint32_t	intf_mtu;	/* interface MTU */
+.Bd -literal
+struct intf_entry {
+	u_int		 intf_len;		/* length of entry */
+	char		 intf_name[24];		/* interface name */
+	u_short		 intf_type;		/* interface type */
+	u_short		 intf_flags;		/* interface flags */
+	u_int		 intf_mtu;		/* interface MTU */
+	struct addr	*intf_addr;		/* interface address */
+	struct addr	*intf_dst_addr;		/* point-to-point dst */
+	struct addr	*intf_link_addr;	/* link-layer address */
+	u_int		 intf_alias_num;	/* number of aliases */
+	struct addr	*intf_alias_addr;	/* array of aliases */
+	struct addr	 intf_addr_data __flexarr;
 };
 .Ed
 .Pp
 The following bitmask values are defined for
-.Ar intf_info :
+.Ar intf_type :
 .Bd -literal
-#define INTF_INFO_ADDR	0x01		/* intf_addr is set */
-#define INTF_INFO_FLAGS	0x02		/* intf_flags is set */
-#define INTF_INFO_MTU	0x04		/* intf_mtu is set */
+#define INTF_TYPE_OTHER		1	/* other */
+#define INTF_TYPE_ETH		6	/* Ethernet */
+#define INTF_TYPE_LOOPBACK	24	/* software loopback */
+#define INTF_TYPE_TUN		53	/* proprietary virtual/internal */
 .Ed
 .Pp
 The following bitmask values are defined for
@@ -364,7 +368,7 @@ The following bitmask values are defined for
 #define INTF_FLAG_UP		0x01	/* enable interface */
 #define INTF_FLAG_LOOPBACK	0x02	/* is a loopback net (r/o) */
 #define INTF_FLAG_POINTOPOINT	0x04	/* point-to-point link (r/o) */
-#define INTF_FLAG_NOARP		0x08	/* disable arp */
+#define INTF_FLAG_NOARP		0x08	/* disable ARP */
 #define INTF_FLAG_BROADCAST	0x10	/* supports broadcast (r/o) */
 #define INTF_FLAG_MULTICAST	0x20	/* supports multicast (r/o) */
 .Ed
@@ -374,22 +378,20 @@ is used to obtain a handle to access the network interface
 configuration.
 .Pp
 .Fn intf_get
-retrieves the configuration
-.Fa info
-for the specified 
-.Fa device .
+retrieves an interface configuration
+.Fa entry ,
+keyed on
+.Fa intf_name .
 .Pp
 .Fn intf_set
-configures the specified 
-.Fa device
-with the configuration 
-.Fa info .
+sets the interface configuration
+.Fa entry .
 .Pp
 .Fn intf_loop
 iterates over all network interfaces, invoking the specified 
 .Fa callback
-with each entry's configuration
-.Fa info 
+with each interface configuration
+.Fa entry 
 and the context
 .Fa arg
 passed to
