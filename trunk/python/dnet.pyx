@@ -261,7 +261,11 @@ def ip_aton(buf):
 
 def ip_checksum(buf):
     """Return a packed binary string representing an IP packet 
-    with the IP and transport-layer checksums set."""
+    with the IP and transport-layer checksums set.
+
+    Arguments:
+    pkt -- binary string representing an IP packet
+    """
     __ip_checksum(buf, PyString_Size(buf))
     return buf
 
@@ -332,7 +336,11 @@ def ip6_aton(buf):
 
 def ip6_checksum(buf):
     """Return a packed binary string representing an IPv6 packet 
-    with the IPv6 and transport-layer checksums set."""
+    with the IPv6 and transport-layer checksums set.
+
+    Arguments:
+    pkt -- binary string representing an IPv6 packet
+    """
     __ip6_checksum(buf, PyString_Size(buf))
     return buf
 
