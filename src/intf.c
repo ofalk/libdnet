@@ -109,7 +109,7 @@ intf_open(void)
 int
 intf_set(intf_t *intf, const struct intf_entry *entry)
 {
-#if defined(SIOCAIFADDR) || defined(SIOCDIFADDR)
+#ifdef SIOCAIFADDR
 	struct dnet_ifaliasreq ifra;
 #endif
 	struct ifreq ifr;
@@ -163,13 +163,11 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 			}
 		}
 	}
-#ifdef SIOCDIFADDR
+#if defined(SIOCDIFADDR) && !defined(sgi)	/* XXX - IRIX b0rked w/ifra */
 	/* Delete original address, if none specified. */
 	else if (orig->intf_addr != NULL) {
-		addr_ntos(orig->intf_addr, &ifra.ifra_addr);
-		addr_btos(orig->intf_addr->addr_bits, &ifra.ifra_mask);
-		
-		if (ioctl(intf->fd, SIOCDIFADDR, &ifra) < 0)
+		addr_ntos(orig->intf_addr, &ifr.ifr_addr);
+		if (ioctl(intf->fd, SIOCDIFADDR, &ifr) < 0)
 			return (-1);
 	}
 #endif
@@ -208,7 +206,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 			return (-1);
 	}
 	/* Delete any existing aliases. */
-#ifdef SIOCAIFADDR			/* XXX - skip Linux SIOCDIFADDR */
+#if defined(SIOCDIFADDR) && !defined(__linux__)	/* XXX - see Linux below */
 	for (i = 0; i < orig->intf_alias_num; i++) {
 		addr_ntos(&orig->intf_alias_addr[i], &ifra.ifra_addr);
 		ioctl(intf->fd, SIOCDIFADDR, &ifra);
@@ -221,6 +219,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 		/* XXX - overloading Solaris lifreq with ifreq */
 		ioctl(intf->fd, SIOCLIFREMOVEIF, &ifr);
 # else
+		/* XXX - only need to set interface down on Linux */
 		ifr.ifr_flags = 0;
 		ioctl(intf->fd, SIOCSIFFLAGS, &ifr);
 # endif
