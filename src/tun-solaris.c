@@ -92,7 +92,7 @@ tun_fileno(tun_t *tun)
 	return (tun->fd);
 }
 
-size_t
+ssize_t
 tun_send(tun_t *tun, const void *buf, size_t size)
 {
 	struct strbuf sbuf;
@@ -102,7 +102,7 @@ tun_send(tun_t *tun, const void *buf, size_t size)
 	return (putmsg(tun->fd, NULL, &sbuf, 0) >= 0 ? sbuf.len : -1);
 }
 
-size_t
+ssize_t
 tun_recv(tun_t *tun, void *buf, size_t size)
 {
 	struct strbuf sbuf;

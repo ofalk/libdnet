@@ -75,13 +75,13 @@ tun_fileno(tun_t *tun)
 	return (tun->fd);
 }
 
-size_t
+ssize_t
 tun_send(tun_t *tun, const void *buf, size_t size)
 {
 	return (write(tun->fd, buf, size));
 }
 
-size_t
+ssize_t
 tun_recv(tun_t *tun, void *buf, size_t size)
 {
 	return (read(tun->fd, buf, size));

@@ -110,7 +110,7 @@ eth_open(const char *device)
 	return (eth);
 }
 
-size_t
+ssize_t
 eth_send(eth_t *eth, const void *buf, size_t len)
 {
 	PacketInitPacket(eth->pkt, (void *)buf, len);

@@ -412,7 +412,7 @@ typedef struct ip_handle ip_t;
 
 __BEGIN_DECLS
 ip_t	*ip_open(void);
-size_t	 ip_send(ip_t *i, const void *buf, size_t len);
+ssize_t	 ip_send(ip_t *i, const void *buf, size_t len);
 ip_t	*ip_close(ip_t *i);
 
 char	*ip_ntop(const ip_addr_t *ip, char *dst, size_t len);
@@ -420,7 +420,7 @@ int	 ip_pton(const char *src, ip_addr_t *dst);
 char	*ip_ntoa(const ip_addr_t *ip);
 #define	 ip_aton ip_pton
 
-size_t	 ip_add_option(void *buf, size_t len,
+ssize_t	 ip_add_option(void *buf, size_t len,
 	    int proto, const void *optbuf, size_t optlen);
 void	 ip_checksum(void *buf, size_t len);
 
