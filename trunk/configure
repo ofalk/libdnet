@@ -2790,7 +2790,11 @@ else
 	LIBOBJS="$LIBOBJS intf.o"
 fi
 
-LIBOBJS="$LIBOBJS ip.o"
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+	LIBOBJS="$LIBOBJS ip-win32.o"
+else
+	LIBOBJS="$LIBOBJS ip.o"
+fi
 
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
 	LIBOBJS="$LIBOBJS route-win32.o"
