@@ -54,7 +54,7 @@ eth_open(const char *device)
 			break;
 	}
 	if (e->fd < 0)
-		return (NULL);
+		return (eth_close(e));
 	
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
