@@ -75,6 +75,7 @@ route_msg_print(struct rt_msghdr *rtm)
 static int
 route_msg(route_t *r, int type, struct addr *dst, struct addr *gw)
 {
+	struct addr net;
 	struct rt_msghdr *rtm;
 	struct sockaddr *sa;
 	u_char buf[BUFSIZ];
@@ -92,7 +93,7 @@ route_msg(route_t *r, int type, struct addr *dst, struct addr *gw)
 
 	/* Destination */
 	sa = (struct sockaddr *)(rtm + 1);
-	if (addr_ntos(dst, sa) < 0)
+	if (addr_net(dst, &net) < 0 || addr_ntos(&net, sa) < 0)
 		return (-1);
 	sa = NEXTSA(sa);
 
