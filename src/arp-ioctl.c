@@ -13,24 +13,23 @@
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #ifdef HAVE_STREAMS_MIB2
-#include <sys/sockio.h>
-#include <sys/stream.h>
-#include <sys/tihdr.h>
-#include <sys/tiuser.h>
-#include <inet/common.h>
-#include <inet/mib2.h>
-#include <inet/ip.h>
-#undef IP_ADDR_LEN
+# include <sys/sockio.h>
+# include <sys/stream.h>
+# include <sys/tihdr.h>
+# include <sys/tiuser.h>
+# include <inet/common.h>
+# include <inet/mib2.h>
+# include <inet/ip.h>
+# undef IP_ADDR_LEN
 #elif defined(HAVE_SYS_MIB_H)
-#include <sys/mib.h>
+# include <sys/mib.h>
 #endif
 
 #include <net/if.h>
 #include <net/if_arp.h>
 #ifdef HAVE_STREAMS_MIB2
-#include <netinet/in.h>
-
-#include <stropts.h>
+# include <netinet/in.h>
+# include <stropts.h>
 #endif
 #include <errno.h>
 #include <fcntl.h>
@@ -382,6 +381,87 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 		if ((ret = callback(&entry, arg)) != 0)
 			break;
 	}
+	return (ret);
+}
+#elif defined(HAVE_NET_RADIX_H)
+/* XXX - Tru64, others? */
+#include <netinet/if_ether.h>
+#include <nlist.h>
+
+static int
+_kread(int fd, void *addr, void *buf, int len)
+{
+	if (lseek(fd, (off_t)addr, SEEK_SET) == (off_t)-1L)
+		return (-1);
+	return (read(fd, buf, len) == len ? 0 : -1);
+}
+
+static int
+_radix_walk(int fd, struct radix_node *rn, arp_handler callback, void *arg)
+{
+	struct radix_node rnode;
+	struct rtentry rt;
+	struct sockaddr_in sin;
+	struct arptab at;
+	struct arp_entry entry;
+	int ret = 0;
+ again:
+	_kread(fd, rn, &rnode, sizeof(rnode));
+	if (rnode.rn_b < 0) {
+		if (!(rnode.rn_flags & RNF_ROOT)) {
+			_kread(fd, rn, &rt, sizeof(rt));
+			_kread(fd, rt_key(&rt), &sin, sizeof(sin));
+			addr_ston((struct sockaddr *)&sin, &entry.arp_pa);
+			_kread(fd, rt.rt_llinfo, &at, sizeof(at));
+			if (at.at_flags & ATF_COM) {
+				addr_pack(&entry.arp_ha, ADDR_TYPE_ETH,
+				    ETH_ADDR_BITS, at.at_hwaddr, ETH_ADDR_LEN);
+				if ((ret = callback(&entry, arg)) != 0)
+					return (ret);
+			}
+		}
+		if ((rn = rnode.rn_dupedkey))
+			goto again;
+	} else {
+		rn = rnode.rn_r;
+		if ((ret = _radix_walk(fd, rnode.rn_l, callback, arg)) != 0)
+			return (ret);
+		if ((ret = _radix_walk(fd, rn, callback, arg)) != 0)
+			return (ret);
+	}
+	return (ret);
+}
+
+int
+arp_loop(arp_t *r, arp_handler callback, void *arg)
+{
+	struct ifnet *ifp, ifnet;
+	struct ifnet_arp_cache_head ifarp;
+	struct radix_node_head *head;
+	
+	struct nlist nl[2];
+	int fd, ret = 0;
+
+	memset(nl, 0, sizeof(nl));
+	nl[0].n_name = "ifnet";
+	
+	if (knlist(nl) < 0 || nl[0].n_type == 0 ||
+	    (fd = open("/dev/kmem", O_RDONLY, 0)) < 0)
+		return (-1);
+
+	for (ifp = (struct ifnet *)nl[0].n_value;
+	    ifp != NULL; ifp = ifnet.if_next) {
+		_kread(fd, ifp, &ifnet, sizeof(ifnet));
+		if (ifnet.if_arp_cache_head != NULL) {
+			_kread(fd, ifnet.if_arp_cache_head,
+			    &ifarp, sizeof(ifarp));
+			/* XXX - only ever one rnh, only ever AF_INET. */
+			if ((ret = _radix_walk(fd, ifarp.arp_cache_head.rnh_treetop,
+				 callback, arg)) != 0)
+				break;
+		}
+	}
+	close(fd);
 	return (ret);
 }
 #else
