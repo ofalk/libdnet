@@ -60,13 +60,24 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
+AS = @AS@
 CC = @CC@
 CHECKINC = @CHECKINC@
 CHECKLIB = @CHECKLIB@
+DLLTOOL = @DLLTOOL@
+ECHO = @ECHO@
+EXEEXT = @EXEEXT@
+LIBTOOL = @LIBTOOL@
+LN_S = @LN_S@
+LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
+OBJDUMP = @OBJDUMP@
+OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
+STRIP = @STRIP@
 VERSION = @VERSION@
+ac_aux_dir = @ac_aux_dir@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
@@ -78,7 +89,7 @@ dnetincludedir = $(includedir)/dnet
 
 dnetinclude_HEADERS = addr.h arp.h blob.h eth.h fw.h icmp.h intf.h ip.h 	ip6.h os.h rand.h route.h tcp.h udp.h
 
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../../include/config.h
 CONFIG_CLEAN_FILES = 
 HEADERS =  $(dnetinclude_HEADERS)
@@ -205,6 +216,7 @@ clean-am:  clean-tags clean-generic mostlyclean-am
 clean: clean-am
 
 distclean-am:  distclean-tags distclean-generic clean-am
+	-rm -f libtool
 
 distclean: distclean-am
 

@@ -60,13 +60,24 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
+AS = @AS@
 CC = @CC@
 CHECKINC = @CHECKINC@
 CHECKLIB = @CHECKLIB@
+DLLTOOL = @DLLTOOL@
+ECHO = @ECHO@
+EXEEXT = @EXEEXT@
+LIBTOOL = @LIBTOOL@
+LN_S = @LN_S@
+LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
+OBJDUMP = @OBJDUMP@
+OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
+STRIP = @STRIP@
 VERSION = @VERSION@
+ac_aux_dir = @ac_aux_dir@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
@@ -88,10 +99,16 @@ check_ip_SOURCES = check_ip.c
 check_rand_SOURCES = check_rand.c
 check_route_SOURCES = check_route.c
 
-LDADD = $(top_builddir)/src/libdnet.a @CHECKLIB@
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+LDADD = $(top_builddir)/src/libdnet.la @CHECKLIB@
+mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../../include/config.h
 CONFIG_CLEAN_FILES = 
+@HAVE_CHECK_FALSE@noinst_PROGRAMS = 
+@HAVE_CHECK_TRUE@noinst_PROGRAMS =  check_addr$(EXEEXT) \
+@HAVE_CHECK_TRUE@check_arp$(EXEEXT) check_blob$(EXEEXT) \
+@HAVE_CHECK_TRUE@check_eth$(EXEEXT) check_fw$(EXEEXT) check_ip$(EXEEXT) \
+@HAVE_CHECK_TRUE@check_intf$(EXEEXT) check_rand$(EXEEXT) \
+@HAVE_CHECK_TRUE@check_route$(EXEEXT)
 PROGRAMS =  $(noinst_PROGRAMS)
 
 
@@ -99,46 +116,47 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I../../include
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-check_addr_OBJECTS =  check_addr.o
+check_addr_OBJECTS =  check_addr.$(OBJEXT)
 check_addr_LDADD = $(LDADD)
-check_addr_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
+check_addr_DEPENDENCIES =  $(top_builddir)/src/libdnet.la
 check_addr_LDFLAGS = 
-check_arp_OBJECTS =  check_arp.o
+check_arp_OBJECTS =  check_arp.$(OBJEXT)
 check_arp_LDADD = $(LDADD)
-check_arp_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
+check_arp_DEPENDENCIES =  $(top_builddir)/src/libdnet.la
 check_arp_LDFLAGS = 
-check_blob_OBJECTS =  check_blob.o
+check_blob_OBJECTS =  check_blob.$(OBJEXT)
 check_blob_LDADD = $(LDADD)
-check_blob_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
+check_blob_DEPENDENCIES =  $(top_builddir)/src/libdnet.la
 check_blob_LDFLAGS = 
-check_eth_OBJECTS =  check_eth.o
+check_eth_OBJECTS =  check_eth.$(OBJEXT)
 check_eth_LDADD = $(LDADD)
-check_eth_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
+check_eth_DEPENDENCIES =  $(top_builddir)/src/libdnet.la
 check_eth_LDFLAGS = 
-check_fw_OBJECTS =  check_fw.o
+check_fw_OBJECTS =  check_fw.$(OBJEXT)
 check_fw_LDADD = $(LDADD)
-check_fw_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
+check_fw_DEPENDENCIES =  $(top_builddir)/src/libdnet.la
 check_fw_LDFLAGS = 
-check_ip_OBJECTS =  check_ip.o
+check_ip_OBJECTS =  check_ip.$(OBJEXT)
 check_ip_LDADD = $(LDADD)
-check_ip_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
+check_ip_DEPENDENCIES =  $(top_builddir)/src/libdnet.la
 check_ip_LDFLAGS = 
-check_intf_OBJECTS =  check_intf.o
+check_intf_OBJECTS =  check_intf.$(OBJEXT)
 check_intf_LDADD = $(LDADD)
-check_intf_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
+check_intf_DEPENDENCIES =  $(top_builddir)/src/libdnet.la
 check_intf_LDFLAGS = 
-check_rand_OBJECTS =  check_rand.o
+check_rand_OBJECTS =  check_rand.$(OBJEXT)
 check_rand_LDADD = $(LDADD)
-check_rand_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
+check_rand_DEPENDENCIES =  $(top_builddir)/src/libdnet.la
 check_rand_LDFLAGS = 
-check_route_OBJECTS =  check_route.o
+check_route_OBJECTS =  check_route.$(OBJEXT)
 check_route_LDADD = $(LDADD)
-check_route_DEPENDENCIES =  $(top_builddir)/src/libdnet.a
+check_route_DEPENDENCIES =  $(top_builddir)/src/libdnet.la
 check_route_LDFLAGS = 
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -151,7 +169,7 @@ OBJECTS = $(check_addr_OBJECTS) $(check_arp_OBJECTS) $(check_blob_OBJECTS) $(che
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .lo .o .obj .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) $(top_srcdir)/Makefile.am.common
 	cd $(top_srcdir) && $(AUTOMAKE) --foreign test/check/Makefile
 
@@ -172,6 +190,11 @@ maintainer-clean-noinstPROGRAMS:
 .c.o:
 	$(COMPILE) -c $<
 
+# FIXME: We should only use cygpath when building on Windows,
+# and only if it is available.
+.c.obj:
+	$(COMPILE) -c `cygpath -w $<`
+
 .s.o:
 	$(COMPILE) -c $<
 
@@ -180,6 +203,7 @@ maintainer-clean-noinstPROGRAMS:
 
 mostlyclean-compile:
 	-rm -f *.o core *.core
+	-rm -f *.$(OBJEXT)
 
 clean-compile:
 
@@ -188,40 +212,59 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-check_addr: $(check_addr_OBJECTS) $(check_addr_DEPENDENCIES)
-	@rm -f check_addr
+.c.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+
+maintainer-clean-libtool:
+
+check_addr$(EXEEXT): $(check_addr_OBJECTS) $(check_addr_DEPENDENCIES)
+	@rm -f check_addr$(EXEEXT)
 	$(LINK) $(check_addr_LDFLAGS) $(check_addr_OBJECTS) $(check_addr_LDADD) $(LIBS)
 
-check_arp: $(check_arp_OBJECTS) $(check_arp_DEPENDENCIES)
-	@rm -f check_arp
+check_arp$(EXEEXT): $(check_arp_OBJECTS) $(check_arp_DEPENDENCIES)
+	@rm -f check_arp$(EXEEXT)
 	$(LINK) $(check_arp_LDFLAGS) $(check_arp_OBJECTS) $(check_arp_LDADD) $(LIBS)
 
-check_blob: $(check_blob_OBJECTS) $(check_blob_DEPENDENCIES)
-	@rm -f check_blob
+check_blob$(EXEEXT): $(check_blob_OBJECTS) $(check_blob_DEPENDENCIES)
+	@rm -f check_blob$(EXEEXT)
 	$(LINK) $(check_blob_LDFLAGS) $(check_blob_OBJECTS) $(check_blob_LDADD) $(LIBS)
 
-check_eth: $(check_eth_OBJECTS) $(check_eth_DEPENDENCIES)
-	@rm -f check_eth
+check_eth$(EXEEXT): $(check_eth_OBJECTS) $(check_eth_DEPENDENCIES)
+	@rm -f check_eth$(EXEEXT)
 	$(LINK) $(check_eth_LDFLAGS) $(check_eth_OBJECTS) $(check_eth_LDADD) $(LIBS)
 
-check_fw: $(check_fw_OBJECTS) $(check_fw_DEPENDENCIES)
-	@rm -f check_fw
+check_fw$(EXEEXT): $(check_fw_OBJECTS) $(check_fw_DEPENDENCIES)
+	@rm -f check_fw$(EXEEXT)
 	$(LINK) $(check_fw_LDFLAGS) $(check_fw_OBJECTS) $(check_fw_LDADD) $(LIBS)
 
-check_ip: $(check_ip_OBJECTS) $(check_ip_DEPENDENCIES)
-	@rm -f check_ip
+check_ip$(EXEEXT): $(check_ip_OBJECTS) $(check_ip_DEPENDENCIES)
+	@rm -f check_ip$(EXEEXT)
 	$(LINK) $(check_ip_LDFLAGS) $(check_ip_OBJECTS) $(check_ip_LDADD) $(LIBS)
 
-check_intf: $(check_intf_OBJECTS) $(check_intf_DEPENDENCIES)
-	@rm -f check_intf
+check_intf$(EXEEXT): $(check_intf_OBJECTS) $(check_intf_DEPENDENCIES)
+	@rm -f check_intf$(EXEEXT)
 	$(LINK) $(check_intf_LDFLAGS) $(check_intf_OBJECTS) $(check_intf_LDADD) $(LIBS)
 
-check_rand: $(check_rand_OBJECTS) $(check_rand_DEPENDENCIES)
-	@rm -f check_rand
+check_rand$(EXEEXT): $(check_rand_OBJECTS) $(check_rand_DEPENDENCIES)
+	@rm -f check_rand$(EXEEXT)
 	$(LINK) $(check_rand_LDFLAGS) $(check_rand_OBJECTS) $(check_rand_LDADD) $(LIBS)
 
-check_route: $(check_route_OBJECTS) $(check_route_DEPENDENCIES)
-	@rm -f check_route
+check_route$(EXEEXT): $(check_route_OBJECTS) $(check_route_DEPENDENCIES)
+	@rm -f check_route$(EXEEXT)
 	$(LINK) $(check_route_LDFLAGS) $(check_route_OBJECTS) $(check_route_LDADD) $(LIBS)
 
 tags: TAGS
@@ -331,23 +374,27 @@ distclean-generic:
 
 maintainer-clean-generic:
 mostlyclean-am:  mostlyclean-noinstPROGRAMS mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+		mostlyclean-libtool mostlyclean-tags \
+		mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-noinstPROGRAMS clean-compile clean-tags clean-generic \
-		mostlyclean-am
+clean-am:  clean-noinstPROGRAMS clean-compile clean-libtool clean-tags \
+		clean-generic mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-noinstPROGRAMS distclean-compile distclean-tags \
-		distclean-generic clean-am
+distclean-am:  distclean-noinstPROGRAMS distclean-compile \
+		distclean-libtool distclean-tags distclean-generic \
+		clean-am
+	-rm -f libtool
 
 distclean: distclean-am
 
 maintainer-clean-am:  maintainer-clean-noinstPROGRAMS \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
+		maintainer-clean-compile maintainer-clean-libtool \
+		maintainer-clean-tags maintainer-clean-generic \
+		distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
@@ -356,11 +403,12 @@ maintainer-clean: maintainer-clean-am
 .PHONY: mostlyclean-noinstPROGRAMS distclean-noinstPROGRAMS \
 clean-noinstPROGRAMS maintainer-clean-noinstPROGRAMS \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir check-TESTS info-am info \
-dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
-install-exec install-data-am install-data install-am install \
-uninstall-am uninstall all-redirect all-am all installdirs \
+maintainer-clean-compile mostlyclean-libtool distclean-libtool \
+clean-libtool maintainer-clean-libtool tags mostlyclean-tags \
+distclean-tags clean-tags maintainer-clean-tags distdir check-TESTS \
+info-am info dvi-am dvi check check-am installcheck-am installcheck \
+install-exec-am install-exec install-data-am install-data install-am \
+install uninstall-am uninstall all-redirect all-am all installdirs \
 mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 

@@ -11,7 +11,7 @@ man_MANS = dnet.8
 
 EXTRA_DIST = $(man_MANS)
 
-LDADD = $(top_builddir)/src/libdnet.a
+dnet_LDADD = $(top_builddir)/src/libdnet.la
 
 dnet.8.txt: dnet.8
 	groff -t -e -mdoc -Tascii dnet.8 | col -bx > $@

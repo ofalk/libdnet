@@ -6,8 +6,10 @@ dnl
 dnl $Id$
 
 AC_INIT(include/dnet.h)
+AC_CONFIG_AUX_DIR(config)
+AC_SUBST(ac_aux_dir)
 
-AM_INIT_AUTOMAKE(libdnet, 1.7)
+AM_INIT_AUTOMAKE(libdnet, 1.8)
 AM_CONFIG_HEADER(include/config.h)
 
 dnl Check for system type.
@@ -23,7 +25,8 @@ fi
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
-AC_PROG_RANLIB
+AM_PROG_LIBTOOL
+
 dnl XXX - stupid IRIX cpp
 if test -r /usr/include/sgidefs.h ; then
 	CPPFLAGS="$CPPFLAGS -D__sgi"
@@ -75,10 +78,10 @@ if test "$CYGWIN" != yes ; then
 	AC_CHECK_LIB(nm, open_mib)
 fi
 
-dnl Checks for libcheck.
-AC_MSG_CHECKING(for libcheck)
-AC_ARG_WITH(libcheck,
-[  --with-libcheck=DIR     use libcheck in DIR],
+dnl Checks for Check.
+AC_MSG_CHECKING(for Check)
+AC_ARG_WITH(check,
+[  --with-check=DIR        use Check (http://check.sf.net) in DIR],
 [ case "$withval" in
   yes|no)
      AC_MSG_RESULT(no)
@@ -239,6 +242,12 @@ elif test "$ac_cv_header_hpsecurity_h" = yes ; then
 else
 	AC_LIBOBJ([route-none])
 fi
+
+dnl Generate LTLIBOBJS for libtool.
+Xsed="sed -e s/^X//"
+LTLIBOBJS=`echo X"$LIBOBJS"|\
+	[$Xsed -e "s,\.[^.]* ,.lo ,g;s,\.[^.]*$,.lo,"]`
+AC_SUBST(LTLIBOBJS)
 
 AC_OUTPUT([Makefile dnet-config include/Makefile include/dnet/Makefile
 	man/Makefile src/Makefile test/Makefile test/check/Makefile

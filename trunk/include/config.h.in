@@ -6,6 +6,9 @@
 /* Define if you have the Berkeley Packet Filter. */
 #undef HAVE_BSD_BPF
 
+/* Define if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
 /* Define if you have the `err' function. */
 #undef HAVE_ERR
 
@@ -217,6 +220,7 @@
 
 /* Use MingW32's internal snprintf */
 #undef snprintf
+
 #include <sys/types.h>
 
 #ifdef __svr4__
