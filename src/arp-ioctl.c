@@ -31,7 +31,6 @@
 
 #include <stropts.h>
 #endif
-#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -101,14 +100,14 @@ _arp_set_dev(const struct intf_entry *entry, void *arg)
 #endif
 
 int
-arp_add(arp_t *a, const struct addr *pa, const struct addr *ha)
+arp_add(arp_t *a, const struct arp_entry *entry)
 {
 	struct arpreq ar;
 
 	memset(&ar, 0, sizeof(ar));
 
-	if (addr_ntos(pa, &ar.arp_pa) < 0 ||
-	    addr_ntos(ha, &ar.arp_ha) < 0)
+	if (addr_ntos(&entry->arp_pa, &ar.arp_pa) < 0 ||
+	    addr_ntos(&entry->arp_ha, &ar.arp_ha) < 0)
 		return (-1);
 
 	/* XXX - see arp(7) for details... */
@@ -146,7 +145,7 @@ arp_add(arp_t *a, const struct addr *pa, const struct addr *ha)
 		struct sockaddr_in sin;
 		int fd;
 		
-		addr_ntos(pa, (struct sockaddr *)&sin);
+		addr_ntos(&entry->arp_pa, (struct sockaddr *)&sin);
 		sin.sin_port = htons(666);
 		
 		if ((fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
@@ -164,13 +163,13 @@ arp_add(arp_t *a, const struct addr *pa, const struct addr *ha)
 }
 
 int
-arp_delete(arp_t *a, const struct addr *pa)
+arp_delete(arp_t *a, const struct arp_entry *entry)
 {
 	struct arpreq ar;
 
 	memset(&ar, 0, sizeof(ar));
 	
-	if (addr_ntos(pa, &ar.arp_pa) < 0)
+	if (addr_ntos(&entry->arp_pa, &ar.arp_pa) < 0)
 		return (-1);
 	
 	if (ioctl(a->fd, SIOCDARP, &ar) < 0)
@@ -180,13 +179,13 @@ arp_delete(arp_t *a, const struct addr *pa)
 }
 
 int
-arp_get(arp_t *a, const struct addr *pa, struct addr *ha)
+arp_get(arp_t *a, struct arp_entry *entry)
 {
 	struct arpreq ar;
 
 	memset(&ar, 0, sizeof(ar));
 	
-	if (addr_ntos(pa, &ar.arp_pa) < 0)
+	if (addr_ntos(&entry->arp_pa, &ar.arp_pa) < 0)
 		return (-1);
 	
 #ifdef HAVE_ARPREQ_ARP_DEV
@@ -202,7 +201,7 @@ arp_get(arp_t *a, const struct addr *pa, struct addr *ha)
 		errno = ESRCH;
 		return (-1);
 	}
-	return (addr_ston(&ar.arp_ha, ha));
+	return (addr_ston(&ar.arp_ha, &entry->arp_ha));
 }
 
 #ifdef HAVE_LINUX_PROCFS
@@ -210,7 +209,7 @@ int
 arp_loop(arp_t *a, arp_handler callback, void *arg)
 {
 	FILE *fp;
-	struct addr pa, ha;
+	struct arp_entry entry;
 	char buf[BUFSIZ], ipbuf[100], macbuf[100], maskbuf[100], devbuf[100];
 	int i, type, flags, ret;
 
@@ -225,9 +224,9 @@ arp_loop(arp_t *a, arp_handler callback, void *arg)
 		if (i < 4 || (flags & ATF_COM) == 0)
 			continue;
 		
-		if (addr_aton(ipbuf, &pa) == 0 &&
-		    addr_aton(macbuf, &ha) == 0) {
-			if ((ret = callback(&pa, &ha, arg)) != 0)
+		if (addr_aton(ipbuf, &entry.arp_pa) == 0 &&
+		    addr_aton(macbuf, &entry.arp_ha) == 0) {
+			if ((ret = callback(&entry, arg)) != 0)
 				break;
 		}
 	}
@@ -243,6 +242,7 @@ arp_loop(arp_t *a, arp_handler callback, void *arg)
 int
 arp_loop(arp_t *r, arp_handler callback, void *arg)
 {
+	struct arp_entry entry;
 	struct strbuf msg;
 	struct T_optmgmt_req *tor;
 	struct T_optmgmt_ack *toa;
@@ -302,8 +302,6 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 		flags = 0;
 		
 		do {
-			struct addr pa, ha;
-			
 			rc = getmsg(r->fd, NULL, &msg, &flags);
 			
 			if (rc != 0 && rc != MOREDATA)
@@ -316,20 +314,21 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 			arpend = (mib2_ipNetToMediaEntry_t *)
 			    (msg.buf + msg.len);
 
-			pa.addr_type = ADDR_TYPE_IP;
-			pa.addr_bits = IP_ADDR_BITS;
+			entry.arp_pa.addr_type = ADDR_TYPE_IP;
+			entry.arp_pa.addr_bits = IP_ADDR_BITS;
 			
-			ha.addr_type = ADDR_TYPE_ETH;
-			ha.addr_bits = ETH_ADDR_BITS;
+			entry.arp_ha.addr_type = ADDR_TYPE_ETH;
+			entry.arp_ha.addr_bits = ETH_ADDR_BITS;
 
 			for ( ; arp < arpend; arp++) {
-				pa.addr_ip = arp->ipNetToMediaNetAddress;
+				entry.arp_pa.addr_ip =
+				    arp->ipNetToMediaNetAddress;
 				
-				memcpy(&ha.addr_eth,
+				memcpy(&entry.arp_ha.addr_eth,
 				    arp->ipNetToMediaPhysAddress.o_bytes,
 				    ETH_ADDR_LEN);
 				
-				if ((ret = callback(&pa, &ha, arg)) != 0)
+				if ((ret = callback(&entry, arg)) != 0)
 					return (ret);
 			}
 		} while (rc == MOREDATA);
@@ -343,7 +342,7 @@ int
 arp_loop(arp_t *r, arp_handler callback, void *arg)
 {
 	struct nmparms nm;
-	struct addr ha, pa;
+	struct addr entry;
 	mib_ipNetToMediaEnt arpentries[MAX_ARPENTRIES];
 	int fd, i, n, ret;
 	
@@ -361,11 +360,11 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 	}
 	close_mib(fd);
 
-	pa.addr_type = ADDR_TYPE_IP;
-	pa.addr_bits = IP_ADDR_BITS;
+	entry.arp_pa.addr_type = ADDR_TYPE_IP;
+	entry.arp_pa.addr_bits = IP_ADDR_BITS;
 
-	ha.addr_type = ADDR_TYPE_ETH;
-	ha.addr_bits = ETH_ADDR_BITS;
+	entry.arp_ha.addr_type = ADDR_TYPE_ETH;
+	entry.arp_ha.addr_bits = ETH_ADDR_BITS;
 	
 	n /= sizeof(*arpentries);
 	ret = 0;
@@ -375,11 +374,11 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 		    arpentries[i].PhysAddr.o_length != ETH_ADDR_LEN)
 			continue;
 		
-		pa.addr_ip = arpentries[i].NetAddr;
-		memcpy(&ha.addr_eth, arpentries[i].PhysAddr.o_bytes,
+		entry.arp_pa.addr_ip = arpentries[i].NetAddr;
+		memcpy(&entry.arp_ha.addr_eth, arpentries[i].PhysAddr.o_bytes,
 		    ETH_ADDR_LEN);
 		
-		if ((ret = callback(&pa, &ha, arg)) != 0)
+		if ((ret = callback(&entry, arg)) != 0)
 			break;
 	}
 	return (ret);
@@ -396,8 +395,6 @@ arp_loop(arp_t *a, arp_handler callback, void *arg)
 arp_t *
 arp_close(arp_t *a)
 {
-	assert(a != NULL);
-	
 	if (a->fd > 0)
 		close(a->fd);
 #ifdef HAVE_ARPREQ_ARP_DEV

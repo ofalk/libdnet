@@ -38,15 +38,15 @@
 .Fn addr_mtob "const void *mask" "size_t size" "uint16_t *bits"
 .Ss Address Resolution Protocol
 .Pp
-.Li typedef Ar int Fn (*arp_handler) "const struct addr *pa" "const struct addr *ha" "void *arg"
+.Li typedef Ar int Fn (*arp_handler) "const struct arp_entry *entry" "void *arg"
 .Ft arp_t *
 .Fn arp_open "void"
 .Ft int
-.Fn arp_add "arp_t *a" "const struct addr *pa" "const struct addr *ha"
+.Fn arp_add "arp_t *a" "const struct arp_entry *entry"
 .Ft int
-.Fn arp_delete "arp_t *a" "const struct addr *pa"
+.Fn arp_delete "arp_t *a" "const struct arp_entry *entry"
 .Ft int
-.Fn arp_get "arp_t *a" "const struct addr *pa" "struct addr *ha"
+.Fn arp_get "arp_t *a" "struct arp_entry *entry"
 .Ft int
 .Fn arp_loop "arp_t *a" "arp_handler callback" "void *arg"
 .Ft arp_t *
@@ -219,36 +219,42 @@ order.
 .Fn addr_mtob
 converts a network mask in network byte order to a network mask length.
 .Ss Address Resolution Protocol
+ARP cache entries are described by the following structure:
+.Bd -literal
+struct arp_entry {
+	struct addr	arp_pa;		/* protocol address */
+	struct addr	arp_ha;		/* hardware address */
+};
+.Ed
+.Pp
 .Fn arp_open
 is used to obtain a handle to access the kernel
 .Xr arp 4
 cache.
 .Pp
 .Fn arp_add
-adds a new ARP mapping for the protocol address
-.Fa pa
-to the hardware address
-.Fa ha .
+adds a new ARP
+.Fa entry .
 .Pp
 .Fn arp_delete
-deletes the ARP entry for the specified protocol address
-.Fa pa .
+deletes the ARP
+.Fa entry
+for the protocol address specified by
+.Fa arp_pa .
 .Pp
 .Fn arp_get
-retrieves the hardware address 
-.Fa ha 
-for the specified protocol address
-.Fa pa .
+retrieves the ARP
+.Fa entry
+for the protocol address specified by
+.Fa arp_pa .
 .Pp
 .Fn arp_loop
 iterates over the kernel
 .Xr arp 4
 cache, invoking the specified
 .Fa callback
-with each entry's protocol address
-.Fa pa ,
-hardware address
-.Fa ha ,
+with each
+.Fa entry
 and the context
 .Fa arg
 passed to
