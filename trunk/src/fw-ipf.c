@@ -37,6 +37,11 @@
 
 #include "dnet.h"
 
+#if !defined(fi_saddr) && !defined(fi_daddr)
+# define fi_saddr	fi_src.s_addr
+# define fi_daddr	fi_dst.s_addr
+#endif
+
 struct fw_handle {
 	int	fd;
 	int	kfd;
