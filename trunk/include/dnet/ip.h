@@ -185,7 +185,7 @@ int	 ip_cksum_add(void *buf, u_int len, int cksum);
 #define	 ip_cksum_carry(x) \
 	    (x = (x >> 16) + (x & 0xffff), (~(x + (x >> 16)) & 0xffff))
 
-#define ip_fill(h, tos, len, id, off, ttl, p, src, dst) do {		\
+#define ip_fill_hdr(h, tos, len, id, off, ttl, p, src, dst) do {	\
 	struct ip_hdr *ip_fill_p = (struct ip_hdr *)(h);		\
 	ip_fill_p->ip_v = 4; ip_fill_p->ip_hl = 5;			\
 	ip_fill_p->ip_tos = tos; ip_fill_p->ip_len = htons(len);	\

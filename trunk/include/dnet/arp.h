@@ -65,19 +65,19 @@ int	 arp_get(arp_t *a, struct addr *pa, struct addr *ha);
 int	 arp_loop(arp_t *a, arp_handler callback, void *arg);
 int	 arp_close(arp_t *a);
 
-#define arp_ethip_fill(h, op, sha, spa, tha, tpa) do {		\
+#define arp_fill_hdr_ethip(h, op, sha, spa, tha, tpa) do {	\
 	struct arp_hdr *fill_arp_p = (struct arp_hdr *)(h);	\
-	struct arp_ethip *fill_ethip_p =			\
-		(struct arp_ethip *)((char *)(h) + ARP_HDR_LEN);\
+	struct arp_ethip *fill_ethip_p = (struct arp_ethip *)	\
+		((u_char *)(h) + ARP_HDR_LEN);			\
 	fill_arp_p->ar_hrd = htons(ARP_HRD_ETH);		\
 	fill_arp_p->ar_pro = htons(ARP_PRO_IP);			\
 	fill_arp_p->ar_hln = ETH_ADDR_LEN;			\
 	fill_arp_p->ar_pln = IP_ADDR_LEN;			\
 	fill_arp_p->ar_op = htons(op);				\
-	memcpy(fill_ethip_p->ar_sha, &(sha), ETH_ADDR_LEN);	\
-	memcpy(fill_ethip_p->ar_spa, &(spa), IP_ADDR_LEN);	\
-	memcpy(fill_ethip_p->ar_tha, &(tha), ETH_ADDR_LEN);	\
-	memcpy(fill_ethip_p->ar_tpa, &(tpa), IP_ADDR_LEN);	\
+	memmove(fill_ethip_p->ar_sha, &(sha), ETH_ADDR_LEN);	\
+	memmove(fill_ethip_p->ar_spa, &(spa), IP_ADDR_LEN);	\
+	memmove(fill_ethip_p->ar_tha, &(tha), ETH_ADDR_LEN);	\
+	memmove(fill_ethip_p->ar_tpa, &(tpa), IP_ADDR_LEN);	\
 } while (0)
 
 #endif /* DNET_ARP_H */
