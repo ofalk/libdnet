@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
+import glob
 from distutils.core import setup, Extension
 
-dnet = Extension('dnet', [ 'dnet.c' ],
-                 include_dirs = ['../include'],
-                 extra_objects = [ '../src/.libs/libdnet.a' ])
+dnet = Extension('dnet', [ '@srcdir@/dnet.c' ],
+                 include_dirs = [ '@top_srcdir@/include' ],
+                 # XXX - hrr, i suk
+                 extra_objects = glob.glob('../src/.libs/*.o'))
 
 setup(name='dnet',
-      version='1.8',
+      version='@VERSION@',
       description='low-level networking library',
       author='Dug Song',
       author_email='dugsong@monkey.org',
