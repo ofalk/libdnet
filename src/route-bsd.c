@@ -34,7 +34,6 @@
 #undef route_t
 #include <netinet/in.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -149,10 +148,7 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 		sa = (struct sockaddr *)(rtm + 1);
 		sa = NEXTSA(sa);
 		
-		if (addr_ston(sa, gw) < 0)
-			return (-1);
-		
-		if (gw->addr_type != ADDR_TYPE_IP) {
+		if (addr_ston(sa, gw) < 0 || gw->addr_type != ADDR_TYPE_IP) {
 			errno = ESRCH;
 			return (-1);
 		}
@@ -185,46 +181,44 @@ route_open(void)
 }
 
 int
-route_add(route_t *r, const struct addr *dst, const struct addr *gw)
+route_add(route_t *r, const struct route_entry *entry)
 {
 	u_char buf[BUFSIZ];
 
-	assert(dst != NULL && gw != NULL);
-
-	if (route_msg(r, RTM_ADD, buf, sizeof(buf), (struct addr *)dst,
-	    (struct addr *)gw) < 0)
+	if (route_msg(r, RTM_ADD, buf, sizeof(buf),
+	    (struct addr *)&entry->route_dst,
+	    (struct addr *)&entry->route_gw) < 0)
 		return (-1);
 	
 	return (0);
 }
 
 int
-route_delete(route_t *r, const struct addr *dst)
+route_delete(route_t *r, const struct route_entry *entry)
 {
-	struct addr gw;
+	struct route_entry rtent;
 	u_char buf[BUFSIZ];
-	
-	assert(dst != NULL);
 
-	if (route_get(r, dst, &gw) < 0)
+	memcpy(&rtent.route_dst, &entry->route_dst, sizeof(rtent.route_dst));
+	
+	if (route_get(r, &rtent) < 0)
 		return (-1);
 	
 	if (route_msg(r, RTM_DELETE, buf, sizeof(buf),
-	    (struct addr *)dst, &gw) < 0)
+	    (struct addr *)&entry->route_dst,
+	    (struct addr *)&entry->route_gw) < 0)
 		return (-1);
 	
 	return (0);
 }
 
 int
-route_get(route_t *r, const struct addr *dst, struct addr *gw)
+route_get(route_t *r, struct route_entry *entry)
 {
 	u_char buf[BUFSIZ];
 	
-	assert(dst != NULL && gw != NULL);
-	
 	if (route_msg(r, RTM_GET, buf, sizeof(buf),
-	    (struct addr *)dst, gw) < 0)
+	    &entry->route_dst, &entry->route_gw) < 0)
 		return (-1);
 	
 	return (0);
@@ -235,7 +229,7 @@ int
 route_loop(route_t *r, route_handler callback, void *arg)
 {
 	struct rt_msghdr *rtm;
-	struct addr dst, gw;
+	struct route_entry entry;
 	struct sockaddr *sa;
 	char *buf, *lim, *next;
 	int ret;
@@ -287,25 +281,25 @@ route_loop(route_t *r, route_handler callback, void *arg)
 		rtm = (struct rt_msghdr *)next;
 		sa = (struct sockaddr *)(rtm + 1);
 
-		if (addr_ston(sa, &dst) < 0 ||
+		if (addr_ston(sa, &entry.route_dst) < 0 ||
 		    (rtm->rtm_addrs & RTA_GATEWAY) == 0)
 			continue;
 
 		sa = NEXTSA(sa);
 		
-		if (addr_ston(sa, &gw) < 0)
+		if (addr_ston(sa, &entry.route_gw) < 0)
 			continue;
 
-		if (dst.addr_type != ADDR_TYPE_IP ||
-		    gw.addr_type != ADDR_TYPE_IP)
+		if (entry.route_dst.addr_type != ADDR_TYPE_IP ||
+		    entry.route_gw.addr_type != ADDR_TYPE_IP)
 			continue;
 		
 		if (rtm->rtm_addrs & RTA_NETMASK) {
 			sa = NEXTSA(sa);
-			if (addr_stob(sa, &dst.addr_bits) < 0)
+			if (addr_stob(sa, &entry.route_dst.addr_bits) < 0)
 				continue;
 		}
-		if ((ret = callback(&dst, &gw, arg)) != 0)
+		if ((ret = callback(&entry, arg)) != 0)
 			break;
 	}
 	free(buf);
@@ -323,6 +317,8 @@ route_loop(route_t *r, route_handler callback, void *arg)
 int
 route_loop(route_t *r, route_handler callback, void *arg)
 {
+	struct route_entry entry;
+	struct sockaddr_in sin;
 	struct strbuf msg;
 	struct T_optmgmt_req *tor;
 	struct T_optmgmt_ack *toa;
@@ -382,9 +378,6 @@ route_loop(route_t *r, route_handler callback, void *arg)
 		flags = 0;
 		
 		do {
-			struct sockaddr_in sin;
-			struct addr dst, gw;
-			
 			rc = getmsg(r->ip_fd, NULL, &msg, &flags);
 			
 			if (rc != 0 && rc != MOREDATA)
@@ -404,18 +397,20 @@ route_loop(route_t *r, route_handler callback, void *arg)
 					IRE_LOCAL|IRE_ROUTE)) != 0 ||
 				    rt->ipRouteNextHop == IP_ADDR_ANY)
 					continue;
-
+				
 				sin.sin_addr.s_addr = rt->ipRouteNextHop;
-				addr_ston((struct sockaddr *)&sin, &gw);
+				addr_ston((struct sockaddr *)&sin,
+				    &entry.route_gw);
 				
 				sin.sin_addr.s_addr = rt->ipRouteDest;
-				addr_ston((struct sockaddr *)&sin, &dst);
+				addr_ston((struct sockaddr *)&sin,
+				    &entry.route_dst);
 				
 				sin.sin_addr.s_addr = rt->ipRouteMask;
 				addr_stob((struct sockaddr *)&sin,
-				    &dst.addr_bits);
+				    &entry.route_dst.addr_bits);
 				
-				if ((ret = callback(&dst, &gw, arg)) != 0)
+				if ((ret = callback(&entry, arg)) != 0)
 					return (ret);
 			}
 		} while (rc == MOREDATA);
@@ -434,8 +429,6 @@ route_loop(route_t *r, route_handler callback, void *arg)
 route_t *
 route_close(route_t *r)
 {
-	assert(r != NULL);
-
 #ifdef HAVE_STREAMS_MIB2
 	if (r->ip_fd > 0)
 		close(r->ip_fd);

@@ -101,15 +101,15 @@
 .Fn ip_close "ip_t *i"
 .Ss Routing
 .Pp
-.Li typedef Ar int Fn (*route_handler) "const struct addr *dst" "const struct addr *gw" "void *arg"
+.Li typedef Ar int Fn (*route_handler) "const struct route_entry *entry" "void *arg"
 .Ft route_t *
 .Fn route_open "void"
 .Ft int
-.Fn route_add "route_t *r" "const struct addr *dst" "const struct addr *gw"
+.Fn route_add "route_t *r" "const struct route_entry *entry"
 .Ft int
-.Fn route_delete "route_t *r" "const struct addr *dst"
+.Fn route_delete "route_t *r" "const struct route_entry *entry"
 .Ft int
-.Fn route_get "route_t *r" "const struct addr *dst" "struct addr *gw"
+.Fn route_get "route_t *r" "struct route_entry *entry"
 .Ft int
 .Fn route_loop "route_t *r" "route_handler callback" "void *arg"
 .Ft route_t *
@@ -331,7 +331,7 @@ deletes the specified firewall
 iterates over the active firewall ruleset, invoking
 the specified 
 .Fa callback
-with each entry's
+with each 
 .Fa rule
 and the context
 .Fa arg
@@ -448,30 +448,28 @@ is used to obtain a handle to access the kernel
 table.
 .Pp
 .Fn route_add
-adds a new route for the network address
-.Fa dst
-to the gateway address
-.Fa gw .
+adds a new routing table
+.Fa entry .
 .Pp
 .Fn route_delete
-deletes the route for the specified network address
-.Fa dst .
+deletes the routing table
+.Fa entry
+for the destination prefix specified by
+.Fa route_dst .
 .Pp
 .Fn route_get
-retrieves the gateway address
-.Fa gw
-for the specified network address
-.Fa dst .
+retrieves the routing table
+.Fa entry
+for the destination prefix specified by
+.Fa route_dst .
 .Pp
 .Fn route_loop
 iterates over the kernel
 .Xr route 4
 table, invoking the specified
 .Fa callback
-with each entry's destination address
-.Fa dst ,
-gateway address
-.Fa gw ,
+with each
+.Fa entry
 and the context
 .Fa arg
 passed to

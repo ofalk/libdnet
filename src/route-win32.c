@@ -29,21 +29,22 @@ route_open(void)
 }
 
 int
-route_add(route_t *route, const struct addr *dst, const struct addr *gw)
+route_add(route_t *route, const struct route_entry *entry)
 {
 	MIB_IPFORWARDROW ipfrow;
 
 	memset(&ipfrow, 0, sizeof(ipfrow));
 
-	if (GetBestInterface(gw->addr_ip,
+	if (GetBestInterface(entry->route_gw.addr_ip,
 	    &ipfrow.dwForwardIfIndex) != NO_ERROR)
 		return (-1);
 	
-	ipfrow.dwForwardDest = dst->addr_ip;
-	addr_btom(dst->addr_bits, &ipfrow.dwForwardMask, IP_ADDR_LEN);
-	ipfrow.dwForwardNextHop = gw->addr_ip;
-	ipfrow.dwForwardType = 4;	/* next hop != final dest */
-	ipfrow.dwForwardProto = 3;	/* MIB_PROTO_NETMGMT */
+	ipfrow.dwForwardDest = entry->route_dst.addr_ip;
+	addr_btom(entry->route_dst.addr_bits,
+	    &ipfrow.dwForwardMask, IP_ADDR_LEN);
+	ipfrow.dwForwardNextHop = entry->route_gw.addr_ip;
+	ipfrow.dwForwardType = 4;	/* XXX - next hop != final dest */
+	ipfrow.dwForwardProto = 3;	/* XXX - MIB_PROTO_NETMGMT */
 	
 	if (CreateIpForwardEntry(&ipfrow) != NO_ERROR)
 		return (-1);
@@ -52,17 +53,18 @@ route_add(route_t *route, const struct addr *dst, const struct addr *gw)
 }
 
 int
-route_delete(route_t *route, const struct addr *dst)
+route_delete(route_t *route, const struct route_entry *entry)
 {
 	MIB_IPFORWARDROW ipfrow;
 	DWORD mask;
 	
-	if (GetBestRoute(dst->addr_ip, IP_ADDR_ANY, &ipfrow) != NO_ERROR)
+	if (GetBestRoute(entry->route_dst.addr_ip,
+	    IP_ADDR_ANY, &ipfrow) != NO_ERROR)
 		return (-1);
 
-	addr_btom(dst->addr_bits, &mask, IP_ADDR_LEN);
+	addr_btom(entry->route_dst.addr_bits, &mask, IP_ADDR_LEN);
 	
-	if (ipfrow.dwForwardDest != dst->addr_ip ||
+	if (ipfrow.dwForwardDest != entry->route_dst.addr_ip ||
 	    ipfrow.dwForwardMask != mask) {
 		errno = ENXIO;
 		SetLastError(ERROR_NO_DATA);
@@ -75,15 +77,16 @@ route_delete(route_t *route, const struct addr *dst)
 }
 
 int
-route_get(route_t *route, const struct addr *dst, struct addr *gw)
+route_get(route_t *route, struct route_entry *entry)
 {
 	MIB_IPFORWARDROW ipfrow;
 	DWORD mask;
 
-	if (GetBestRoute(dst->addr_ip, IP_ADDR_ANY, &ipfrow) != NO_ERROR)
+	if (GetBestRoute(entry->route_dst.addr_ip,
+	    IP_ADDR_ANY, &ipfrow) != NO_ERROR)
 		return (-1);
 
-	if (ipfrow.dwForwardProto == 2 &&	/* MIB_IPPROTO_LOCAL */
+	if (ipfrow.dwForwardProto == 2 &&	/* XXX - MIB_IPPROTO_LOCAL */
 	    (ipfrow.dwForwardNextHop|IP_CLASSA_NET) !=
 	    (IP_ADDR_LOOPBACK|IP_CLASSA_NET) &&
 	    !IP_LOCAL_GROUP(ipfrow.dwForwardNextHop)) { 
@@ -91,11 +94,11 @@ route_get(route_t *route, const struct addr *dst, struct addr *gw)
 		SetLastError(ERROR_NO_DATA);
 		return (-1);
 	}
-	addr_btom(dst->addr_bits, &mask, IP_ADDR_LEN);
+	addr_btom(entry->route_dst.addr_bits, &mask, IP_ADDR_LEN);
 	
-	gw->addr_type = ADDR_TYPE_IP;
-	gw->addr_bits = IP_ADDR_BITS;
-	gw->addr_ip = ipfrow.dwForwardNextHop;
+	entry->route_gw.addr_type = ADDR_TYPE_IP;
+	entry->route_gw.addr_bits = IP_ADDR_BITS;
+	entry->route_gw.addr_ip = ipfrow.dwForwardNextHop;
 	
 	return (0);
 }
@@ -105,7 +108,7 @@ route_loop(route_t *route, route_handler callback, void *arg)
 {
 	MIB_IPFORWARDTABLE *ipftable;
 	ULONG len;
-	struct addr dst, gw;
+	struct route_entry entry;
 	u_char buf[4096];
 	int i, ret;
 	
@@ -115,19 +118,19 @@ route_loop(route_t *route, route_handler callback, void *arg)
 	if (GetIpForwardTable(ipftable, &len, FALSE) != NO_ERROR)
 		return (-1);
 
-	dst.addr_type = ADDR_TYPE_IP;
-	dst.addr_bits = IP_ADDR_BITS;
+	entry.dst.addr_type = ADDR_TYPE_IP;
+	entry.dst.addr_bits = IP_ADDR_BITS;
 	
-	gw.addr_type = ADDR_TYPE_IP;
-	gw.addr_bits = IP_ADDR_BITS;
+	entry.gw.addr_type = ADDR_TYPE_IP;
+	entry.gw.addr_bits = IP_ADDR_BITS;
 	
 	for (i = 0; i < ipftable->dwNumEntries; i++) {
-		dst.addr_ip = ipftable->table[i].dwForwardDest;
+		entry.dst.addr_ip = ipftable->table[i].dwForwardDest;
 		addr_mtob(&ipftable->table[i].dwForwardMask, IP_ADDR_LEN,
-		    &dst.addr_bits);
-		gw.addr_ip = ipftable->table[i].dwForwardNextHop;
+		    &entry.dst.addr_bits);
+		entry.gw.addr_ip = ipftable->table[i].dwForwardNextHop;
 
-		if ((ret = (*callback)(&dst, &gw, arg)) != 0)
+		if ((ret = (*callback)(&entry, arg)) != 0)
 			return (ret);
 	}
 	return (0);
