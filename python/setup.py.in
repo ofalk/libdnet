@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import glob
+import glob, os
 from distutils.core import setup, Extension
 
 dnet = Extension('dnet',
