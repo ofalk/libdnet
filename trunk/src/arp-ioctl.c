@@ -374,8 +374,7 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 	ret = 0;
 	
 	for (i = 0; i < n; i++) {
-		if ((arpentries[i].Type != INTM_DYNAMIC &&
-		    arpentries[i].Type != INTM_STATIC) ||
+		if (arpentries[i].Type != INTM_DYNAMIC ||
 		    arpentries[i].PhysAddr.o_length != ETH_ADDR_LEN)
 			continue;
 		
