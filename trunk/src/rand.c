@@ -25,9 +25,11 @@
 #include "dnet.h"
 
 struct rand_handle {
-	uint8_t		i;
-	uint8_t		j;
-	uint8_t		s[256];
+	uint8_t		 i;
+	uint8_t		 j;
+	uint8_t		 s[256];
+	u_char		*tmp;
+	int		 tmplen;
 };
 
 static inline void
@@ -84,6 +86,8 @@ rand_open(void)
 		rand_init(r);
 		rand_addrandom(r, seed, 128);
 		rand_addrandom(r, seed + 128, 128);
+		r->tmp = NULL;
+		r->tmplen = 0;
 	}
 	return (r);
 }
@@ -164,9 +168,18 @@ rand_shuffle(rand_t *r, void *base, size_t nmemb, size_t size)
 	u_char *save, *src, *dst, *start = (u_char *)base;
 	int i, j;
 
-	if (r == NULL || (save = malloc(size)) == NULL)
-		return (-1);
-
+	if (r->tmplen < size) {
+		if (r->tmp == NULL) {
+			if ((save = malloc(size)) == NULL)
+				return (-1);
+		} else if ((save = realloc(r->tmp, size)) == NULL)
+			return (-1);
+		
+		r->tmp = save;
+		r->tmplen = size;
+	} else
+		save = r->tmp;
+	
 	for (i = 0; i < nmemb; i++) {
 		if ((j = rand_uint32(r) % (nmemb - 1)) != i) {
 			src = start + (size * i);
@@ -176,14 +189,16 @@ rand_shuffle(rand_t *r, void *base, size_t nmemb, size_t size)
 			memcpy(src, save, size);
 		}
 	}
-	free(save);
 	return (0);
 }
 
 rand_t *
 rand_close(rand_t *r)
 {
-	if (r != NULL)
+	if (r != NULL) {
+		if (r->tmp != NULL)
+			free(r->tmp);
 		free(r);
+	}
 	return (NULL);
 }
