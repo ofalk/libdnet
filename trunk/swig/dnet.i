@@ -246,6 +246,46 @@ void __eth_pack_hdr(char *eth_hdr,
 };
 
 //
+// fw.h
+//
+#define FW_OP_ALLOW	1
+#define FW_OP_BLOCK	2
+
+#define FW_DIR_IN	1
+#define FW_DIR_OUT	2
+
+%inline %{ 
+struct fw_rule *__fw_pack_rule(char *dev, int op, int dir, int p, 
+	struct addr *src, struct addr *dst, 
+	int sp1, int sp2, int dp1, int dp2) {
+	struct fw_rule *rule = malloc(sizeof(*rule));
+	fw_pack_rule(rule, dev, op, dir, p, *src, *dst, sp1, sp2, dp1, dp2);
+	return (rule);
+}
+%}
+%newobject fw_pack_rule;
+%name(fw_pack_rule) struct fw_rule *__fw_pack_rule(char *dev, int op,
+	int dir, int p, struct addr *src, struct addr *dst, 
+	int sp1, int sp2, int dp1, int dp2);
+
+%name(fw) struct fw_handle {
+%extend {
+	fw_handle() {
+		return (fw_open());
+	}
+	~fw_handle() {
+		fw_close(self);
+	}
+	int add(struct fw_rule *rule) {
+		return (fw_add(self, rule));
+	}
+	int delete(struct fw_rule *rule) {
+		return (fw_delete(self, rule));
+	}
+}
+};
+
+//
 // icmp.h
 //
 %cstring_chunk_output(char *icmp_hdr, ICMP_HDR_LEN);
