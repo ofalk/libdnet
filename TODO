@@ -52,6 +52,8 @@ unixware|   X  |  -  |  2  |  - |  - |   X  |   5   |
 4. route_loop doesn't work
 5. route_loop only works
 
+arp-{bsd,ioctl} both b0rked on unixware
+
 never built on:
 --------+------+-----+-----+----+----+------+-------+
 aix     |      |     |     |    |    |      |       |
