@@ -295,6 +295,12 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 		
 		if ((ret = ioctl(fw->fd, DIOCGETRULE, &pr)) < 0)
 			break;
+#ifdef PF_TABLE_NAME_SIZE
+		/* XXX - actually in r1.125, not 1.126 */
+		if (pr.rule.src.addr.type == PF_ADDR_TABLE ||
+		    pr.rule.dst.addr.type == PF_ADDR_TABLE)
+			continue;
+#endif
 		if (pr_to_fr(&pr.rule, &fr) < 0)
 			continue;
 		if ((ret = callback(&fr, arg)) != 0)
