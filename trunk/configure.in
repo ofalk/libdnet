@@ -166,77 +166,77 @@ fi
 
 dnl Check for arp interface.
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS arp-win32.o"
+	AC_LIBOBJ([arp-win32])
 elif test "$ac_cv_dnet_ioctl_arp" = yes ; then
-	LIBOBJS="$LIBOBJS arp-ioctl.o"
+	AC_LIBOBJ([arp-ioctl])
 elif test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
-	LIBOBJS="$LIBOBJS arp-bsd.o"
+	AC_LIBOBJ([arp-bsd])
 else
-	LIBOBJS="$LIBOBJS arp-none.o"
+	AC_LIBOBJ([arp-none])
 fi
 
 dnl Check for Ethernet interface.
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS eth-win32.o"
+	AC_LIBOBJ([eth-win32])
 elif test "$ac_cv_dnet_bsd_bpf" = yes ; then
-	LIBOBJS="$LIBOBJS eth-bsd.o"
+	AC_LIBOBJ([eth-bsd])
 elif test "$ac_cv_dnet_linux_pf_packet" = yes ; then
-	LIBOBJS="$LIBOBJS eth-linux.o"
+	AC_LIBOBJ([eth-linux])
 elif test "$ac_cv_header_net_raw_h" = yes ; then
-	LIBOBJS="$LIBOBJS eth-snoop.o"
+	AC_LIBOBJ([eth-snoop])
 elif test "$ac_cv_header_sys_ndd_var_h" = yes ; then
-	LIBOBJS="$LIBOBJS eth-ndd.o"
+	AC_LIBOBJ([eth-ndd])
 elif test "$ac_cv_header_sys_dlpi_h" = yes || \
      test "$ac_cv_header_sys_dlpihdr_h" = yes ; then
-	LIBOBJS="$LIBOBJS eth-dlpi.o"
+	AC_LIBOBJ([eth-dlpi])
 else
-	LIBOBJS="$LIBOBJS eth-none.o"
+	AC_LIBOBJ([eth-none])
 fi
 
 dnl Check for firewall interface.
 if test "$ac_cv_header_net_pfvar_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-pf.o"
+	AC_LIBOBJ([fw-pf])
 elif test "$ac_cv_header_netinet_ip_fw_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipfw.o"
+	AC_LIBOBJ([fw-ipfw])
 elif test "$ac_cv_header_netinet_ip_fil_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipf.o"
+	AC_LIBOBJ([fw-ipf])
 elif test "$ac_cv_header_linux_ip_fw_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipchains.o"
+	AC_LIBOBJ([fw-ipchains])
 elif test "$ac_cv_header_linux_ip_fwchains_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipchains.o"
+	AC_LIBOBJ([fw-ipchains])
 elif test "$ac_cv_header_linux_netfilter_ipv4_ipchains_core_h" = yes ; then
-	LIBOBJS="$LIBOBJS fw-ipchains.o"
+	AC_LIBOBJ([fw-ipchains])
 else
-	LIBOBJS="$LIBOBJS fw-none.o"
+	AC_LIBOBJ([fw-none])
 fi
 
 dnl Check for network interface interface.
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS intf-win32.o"
+	AC_LIBOBJ([intf-win32])
 else
-	LIBOBJS="$LIBOBJS intf.o"
+	AC_LIBOBJ([intf])
 fi
 
 dnl Check for raw IP interface.
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS ip-win32.o"
+	AC_LIBOBJ([ip-win32])
 elif test "$ac_cv_dnet_rawip_cooked" = yes ; then
-	LIBOBJS="$LIBOBJS ip-cooked.o"
+	AC_LIBOBJ([ip-cooked])
 else
-	LIBOBJS="$LIBOBJS ip.o"
+	AC_LIBOBJ([ip])
 fi
 
 dnl Check for routing interface.
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
-	LIBOBJS="$LIBOBJS route-win32.o"
+	AC_LIBOBJ([route-win32])
 elif test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
-	LIBOBJS="$LIBOBJS route-bsd.o"
+	AC_LIBOBJ([route-bsd])
 elif test "$ac_cv_dnet_linux_procfs" = yes ; then
-	LIBOBJS="$LIBOBJS route-linux.o"
+	AC_LIBOBJ([route-linux])
 elif test "$ac_cv_header_hpsecurity_h" = yes ; then
-	LIBOBJS="$LIBOBJS route-hpux.o"
+	AC_LIBOBJ([route-hpux])
 else
-	LIBOBJS="$LIBOBJS route-none.o"
+	AC_LIBOBJ([route-none])
 fi
 
 AC_OUTPUT([Makefile dnet-config include/Makefile include/dnet/Makefile
