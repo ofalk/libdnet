@@ -300,7 +300,7 @@ _intf_set_type(struct intf_entry *entry)
 # define NEXTIFR(i)	((struct ifreq *)((u_char *)&i->ifr_addr + \
 				i->ifr_addr.sa_len))
 #else
-# define NEXTIFR(i)	(i + sizeof(i))
+# define NEXTIFR(i)	(i + 1)
 #endif
 
 int
