@@ -23,7 +23,7 @@ eth_open(char *device)
 	return (NULL);
 }
 
-ssize_t
+size_t
 eth_send(eth_t *e, const void *buf, size_t len)
 {
 	errno = ENOSYS;
