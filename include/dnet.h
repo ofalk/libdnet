@@ -13,6 +13,7 @@
 
 #include <dnet/eth.h>
 #include <dnet/ip.h>
+#include <dnet/ip6.h>
 #include <dnet/addr.h>
 #include <dnet/arp.h>
 #include <dnet/icmp.h>
