@@ -2792,7 +2792,9 @@ fi
 
 LIBOBJS="$LIBOBJS ip.o"
 
-if test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+	LIBOBJS="$LIBOBJS route-win32.o"
+elif test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
 	LIBOBJS="$LIBOBJS route-bsd.o"
 elif test "$ac_cv_dnet_linux_procfs" = yes ; then
 	LIBOBJS="$LIBOBJS route-linux.o"
