@@ -196,7 +196,7 @@ addr_pton(const char *src, struct addr *dst)
 		errno = EINVAL;
 		return (-1);
 	}
-	if (bits > 0) {
+	if (bits >= 0) {
 		if (bits > dst->addr_bits) {
 			errno = EINVAL;
 			return (-1);
