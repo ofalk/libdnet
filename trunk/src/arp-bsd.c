@@ -51,7 +51,7 @@ arp_open(void)
 {
 	arp_t *a;
 
-	if ((a = malloc(sizeof(*a))) == NULL)
+	if ((a = calloc(1, sizeof(*a))) == NULL)
 		return (NULL);
 
 #ifdef HAVE_STREAMS_ROUTE
@@ -82,6 +82,7 @@ arp_msg(arp_t *a, struct arpmsg *msg)
 		if (errno != ESRCH || msg->rtm.rtm_type != RTM_DELETE)
 			return (-1);
 	}
+	/* XXX - should we only read RTM_GET responses here? */
 	while ((len = read(a->fd, msg, sizeof(*msg))) > 0) {
 		if (len < sizeof(msg->rtm))
 			return (-1);
