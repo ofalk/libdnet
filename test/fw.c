@@ -35,46 +35,47 @@ print_rule(struct fw_rule *fr, void *arg)
 	struct protoent *pr;
 	char proto[16], sport[16], dport[16], typecode[16];
 
-	if ((pr = getprotobynumber(fr->proto)) == NULL)
-		snprintf(proto, sizeof(proto), "%d", fr->proto);
+	if ((pr = getprotobynumber(fr->fw_proto)) == NULL)
+		snprintf(proto, sizeof(proto), "%d", fr->fw_proto);
 	else
 		strlcpy(proto, pr->p_name, sizeof(proto));
 
 	sport[0] = dport[0] = typecode[0] = '\0';
 	
-	switch (fr->proto) {
+	switch (fr->fw_proto) {
 	case IP_PROTO_ICMP:
-		if (fr->sport[1] && fr->dport[1]) 
+		if (fr->fw_sport[1] && fr->fw_dport[1]) 
 			snprintf(typecode, sizeof(typecode), " %d/%d",
-			    fr->sport[0], fr->dport[0]);
-		else if (fr->sport[1])
+			    fr->fw_sport[0], fr->fw_dport[0]);
+		else if (fr->fw_sport[1])
 			snprintf(typecode, sizeof(typecode), " %d",
-			    fr->sport[0]);
+			    fr->fw_sport[0]);
 		break;
 	case IP_PROTO_TCP:
 	case IP_PROTO_UDP:
-		if (fr->sport[0] == fr->sport[1]) {
-			if (fr->sport[0])
+		if (fr->fw_sport[0] == fr->fw_sport[1]) {
+			if (fr->fw_sport[0])
 				snprintf(sport, sizeof(sport), ":%d",
-				    fr->sport[0]);
+				    fr->fw_sport[0]);
 		} else
 			snprintf(sport, sizeof(sport), ":%d-%d",
-			    fr->sport[0], fr->sport[1]);
+			    fr->fw_sport[0], fr->fw_sport[1]);
 		
-		if (fr->dport[0] == fr->dport[1]) {
-			if (fr->dport[0])
+		if (fr->fw_dport[0] == fr->fw_dport[1]) {
+			if (fr->fw_dport[0])
 				snprintf(dport, sizeof(dport), ":%d",
-				    fr->dport[0]);
+				    fr->fw_dport[0]);
 		} else
 			snprintf(dport, sizeof(dport), ":%d-%d",
-			    fr->dport[0], fr->dport[1]);
+			    fr->fw_dport[0], fr->fw_dport[1]);
 		break;
 	}
 	printf("%s %s %s %s %s%s %s%s%s\n",
-	    fr->op == FW_OP_ALLOW ? "allow" : "block",
-	    fr->direction == FW_DIR_IN ? "in" : "out",
-	    *fr->device ? fr->device : "any", proto,
-	    addr_ntoa(&fr->src), sport, addr_ntoa(&fr->dst), dport, typecode);
+	    fr->fw_op == FW_OP_ALLOW ? "allow" : "block",
+	    fr->fw_dir == FW_DIR_IN ? "in" : "out",
+	    *fr->fw_device ? fr->fw_device : "any", proto,
+	    addr_ntoa(&fr->fw_src), sport, addr_ntoa(&fr->fw_dst),
+	    dport, typecode);
 
 	return (0);
 }
@@ -104,52 +105,53 @@ arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 	}
 	memset(fr, 0, sizeof(*fr));
 
-	fr->op = strcmp(argv[0], "allow") ? FW_OP_BLOCK : FW_OP_ALLOW;
+	fr->fw_op = strcmp(argv[0], "allow") ? FW_OP_BLOCK : FW_OP_ALLOW;
 	
-	fr->direction = strcmp(argv[1], "in") ? FW_DIR_OUT : FW_DIR_IN;
+	fr->fw_dir = strcmp(argv[1], "in") ? FW_DIR_OUT : FW_DIR_IN;
 
 	if (strcmp(argv[2], "any") != 0)
-		strlcpy(fr->device, argv[2], sizeof(fr->device));
+		strlcpy(fr->fw_device, argv[2], sizeof(fr->fw_device));
 	
 	if ((pr = getprotobyname(argv[3])) != NULL)
-		fr->proto = pr->p_proto;
+		fr->fw_proto = pr->p_proto;
 	else
-		fr->proto = atoi(argv[3]);
+		fr->fw_proto = atoi(argv[3]);
 
 	p = strtok(argv[4], ":");
 	
-	if (addr_aton(p, &fr->src) < 0)
+	if (addr_aton(p, &fr->fw_src) < 0)
 		return (-1);
 
 	if ((p = strtok(NULL, ":")) != NULL) {
-		fr->sport[0] = (u_short)strtol(p, &p, 10);
+		fr->fw_sport[0] = (u_short)strtol(p, &p, 10);
 		if (*p == '-')
-			fr->sport[1] = (u_short)strtol(p + 1, NULL, 10);
+			fr->fw_sport[1] = (u_short)strtol(p + 1, NULL, 10);
 		else
-			fr->sport[1] = fr->sport[0];
+			fr->fw_sport[1] = fr->fw_sport[0];
 	}
 	p = strtok(argv[5], ":");
 	
-	if (addr_aton(p, &fr->dst) < 0)
+	if (addr_aton(p, &fr->fw_dst) < 0)
 		return (-1);
 
 	if ((p = strtok(NULL, ":")) != NULL) {
-		fr->dport[0] = (u_short)strtol(p, &p, 10);
+		fr->fw_dport[0] = (u_short)strtol(p, &p, 10);
 		if (*p == '-')
-			fr->dport[1] = (u_short)strtol(p + 1, NULL, 10);
+			fr->fw_dport[1] = (u_short)strtol(p + 1, NULL, 10);
 		else
-			fr->dport[1] = fr->dport[0];
+			fr->fw_dport[1] = fr->fw_dport[0];
 	}
 	if (argc > 6) {
-		if (fr->proto != IP_PROTO_ICMP && fr->proto != IP_PROTO_IGMP) {
+		if (fr->fw_proto != IP_PROTO_ICMP &&
+		    fr->fw_proto != IP_PROTO_IGMP) {
 			errno = EINVAL;
 			return (-1);
 		}
-		fr->sport[0] = (u_short)strtol(argv[6], &p, 10);
-		fr->sport[1] = 0xff;
+		fr->fw_sport[0] = (u_short)strtol(argv[6], &p, 10);
+		fr->fw_sport[1] = 0xff;
 		if (*p == '/') {
-			fr->dport[0] = (u_short)strtol(p + 1, NULL, 10);
-			fr->dport[1] = 0xff;
+			fr->fw_dport[0] = (u_short)strtol(p + 1, NULL, 10);
+			fr->fw_dport[1] = 0xff;
 		}
 	}
 	return (0);

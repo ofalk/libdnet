@@ -45,35 +45,35 @@ fr_to_fwc(struct fw_rule *fr, struct ip_fwchange *fwc)
 {
 	memset(fwc, 0, sizeof(*fwc));
 
-	strlcpy(fwc->fwc_rule.ipfw.fw_vianame, fr->device, IFNAMSIZ);
+	strlcpy(fwc->fwc_rule.ipfw.fw_vianame, fr->fw_device, IFNAMSIZ);
 	
-	if (fr->op == FW_OP_ALLOW)
+	if (fr->fw_op == FW_OP_ALLOW)
 		strlcpy(fwc->fwc_rule.label, IP_FW_LABEL_ACCEPT, 
 		    sizeof(fwc->fwc_rule.label));
 	else
 		strlcpy(fwc->fwc_rule.label, IP_FW_LABEL_BLOCK,
 		    sizeof(fwc->fwc_rule.label));
 
-	if (fr->direction == FW_DIR_IN)
+	if (fr->fw_dir == FW_DIR_IN)
 		strlcpy(fwc->fwc_label, IP_FW_LABEL_INPUT,
 		    sizeof(fwc->fwc_label));
 	else
 		strlcpy(fwc->fwc_label, IP_FW_LABEL_OUTPUT,
 		    sizeof(fwc->fwc_label));
 	
-	fwc->fwc_rule.ipfw.fw_proto = fr->proto;
-	fwc->fwc_rule.ipfw.fw_src.s_addr = fr->src.addr_ip;
-	fwc->fwc_rule.ipfw.fw_dst.s_addr = fr->dst.addr_ip;
-	addr_btom(fr->src.addr_bits, &fwc->fwc_rule.ipfw.fw_smsk.s_addr,
+	fwc->fwc_rule.ipfw.fw_proto = fr->fw_proto;
+	fwc->fwc_rule.ipfw.fw_src.s_addr = fr->fw_src.addr_ip;
+	fwc->fwc_rule.ipfw.fw_dst.s_addr = fr->fw_dst.addr_ip;
+	addr_btom(fr->fw_src.addr_bits, &fwc->fwc_rule.ipfw.fw_smsk.s_addr,
 	    IP_ADDR_LEN);
-	addr_btom(fr->dst.addr_bits, &fwc->fwc_rule.ipfw.fw_dmsk.s_addr,
+	addr_btom(fr->fw_dst.addr_bits, &fwc->fwc_rule.ipfw.fw_dmsk.s_addr,
 	    IP_ADDR_LEN);
 
 	/* XXX - ICMP? */
-	fwc->fwc_rule.ipfw.fw_spts[0] = fr->sport[0];
-	fwc->fwc_rule.ipfw.fw_spts[1] = fr->sport[1];
-	fwc->fwc_rule.ipfw.fw_dpts[0] = fr->dport[0];
-	fwc->fwc_rule.ipfw.fw_dpts[1] = fr->dport[1];
+	fwc->fwc_rule.ipfw.fw_spts[0] = fr->fw_sport[0];
+	fwc->fwc_rule.ipfw.fw_spts[1] = fr->fw_sport[1];
+	fwc->fwc_rule.ipfw.fw_dpts[0] = fr->fw_dport[0];
+	fwc->fwc_rule.ipfw.fw_dpts[1] = fr->fw_dport[1];
 }
 
 static void
@@ -81,32 +81,33 @@ fwc_to_fr(struct ip_fwchange *fwc, struct fw_rule *fr)
 {
 	memset(fr, 0, sizeof(*fr));
 
-	strlcpy(fr->device, fwc->fwc_rule.ipfw.fw_vianame, sizeof(fr->device));
+	strlcpy(fr->fw_device, fwc->fwc_rule.ipfw.fw_vianame,
+	    sizeof(fr->fw_device));
 
 	if (strcmp(fwc->fwc_rule.label, IP_FW_LABEL_ACCEPT) == 0)
-		fr->op = FW_OP_ALLOW;
+		fr->fw_op = FW_OP_ALLOW;
 	else
-		fr->op = FW_OP_BLOCK;
+		fr->fw_op = FW_OP_BLOCK;
 
 	if (strcmp(fwc->fwc_label, IP_FW_LABEL_INPUT) == 0)
-		fr->direction = FW_DIR_IN;
+		fr->fw_dir = FW_DIR_IN;
 	else
-		fr->direction = FW_DIR_OUT;
+		fr->fw_dir = FW_DIR_OUT;
 
-	fr->proto = fwc->fwc_rule.ipfw.fw_proto;
-	fr->src.addr_type = fr->dst.addr_type = ADDR_TYPE_IP;
-	fr->src.addr_ip = fwc->fwc_rule.ipfw.fw_src.s_addr;
-	fr->dst.addr_ip = fwc->fwc_rule.ipfw.fw_dst.s_addr;
+	fr->fw_proto = fwc->fwc_rule.ipfw.fw_proto;
+	fr->fw_src.addr_type = fr->fw_dst.addr_type = ADDR_TYPE_IP;
+	fr->fw_src.addr_ip = fwc->fwc_rule.ipfw.fw_src.s_addr;
+	fr->fw_dst.addr_ip = fwc->fwc_rule.ipfw.fw_dst.s_addr;
 	addr_mtob(&fwc->fwc_rule.ipfw.fw_smsk.s_addr, IP_ADDR_LEN,
-	    &fr->src.addr_bits);
+	    &fr->fw_src.addr_bits);
 	addr_mtob(&fwc->fwc_rule.ipfw.fw_dmsk.s_addr, IP_ADDR_LEN,
-	    &fr->dst.addr_bits);
+	    &fr->fw_dst.addr_bits);
 
 	/* XXX - ICMP? */
-	fr->sport[0] = fwc->fwc_rule.ipfw.fw_spts[0];
-	fr->sport[1] = fwc->fwc_rule.ipfw.fw_spts[1];
-	fr->dport[0] = fwc->fwc_rule.ipfw.fw_dpts[0];
-	fr->dport[1] = fwc->fwc_rule.ipfw.fw_dpts[1];
+	fr->fw_sport[0] = fwc->fwc_rule.ipfw.fw_spts[0];
+	fr->fw_sport[1] = fwc->fwc_rule.ipfw.fw_spts[1];
+	fr->fw_dport[0] = fwc->fwc_rule.ipfw.fw_dpts[0];
+	fr->fw_dport[1] = fwc->fwc_rule.ipfw.fw_dpts[1];
 }
 
 fw_t *

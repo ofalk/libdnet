@@ -12,14 +12,14 @@
 #define DNET_FW_H
 
 struct fw_rule {
-	char		device[14];	/* interface name */
-	u_char		op:4,		/* operation */
-			direction:4;	/* direction */
-	u_char		proto;		/* IP protocol */
-	struct addr	src;		/* src address / net */
-	struct addr	dst;		/* dst address / net */
-	u_short		sport[2];	/* range or ICMP type / mask */
-	u_short		dport[2];	/* range or ICMP code / mask */
+	char		fw_device[14];	/* interface name */
+	u_char		fw_op:4,	/* operation */
+			fw_dir:4;	/* direction */
+	u_char		fw_proto;	/* IP protocol */
+	struct addr	fw_src;		/* src address or net */
+	struct addr	fw_dst;		/* dst address or net */
+	u_short		fw_sport[2];	/* range or ICMP type/mask */
+	u_short		fw_dport[2];	/* range or ICMP code/mask */
 };
 
 #define FW_OP_ALLOW	1
@@ -41,13 +41,13 @@ int	 fw_close(fw_t *f);
 
 #define fw_fill_rule(rule, dev, o, dir, p, s, d, sp1, sp2, dp1, dp2) \
 do {									\
-	strlcpy((rule)->device, dev, sizeof((rule)->device));		\
-	(rule)->op = o; (rule)->direction = dir;			\
-	(rule)->proto = p;						\
-	memmove(&(rule)->src, &(s), sizeof((rule)->src));		\
-	memmove(&(rule)->dst, &(d), sizeof((rule)->dst));		\
-	(rule)->sport[0] = sp1; (rule)->sport[1] = sp2;			\
-	(rule)->dport[0] = dp1; (rule)->dport[1] = dp2;			\
+	strlcpy((rule)->fw_device, dev, sizeof((rule)->fw_device));	\
+	(rule)->fw_op = o; (rule)->fw_dir = dir;			\
+	(rule)->fw_proto = p;						\
+	memmove(&(rule)->fw_src, &(s), sizeof((rule)->fw_src));		\
+	memmove(&(rule)->fw_dst, &(d), sizeof((rule)->fw_dst));		\
+	(rule)->fw_sport[0] = sp1; (rule)->fw_sport[1] = sp2;		\
+	(rule)->fw_dport[0] = dp1; (rule)->fw_dport[1] = dp2;		\
 } while (0)
 __END_DECLS
 
