@@ -22,14 +22,15 @@
 #include <inet/ip.h>
 #undef IP_ADDR_LEN
 #endif
+
 #include <net/if_arp.h>
 #ifdef HAVE_SOLARIS_DEV_IP
 #include <netinet/in.h>
 
-#include <fcntl.h>
 #include <stropts.h>
 #endif
 #include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,7 +65,12 @@ arp_open(void)
 #endif
 #ifdef HAVE_SOLARIS_DEV_IP
 	if ((a->fd = open(IP_DEV_NAME, O_RDWR)) < 0) {
-		free(a);
+		arp_close(a);
+		return (NULL);
+	}
+#elif defined(HAVE_DEV_ROUTE)
+	if ((a->fd = open("/dev/route", O_WRONLY, 0)) < 0) {
+		arp_close(a);
 		return (NULL);
 	}
 #else
@@ -114,6 +120,7 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 #endif
 	ar.arp_flags = ATF_PERM | ATF_COM;
 #ifdef hpux
+	/* XXX - screwy extended arpreq struct */
 	{
 		struct sockaddr_in *sin;
 		
