@@ -34,6 +34,7 @@ struct addr {
 
 __BEGIN_DECLS
 int	 addr_cmp(struct addr *a, struct addr *b);
+int	 addr_bcast(struct addr *a, struct addr *b);
 
 int	 addr_ntop(struct addr *src, char *dst, size_t size);
 int	 addr_pton(char *src, struct addr *dst);
@@ -47,8 +48,8 @@ int	 addr_ston(struct sockaddr *sa, struct addr *a);
 int	 addr_btos(u_short bits, struct sockaddr *sa);
 int	 addr_stob(struct sockaddr *sa, u_short *bits);
 
-int	 addr_btom(u_short bits, u_int32_t *mask);
-int	 addr_mtob(u_int32_t mask, u_short *bits);
+int	 addr_btom(u_short bits, void *mask, size_t size);
+int	 addr_mtob(void *mask, size_t size, u_short *bits);
 
 #define addr_fill(addr, type, bits, data, len) do {	\
 	(addr)->addr_type = type;			\
