@@ -56,14 +56,18 @@ AC_DNET_LINUX_PF_PACKET
 AC_DNET_SOLARIS_DEV_IP
 
 dnl Check for arp interface.
-if test $ac_cv_dnet_solaris_dev_ip = yes ; then
-	LIBOBJS="$LIBOBJS arp-solaris.o"
+arp_api=none
+AC_EGREP_CPP(yes, [
+#include <sys/types.h>
+#include <sys/ioctl.h>
+#ifdef SIOCGARP
+yes
+#endif
+], arp_api=ioctl)
+if test $arp_api = ioctl ; then
+	LIBOBJS="$LIBOBJS arp-ioctl.o"
 elif test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then
 	LIBOBJS="$LIBOBJS arp-bsd.o"
-elif test $ac_cv_dnet_linux_procfs = yes ; then
-	LIBOBJS="$LIBOBJS arp-linux.o"
-elif test -f /usr/include/hpsecurity.h ; then
-	LIBOBJS="$LIBOBJS arp-hpux.o"
 else
 	LIBOBJS="$LIBOBJS arp-none.o"
 fi
