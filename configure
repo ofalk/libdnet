@@ -1349,7 +1349,7 @@ fi
 
 PACKAGE=libdnet
 
-VERSION=1.9
+VERSION=1.10
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { { echo "$as_me:1355: error: source directory already configured; run \"make distclean\" there first" >&5
