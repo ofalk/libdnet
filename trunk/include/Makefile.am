@@ -6,4 +6,4 @@ include_HEADERS = dnet.h
 
 SUBDIRS = dnet
 
-EXTRA_DIST = err.h
+EXTRA_DIST = err.h queue.h
