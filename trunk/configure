@@ -1744,8 +1744,8 @@ else
 fi
 done
 
-for ac_hdr in sys/bufmod.h sys/dlpi.h sys/dlpi_ext.h sys/ioctl.h \
-	sys/sockio.h sys/sysctl.h sys/time.h
+for ac_hdr in sys/bufmod.h sys/dlpi.h sys/dlpihdr.h sys/dlpi_ext.h \
+	sys/ioctl.h sys/sockio.h sys/sysctl.h sys/time.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6
@@ -2397,6 +2397,7 @@ cat > conftest.$ac_ext <<EOF
 #include "confdefs.h"
 
 #include <sys/types.h>
+#define BSD_COMP
 #include <sys/ioctl.h>
 #ifdef SIOCGARP
 yes
@@ -2424,7 +2425,8 @@ elif test $ac_cv_dnet_linux_pf_packet = yes ; then
 	LIBOBJS="$LIBOBJS eth-linux.o"
 elif test $ac_cv_header_net_raw_h = yes ; then
 	LIBOBJS="$LIBOBJS eth-snoop.o"
-elif test $ac_cv_header_sys_dlpi_h = yes ; then
+elif test $ac_cv_header_sys_dlpi_h = yes || \
+     test $ac_cv_header_sys_dlpihdr_h = yes ; then
 	LIBOBJS="$LIBOBJS eth-dlpi.o"
 else
 	LIBOBJS="$LIBOBJS eth-none.o"
