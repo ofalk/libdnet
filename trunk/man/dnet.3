@@ -164,6 +164,21 @@
 .Fn route_loop "route_t *r" "route_handler callback" "void *arg"
 .Ft route_t *
 .Fn route_close "route_t *r"
+.Ss Tunnel interface
+.Pp
+.Ft tun_t *
+.Fn tun_open "struct addr *src" "struct addr *dst" "int mtu"
+.Ft int
+.Fn tun_fileno "tun_t *t"
+.Ft const char *
+.Fn tun_name "tun_t *t"
+.Ft size_t
+.Fn tun_send "tun_t *t" "const void *buf" "size_t size"
+.Ft size_t
+.Fn tun_recv "tun_t *t" "void *buf" "size_t size"
+.Ft tun_t *
+.Fn tun_close "tun_t *t"
+.Pp
 .Sh DESCRIPTION
 .Nm
 provides a simplified, portable interface to several low-level
@@ -742,6 +757,34 @@ passed to
 .Fn route_loop .
 .Pp
 .Fn route_close
+closes the specified handle.
+.Pp
+.Ss Tunnel interface
+.Fn tun_open
+is used to obtain a handle to a network tunnel interface, to which
+packets destined for 
+.Fa dst
+are delivered (with source addresses rewritten to
+.Fa src
+), where they may be read by a userland process and processed as
+desired. Packets written back to the handle are injected into the
+kernel networking subsystem.
+.Pp
+.Fn tun_fileno
+returns a file descriptor associated with the tunnel handle, suitable
+for 
+.Xr select 2 .
+.Pp
+.Fn tun_name
+returns a pointer to the tunnel interface name.
+.Pp
+.Fn tun_send
+submits a packet to the kernel networking subsystem for delivery.
+.Pp
+.Fn tun_recv
+reads the next packet delivered to the tunnel interface.
+.Pp
+.Fn tun_close
 closes the specified handle.
 .Pp
 .Sh RETURN VALUES
