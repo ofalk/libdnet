@@ -70,51 +70,10 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 
 DISTCLEANFILES = *~
 
-noinst_PROGRAMS = addr arp fw intf route
-
-addr_SOURCES = addr.c
-arp_SOURCES = arp.c
-fw_SOURCES = fw.c
-intf_SOURCES = intf.c
-route_SOURCES = route.c
-
-LDADD = $(top_srcdir)/src/libdnet.a
-
 SUBDIRS = dnet
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../include/config.h
 CONFIG_CLEAN_FILES = 
-PROGRAMS =  $(noinst_PROGRAMS)
-
-
-DEFS = @DEFS@ -I. -I$(srcdir) -I../include
-CPPFLAGS = @CPPFLAGS@
-LDFLAGS = @LDFLAGS@
-LIBS = @LIBS@
-addr_OBJECTS =  addr.o
-addr_LDADD = $(LDADD)
-addr_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
-addr_LDFLAGS = 
-arp_OBJECTS =  arp.o
-arp_LDADD = $(LDADD)
-arp_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
-arp_LDFLAGS = 
-fw_OBJECTS =  fw.o
-fw_LDADD = $(LDADD)
-fw_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
-fw_LDFLAGS = 
-intf_OBJECTS =  intf.o
-intf_LDADD = $(LDADD)
-intf_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
-intf_LDFLAGS = 
-route_OBJECTS =  route.o
-route_LDADD = $(LDADD)
-route_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
-route_LDFLAGS = 
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -122,12 +81,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(addr_SOURCES) $(arp_SOURCES) $(fw_SOURCES) $(intf_SOURCES) $(route_SOURCES)
-OBJECTS = $(addr_OBJECTS) $(arp_OBJECTS) $(fw_OBJECTS) $(intf_OBJECTS) $(route_OBJECTS)
-
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) $(top_srcdir)/Makefile.am.common
 	cd $(top_srcdir) && $(AUTOMAKE) --foreign test/Makefile
 
@@ -135,54 +90,6 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
-
-mostlyclean-noinstPROGRAMS:
-
-clean-noinstPROGRAMS:
-	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
-
-distclean-noinstPROGRAMS:
-
-maintainer-clean-noinstPROGRAMS:
-
-.c.o:
-	$(COMPILE) -c $<
-
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
-
-mostlyclean-compile:
-	-rm -f *.o core *.core
-
-clean-compile:
-
-distclean-compile:
-	-rm -f *.tab.c
-
-maintainer-clean-compile:
-
-addr: $(addr_OBJECTS) $(addr_DEPENDENCIES)
-	@rm -f addr
-	$(LINK) $(addr_LDFLAGS) $(addr_OBJECTS) $(addr_LDADD) $(LIBS)
-
-arp: $(arp_OBJECTS) $(arp_DEPENDENCIES)
-	@rm -f arp
-	$(LINK) $(arp_LDFLAGS) $(arp_OBJECTS) $(arp_LDADD) $(LIBS)
-
-fw: $(fw_OBJECTS) $(fw_DEPENDENCIES)
-	@rm -f fw
-	$(LINK) $(fw_LDFLAGS) $(fw_OBJECTS) $(fw_LDADD) $(LIBS)
-
-intf: $(intf_OBJECTS) $(intf_DEPENDENCIES)
-	@rm -f intf
-	$(LINK) $(intf_LDFLAGS) $(intf_OBJECTS) $(intf_LDADD) $(LIBS)
-
-route: $(route_OBJECTS) $(route_DEPENDENCIES)
-	@rm -f route
-	$(LINK) $(route_LDFLAGS) $(route_OBJECTS) $(route_LDADD) $(LIBS)
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -318,7 +225,7 @@ install-am: all-am
 install: install-recursive
 uninstall-am:
 uninstall: uninstall-recursive
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile
 all-redirect: all-recursive
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
@@ -336,37 +243,30 @@ distclean-generic:
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
-mostlyclean-am:  mostlyclean-noinstPROGRAMS mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+mostlyclean-am:  mostlyclean-tags mostlyclean-generic
 
 mostlyclean: mostlyclean-recursive
 
-clean-am:  clean-noinstPROGRAMS clean-compile clean-tags clean-generic \
-		mostlyclean-am
+clean-am:  clean-tags clean-generic mostlyclean-am
 
 clean: clean-recursive
 
-distclean-am:  distclean-noinstPROGRAMS distclean-compile distclean-tags \
-		distclean-generic clean-am
+distclean-am:  distclean-tags distclean-generic clean-am
 
 distclean: distclean-recursive
 
-maintainer-clean-am:  maintainer-clean-noinstPROGRAMS \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
+maintainer-clean-am:  maintainer-clean-tags maintainer-clean-generic \
+		distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
 maintainer-clean: maintainer-clean-recursive
 
-.PHONY: mostlyclean-noinstPROGRAMS distclean-noinstPROGRAMS \
-clean-noinstPROGRAMS maintainer-clean-noinstPROGRAMS \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile install-data-recursive \
-uninstall-data-recursive install-exec-recursive \
-uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
-all-recursive check-recursive installcheck-recursive info-recursive \
-dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
+.PHONY: install-data-recursive uninstall-data-recursive \
+install-exec-recursive uninstall-exec-recursive installdirs-recursive \
+uninstalldirs-recursive all-recursive check-recursive \
+installcheck-recursive info-recursive dvi-recursive \
+mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
 dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
