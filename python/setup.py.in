@@ -3,9 +3,11 @@
 import glob
 from distutils.core import setup, Extension
 
-dnet = Extension('dnet', [ '@srcdir@/dnet.c' ],
+dnet = Extension('dnet',
+                 # XXX - hrr, suk
+                 [ os.path.realpath('@srcdir@/dnet.c') ],
                  include_dirs = [ '@top_srcdir@/include' ],
-                 # XXX - hrr, i suk
+                 # XXX - hrr, suk
                  extra_objects = glob.glob('../src/.libs/*.o'))
 
 setup(name='dnet',
