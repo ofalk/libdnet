@@ -49,6 +49,7 @@ struct dnet_ifaliasreq {
 	struct sockaddr ifra_addr;
 	struct sockaddr ifra_brdaddr;
 	struct sockaddr ifra_mask;
+	int		cookie;		/* XXX - IRIX!@#$ */
 };
 
 struct intf_handle {
@@ -127,22 +128,31 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, entry->intf_name, sizeof(ifr.ifr_name));
 
+	/* Set interface MTU. */
 	if (entry->intf_mtu != 0) {
 		ifr.ifr_mtu = entry->intf_mtu;
 		if (ioctl(intf->fd, SIOCSIFMTU, &ifr) < 0)
 			return (-1);
 	}
+	/* Set interface address. */
 	if (entry->intf_addr != NULL) {
+#ifdef BSD
 		if (addr_btos(entry->intf_addr->addr_bits,
 		    &ifr.ifr_addr) == 0) {
 			if (ioctl(intf->fd, SIOCSIFNETMASK, &ifr) < 0)
 				return (-1);
 		}
+#endif
 		if (addr_ntos(entry->intf_addr, &ifr.ifr_addr) < 0)
 			return (-1);
 		if (ioctl(intf->fd, SIOCSIFADDR, &ifr) < 0 && errno != EEXIST)
 			return (-1);
 		
+		if (addr_btos(entry->intf_addr->addr_bits,
+		    &ifr.ifr_addr) == 0) {
+			if (ioctl(intf->fd, SIOCSIFNETMASK, &ifr) < 0)
+				return (-1);
+		}
 		if (addr_bcast(entry->intf_addr, &bcast) == 0) {
 			if (addr_ntos(&bcast, &ifr.ifr_broadaddr) == 0) {
 				/* XXX - ignore error from non-broadcast ifs */
@@ -151,13 +161,16 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 		}
 	}
 #ifdef SIOCDIFADDR
+	/* Delete original address, if none specified. */
 	else if (orig->intf_addr != NULL) {
 		addr_ntos(orig->intf_addr, &ifr.ifr_addr);
 		if (ioctl(intf->fd, SIOCDIFADDR, &ifr) < 0)
 			return (-1);
 	}
 #endif
-	if (entry->intf_link_addr != NULL) {
+	/* Set link-level address. */
+	if (entry->intf_link_addr != NULL &&
+	    addr_cmp(entry->intf_link_addr, orig->intf_link_addr) != 0) {
 #if defined(SIOCSIFHWADDR)
 		if (addr_ntos(entry->intf_link_addr, &ifr.ifr_hwaddr) < 0)
 			return (-1);
@@ -181,6 +194,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 		eth_close(eth);
 #endif
 	}
+	/* Set point-to-point destination. */
 	if (entry->intf_dst_addr != NULL) {
 		if (addr_ntos(entry->intf_dst_addr, &ifr.ifr_dstaddr) < 0)
 			return (-1);
@@ -188,6 +202,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 		    errno != EEXIST)
 			return (-1);
 	}
+	/* Delete any existing aliases. */
 #ifdef SIOCAIFADDR
 	strlcpy(ifra.ifra_name, entry->intf_name, sizeof(ifra.ifra_name));
 #endif
@@ -207,6 +222,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 # endif /* SIOCLIFREMOVEIF */
 #endif
 	}
+	/* Set aliases. */
 	for (i = 0; i < entry->intf_alias_num; i++) {
 #ifdef SIOCAIFADDR
 		if (addr_ntos(&entry->intf_alias_addr[i], &ifra.ifra_addr) < 0)
@@ -231,6 +247,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 			return (-1);
 #endif /* SIOCAIFADDR */
 	}
+	/* Set interface flags. */
 	if (ioctl(intf->fd, SIOCGIFFLAGS, &ifr) < 0)
 		return (-1);
 	
@@ -406,6 +423,25 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 			}
 #endif
 		}
+#ifdef SIOCLIFADDR
+		/* XXX - aliases on IRIX don't show up in SIOCGIFCONF */
+		strlcpy(ifra.ifra_name, entry->intf_name,
+		    sizeof(ifra.ifra_name));
+		addr_ntos(entry->intf_addr, &ifra.ifra_addr);
+		addr_btos(entry->intf_addr->addr_bits, &ifra.ifra_mask);
+
+		ifra.ifra_cookie = 1;
+
+		while (ioctl(intf->fd, SIOCLIFADDR, &ifra) == 0 &&
+		    ifra.ifra_cookie > 0 && ap < lap) {
+			if (addr_ston(&ifra.ifra_addr, ap) < 0)
+				break;
+			if (entry->intf_alias_addr == NULL)
+				entry->intf_alias_addr = ap;
+			entry->intf_alias_num++;
+			ap++;
+		}
+#endif
 		/* Get interface MTU. */
 		if (ioctl(intf->fd, SIOCGIFMTU, &iftmp) < 0)
 			return (-1);
