@@ -40,7 +40,7 @@ struct ip6_hdr {
 			uint8_t		ip6_un1_nxt;  /* next header */
 			uint8_t		ip6_un1_hlim; /* hop limit */
 		} ip6_un1;
-		uint8_t	ip6_un2_vfc;
+		uint8_t	ip6_un2_vfc;	/* 4 bits version, top 4 bits class */
 	} ip6_ctlun;
 	ip6_addr_t	ip6_src;
 	ip6_addr_t	ip6_dst;
@@ -51,7 +51,6 @@ struct ip6_hdr {
 #define ip6_plen	ip6_ctlun.ip6_un1.ip6_un1_plen
 #define ip6_nxt		ip6_ctlun.ip6_un1.ip6_un1_nxt	/* IP_PROTO_* */
 #define ip6_hlim	ip6_ctlun.ip6_un1.ip6_un1_hlim
-#define ip6_hops	ip6_ctlun.ip6_un1.ip6_un1_hops
 
 #define IP6_VERSION		0x60
 #define IP6_VERSION_MASK	0xf0		/* ip6_vfc version */
