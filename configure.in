@@ -7,7 +7,7 @@ dnl $Id$
 
 AC_INIT(include/dnet.h)
 
-AM_INIT_AUTOMAKE(libdnet, 0.1)
+AM_INIT_AUTOMAKE(libdnet, 0.2)
 AM_CONFIG_HEADER(include/config.h)
 
 dnl Checks for programs.
