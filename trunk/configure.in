@@ -189,7 +189,7 @@ fi
 
 dnl Checks for library functions.
 AC_FUNC_MEMCMP
-AC_REPLACE_FUNCS(err strlcat strlcpy)
+AC_REPLACE_FUNCS(err strlcat strlcpy strsep)
 
 dnl Checks for other system-specific jonks.
 if test "$CYGWIN" != yes ; then
@@ -233,7 +233,9 @@ else
 fi
 
 dnl Check for firewall interface.
-if test "$ac_cv_header_net_pfvar_h" = yes ; then
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+        AC_LIBOBJ([fw-pktfilter])
+elif test "$ac_cv_header_net_pfvar_h" = yes ; then
 	AC_LIBOBJ([fw-pf])
 elif test "$ac_cv_header_netinet_ip_fw_h" = yes ; then
 	AC_LIBOBJ([fw-ipfw])
