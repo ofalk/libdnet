@@ -263,7 +263,7 @@ addr_ntos(struct addr *a, struct sockaddr *sa)
 		sa->sa_family = ARP_HRD_ETH;
 #endif
 		memcpy(sa->sa_data, &a->addr_eth, ETH_ADDR_LEN);
-#endif
+#endif /* HAVE_NET_IF_DL_H */
 		break;
 	}
 	case ADDR_TYPE_IP:
@@ -344,7 +344,7 @@ addr_btos(u_short bits, struct sockaddr *sa)
 	sin = (struct sockaddr_in *)sa;
 	memset(sin, 0, sizeof(*sin));
 	sin->sin_family = AF_INET;
-	if (addr_btom(bits, &sin->sin_addr.s_addr) < 0)
+	if (addr_btom(bits, (u_int32_t *)&sin->sin_addr.s_addr) < 0)
 		return (-1);
 #ifdef HAVE_SOCKADDR_SA_LEN
 	sin->sin_len = IP_ADDR_LEN + (bits / 8) + (bits % 8);
