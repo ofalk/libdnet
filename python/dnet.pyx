@@ -434,17 +434,16 @@ ADDR_TYPE_IP =		2
 ADDR_TYPE_IP6 =		3
 
 cdef class addr:
-    """addr(addrtxt=None) -> network address object
+    """addr(addrtxt=None, type=ADDR_TYPE_NONE) -> network address object
 
-    Create a network address object (optionally from its human-readable
-    representation). Ethernet, IP, and IPv6 address types are currently
-    supported.
+    Create a network address object, optionally initialized from a
+    human-readable Ethernet, IP, or IPv6 address string.
     """
     cdef addr_t _addr
     
-    def __init__(self, addrtxt=None):
+    def __init__(self, addrtxt=None, type=ADDR_TYPE_NONE):
         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:
-            if len(addrtxt) == 4:
+            if PyString_Size(addrtxt) == 4:
                 self._addr.addr_type = ADDR_TYPE_IP
                 self._addr.addr_bits = IP_ADDR_BITS
                 self.ip = addrtxt
@@ -467,6 +466,18 @@ cdef class addr:
             if value > 0xffff: raise OverflowError
             self._addr.addr_bits = value
 
+    property data:
+        """Raw address string."""
+        def __get__(self):
+            if self._addr.addr_type == ADDR_TYPE_ETH:
+                return self.eth
+            elif self._addr.addr_type == ADDR_TYPE_IP:
+                return self.ip
+            elif self._addr.addr_type == ADDR_TYPE_IP6:
+                return self.ip6
+            else:
+                raise ValueError, "invalid network address"
+    
     property eth:
         """Ethernet MAC address as binary string."""
         def __get__(self):
@@ -475,9 +486,11 @@ cdef class addr:
             return PyString_FromStringAndSize(self._addr.addr_data8, 6)
         
         def __set__(self, value):
-            if self._addr.addr_type != ADDR_TYPE_ETH:
-                raise ValueError, "non-Ethernet address"
+            if PyString_Size(value) != ETH_ADDR_LEN:
+                raise ValueError, "not a 6-byte string"
             __memcpy(self._addr.addr_data8, value, 6)
+            self._addr.addr_type = ADDR_TYPE_ETH
+            self._addr.addr_bits = ETH_ADDR_BITS
     
     property ip:
         """IPv4 address as binary string."""
@@ -487,15 +500,17 @@ cdef class addr:
             return PyString_FromStringAndSize(self._addr.addr_data8, 4)
         
         def __set__(self, value):
-            if self._addr.addr_type != ADDR_TYPE_IP:
-                raise ValueError, "non-IP address"
             # XXX - handle < 2.3, or else we'd use PyInt_AsUnsignedLongMask()
             if PyInt_Check(value):
                 self._addr.addr_ip = htonl(PyInt_AsLong(value))
             elif PyLong_Check(value):
                 self._addr.addr_ip = htonl(PyLong_AsUnsignedLong(value))
+            elif PyString_Size(value) != IP_ADDR_LEN:
+                raise ValueError, "not a 4-byte string"
             else:
                 __memcpy(self._addr.addr_data8, value, 4)
+            self._addr.addr_type = ADDR_TYPE_IP
+            self._addr.addr_bits = IP_ADDR_BITS
     
     property ip6:
         """IPv6 address as binary string."""
@@ -505,9 +520,11 @@ cdef class addr:
             return PyString_FromStringAndSize(self._addr.addr_data8, 16)
         
         def __set__(self, value):
-            if self._addr.addr_type != ADDR_TYPE_IP6:
-                raise ValueError, "non-IPv6 address"
+            if PyString_Size(value) != IP6_ADDR_LEN:
+                raise ValueError, "not a 16-byte string"
             __memcpy(self._addr.addr_data8, value, 16)
+            self._addr.addr_type = ADDR_TYPE_IP6
+            self._addr.addr_bits = IP6_ADDR_BITS
 
     def bcast(self):
         """Return an addr object for our broadcast address."""
@@ -595,7 +612,7 @@ cdef class addr:
         cdef char *p
         p = addr_ntoa(&self._addr)
         if not p:
-            return '<invalid address>'
+            return '<invalid network address>'
         return p
 
 cdef class __addr_ip4_iter:
