@@ -6,7 +6,7 @@ Thamer Al-Harbash <tmh@whitefang.com>
 	excellent bug reports and fearless beta-testing
 
 Michael Coulter <mjc@bitz.ca>
-	OpenBSD pfioc_pooladdr fix
+	OpenBSD pfioc_pooladdr fix, pf rule deletion bug report
 
 Michael A. Davis <mike@datanerds.net>
 	win32 code cleanup
