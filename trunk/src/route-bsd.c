@@ -23,14 +23,18 @@
 #include <inet/mib2.h>
 #include <inet/ip.h>
 #undef IP_ADDR_LEN
+#include <stropts.h>
+#elif defined(HAVE_DEV_ROUTE)
+#include <sys/stream.h>
+#include <sys/stropts.h>
+#include <fcntl.h>
 #endif
+
+#define route_t	oroute_t	/* XXX - unixware */
 #include <net/route.h>
+#undef route_t
 #include <netinet/in.h>
 
-#ifdef HAVE_SOLARIS_DEV_IP
-#include <fcntl.h>
-#include <stropts.h>
-#endif
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -60,7 +64,7 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 	int len;
 
 	if (buflen < sizeof(*rtm) + (3 * sizeof(*sa))) {
-		errno = ENOBUFS;
+		errno = EINVAL;
 		return (-1);
 	}
 	memset(buf, 0, buflen);
@@ -83,7 +87,7 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 	sa = (struct sockaddr *)((u_char *)sa + sizeof(struct sockaddr_in));
 #endif
 	/* Gateway */
-	if (type != RTM_GET && gw != NULL) {
+	if (gw != NULL && type != RTM_GET) {
 		rtm->rtm_flags |= RTF_GATEWAY;
 		rtm->rtm_addrs |= RTA_GATEWAY;
 		if (addr_ntos(gw, sa) < 0)
@@ -110,7 +114,11 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 		rtm->rtm_flags |= RTF_HOST;
 	
 	rtm->rtm_msglen = (u_char *)sa - buf;
-	
+
+#ifdef HAVE_DEV_ROUTE
+	if (ioctl(r->fd, RTSTR_SEND, rtm) < 0)
+		return (-1);
+#else
 	if (write(r->fd, buf, rtm->rtm_msglen) < 0)
 		return (-1);
 
@@ -128,6 +136,7 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 			break;
 		}
 	}
+#endif
 	if (type == RTM_GET && rtm->rtm_addrs & (RTA_DST|RTA_GATEWAY)){
 		sa = (struct sockaddr *)(rtm + 1);
 #ifdef HAVE_SOCKADDR_SA_LEN
@@ -153,8 +162,12 @@ route_open(void)
 	
 	if ((r = malloc(sizeof(*r))) == NULL)
 		return (NULL);
-	
-	if ((r->fd = socket(PF_ROUTE, SOCK_RAW, 0)) < 0) {
+
+#ifdef HAVE_DEV_ROUTE
+	if ((r->fd = open("/dev/route", O_RDWR, 0)) < 0) {
+#else
+	if ((r->fd = socket(PF_ROUTE, SOCK_RAW, AF_INET)) < 0) {
+#endif
 		free(r);
 		return (NULL);
 	}
@@ -223,7 +236,7 @@ route_get(route_t *r, struct addr *dst, struct addr *gw)
 	return (0);
 }
 
-#ifdef HAVE_SYS_SYSCTL_H
+#if defined(HAVE_SYS_SYSCTL_H) || defined(HAVE_DEV_ROUTE)
 int
 route_loop(route_t *r, route_handler callback, void *arg)
 {
@@ -231,8 +244,10 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	struct addr dst, gw;
 	struct sockaddr *sa;
 	char *buf, *lim, *next;
+	int ret;
+#ifdef HAVE_SYS_SYSCTL_H
+	int mib[6] = { CTL_NET, PF_ROUTE, 0, AF_INET, NET_RT_DUMP, 0 };
 	size_t len;
-	int ret, mib[6] = { CTL_NET, PF_ROUTE, 0, AF_INET, NET_RT_DUMP, 0 };
 
 	if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0)
 		return (-1);
@@ -248,9 +263,33 @@ route_loop(route_t *r, route_handler callback, void *arg)
 		return (-1);
 	}
 	lim = buf + len;
-	ret = 0;
-	
-	for (next = buf; next < lim; next += rtm->rtm_msglen) {
+	next = buf;
+#else /* HAVE_DEV_ROUTE */
+	struct rt_giarg giarg, *gp;
+
+	memset(&giarg, 0, sizeof(giarg));
+	giarg.gi_op = KINFO_RT_DUMP;
+
+	if (ioctl(r->fd, RTSTR_GETROUTE, &giarg) < 0)
+		return (-1);
+
+	if ((buf = malloc(giarg.gi_size)) == NULL)
+		return (-1);
+
+	gp = (struct rt_giarg *)buf;
+	gp->gi_size = giarg.gi_size;
+	gp->gi_op = KINFO_RT_DUMP;
+	gp->gi_where = buf;
+	gp->gi_arg = RTF_UP | RTF_GATEWAY;
+
+	if (ioctl(r->fd, RTSTR_GETROUTE, buf) < 0) {
+		free(buf);
+		return (-1);
+	}
+	lim = buf + gp->gi_size;
+	next = buf + sizeof(giarg);
+#endif
+	for (ret = 0; next < lim; next += rtm->rtm_msglen) {
 		rtm = (struct rt_msghdr *)next;
 		sa = (struct sockaddr *)(rtm + 1);
 
