@@ -22,6 +22,9 @@
 # include <netinet/ip_compat.h>
 #endif
 #include <netinet/ip_fil.h>
+#ifdef IP6EQ
+#define HAVE_I6ADDR	1
+#endif
 
 #include <errno.h>
 #include <fcntl.h>
@@ -60,11 +63,17 @@ rule_to_ipf(struct fw_rule *rule, struct frentry *fr)
 		fr->fr_flags |= FR_BLOCK;
 	
 	fr->fr_ip.fi_p = rule->proto;
+#ifdef HAVE_IP6ADDR
+	fr->fr_ip.fi_saddr = rule->src.addr_ip;
+	fr->fr_ip.fi_daddr = rule->dst.addr_ip;
+	addr_btom(rule->src.addr_bits, &fr->fr_mip.fi_saddr);
+	addr_btom(rule->dst.addr_bits, &fr->fr_mip.fi_daddr);
+#else
 	fr->fr_ip.fi_src.s_addr = rule->src.addr_ip;
 	fr->fr_ip.fi_dst.s_addr = rule->dst.addr_ip;
 	addr_btom(rule->src.addr_bits, &fr->fr_mip.fi_src.s_addr);
 	addr_btom(rule->dst.addr_bits, &fr->fr_mip.fi_dst.s_addr);
-	
+#endif
 	switch (rule->proto) {
 	case IPPROTO_ICMP:
 		fr->fr_icmpm = rule->sport[1] << 8 | (rule->dport[1] & 0xff);
@@ -143,11 +152,17 @@ ipf_to_rule(struct frentry *fr, struct fw_rule *rule)
 	rule->proto = fr->fr_ip.fi_p;
 
 	rule->src.addr_type = rule->dst.addr_type = ADDR_TYPE_IP;
+#ifdef HAVE_I6ADDR
+	rule->src.addr_ip = fr->fr_ip.fi_saddr;
+	rule->dst.addr_ip = fr->fr_ip.fi_daddr;
+	addr_mtob(fr->fr_mip.fi_saddr, &rule->src.addr_bits);
+	addr_mtob(fr->fr_mip.fi_daddr, &rule->dst.addr_bits);
+#else
 	rule->src.addr_ip = fr->fr_ip.fi_src.s_addr;
 	rule->dst.addr_ip = fr->fr_ip.fi_dst.s_addr;
 	addr_mtob(fr->fr_mip.fi_src.s_addr, &rule->src.addr_bits);
 	addr_mtob(fr->fr_mip.fi_dst.s_addr, &rule->dst.addr_bits);
-
+#endif
 	switch (rule->proto) {
 	case IPPROTO_ICMP:
 		rule->sport[0] = ntohs(fr->fr_icmp & fr->fr_icmpm) >> 8;
@@ -234,13 +249,14 @@ int
 fw_loop(fw_t *fw, fw_handler callback, void *arg)
 {
 	struct friostat fio;
+	struct friostat fiop = &fio;
 	struct frentry *frp, fr;
 	struct fw_rule rule;
 	int ret;
 	
 	memset(&fio, 0, sizeof(fio));
 	
-	if (ioctl(fw->fd, SIOCGETFS, &fio) < 0)
+	if (ioctl(fw->fd, SIOCGETFS, &fiop) < 0)
 		return (-1);
 
 	for (frp = fio.f_fout[fio.f_active]; frp != NULL; frp = fr.fr_next) {
