@@ -5,6 +5,9 @@ many thanks to all the folks who have contributed to libdnet:
 Thamer Al-Harbash <tmh@whitefang.com>
 	excellent bug reports and fearless beta-testing
 
+Michael Coulter <mjc@bitz.ca>
+	OpenBSD pfioc_pooladdr fix
+
 Michael A. Davis <mike@datanerds.net>
 	win32 code cleanup
 
