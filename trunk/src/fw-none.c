@@ -22,14 +22,14 @@ fw_open(void)
 }
 
 int
-fw_add(fw_t *f, struct fw_rule *rule)
+fw_add(fw_t *f, const struct fw_rule *rule)
 {
 	errno = ENOSYS;
 	return (-1);
 }
 
 int
-fw_delete(fw_t *f, struct fw_rule *rule)
+fw_delete(fw_t *f, const struct fw_rule *rule)
 {
 	errno = ENOSYS;
 	return (-1);

@@ -39,7 +39,7 @@ fr_to_ipfw_device(char *device, char *name, short *unit)
 }
 
 static void
-fr_to_ipfw(struct fw_rule *fr, struct ip_fw *ipfw)
+fr_to_ipfw(const struct fw_rule *fr, struct ip_fw *ipfw)
 {
 	int i;
 	
@@ -108,7 +108,7 @@ fr_to_ipfw(struct fw_rule *fr, struct ip_fw *ipfw)
 }
 
 static void
-ipfw_to_fr(struct ip_fw *ipfw, struct fw_rule *fr)
+ipfw_to_fr(const struct ip_fw *ipfw, struct fw_rule *fr)
 {
 	int i;
 	
@@ -196,7 +196,7 @@ fw_open(void)
 }
 
 int
-fw_add(fw_t *fw, struct fw_rule *rule)
+fw_add(fw_t *fw, const struct fw_rule *rule)
 {
 	struct ip_fw ipfw;
 	
@@ -209,7 +209,7 @@ fw_add(fw_t *fw, struct fw_rule *rule)
 }
 
 static int
-fw_cmp(struct fw_rule *a, struct fw_rule *b)
+fw_cmp(const struct fw_rule *a, const struct fw_rule *b)
 {
 	if (strcmp(a->fw_device, b->fw_device) != 0 || a->fw_op != b->fw_op ||
 	    a->fw_dir != b->fw_dir || a->fw_proto != b->fw_proto || 
@@ -222,7 +222,7 @@ fw_cmp(struct fw_rule *a, struct fw_rule *b)
 }
 
 int
-fw_delete(fw_t *fw, struct fw_rule *rule)
+fw_delete(fw_t *fw, const struct fw_rule *rule)
 {
 	struct ip_fw *ipfw;
 	struct fw_rule fr;

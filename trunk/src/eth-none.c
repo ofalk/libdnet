@@ -17,7 +17,7 @@
 #include "dnet.h"
 
 eth_t *
-eth_open(char *device)
+eth_open(const char *device)
 {
 	errno = ENOSYS;
 	return (NULL);
@@ -32,6 +32,20 @@ eth_send(eth_t *e, const void *buf, size_t len)
 
 int
 eth_close(eth_t *e)
+{
+	errno = ENOSYS;
+	return (-1);
+}
+
+int
+eth_get(eth_t *e, eth_addr_t *ea)
+{
+	errno = ENOSYS;
+	return (-1);
+}
+
+int
+eth_set(eth_t *e, const eth_addr_t *ea)
 {
 	errno = ENOSYS;
 	return (-1);

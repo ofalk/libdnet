@@ -33,13 +33,14 @@ struct intf_info {
 
 typedef struct intf_handle intf_t;
 
-typedef int (*intf_handler)(char *device, struct intf_info *info, void *arg);
+typedef int (*intf_handler)(const char *device,
+	    const struct intf_info *info, void *arg);
 
 __BEGIN_DECLS
 intf_t	*intf_open(void);
-int	 intf_get(intf_t *i, char *device, struct intf_info *info);
-int	 intf_set(intf_t *i, char *device, struct intf_info *info);
-int	 intf_loop(intf_t *i, intf_handler callback, void *arg); 
+int	 intf_get(intf_t *i, const char *device, struct intf_info *info);
+int	 intf_set(intf_t *i, const char *device, const struct intf_info *info);
+int	 intf_loop(intf_t *i, intf_handler callback, void *arg);
 int	 intf_close(intf_t *i);
 __END_DECLS
 

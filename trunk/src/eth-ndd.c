@@ -28,7 +28,7 @@ struct eth_handle {
 };
 
 eth_t *
-eth_open(char *device)
+eth_open(const char *device)
 {
 	struct sockaddr_ndd_8022 sa;
 	eth_t *e;
@@ -109,7 +109,7 @@ eth_get(eth_t *e, eth_addr_t *ea)
 }
 
 int
-eth_set(eth_t *e, eth_addr_t *ea)
+eth_set(eth_t *e, const eth_addr_t *ea)
 {
 	errno = ENOSYS;
 	return (-1);

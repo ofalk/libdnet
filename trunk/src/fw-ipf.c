@@ -48,7 +48,7 @@ struct fw_handle {
 };
 
 static void
-rule_to_ipf(struct fw_rule *rule, struct frentry *fr)
+rule_to_ipf(const struct fw_rule *rule, struct frentry *fr)
 {
 	memset(fr, 0, sizeof(*fr));
 
@@ -140,7 +140,7 @@ ipf_ports_to_rule(uint8_t cmp, uint16_t port, uint16_t top, uint16_t *range)
 }
 
 static void
-ipf_to_rule(struct frentry *fr, struct fw_rule *rule)
+ipf_to_rule(const struct frentry *fr, struct fw_rule *rule)
 {
 	memset(rule, 0, sizeof(*rule));
 
@@ -195,7 +195,7 @@ fw_open(void)
 }
 
 int
-fw_add(fw_t *fw, struct fw_rule *rule)
+fw_add(fw_t *fw, const struct fw_rule *rule)
 {
 	struct frentry fr;
 	
@@ -207,7 +207,7 @@ fw_add(fw_t *fw, struct fw_rule *rule)
 }
 
 int
-fw_delete(fw_t *fw, struct fw_rule *rule)
+fw_delete(fw_t *fw, const struct fw_rule *rule)
 {
 	struct frentry fr;
 	
