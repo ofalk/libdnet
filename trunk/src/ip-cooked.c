@@ -8,13 +8,14 @@
 
 #include "config.h"
 
+#ifndef WIN32
 #include <netinet/in.h>
-
+#include <unistd.h>
+#endif
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 #include "dnet.h"
 #include "queue.h"

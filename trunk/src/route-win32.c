@@ -9,7 +9,7 @@
 #include "config.h"
 
 #include <ws2tcpip.h>
-#include <Iphlpapi.h>
+#include <iphlpapi.h>
 
 #include <errno.h>
 #include <stdlib.h>
@@ -109,7 +109,8 @@ route_loop(route_t *route, route_handler callback, void *arg)
 	ULONG len;
 	struct route_entry entry;
 	u_char buf[4096];
-	int i, ret;
+	u_long i;
+	int ret;
 	
 	ipftable = (MIB_IPFORWARDTABLE *)buf;
 	len = sizeof(buf);

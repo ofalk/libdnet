@@ -17,11 +17,11 @@
 #else
 #include <sys/types.h>
 #include <sys/time.h>
+#include <unistd.h>
 #endif
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 #include "dnet.h"
 
@@ -111,7 +111,7 @@ int
 rand_get(rand_t *r, void *buf, size_t len)
 {
 	u_char *p;
-	int i;
+	u_int i;
 
 	for (p = buf, i = 0; i < len; i++) {
 		p[i] = rand_getbyte(r);
@@ -167,12 +167,12 @@ int
 rand_shuffle(rand_t *r, void *base, size_t nmemb, size_t size)
 {
 	u_char *save, *src, *dst, *start = (u_char *)base;
-	int i, j;
+	u_int i, j;
 
 	if (nmemb < 2)
 		return (0);
 	
-	if (r->tmplen < size) {
+	if ((u_int)r->tmplen < size) {
 		if (r->tmp == NULL) {
 			if ((save = malloc(size)) == NULL)
 				return (-1);
