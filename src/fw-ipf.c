@@ -132,8 +132,8 @@ ipf_ports_to_rule(uint8_t cmp, uint16_t port, uint16_t top, uint16_t *range)
 		range[1] = top;
 		break;
 	case FR_INRANGE:
-		range[0] = top;
-		range[1] = port;
+		range[0] = port;
+		range[1] = top;
 		break;
 	default:
 		range[0] = 0;
