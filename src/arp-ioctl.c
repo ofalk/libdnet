@@ -344,7 +344,7 @@ int
 arp_loop(arp_t *r, arp_handler callback, void *arg)
 {
 	struct nmparms nm;
-	struct addr entry;
+	struct arp_entry entry;
 	mib_ipNetToMediaEnt arpentries[MAX_ARPENTRIES];
 	int fd, i, n, ret;
 	
