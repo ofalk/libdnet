@@ -1,0 +1,8 @@
+## $Id$
+
+include $(top_srcdir)/Makefile.am.common
+
+dnetincludedir = $(includedir)/dnet
+
+dnetinclude_HEADERS = addr.h arp.h eth.h fw.h icmp.h intf.h ip.h os.h	\
+	route.h tcp.h udp.h

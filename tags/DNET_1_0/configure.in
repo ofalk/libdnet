@@ -1,0 +1,204 @@
+dnl
+dnl configure.in
+dnl
+dnl Copyright (c) 2000 Dug Song <dugsong@monkey.org>
+dnl
+dnl $Id$
+
+AC_INIT(include/dnet.h)
+
+AM_INIT_AUTOMAKE(libdnet, 1.0)
+AM_CONFIG_HEADER(include/config.h)
+
+dnl Check for system type.
+dnl XXX - we do this to qualify our later feature checks, since some
+dnl systems claim to support multiple features, but are quite b0rked.
+AC_CANONICAL_HOST
+
+dnl Initialize prefix.
+if test "$prefix" = "NONE"; then
+   prefix="/usr/local"
+fi
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_RANLIB
+dnl XXX - stupid IRIX cpp
+if test -r /usr/include/sgidefs.h ; then
+	CPPFLAGS="$CPPFLAGS -D__sgi"
+fi
+dnl XXX - we need MingW32 under Cygwin for win32
+AC_CYGWIN
+if test "$CYGWIN" = yes ; then
+	if test -d /usr/include/mingw ; then
+		CPPFLAGS="$CPPFLAGS -mno-cygwin"
+		CFLAGS="$CFLAGS -mno-cygwin"
+		AC_DEFINE(WIN32_LEAN_AND_MEAN, 1, 
+		    [Define for faster code generation.])
+		AC_CHECK_LIB(ws2_32, main)
+		AC_CHECK_LIB(iphlpapi, main)
+		AC_DEFINE(snprintf, _snprintf, 
+		    [Use MingW32's internal snprintf])
+	else
+		AC_MSG_ERROR([need MingW32 package to build under Cygwin])
+	fi
+	AC_MSG_CHECKING(for WinPcap developer's pack)
+	AC_ARG_WITH(wpdpack,
+	[  --with-wpdpack=DIR      use WinPcap developer's pack in DIR],
+	[ AC_MSG_RESULT($withval)
+	  if test -f $withval/include/packet32.h -a -f $withval/lib/packet.a; then
+	     owd=`pwd`
+	     if cd $withval; then withval=`pwd`; cd $owd; fi
+	     CFLAGS="$CFLAGS -I$withval/include"
+	     LIBS="$LIBS -L$withval/lib -lpacket"
+	  else
+	     AC_MSG_ERROR(packet32.h or packet.a not found in $withval)
+	  fi ],
+	[ for dir in ${prefix} ${HOME}/WPdpack ; do
+	     if test -f ${dir}/include/packet32.h -a -f ${dir}/lib/packet.a; then
+	        CFLAGS="$CFLAGS -I${dir}/include"
+		LIBS="$LIBS -L${dir}/lib -lpacket"
+		have_pcap=yes
+		break;
+	     fi
+	  done
+	  if test "$have_pcap" != yes; then
+	     AC_MSG_ERROR(WinPcap developer's pack not found)
+	  fi
+	  AC_MSG_RESULT(yes) ])
+fi
+
+dnl Checks for libraries.
+if test "$CYGWIN" != yes ; then
+	AC_LBL_LIBRARY_NET
+	AC_CHECK_LIB(nm, open_mib)
+fi
+
+dnl Checks for header files.
+AC_HEADER_STDC
+if test "$CYGWIN" = yes ; then
+	AC_CHECK_HEADERS(Iphlpapi.h winsock2.h)
+else
+	AC_CHECK_HEADERS(fcntl.h unistd.h)
+	AC_CHECK_HEADERS(sys/bufmod.h sys/dlpi.h sys/dlpihdr.h sys/dlpi_ext.h \
+	    sys/ioctl.h sys/mib.h sys/ndd_var.h sys/socket.h sys/sockio.h \
+	    sys/sysctl.h sys/time.h)
+	AC_CHECK_HEADERS(net/bpf.h net/if.h net/if_arp.h net/if_dl.h \
+	    net/pfvar.h net/raw.h net/route.h netinet/ip_fw.h linux/ip_fw.h \
+	    linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h)
+	AC_CHECK_HEADERS(ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h \
+	    netinet/ip_compat.h ip_fil.h netinet/ip_fil.h)
+	AC_CHECK_HEADERS(hpsecurity.h)
+fi
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_TYPE_PID_T
+AC_TYPE_SIZE_T
+if test "$ac_cv_header_sys_socket_h" = yes ; then
+	AC_DNET_SOCKADDR_SA_LEN
+fi
+if test "$ac_cv_header_net_if_arp_h" = yes ; then
+	AC_DNET_ARPREQ_ARP_DEV
+fi
+if test "$ac_cv_header_net_route_h" = yes ; then
+	AC_DNET_ROUTE_RT_MSGHDR
+fi
+AC_PROG_GCC_TRADITIONAL
+if test "$GCC" = yes ; then
+	CFLAGS="$CFLAGS -Wall"
+fi
+
+dnl Checks for library functions.
+AC_FUNC_MEMCMP
+AC_REPLACE_FUNCS(err inet_pton strlcat strlcpy)
+
+dnl Checks for other system-specific jonks.
+if test "$CYGWIN" != yes ; then
+	AC_DNET_BSD_BPF
+	AC_DNET_LINUX_PROCFS
+	AC_DNET_LINUX_PF_PACKET
+	AC_DNET_STREAMS_MIB2
+	AC_DNET_STREAMS_ROUTE
+	AC_DNET_IOCTL_ARP
+	AC_DNET_RAWIP_HOST_OFFLEN
+	AC_DNET_RAWIP_COOKED
+fi
+
+dnl Check for arp interface.
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+	LIBOBJS="$LIBOBJS arp-win32.o"
+elif test "$ac_cv_dnet_ioctl_arp" = yes ; then
+	LIBOBJS="$LIBOBJS arp-ioctl.o"
+elif test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
+	LIBOBJS="$LIBOBJS arp-bsd.o"
+else
+	LIBOBJS="$LIBOBJS arp-none.o"
+fi
+
+dnl Check for Ethernet interface.
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+	LIBOBJS="$LIBOBJS eth-win32.o"
+elif test "$ac_cv_dnet_bsd_bpf" = yes ; then
+	LIBOBJS="$LIBOBJS eth-bsd.o"
+elif test "$ac_cv_dnet_linux_pf_packet" = yes ; then
+	LIBOBJS="$LIBOBJS eth-linux.o"
+elif test "$ac_cv_header_net_raw_h" = yes ; then
+	LIBOBJS="$LIBOBJS eth-snoop.o"
+elif test "$ac_cv_header_sys_ndd_var_h" = yes ; then
+	LIBOBJS="$LIBOBJS eth-ndd.o"
+elif test "$ac_cv_header_sys_dlpi_h" = yes || \
+     test "$ac_cv_header_sys_dlpihdr_h" = yes ; then
+	LIBOBJS="$LIBOBJS eth-dlpi.o"
+else
+	LIBOBJS="$LIBOBJS eth-none.o"
+fi
+
+dnl Check for firewall interface.
+if test "$ac_cv_header_net_pfvar_h" = yes ; then
+	LIBOBJS="$LIBOBJS fw-pf.o"
+elif test "$ac_cv_header_netinet_ip_fw_h" = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipfw.o"
+elif test "$ac_cv_header_netinet_ip_fil_h" = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipf.o"
+elif test "$ac_cv_header_linux_ip_fw_h" = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipchains.o"
+elif test "$ac_cv_header_linux_ip_fwchains_h" = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipchains.o"
+elif test "$ac_cv_header_linux_netfilter_ipv4_ipchains_core_h" = yes ; then
+	LIBOBJS="$LIBOBJS fw-ipchains.o"
+else
+	LIBOBJS="$LIBOBJS fw-none.o"
+fi
+
+dnl Check for network interface interface.
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+	LIBOBJS="$LIBOBJS intf-win32.o"
+else
+	LIBOBJS="$LIBOBJS intf.o"
+fi
+
+dnl Check for raw IP interface.
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+	LIBOBJS="$LIBOBJS ip-win32.o"
+else
+	LIBOBJS="$LIBOBJS ip.o"
+fi
+
+dnl Check for routing interface.
+if test "$ac_cv_header_Iphlpapi_h" = yes ; then
+	LIBOBJS="$LIBOBJS route-win32.o"
+elif test "$ac_cv_dnet_route_h_has_rt_msghdr" = yes ; then
+	LIBOBJS="$LIBOBJS route-bsd.o"
+elif test "$ac_cv_dnet_linux_procfs" = yes ; then
+	LIBOBJS="$LIBOBJS route-linux.o"
+elif test "$ac_cv_header_hpsecurity_h" = yes ; then
+	LIBOBJS="$LIBOBJS route-hpux.o"
+else
+	LIBOBJS="$LIBOBJS route-none.o"
+fi
+
+AC_OUTPUT([Makefile dnet-config include/Makefile include/dnet/Makefile
+	man/Makefile src/Makefile test/Makefile test/dnet/Makefile],
+	[chmod 755 dnet-config])
