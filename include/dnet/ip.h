@@ -55,7 +55,7 @@ struct ip_hdr {
 #define IP_OFFMASK	0x1fff		/* mask for fragmenting bits */
 
 /*
- * Type of service
+ * Type of service, RFC 1349
  */
 #define IP_TOS_LOWDELAY		0x10
 #define IP_TOS_THROUGHPUT	0x08
