@@ -1,5 +1,8 @@
 ipfw2 on FreeBSD/5 (5.1 has pf)
 
+optimize port wildcard rules for each firewall type - e.g. using ipf
+FR_NONE, pf PF_OP_NONE, etc.
+
 ipchains sleazy exec
 
 audit addr_ntos() for non-zero'd host bits
