@@ -29,7 +29,7 @@ intf_open(void)
 }
 
 static int
-_intf_get(char *device, struct intf_info *info, void *arg)
+_intf_get(const char *device, const struct intf_info *info, void *arg)
 {
 	intf_t *intf = (intf_t *)arg;
 
@@ -41,7 +41,7 @@ _intf_get(char *device, struct intf_info *info, void *arg)
 }
 
 int
-intf_get(intf_t *intf, char *device, struct intf_info *info)
+intf_get(intf_t *intf, const char *device, struct intf_info *info)
 {
 	int ret;
 
@@ -60,7 +60,7 @@ intf_get(intf_t *intf, char *device, struct intf_info *info)
 }
 
 int
-intf_set(intf_t *intf, char *device, struct intf_info *info)
+intf_set(intf_t *intf, const char *device, const struct intf_info *info)
 {
 	/*
 	 * XXX - could set interface down via SetIfEntry(),

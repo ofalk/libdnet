@@ -31,7 +31,7 @@ struct fw_handle {
 };
 
 static void
-fr_to_pr(struct fw_rule *fr, struct pf_rule *pr)
+fr_to_pr(const struct fw_rule *fr, struct pf_rule *pr)
 {
 	memset(pr, 0, sizeof(*pr));
 	
@@ -77,7 +77,7 @@ fr_to_pr(struct fw_rule *fr, struct pf_rule *pr)
 }
 
 static int
-pr_to_fr(struct pf_rule *pr, struct fw_rule *fr)
+pr_to_fr(const struct pf_rule *pr, struct fw_rule *fr)
 {
 	memset(fr, 0, sizeof(*fr));
 	
@@ -146,7 +146,7 @@ fw_open(void)
 }
 
 int
-fw_add(fw_t *fw, struct fw_rule *rule)
+fw_add(fw_t *fw, const struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
 	
@@ -160,7 +160,7 @@ fw_add(fw_t *fw, struct fw_rule *rule)
 }
 
 int
-fw_delete(fw_t *fw, struct fw_rule *rule)
+fw_delete(fw_t *fw, const struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
 	

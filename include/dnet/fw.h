@@ -30,12 +30,12 @@ struct fw_rule {
 
 typedef struct fw_handle fw_t;
 
-typedef int (*fw_handler)(struct fw_rule *rule, void *arg);
+typedef int (*fw_handler)(const struct fw_rule *rule, void *arg);
 
 __BEGIN_DECLS
 fw_t	*fw_open(void);
-int	 fw_add(fw_t *f, struct fw_rule *rule);
-int	 fw_delete(fw_t *f, struct fw_rule *rule);
+int	 fw_add(fw_t *f, const struct fw_rule *rule);
+int	 fw_delete(fw_t *f, const struct fw_rule *rule);
 int	 fw_loop(fw_t *f, fw_handler callback, void *arg);
 int	 fw_close(fw_t *f);
 

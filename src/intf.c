@@ -134,7 +134,7 @@ intf_delete(intf_t *i, char *device, struct addr *addr)
 #endif
 
 int
-intf_set(intf_t *i, char *device, struct intf_info *info)
+intf_set(intf_t *i, const char *device, const struct intf_info *info)
 {
 	struct addr bcast;
 	struct ifreq ifr;
@@ -182,7 +182,7 @@ intf_set(intf_t *i, char *device, struct intf_info *info)
 }
 
 int
-intf_get(intf_t *i, char *device, struct intf_info *info)
+intf_get(intf_t *i, const char *device, struct intf_info *info)
 {
 	struct ifreq ifr;
 

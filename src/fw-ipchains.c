@@ -41,7 +41,7 @@ struct fw_handle {
 };
 
 static void
-fr_to_fwc(struct fw_rule *fr, struct ip_fwchange *fwc)
+fr_to_fwc(const struct fw_rule *fr, struct ip_fwchange *fwc)
 {
 	memset(fwc, 0, sizeof(*fwc));
 
@@ -77,7 +77,7 @@ fr_to_fwc(struct fw_rule *fr, struct ip_fwchange *fwc)
 }
 
 static void
-fwc_to_fr(struct ip_fwchange *fwc, struct fw_rule *fr)
+fwc_to_fr(const struct ip_fwchange *fwc, struct fw_rule *fr)
 {
 	memset(fr, 0, sizeof(*fr));
 
@@ -126,7 +126,7 @@ fw_open(void)
 }
 
 int
-fw_add(fw_t *fw, struct fw_rule *rule)
+fw_add(fw_t *fw, const struct fw_rule *rule)
 {
 	struct ip_fwchange fwc;
 
@@ -137,7 +137,7 @@ fw_add(fw_t *fw, struct fw_rule *rule)
 }
 
 int
-fw_delete(fw_t *fw, struct fw_rule *rule)
+fw_delete(fw_t *fw, const struct fw_rule *rule)
 {
 	struct ip_fwchange fwc;
 
