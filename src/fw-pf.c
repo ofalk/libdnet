@@ -181,7 +181,9 @@ int
 fw_add(fw_t *fw, const struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
-	
+#ifdef DIOCBEGINADDRS
+	struct pfioc_pooladdr ppa;
+#endif
 	assert(fw != NULL && rule != NULL);
 	memset(&pcr, 0, sizeof(pcr));
 	fr_to_pr(rule, &pcr.newrule);
@@ -189,6 +191,11 @@ fw_add(fw_t *fw, const struct fw_rule *rule)
 	pcr.action = PF_CHANGE_GET_TICKET;
 	if (ioctl(fw->fd, DIOCCHANGERULE, &pcr) < 0)
 		return (-1);
+# ifdef DIOCBEGINADDRS
+	if (ioctl(fw->fd, DIOCBEGINADDRS, &ppa) < 0)
+		return (-1);
+	pcr.pool_ticket = ppa.ticket;
+# endif
 #endif
 	pcr.action = PF_CHANGE_ADD_TAIL;
 	
@@ -199,7 +206,9 @@ int
 fw_delete(fw_t *fw, const struct fw_rule *rule)
 {
 	struct pfioc_changerule pcr;
-	
+#ifdef DIOCBEGINADDRS
+	struct pfioc_pooladdr ppa;
+#endif
 	assert(fw != NULL && rule != NULL);
 	memset(&pcr, 0, sizeof(pcr));
 	fr_to_pr(rule, &pcr.oldrule);
@@ -207,6 +216,11 @@ fw_delete(fw_t *fw, const struct fw_rule *rule)
 	pcr.action = PF_CHANGE_GET_TICKET;
 	if (ioctl(fw->fd, DIOCCHANGERULE, &pcr) < 0)
 		return (-1);
+# ifdef DIOCBEGINADDRS
+	if (ioctl(fw->fd, DIOCBEGINADDRS, &ppa) < 0)
+		return (-1);
+	pcr.pool_ticket = ppa.ticket;
+# endif
 #endif
 	pcr.action = PF_CHANGE_REMOVE;
 	
