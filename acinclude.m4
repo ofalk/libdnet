@@ -32,7 +32,7 @@ AC_DEFUN(AC_DNET_ARPREQ_ARP_DEV,
 #       include <sys/types.h>
 #	include <sys/socket.h>
 #	include <net/if_arp.h>],
-	[void *p = ((struct sockaddr *)0)->arp_dev],
+	[void *p = ((struct arpreq *)0)->arp_dev],
 	ac_cv_dnet_arpreq_has_arp_dev=yes,
 	ac_cv_dnet_arpreq_has_arp_dev=no))
     AC_MSG_RESULT($ac_cv_dnet_arpreq_has_arp_dev)

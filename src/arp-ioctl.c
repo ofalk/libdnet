@@ -176,7 +176,7 @@ arp_get(arp_t *a, struct addr *pa, struct addr *ha)
 		return (-1);
 	
 #ifdef HAVE_ARPREQ_ARP_DEV
-	if (intf_loop(a->intf, arp_intf_match, &ar) != 1) {
+	if (intf_loop(a->intf, arp_set_dev, &ar) != 1) {
 		errno = ESRCH;
 		return (-1);
 	}

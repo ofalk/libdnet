@@ -2056,7 +2056,7 @@ else
 #	include <sys/socket.h>
 #	include <net/if_arp.h>
 int main() {
-void *p = ((struct sockaddr *)0)->arp_dev
+void *p = ((struct arpreq *)0)->arp_dev
 ; return 0; }
 EOF
 if { (eval echo configure:2063: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
