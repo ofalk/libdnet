@@ -41,7 +41,7 @@
 
 struct eth_handle {
 	int	fd;
-	int	sap_first;
+	int	sap_len;
 };
 
 static int
@@ -158,7 +158,7 @@ eth_open(const char *device)
 	    DL_INFO_ACK, DL_INFO_ACK_SIZE, sizeof(buf)) < 0)
 		return (eth_close(e));
 	
-	e->sap_first = (dlp->info_ack.dl_sap_length > 0);
+	e->sap_len = dlp->info_ack.dl_sap_length;
 	
 	if (dlp->info_ack.dl_provider_style == DL_STYLE2) {
 		dlp->attach_req.dl_primitive = DL_ATTACH_REQ;
@@ -197,6 +197,7 @@ eth_send(eth_t *e, const void *buf, size_t len)
 	struct strbuf ctl, data;
 	struct eth_hdr *eth;
 	uint32_t ctlbuf[8192];
+	u_char sap[4] = { 0, 0, 0, 0 };
 	int dlen;
 
 	dlp = (union DL_primitives *)ctlbuf;
@@ -211,20 +212,21 @@ eth_send(eth_t *e, const void *buf, size_t len)
 	    dlp->unitdata_req.dl_priority.dl_max = 0;
 	dlen = DL_UNITDATA_REQ_SIZE;
 #endif
-	ctl.maxlen = 0;
-	ctl.len = dlen + ETH_ADDR_LEN + sizeof(eth->eth_type);
-	ctl.buf = (char *)ctlbuf;
-
 	eth = (struct eth_hdr *)buf;
+	*(uint16_t *)sap = ntohs(eth->eth_type);
 	
-	if (e->sap_first) {
-		memcpy(ctlbuf + dlen, &eth->eth_type, sizeof(eth->eth_type));
-		memcpy(ctlbuf + dlen + sizeof(eth->eth_type),
+	/* XXX - DLSAP setup logic from ISC DHCP */
+	ctl.maxlen = 0;
+	ctl.len = dlen + ETH_ADDR_LEN + abs(e->sap_len);
+	ctl.buf = (char *)ctlbuf;
+	
+	if (e->sap_len >= 0) {
+		memcpy(ctlbuf + dlen, sap, e->sap_len);
+		memcpy(ctlbuf + dlen + e->sap_len,
 		    eth->eth_dst.data, ETH_ADDR_LEN);
 	} else {
 		memcpy(ctlbuf + dlen, eth->eth_dst.data, ETH_ADDR_LEN);
-		memcpy(ctlbuf + dlen + ETH_ADDR_LEN,
-		    &eth->eth_type, sizeof(eth->eth_type));
+		memcpy(ctlbuf + dlen + ETH_ADDR_LEN, sap, abs(e->sap_len));
 	}
 	data.maxlen = 0;
 	data.len = len;
