@@ -21,6 +21,8 @@
 #include <inet/mib2.h>
 #include <inet/ip.h>
 #undef IP_ADDR_LEN
+#elif defined(HAVE_SYS_MIB_H)
+#include <sys/mib.h>
 #endif
 
 #include <net/if_arp.h>
@@ -336,6 +338,55 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 		} while (rc == MOREDATA);
 	}
 	return (0);
+}
+#elif defined(HAVE_SYS_MIB_H)
+#define MAX_ARPENTRIES	512	/* XXX */
+
+int
+arp_loop(arp_t *r, arp_handler callback, void *arg)
+{
+	struct nmparms nm;
+	struct addr ha, pa;
+	mib_ipNetToMediaEnt arpentries[MAX_ARPENTRIES];
+	int fd, i, n, ret;
+	
+	if ((fd = open_mib("/dev/ip", O_RDWR, 0 /* XXX */, 0)) < 0)
+		return (-1);
+	
+	nm.objid = ID_ipNetToMediaTable;
+	nm.buffer = arpentries;
+	n = sizeof(arpentries);
+	nm.len = &n;
+	
+	if (get_mib_info(fd, &nm) < 0) {
+		close_mib(fd);
+		return (-1);
+	}
+	close_mib(fd);
+
+	pa.addr_type = ADDR_TYPE_IP;
+	pa.addr_bits = IP_ADDR_BITS;
+
+	ha.addr_type = ADDR_TYPE_ETH;
+	ha.addr_bits = ETH_ADDR_BITS;
+	
+	n /= sizeof(*arpentries);
+	ret = 0;
+	
+	for (i = 0; i < n; i++) {
+		if ((arpentries[i].Type != INTM_DYNAMIC &&
+		    arpentries[i].Type != INTM_STATIC) ||
+		    arpentries[i].PhysAddr.o_length != ETH_ADDR_LEN)
+			continue;
+		
+		pa.addr_ip = arpentries[i].NetAddr;
+		memcpy(&ha.addr_eth, arpentries[i].PhysAddr.o_bytes,
+		    ETH_ADDR_LEN);
+		
+		if ((ret = callback(&pa, &ha, arg)) != 0)
+			break;
+	}
+	return (ret);
 }
 #else
 int
