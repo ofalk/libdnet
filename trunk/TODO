@@ -1,7 +1,7 @@
 
 figure out interface aliases on non-BSD platforms for intf_{add,delete}
 
-port to other target platforms: AIX, HP-UX, IRIX, win32
+port to other target platforms: AIX, HP-UX, win32
 
 code cleanup
 
@@ -13,7 +13,6 @@ automated regression (automake 'check' target)
 
 fw-pf.c: fix loop for 'flush'
 
-IRIX must be built with CPPFLAGS=-D__sgi ./configure
 
 successfully built on:
 --------+------+-----+-----+----+----+------+-------+
@@ -25,14 +24,16 @@ freebsd |   X  |  X  |  X  |  ? |  X |   X  |   X   |   X = works, tested
 --------+------+-----+-----+----+----+------+-------+
 netbsd  |      |     |     |    |    |      |       |   ? = untested
 --------+------+-----+-----+----+----+------+-------+
-linux   |   X  |  X  |  X  |  X |  X |   X  |   X   |   - = broken
+linux   |   X  |  X  |  X  |  X |  X |   X  |   X   |   - = broken / unimpl
 --------+------+-----+-----+----+----+------+-------+
 solaris |   X  |  X  |  X  |  ? |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
 macosx  |   X  |     |     |    |    |      |       |
 --------+------+-----+-----+----+----+------+-------+
-irix    |   X  |  X  |  X  |  - |    |   X  |   X   |
+irix    |   X  |  X  |  X  |  - |  1 |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
+
+1. won't allow src address spoofing? should use ip-cooked.c?
 
 never built on:
 --------+------+-----+-----+----+----+------+-------+
