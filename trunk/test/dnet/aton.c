@@ -117,10 +117,11 @@ seq_aton(char *string, uint32_t *seq)
 {
 	char *p;
 	
-	*seq = strtol(string, &p, 10);
+	*seq = strtoul(string, &p, 10);
 	if (*string == '\0' || *p != '\0')
 		return (-1);
 
+	*seq = htonl(*seq);
 	return (0);
 }
 
