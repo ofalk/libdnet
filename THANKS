@@ -23,20 +23,11 @@ Mike Frantzen <frantzen@w4g.org>
 Markus Friedl <markus@openbsd.org>
 	BSD/OS testing and autoconf fixes
 
-Nergal <nergal@7bulls.com>
-	TCP sequence number handling fixes
-
 Tangy Gnat <tanggnat@bahamut.synacklabs.net>
 	missing queue.h
 
 Loren Gorden <loren.gordon@videotron.ca>
 	many thorough, detailed bug reports and fixes
-
-K2 <k2@ktwo.ca>
-	HP-UX, OSF1, UnixWare, Solaris x86, Slackware, etc. access
-
-Kirby Kuehl <kkuehl@gmail.com>
-	win32 and OpenBSD updates
 
 Eric Jackson <shinobi@monkey.org>
 	OpenBSD-alpha testing
@@ -44,17 +35,29 @@ Eric Jackson <shinobi@monkey.org>
 Juan <juan@foxpaw.com>
 	plugged BPF fd leak on failure
 
+K2 <k2@ktwo.ca>
+	HP-UX, OSF1, UnixWare, Solaris x86, Slackware, etc. access
+
+Kirby Kuehl <kkuehl@gmail.com>
+	win32 and OpenBSD updates
+
 David Lee <david.lee@teracruz.com>
 	addr_btos() bugfixes
 
 Kuk-hyeon Lee <errai@inzen.com>
 	C++ support fixes
 
+Robert Lowe <robert.h.lowe@lawrence.edu>
+	Tru64 access, and allowing me to crash his machine
+
 Dominic Marks <dom@cus.org.uk>
 	FreeBSD 5 ipfw port fixes
 
 Jose Nazario <jose@biocserver.cwru.edu>
 	IRIX access, and allowing me to crash his machine
+
+Nergal <nergal@7bulls.com>
+	TCP sequence number handling fixes
 
 Peter C. Norton <spacey@lenin.nu>
 	Linux port fixes
