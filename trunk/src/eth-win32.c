@@ -1,5 +1,5 @@
 /*
- * eth-none.c
+ * eth-win32.c
  *
  * Copyright (c) 2000 Dug Song <dugsong@monkey.org>
  *
