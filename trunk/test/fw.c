@@ -44,7 +44,7 @@ print_rule(struct fw_rule *fr, void *arg)
 	
 	switch (fr->proto) {
 	case IP_PROTO_ICMP:
-		if (fr->sport[1] && fr->dport[1])
+		if (fr->sport[1] && fr->dport[1]) 
 			snprintf(typecode, sizeof(typecode), " %d/%d",
 			    fr->sport[0], fr->dport[0]);
 		else if (fr->sport[1])
@@ -53,17 +53,19 @@ print_rule(struct fw_rule *fr, void *arg)
 		break;
 	case IP_PROTO_TCP:
 	case IP_PROTO_UDP:
-		if (fr->sport[0] == fr->sport[1])
-			snprintf(sport, sizeof(sport), ":%d",
-			    fr->sport[0]);
-		else
+		if (fr->sport[0] == fr->sport[1]) {
+			if (fr->sport[0])
+				snprintf(sport, sizeof(sport), ":%d",
+				    fr->sport[0]);
+		} else
 			snprintf(sport, sizeof(sport), ":%d-%d",
 			    fr->sport[0], fr->sport[1]);
 		
-		if (fr->dport[0] == fr->dport[1])
-			snprintf(dport, sizeof(dport), ":%d",
-			    fr->dport[0]);
-		else
+		if (fr->dport[0] == fr->dport[1]) {
+			if (fr->dport[0])
+				snprintf(dport, sizeof(dport), ":%d",
+				    fr->dport[0]);
+		} else
 			snprintf(dport, sizeof(dport), ":%d-%d",
 			    fr->dport[0], fr->dport[1]);
 		break;
@@ -144,13 +146,11 @@ arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 			return (-1);
 		}
 		fr->sport[0] = (u_short)strtol(argv[6], &p, 10);
-		fr->sport[1] = 0xff;
-		if (*p != '/') {
-			errno = EINVAL;
-			return (-1);
+		fr->sport[1] = 0xffff;
+		if (*p == '/') {
+			fr->dport[0] = (u_short)strtol(p + 1, NULL, 10);
+			fr->dport[1] = 0xffff;
 		}
-		fr->dport[0] = (u_short)strtol(p + 1, NULL, 10);
-		fr->dport[1] = 0xff;
 	}
 	return (0);
 }
