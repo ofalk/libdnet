@@ -200,7 +200,7 @@ dnl usage:      AC_DNET_RAWIP_COOKED
 dnl results:    HAVE_RAWIP_COOKED
 dnl
 AC_DEFUN(AC_DNET_RAWIP_COOKED,
-    [AC_MSG_CHECKING(for STREAMS route support)
+    [AC_MSG_CHECKING(for cooked raw IP sockets)
     AC_CACHE_VAL(ac_cv_dnet_rawip_cooked, [
 	case "$host_os" in
 	solaris*|irix*)
