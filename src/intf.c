@@ -109,7 +109,7 @@ intf_open(void)
 int
 intf_set(intf_t *intf, const struct intf_entry *entry)
 {
-#ifdef SIOCAIFADDR
+#if defined(SIOCAIFADDR) || defined(SIOCDIFADDR)
 	struct dnet_ifaliasreq ifra;
 #endif
 	struct ifreq ifr;
