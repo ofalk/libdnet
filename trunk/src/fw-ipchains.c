@@ -12,10 +12,11 @@
 #include <sys/socket.h>
 
 #include <netinet/in.h>
-#include <linux/ip.h>
-#include <linux/tcp.h>
-#include <linux/udp.h>
-#include <linux/icmp.h>
+#include <netinet/ip.h>
+#include <netinet/tcp.h>
+#include <netinet/udp.h>
+#undef __USE_BSD
+#include <netinet/ip_icmp.h>
 #include <linux/if.h>
 #ifdef HAVE_LINUX_IP_FW_H
 #include <linux/ip_fw.h>
