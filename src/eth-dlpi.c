@@ -75,7 +75,7 @@ strioctl(int fd, int cmd, int len, char *dp)
 	struct strioctl str;
 	
 	str.ic_cmd = cmd;
-	str.ic_timout = -1;
+	str.ic_timout = INFTIM;
 	str.ic_len = len;
 	str.ic_dp = dp;
 	
