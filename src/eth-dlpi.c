@@ -14,7 +14,11 @@
 #ifdef HAVE_SYS_BUFMOD_H
 #include <sys/bufmod.h>
 #endif
+#ifdef HAVE_SYS_DLPI_H
 #include <sys/dlpi.h>
+#elif defined(HAVE_SYS_DLPIHDR_H)
+#include <sys/dlpihdr.h>
+#endif
 #ifdef HAVE_SYS_DLPI_EXT_H
 #include <sys/dlpi_ext.h>
 #endif
@@ -64,7 +68,7 @@ dlpi_msg(int fd, union DL_primitives *dlp, int rlen, int flags,
 	return (0);
 }
 
-#ifdef DLIOCRAW
+#if defined(DLIOCRAW) || defined(HAVE_SYS_DLPIHDR_H)
 static int
 strioctl(int fd, int cmd, int len, char *dp)
 {
@@ -82,6 +86,32 @@ strioctl(int fd, int cmd, int len, char *dp)
 }
 #endif
 
+#ifdef HAVE_SYS_DLPIHDR_H
+/* XXX - OSF1 is nuts */
+#define ND_GET	('N' << 8 + 0)
+
+static int
+eth_match_ppa(eth_t *e, char *device)
+{
+	char *p, dev[16], buf[256];
+	int len, ppa;
+
+	strlcpy(buf, "dl_ifnames", sizeof(buf));
+	
+	if ((len = strioctl(e->fd, ND_GET, sizeof(buf), buf)) < 0)
+		return (-1);
+	
+	for (p = buf; p < buf + len; p += strlen(p) + 1) {
+		ppa = -1;
+		if (sscanf(p, "%s (PPA %d)\n", dev, &ppa) != 2)
+			break;
+		if (strcmp(dev, device) == 0)
+			break;
+	}
+	return (ppa);
+}
+#endif
+
 eth_t *
 eth_open(char *device)
 {
@@ -91,6 +121,20 @@ eth_open(char *device)
 	eth_t *e;
 	int ppa;
 
+	if ((e = calloc(1, sizeof(*e))) == NULL)
+		return (NULL);
+	
+#ifdef HAVE_SYS_DLPIHDR_H
+	if ((e->fd = open("/dev/streams/dlb", O_RDWR)) < 0) {
+		free(e);
+		return (NULL);
+	}
+	if ((ppa = eth_match_ppa(e, device)) < 0) {
+		errno = ESRCH;
+		eth_close(e);
+		return (NULL);
+	}
+#else
 	snprintf(dev, sizeof(dev), "/dev/%s", device);
 	
 	if ((p = strpbrk(dev, "0123456789")) == NULL) {
@@ -100,9 +144,6 @@ eth_open(char *device)
 	ppa = atoi(p);
 	*p = '\0';
 
-	if ((e = calloc(1, sizeof(*e))) == NULL)
-		return (NULL);
-
 	if ((e->fd = open(dev, O_RDWR)) < 0) {
 		snprintf(dev, sizeof(dev), "/dev/%s", device);
 		if ((e->fd = open(dev, O_RDWR)) < 0) {
@@ -110,6 +151,7 @@ eth_open(char *device)
 			return (NULL);
 		}
 	}
+#endif
 	dlp = (union DL_primitives *)buf;
 	dlp->info_req.dl_primitive = DL_INFO_REQ;
 	
