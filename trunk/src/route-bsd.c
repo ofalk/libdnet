@@ -407,6 +407,85 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	}
 	return (0);
 }
+#elif defined(HAVE_NET_RADIX_H)
+/* XXX - Tru64, others? */
+#include <nlist.h>
+
+static int
+_kread(int fd, void *addr, void *buf, int len)
+{
+	if (lseek(fd, (off_t)addr, SEEK_SET) == (off_t)-1L)
+		return (-1);
+	return (read(fd, buf, len) == len ? 0 : -1);
+}
+
+int
+_radix_walk(int fd, struct radix_node *rn, route_handler callback, void *arg)
+{
+	struct radix_node rnode;
+	struct rtentry rt;
+	struct sockaddr_in sin;
+	struct route_entry entry;
+	int ret = 0;
+ again:
+	_kread(fd, rn, &rnode, sizeof(rnode));
+	if (rnode.rn_b < 0) {
+		if (!(rnode.rn_flags & RNF_ROOT)) {
+			_kread(fd, rn, &rt, sizeof(rt));
+			_kread(fd, rt_key(&rt), &sin, sizeof(sin));
+			sin.sin_family = AF_INET;
+			addr_ston((struct sockaddr *)&sin, &entry.route_dst);
+			if (!(rt.rt_flags & RTF_HOST)) {
+				_kread(fd, rt_mask(&rt), &sin, sizeof(sin));
+				sin.sin_family = AF_INET;
+				addr_stob((struct sockaddr *)&sin,
+				    &entry.route_dst.addr_bits);
+			}
+			_kread(fd, rt.rt_gateway, &sin, sizeof(sin));
+			sin.sin_family = AF_INET;
+			addr_ston((struct sockaddr *)&sin, &entry.route_gw);
+			if ((ret = callback(&entry, arg)) != 0)
+				return (ret);
+		}
+		if ((rn = rnode.rn_dupedkey))
+			goto again;
+	} else {
+		rn = rnode.rn_r;
+		if ((ret = _radix_walk(fd, rnode.rn_l, callback, arg)) != 0)
+			return (ret);
+		if ((ret = _radix_walk(fd, rn, callback, arg)) != 0)
+			return (ret);
+	}
+	return (ret);
+}
+
+int
+route_loop(route_t *r, route_handler callback, void *arg)
+{
+	struct radix_node_head *rnh, head;
+	struct nlist nl[2];
+	int fd, ret = 0;
+
+	memset(nl, 0, sizeof(nl));
+	nl[0].n_name = "radix_node_head";
+	
+	if (knlist(nl) < 0 || nl[0].n_type == 0 ||
+	    (fd = open("/dev/kmem", O_RDONLY, 0)) < 0)
+		return (-1);
+	
+	for (_kread(fd, (void *)nl[0].n_value, &rnh, sizeof(rnh));
+	    rnh != NULL; rnh = head.rnh_next) {
+		_kread(fd, rnh, &head, sizeof(head));
+		/* XXX - only IPv4 for now... */
+		if (head.rnh_af == AF_INET) {
+			if ((ret = _radix_walk(fd, head.rnh_treetop,
+				 callback, arg)) != 0)
+				break;
+		}
+	}
+	close(fd);
+	return (ret);
+}
 #else
 int
 route_loop(route_t *r, route_handler callback, void *arg)
