@@ -16,7 +16,7 @@ __author__ = 'Dug Song <dugsong@monkey.org>'
 __copyright__ = 'Copyright (c) 2003 Dug Song'
 __license__ = 'BSD'
 __url__ = 'http://libdnet.sourceforge.net/'
-__version__ = '1.8'
+__version__ = '1.9'
 
 cdef extern from "dnet.h":
     pass
@@ -263,10 +263,16 @@ cdef class ip:
             ip_close(self.ip)
 
 def ip_ntoa(buf):
-    """Convert an IP address from a 4-byte packed binary string to a
-    printable string ('10.0.0.1')."""
+    """Convert an IP address from a 4-byte packed binary string or
+    integer to a printable string ('10.0.0.1')."""
     cdef ip_addr_t ia
-    __memcpy(<char *>&ia, buf, 4)
+    cdef unsigned int i
+
+    if PyInt_Check(buf) or PyLong_Check(buf):
+        i = ntohl(buf)
+        memcpy(<char *>&ia, <char *>&i, 4)
+    else:
+        __memcpy(<char *>&ia, buf, 4)
     return __ip_ntoa(&ia)
 
 def ip_aton(buf):
@@ -278,8 +284,9 @@ def ip_aton(buf):
     return PyString_FromStringAndSize(<char *>&ia, 4)
 
 def ip_checksum(buf):
-    """Return a packed binary string representing an IP packet 
-    with the IP and transport-layer checksums set.
+    """XXX - modify packed binary string representing an IP packet 
+    by setting the IP and transport-layer checksums. The string's hash
+    is invalid after this. use dpkt instead!
 
     Arguments:
     pkt -- binary string representing an IP packet
@@ -425,7 +432,12 @@ cdef class addr:
     
     def __init__(self, addrtxt=None):
         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:
-            raise ValueError, "invalid network address"
+            if len(addrtxt) == 4:
+                self._addr.addr_type = ADDR_TYPE_IP
+                self._addr.addr_bits = IP_ADDR_BITS
+                self.ip = addrtxt
+            else:
+                raise ValueError, "invalid network address"
     
     property type:
         """Address type (ADDR_TYPE_*) integer."""
@@ -496,7 +508,19 @@ cdef class addr:
         net = addr()
         addr_net(&self._addr, &(<addr>net)._addr)
         return net
-    
+
+    def __add__(self, other):
+        # XXX - only handle IP for now...
+        if PyInt_Check(self):
+            x, y = other, self
+        elif PyInt_Check(other):
+            x, y = self, other
+        else:
+            raise NotImplementedError
+        z = x.__copy__()
+        (<addr>z)._addr.addr_ip = htonl(ntohl((<addr>x)._addr.addr_ip) + y)
+        return z
+        
     def __copy__(self):
         a = addr()
         (<addr>a)._addr = self._addr
@@ -533,7 +557,7 @@ cdef class addr:
 
     def __int__(self):
         if self._addr.addr_type != ADDR_TYPE_IP:
-            raise ValueError
+            raise NotImplementedError
         return ntohl(self._addr.addr_ip)
     
     def __long__(self):
@@ -555,7 +579,7 @@ cdef class addr:
         """
         return __addr_ip4_iter(a.addr_ip, b.addr_ip)
     
-    def __str__(self):
+    def __repr__(self):
         cdef char *p
         p = addr_ntoa(&self._addr)
         if not p:
