@@ -9,7 +9,7 @@
 #include "config.h"
 
 #include <ws2tcpip.h>
-#include <Iphlpapi.h>
+#include <iphlpapi.h>
 
 #include <errno.h>
 #include <stdlib.h>
@@ -105,7 +105,8 @@ arp_loop(arp_t *arp, arp_handler callback, void *arg)
 	ULONG len;
 	struct arp_entry entry;
 	u_char buf[2048];
-	int i, ret;
+	u_long i;
+	int ret;
 	
 	iptable = (MIB_IPNETTABLE *)buf;
 	len = sizeof(buf);
