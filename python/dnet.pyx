@@ -498,6 +498,23 @@ cdef class addr:
             return 0
         return addr_cmp(&o1, &s1) >= 0 and addr_cmp(&o2, &s2) <= 0
 
+    def __hash__(self):
+        cdef long x, y, size
+        if self._addr.addr_type == ADDR_TYPE_ETH: size = 6
+        elif self._addr.addr_type == ADDR_TYPE_IP: size = 4
+        elif self._addr.addr_type == ADDR_TYPE_IP6: size = 16
+        x = 0x345678
+        x = x ^ self._addr.addr_type
+        x = x ^ self._addr.addr_bits
+        y = self._addr.addr_data8[0] << 7
+        for i from 0 < i < size:
+            y = (1000003 * y) ^ self._addr.addr_data8[i]
+        y = y ^ size
+        if y == -1: y = -2
+        x = x ^ y
+        if x == -1: x = -2
+        return x
+    
     def __iter__(self):
         cdef addr_t a, b
         if self._addr.addr_type != ADDR_TYPE_IP or \
@@ -701,6 +718,34 @@ TH_CWR =	0x80		# /* congestion window reduced */
 
 TCP_PORT_MAX =	65535		# /* maximum port */
 TCP_WIN_MAX =	65535		# /* maximum (unscaled) window */
+
+TCP_OPT_EOL =		0	# /* end of option list */
+TCP_OPT_NOP =		1	# /* no operation */
+TCP_OPT_MSS =		2	# /* maximum segment size */
+TCP_OPT_WSCALE =	3	# /* window scale factor, RFC 1072 */
+TCP_OPT_SACKOK =	4	# /* SACK permitted, RFC 2018 */
+TCP_OPT_SACK =		5	# /* SACK, RFC 2018 */
+TCP_OPT_ECHO =		6	# /* echo (obsolete), RFC 1072 */
+TCP_OPT_ECHOREPLY =	7	# /* echo reply (obsolete), RFC 1072 */
+TCP_OPT_TIMESTAMP =	8	# /* timestamp, RFC 1323 */
+TCP_OPT_POCONN =	9	# /* partial order conn, RFC 1693 */
+TCP_OPT_POSVC =		10	# /* partial order service, RFC 1693 */
+TCP_OPT_CC =		11	# /* connection count, RFC 1644 */
+TCP_OPT_CCNEW =		12	# /* CC.NEW, RFC 1644 */
+TCP_OPT_CCECHO =	13	# /* CC.ECHO, RFC 1644 */
+TCP_OPT_ALTSUM =	14	# /* alt checksum request, RFC 1146 */
+TCP_OPT_ALTSUMDATA =	15	# /* alt checksum data, RFC 1146 */
+TCP_OPT_SKEETER =	16	# /* Skeeter */
+TCP_OPT_BUBBA =		17	# /* Bubba */
+TCP_OPT_TRAILSUM =	18	# /* trailer checksum */
+TCP_OPT_MD5 =		19	# /* MD5 signature, RFC 2385 */
+TCP_OPT_SCPS =		20	# /* SCPS capabilities */
+TCP_OPT_SNACK =		21	# /* selective negative acks */
+TCP_OPT_REC =		22	# /* record boundaries */
+TCP_OPT_CORRUPT =	23	# /* corruption experienced */
+TCP_OPT_SNAP =		24	# /* SNAP */
+TCP_OPT_TCPCOMP =	26	# /* TCP compression filter */
+TCP_OPT_MAX =		27
 
 def tcp_pack_hdr(sport, dport, seq=1, ack=0, flags=TH_SYN,
                  win=TCP_WIN_MAX, urp=0):
