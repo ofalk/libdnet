@@ -69,7 +69,8 @@ also b0rked on BSD/OS, says markus. not possible on Tru64?
 
 no support for ICMP code in ipfw, therefore none in fw-ipfw.c
 
-need reliable, legit Tru64, Unixware, and AIX accounts with root
-access to finish the ports to those platforms...
+need reliable, legit HP-UX, Unixware, and AIX accounts with root
+access to finish the ports to those platforms. i'd be happy to port to
+other platforms also, given similar (temporary) access.
 
 $Id$
