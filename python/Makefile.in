@@ -200,7 +200,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 @PYTHON_TRUE@	pyrexc dnet.pyx
 
 @PYTHON_TRUE@python-build: dnet.c
-@PYTHON_TRUE@	python setup.py build
+@PYTHON_TRUE@	$(PYTHON) setup.py build
 @PYTHON_TRUE@	touch python-build
 
 @PYTHON_TRUE@python-clean:
