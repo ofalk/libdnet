@@ -73,7 +73,8 @@ rand_open(void)
 	struct timeval *tv = (struct timeval *)seed;
 	int fd;
 
-	if ((fd = open("/dev/arandom", O_RDONLY)) != -1) {
+	if ((fd = open("/dev/arandom", O_RDONLY)) != -1 ||
+	    (fd = open("/dev/urandom", O_RDONLY)) != -1) {
 		read(fd, seed + sizeof(*tv), sizeof(seed) - sizeof(*tv));
 		close(fd);
 	}
