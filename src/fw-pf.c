@@ -28,10 +28,17 @@
 
 /*
  * XXX - cope with moving pf API
+ *     $OpenBSD: pfvar.h,v 1.130 2003/01/09 10:40:45 cedric Exp $
  *     $OpenBSD: pfvar.h,v 1.102 2002/11/23 05:16:58 mcbride Exp $
  *     $OpenBSD: pfvar.h,v 1.68 2002/04/24 18:10:25 dhartmei Exp $
  */
-#if defined(DIOCBEGINADDRS)
+#if defined(DIOCRINABEGIN)
+# define PFRA_ADDR(ra)	(ra)->addr.v.a.addr.v4.s_addr
+# define PFRA_MASK(ra)	(ra)->addr.v.a.mask.v4.s_addr
+# define pfioc_changerule	pfioc_rule
+# define oldrule	rule
+# define newrule	rule
+#elif defined(DIOCBEGINADDRS)
 # define PFRA_ADDR(ra)	(ra)->addr.addr.v4.s_addr
 # define PFRA_MASK(ra)	(ra)->addr.mask.v4.s_addr
 #elif defined(PFRULE_FRAGMENT)
@@ -168,6 +175,7 @@ fw_add(fw_t *fw, const struct fw_rule *rule)
 	struct pfioc_changerule pcr;
 	
 	assert(fw != NULL && rule != NULL);
+	memset(&pcr, 0, sizeof(pcr));
 	fr_to_pr(rule, &pcr.newrule);
 	pcr.action = PF_CHANGE_ADD_TAIL;
 	
@@ -180,6 +188,7 @@ fw_delete(fw_t *fw, const struct fw_rule *rule)
 	struct pfioc_changerule pcr;
 	
 	assert(fw != NULL && rule != NULL);
+	memset(&pcr, 0, sizeof(pcr));
 	fr_to_pr(rule, &pcr.oldrule);
 	pcr.action = PF_CHANGE_REMOVE;
 
@@ -193,7 +202,8 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 	struct fw_rule fr;
 	uint32_t n, max;
 	int ret = 0;
-	
+
+	memset(&pr, 0, sizeof(pr));
 	if (ioctl(fw->fd, DIOCGETRULES, &pr) < 0)
 		return (-1);
 	
