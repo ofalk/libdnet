@@ -78,8 +78,6 @@ arp_delete(arp_t *a, struct addr *pa)
 	if (addr_ntos(pa, &ar.arp_pa) < 0)
 		return (-1);
 	
-	ar.arp_flags = ATF_PERM;
-	
 	if (ioctl(a->fd, SIOCDARP, &ar) < 0)
 		return (-1);
 
@@ -89,36 +87,26 @@ arp_delete(arp_t *a, struct addr *pa)
 int
 arp_get(arp_t *a, struct addr *pa, struct addr *ha)
 {
-	FILE *fp;
-	char buf[BUFSIZ], tpa[32];
-	char ipbuf[100], macbuf[100], maskbuf[100], devbuf[100];
-	int i, type, flags;
+	struct arpreq ar;
 
-	if (addr_ntop(pa, tpa, sizeof(tpa)) < 0)
-		return (-1);
-	    
-	if ((fp = fopen(PROC_ARP_FILE, "r")) == NULL)
-		return (-1);
-
-	while (fgets(buf, sizeof(buf), fp) != NULL) {
-		i = sscanf(buf, "%s 0x%x 0x%x %100s %100s %100s\n",
-		    ipbuf, &type, &flags, macbuf, maskbuf, devbuf);
-		
-		if (i < 4 || (flags & ATF_COM) == 0)
-			continue;
-		
-		if (strcmp(tpa, ipbuf) == 0 &&
-		    addr_aton(macbuf, ha) == 0) {
-			fclose(fp);
-			return (0);
-		}
-	}
-	if (feof(fp))
-		errno = ESRCH;
-
-	fclose(fp);
+	memset(&ar, 0, sizeof(ar));
 	
-	return (-1);
+	if (addr_ntos(pa, &ar.arp_pa) < 0)
+		return (-1);
+
+	strlcpy(ar.arp_dev, "eth0", sizeof(ar.arp_dev));	/* XXX */
+	
+	if (ioctl(a->fd, SIOCGARP, &ar) < 0)
+		return (-1);
+
+	if ((ar.arp_flags & ATF_COM) == 0) {
+		errno = ESRCH;
+		return (-1);
+	}
+	if (addr_ston(&ar.arp_ha, ha) < 0)
+		return (-1);
+	
+	return (0);
 }
 
 int
