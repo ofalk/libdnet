@@ -49,4 +49,10 @@ int	 addr_stob(struct sockaddr *sa, u_short *bits);
 int	 addr_btom(u_short bits, u_int32_t *mask);
 int	 addr_mtob(u_int32_t mask, u_short *bits);
 
+#define addr_fill(addr, type, bits, data, len) do {	\
+	(addr)->addr_type = type;			\
+	(addr)->addr_bits = bits;			\
+	memmove((addr)->addr_data8, (char *)data, len);	\
+} while (0)
+
 #endif /* DNET_ADDR_H */

@@ -42,7 +42,7 @@ struct tcp_hdr {
 #define TCP_PORT_MAX	65535
 #define TCP_WIN_MAX	65535		/* maximum (unscaled) window */
 
-#define tcp_fill(h, sport, dport, seq, ack, flags, win, urp) do {	\
+#define tcp_fill_hdr(h, sport, dport, seq, ack, flags, win, urp) do {	\
 	struct tcp_hdr *tcp_fill_p = (struct tcp_hdr *)(h);		\
 	tcp_fill_p->th_sport = htons(sport);				\
 	tcp_fill_p->th_dport = htons(dport);				\

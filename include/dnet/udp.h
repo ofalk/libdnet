@@ -22,7 +22,7 @@ struct udp_hdr {
 
 #define UDP_PORT_MAX	65535
 
-#define udp_fill(h, sport, dport, ulen) do {			\
+#define udp_fill_hdr(h, sport, dport, ulen) do {		\
 	struct udp_hdr *udp_fill_p = (struct udp_hdr *)(h);	\
 	udp_fill_p->uh_sport = htons(sport);			\
 	udp_fill_p->uh_dport = htons(dport);			\
