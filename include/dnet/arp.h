@@ -56,13 +56,14 @@ struct arp_ethip {
 
 typedef struct arp_handle arp_t;
 
-typedef int (*arp_handler)(struct addr *pa, struct addr *ha, void *arg);
+typedef int (*arp_handler)(const struct addr *pa, const struct addr *ha,
+    void *arg);
 
 __BEGIN_DECLS
 arp_t	*arp_open(void);
-int	 arp_add(arp_t *a, struct addr *pa, struct addr *ha);
-int	 arp_delete(arp_t *a, struct addr *pa);
-int	 arp_get(arp_t *a, struct addr *pa, struct addr *ha);
+int	 arp_add(arp_t *a, const struct addr *pa, const struct addr *ha);
+int	 arp_delete(arp_t *a, const struct addr *pa);
+int	 arp_get(arp_t *a, const struct addr *pa, struct addr *ha);
 int	 arp_loop(arp_t *a, arp_handler callback, void *arg);
 int	 arp_close(arp_t *a);
 

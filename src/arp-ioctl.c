@@ -105,7 +105,7 @@ arp_set_dev(char *device, struct intf_info *info, void *arg)
 #endif
 
 int
-arp_add(arp_t *a, struct addr *pa, struct addr *ha)
+arp_add(arp_t *a, const struct addr *pa, const struct addr *ha)
 {
 	struct arpreq ar;
 
@@ -168,7 +168,7 @@ arp_add(arp_t *a, struct addr *pa, struct addr *ha)
 }
 
 int
-arp_delete(arp_t *a, struct addr *pa)
+arp_delete(arp_t *a, const struct addr *pa)
 {
 	struct arpreq ar;
 
@@ -184,7 +184,7 @@ arp_delete(arp_t *a, struct addr *pa)
 }
 
 int
-arp_get(arp_t *a, struct addr *pa, struct addr *ha)
+arp_get(arp_t *a, const struct addr *pa, struct addr *ha)
 {
 	struct arpreq ar;
 
