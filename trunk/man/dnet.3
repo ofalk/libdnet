@@ -160,9 +160,11 @@ compares network addresses
 .Fa a
 and
 .Fa b ,
-returning zero if the two addresses are identical, or else the
-difference between the first two differing bytes. Both addresses must
-be of the same address type.
+returning an integer less than, equal to, or greater than zero if
+.Fa a
+is found, respectively, to be less than, equal to, or greater than
+.Fa b .
+Both addresses must be of the same address type.
 .Pp
 .Fn addr_ntop
 converts an address from network format to a string.
