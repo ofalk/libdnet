@@ -1,0 +1,38 @@
+
+thank you!
+
+Thamer Al-Harbash <tmh@whitefang.com>
+	for excellent bug reporting and fearless beta-testing
+
+Markus Friedl <markus@openbsd.org>
+	for testing on BSD/OS
+
+K2 <k2@ktwo.ca>
+	for setting me up on HP-UX, OSF1, UnixWare, Solaris x86,
+	Slackware, etc. and for general moral support, eh?
+
+Eric Jackson <shinobi@monkey.org>
+	for setting me up on OpenBSD-alpha and Deltron 3030
+
+Jose Nazario <jose@biocserver.cwru.edu>
+	for setting me up on IRIX, and allowing me to crash his machine
+
+plaguez
+	for convincing me to write this, and suffering my bad French
+
+Andrew Reiter <arr@watson.org>
+	for help with ipfw braindeath
+
+Mike Schiffman <mike@infonexus.com>
+	for inspiration via libnet
+
+Matt Sommers <mms@arbor.net>
+	for testing on BSD/OS
+
+Mike Stolarchuk <mts@off.to>
+	for enlightening discussion of *ntoa optimizations
+
+xs <xs@nitric.net>
+	for testing on NetBSD
+
+$Id$
