@@ -23,6 +23,22 @@ dnl XXX - stupid IRIX cpp
 if test -r /usr/include/sgidefs.h ; then
    CPPFLAGS="$CPPFLAGS -D__sgi"
 fi
+dnl XXX - we need MingW32 under Cygwin for win32
+AC_CYGWIN
+if test "$CYGWIN" = yes ; then
+	if test -d /usr/include/mingw ; then
+		CPPFLAGS="$CPPFLAGS -mno-cygwin"
+		CFLAGS="$CFLAGS -mno-cygwin"
+		AC_DEFINE(WIN32_LEAN_AND_MEAN, 1, 
+		    [Define for faster code generation.])
+		AC_CHECK_LIB(ws2_32, main)
+		AC_CHECK_LIB(iphlpapi, main)
+		AC_DEFINE(snprintf, _snprintf, 
+		    [Use MingW32's internal snprintf])
+	else
+		AC_MSG_ERROR([need MingW32 package to build under Cygwin])
+	fi
+fi
 
 dnl Checks for libraries.
 AC_LBL_LIBRARY_NET
@@ -45,25 +61,18 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
-AC_DNET_SOCKADDR_SA_LEN
-AC_DNET_ARPREQ_ARP_DEV
-AC_DNET_ROUTE_RT_MSGHDR
+if test $ac_cv_header_sys_socket_h = yes ; then
+	AC_DNET_SOCKADDR_SA_LEN
+fi
+if test $ac_cv_header_net_if_arp_h = yes ; then
+	AC_DNET_ARPREQ_ARP_DEV
+fi
+if test $ac_cv_header_net_route_h = yes ; then
+	AC_DNET_ROUTE_RT_MSGHDR
+fi
 AC_PROG_GCC_TRADITIONAL
 if test "$GCC" = yes ; then
 	CFLAGS="$CFLAGS -Wall"
-fi
-AC_CYGWIN
-if test "$CYGWIN" = yes ; then
-	if test -d /usr/include/mingw ; then
-		CFLAGS="$CFLAGS -mno-cygwin"
-		LDFLAGS="$LDFLAGS -mno-cygwin"
-		AC_DEFINE(WIN32_LEAN_AND_MEAN, 1, 
-		    [Define for faster code generation.])
-		AC_CHECK_LIB(ws2_32, main)
-		AC_CHECK_LIB(iphlpapi, main)
-	else
-		AC_MSG_ERROR([need MingW32 package to build under Cygwin])
-	fi
 fi
 
 dnl Checks for library functions.
