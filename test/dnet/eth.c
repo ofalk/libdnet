@@ -16,8 +16,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "aton.h"
 #include "dnet.h"
+#include "aton.h"
 #include "mod.h"
 
 void
