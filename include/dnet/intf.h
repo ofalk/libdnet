@@ -15,7 +15,7 @@
  * Interface entry
  */
 struct intf_entry {
-	u_int		 intf_len;		/* length of entry buffer */
+	u_int		 intf_len;		/* length of entry */
 	char		 intf_name[60];		/* interface name */
 	u_short		 intf_type;		/* interface type (r/o) */
 	u_short		 intf_flags;		/* interface flags */
@@ -24,7 +24,7 @@ struct intf_entry {
 	struct addr	*intf_dst_addr;		/* point-to-point dst */
 	struct addr	*intf_link_addr;	/* link-layer address */
 	u_int		 intf_alias_num;	/* number of aliases */
-	struct addr	*intf_alias_addr;	/* array of alias addresses */
+	struct addr	*intf_alias_addr;	/* array of addresses */
 	struct addr	 intf_addr_data __flexarr;
 };
 
@@ -34,7 +34,7 @@ struct intf_entry {
 #define INTF_TYPE_OTHER		1	/* other */
 #define INTF_TYPE_ETH		6	/* Ethernet */
 #define INTF_TYPE_LOOPBACK	24	/* software loopback */
-#define INTF_TYPE_TUN		53	/* proprietary virtual / internal */
+#define INTF_TYPE_TUN		53	/* proprietary virtual/internal */
 
 /*
  * Interface flags
