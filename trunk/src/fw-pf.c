@@ -155,9 +155,7 @@ fw_add(fw_t *fw, const struct fw_rule *rule)
 	struct pfioc_changerule pcr;
 	
 	assert(fw != NULL && rule != NULL);
-
 	fr_to_pr(rule, &pcr.newrule);
-	
 	pcr.action = PF_CHANGE_ADD_TAIL;
 	
 	return (ioctl(fw->fd, DIOCCHANGERULE, &pcr));
@@ -169,9 +167,7 @@ fw_delete(fw_t *fw, const struct fw_rule *rule)
 	struct pfioc_changerule pcr;
 	
 	assert(fw != NULL && rule != NULL);
-
 	fr_to_pr(rule, &pcr.oldrule);
-	
 	pcr.action = PF_CHANGE_REMOVE;
 
 	return (ioctl(fw->fd, DIOCCHANGERULE, &pcr));
@@ -183,7 +179,7 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 	struct pfioc_rule pr;
 	struct fw_rule fr;
 	uint32_t n, max;
-	int ret;
+	int ret = 0;
 	
 	if (ioctl(fw->fd, DIOCGETRULES, &pr) < 0)
 		return (-1);
@@ -191,16 +187,14 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 	for (n = 0, max = pr.nr; n < max; n++) {
 		pr.nr = n;
 		
-		if (ioctl(fw->fd, DIOCGETRULE, &pr) < 0)
-			return (-1);
-		
+		if ((ret = ioctl(fw->fd, DIOCGETRULE, &pr)) < 0)
+			break;
 		if (pr_to_fr(&pr.rule, &fr) < 0)
 			continue;
-		
 		if ((ret = callback(&fr, arg)) != 0)
-			return (ret);
+			break;
 	}
-	return (0);
+	return (ret);
 }
 
 fw_t *

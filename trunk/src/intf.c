@@ -473,9 +473,9 @@ _match_intf_src(const struct intf_entry *entry, void *arg)
 }
 
 int
-intf_get_src(intf_t *intf, struct intf_entry *entry, struct addr *dst)
+intf_get_src(intf_t *intf, struct intf_entry *entry, struct addr *src)
 {
-	memcpy(&entry->intf_addr, dst, sizeof(*dst));
+	memcpy(&entry->intf_addr, src, sizeof(*src));
 	
 	if (intf_loop(intf, _match_intf_src, entry) != 1) {
 		errno = ENXIO;
