@@ -13,7 +13,6 @@
 %}
 
 #include "cstring.i"
-//#include "exception.i" // XXX - exception handling?
 
 // XXX
 typedef unsigned char	uint8_t;
@@ -27,6 +26,7 @@ typedef unsigned int	uint32_t;
 %apply(char *STRING, int LENGTH) { (char *buf4, int len4) };
 %cstring_output_allocate_size(char **dstp, int *dlenp, free(*$1));
 
+#ifdef SWIGPYTHON
 // Handle for Python callbacks
 %inline %{
 struct cb_handle {
@@ -34,6 +34,7 @@ struct cb_handle {
 	PyObject	*arg;
 };
 %}
+#endif
 
 //
 // addr.h
@@ -117,6 +118,7 @@ void __arp_pack_hdr_ethip(char *arp_ethip, int op,
         char *buf1, int len1, char *buf2, int len2,
         char *buf3, int len3, char *buf4, int len4);
 
+#ifdef SWIGPYTHON
 %inline %{
 int __arp_loop_cb(const struct arp_entry *entry, void *arg)
 {
@@ -138,6 +140,7 @@ int __arp_loop_cb(const struct arp_entry *entry, void *arg)
 	return (0);
 }
 %}
+#endif
 
 %name(arp) struct arp_handle {
 %extend {
@@ -173,6 +176,7 @@ int __arp_loop_cb(const struct arp_entry *entry, void *arg)
 		}
 		return (ha);
 	}
+#ifdef SWIGPYTHON
 	void loop(PyObject *callback, PyObject *arg) {
 		struct cb_handle cb;
 
@@ -180,6 +184,7 @@ int __arp_loop_cb(const struct arp_entry *entry, void *arg)
 		cb.arg = arg;
 		arp_loop(self, __arp_loop_cb, &cb);
 	}
+#endif
 }
 };
 
@@ -363,6 +368,7 @@ void __ip_checksum(char **dstp, int *dlenp, char *src, int slen) {
 //
 // route.h
 //
+#ifdef SWIGPYTHON
 %inline %{
 int __route_loop_cb(const struct route_entry *entry, void *arg)
 {
@@ -384,6 +390,7 @@ int __route_loop_cb(const struct route_entry *entry, void *arg)
 	return (0);
 }
 %}
+#endif
 
 %name(route) struct route_handle {
 %extend  {
@@ -419,6 +426,7 @@ int __route_loop_cb(const struct route_entry *entry, void *arg)
 		}
 		return (gw);
 	}
+#ifdef SWIGPYTHON
 	void loop(PyObject *callback, PyObject *arg) {
 		struct cb_handle cb;
 
@@ -426,6 +434,7 @@ int __route_loop_cb(const struct route_entry *entry, void *arg)
 		cb.arg = arg;
 		route_loop(self, __route_loop_cb, &cb);
 	}
+#endif
 }
 };
 
