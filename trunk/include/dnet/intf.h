@@ -17,7 +17,7 @@
 struct intf_entry {
 	u_int		 intf_len;		/* length of entry buffer */
 	char		 intf_name[24];		/* interface name */
-	u_short		 intf_type;		/* interface type */
+	u_short		 intf_type;		/* interface type (r/o) */
 	u_short		 intf_flags;		/* interface flags */
 	u_int		 intf_mtu;		/* interface MTU */
 	struct addr	*intf_addr;		/* interface address */
