@@ -61,8 +61,8 @@ POST_UNINSTALL = :
 host_alias = i386-unknown-openbsd3.0
 host_triplet = i386-unknown-openbsd3.0
 CC = gcc
-CHECKINC = 
-CHECKLIB = 
+CHECKINC = -I/home/dugsong/third-party/check-0.8.0/src
+CHECKLIB = -L/home/dugsong/third-party/check-0.8.0/src -lcheck
 MAKEINFO = makeinfo
 PACKAGE = libdnet
 RANLIB = ranlib
@@ -72,15 +72,16 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 
 DISTCLEANFILES = *~
 
-INCLUDES = 
+INCLUDES = -I/home/dugsong/third-party/check-0.8.0/src
 
-TESTS = check_addr check_arp check_eth check_fw check_ip check_intf 	check_rand check_route
+TESTS = check_addr check_arp check_blob check_eth check_fw check_ip 	check_intf check_rand check_route
 
 
 noinst_PROGRAMS = $(TESTS)
 
 check_addr_SOURCES = check_addr.c
 check_arp_SOURCES = check_arp.c
+check_blob_SOURCES = check_blob.c
 check_eth_SOURCES = check_eth.c
 check_fw_SOURCES = check_fw.c
 check_intf_SOURCES = check_intf.c
@@ -88,7 +89,7 @@ check_ip_SOURCES = check_ip.c
 check_rand_SOURCES = check_rand.c
 check_route_SOURCES = check_route.c
 
-LDADD = $(top_srcdir)/src/libdnet.a 
+LDADD = $(top_srcdir)/src/libdnet.a -L/home/dugsong/third-party/check-0.8.0/src -lcheck
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../include/config.h
 CONFIG_CLEAN_FILES = 
@@ -107,6 +108,10 @@ check_arp_OBJECTS =  check_arp.o
 check_arp_LDADD = $(LDADD)
 check_arp_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
 check_arp_LDFLAGS = 
+check_blob_OBJECTS =  check_blob.o
+check_blob_LDADD = $(LDADD)
+check_blob_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
+check_blob_LDFLAGS = 
 check_eth_OBJECTS =  check_eth.o
 check_eth_LDADD = $(LDADD)
 check_eth_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
@@ -142,8 +147,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(check_addr_SOURCES) $(check_arp_SOURCES) $(check_eth_SOURCES) $(check_fw_SOURCES) $(check_ip_SOURCES) $(check_intf_SOURCES) $(check_rand_SOURCES) $(check_route_SOURCES)
-OBJECTS = $(check_addr_OBJECTS) $(check_arp_OBJECTS) $(check_eth_OBJECTS) $(check_fw_OBJECTS) $(check_ip_OBJECTS) $(check_intf_OBJECTS) $(check_rand_OBJECTS) $(check_route_OBJECTS)
+SOURCES = $(check_addr_SOURCES) $(check_arp_SOURCES) $(check_blob_SOURCES) $(check_eth_SOURCES) $(check_fw_SOURCES) $(check_ip_SOURCES) $(check_intf_SOURCES) $(check_rand_SOURCES) $(check_route_SOURCES)
+OBJECTS = $(check_addr_OBJECTS) $(check_arp_OBJECTS) $(check_blob_OBJECTS) $(check_eth_OBJECTS) $(check_fw_OBJECTS) $(check_ip_OBJECTS) $(check_intf_OBJECTS) $(check_rand_OBJECTS) $(check_route_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
@@ -191,6 +196,10 @@ check_addr: $(check_addr_OBJECTS) $(check_addr_DEPENDENCIES)
 check_arp: $(check_arp_OBJECTS) $(check_arp_DEPENDENCIES)
 	@rm -f check_arp
 	$(LINK) $(check_arp_LDFLAGS) $(check_arp_OBJECTS) $(check_arp_LDADD) $(LIBS)
+
+check_blob: $(check_blob_OBJECTS) $(check_blob_DEPENDENCIES)
+	@rm -f check_blob
+	$(LINK) $(check_blob_LDFLAGS) $(check_blob_OBJECTS) $(check_blob_LDADD) $(LIBS)
 
 check_eth: $(check_eth_OBJECTS) $(check_eth_DEPENDENCIES)
 	@rm -f check_eth
