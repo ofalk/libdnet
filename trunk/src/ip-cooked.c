@@ -154,6 +154,7 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 	arpent.arp_pa.addr_type = ADDR_TYPE_IP;
 	arpent.arp_pa.addr_bits = IP_ADDR_BITS;
 	arpent.arp_pa.addr_ip = iph->ip_dst;
+	memcpy(&rtent.route_dst, &arpent.arp_pa, sizeof(rtent.route_dst));
 
 	for (i = 0, usec = 10; i < 3; i++, usec *= 100) {
 		if (arp_get(ip->arp, &arpent) == 0)
