@@ -27,7 +27,7 @@ successfully built on:
 --------+------+-----+-----+----+----+------+-------+
 openbsd |   X  |  X  |  X  |  X |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
-freebsd |   X  |  X  |  X  |  ? |  X |   X  |   X   |   X = works, tested
+freebsd |   X  |  X  |  X  |  X |  X |   X  |   X   |   X = works, tested
 --------+------+-----+-----+----+----+------+-------+
 netbsd  |   X  |  X  |  X  |  X |  X |   X  |   X   |   ? = untested
 --------+------+-----+-----+----+----+------+-------+
@@ -35,7 +35,7 @@ linux   |   X  |  X  |  X  |  X |  X |   X  |   X   |   - = broken / unimpl
 --------+------+-----+-----+----+----+------+-------+
 solaris |   X  |  X  |  X  |  ? |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
-macosx  |   X  |     |     |    |    |      |       |
+macosx  |   X  |     |  X  |  ? |  X |      |       |
 --------+------+-----+-----+----+----+------+-------+
 irix    |   X  |  X  |  X  |  - |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
@@ -53,6 +53,8 @@ unixware|   X  |  -  |  2  |  - |  - |   X  |   5   |
 5. route_loop only works
 
 arp-{bsd,ioctl} both b0rked on unixware
+eth_send() doesn't allow src mac spoofing on MacOS X (no BIOCSHDRCMPLT)
+no support for ICMP code in ipfw, therefore none in fw-ipfw.c
 
 never built on:
 --------+------+-----+-----+----+----+------+-------+
