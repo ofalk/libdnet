@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 
 #include "dnet.h"
@@ -54,7 +55,7 @@ udp_main(int argc, char *argv[])
 	char *name, *value;
 	int c, len;
 
-	srand(getpid());
+	srand(time(NULL));
 	
 	udp = (struct udp_hdr *)buf;
 	
