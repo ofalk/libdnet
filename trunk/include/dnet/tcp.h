@@ -86,6 +86,7 @@ struct tcp_opt {
 		uint8_t		wscale[2];	/* XXX - scale + NOP */
 		uint16_t	sack[19];	/* XXX - origin / size pairs */
 		uint32_t	cc;
+		uint32_t	timestamp[2];
 		uint8_t		md5[16];
 		uint8_t		data8[TCP_OPT_LEN_MAX - TCP_OPT_LEN];
 	} opt_data;
