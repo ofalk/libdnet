@@ -11,10 +11,6 @@
 #ifndef DNET_ADDR_H
 #define DNET_ADDR_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-	
 #define	ADDR_TYPE_ETH		1	/* Ethernet */
 #define	ADDR_TYPE_IP		2	/* Internet Protocol v4 */
 
@@ -36,6 +32,7 @@ struct addr {
 #define addr_data16	__addr_u.__data16
 #define addr_data32	__addr_u.__data32
 
+__BEGIN_DECLS
 int	 addr_cmp(struct addr *a, struct addr *b);
 
 int	 addr_ntop(struct addr *src, char *dst, size_t size);
@@ -58,9 +55,6 @@ int	 addr_mtob(u_int32_t mask, u_short *bits);
 	(addr)->addr_bits = bits;			\
 	memmove((addr)->addr_data8, (char *)data, len);	\
 } while (0)
-
-#ifdef __cplusplus
-}
-#endif
+__END_DECLS
 
 #endif /* DNET_ADDR_H */

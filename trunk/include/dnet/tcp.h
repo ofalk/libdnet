@@ -11,10 +11,6 @@
 #ifndef DNET_TCP_H
 #define DNET_TCP_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-	
 #define TCP_HDR_LEN	20
 #define TCP_OPT_LEN	2
 #define TCP_OPT_LEN_MAX	44
@@ -88,6 +84,7 @@ struct tcp_opt {
 	} opt_data;
 };
 
+__BEGIN_DECLS
 #define tcp_fill_hdr(hdr, sport, dport, seq, ack, flags, win, urp) do {	\
 	struct tcp_hdr *tcp_fill_p = (struct tcp_hdr *)(hdr);		\
 	tcp_fill_p->th_sport = htons(sport);				\
@@ -101,9 +98,6 @@ struct tcp_opt {
 } while (0)
 
 size_t	tcp_add_opt(void *buf, size_t len, const void *optbuf, size_t optlen);
-
-#ifdef __cplusplus
-}
-#endif
+__END_DECLS
 
 #endif /* DNET_TCP_H */
