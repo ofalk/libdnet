@@ -54,6 +54,125 @@ intf_get(intf_t *intf, struct intf_entry *entry)
 	return (0);
 }
 
+static int
+_match_intf_src(const struct intf_entry *entry, void *arg)
+{
+	struct intf_entry *save = (struct intf_entry *)arg;
+	
+	if (entry->intf_addr.addr_type == ADDR_TYPE_IP &&
+	    entry->intf_addr.addr_ip == save->intf_addr.addr_ip &&
+	    entry->intf_len <= save->intf_len) {
+		save->intf_len = entry->intf_len;
+		memcpy(save, entry, entry->intf_len);
+		return (1);
+	}
+	return (0);
+}
+
+int
+intf_get_src(intf_t *intf, struct intf_entry *entry, struct addr *dst)
+{
+	memcpy(&entry->intf_addr, dst, sizeof(*dst));
+	
+	if (intf_loop(intf, _match_intf_src, entry) != 1) {
+		errno = ENXIO;
+		return (-1);
+	}
+	return (0);
+}
+
+static void
+_mibII_to_intf(MIB_IFROW *ifrow, MIB_IPADDRTABLE *iptable,
+    struct intf_entry *entry)
+{
+	struct addr *ap;
+	int i;
+	
+	memset(entry, 0, sizeof(*entry));
+	
+	strlcpy(entry->intf_name, ifrow->bDescr,
+	    sizeof(entry->intf_name));
+	
+	/* XXX - dwType matches MIB-II ifType. */
+	switch (ifrow->dwType) {
+	case MIB_IF_TYPE_ETHERNET:
+	case MIB_IF_TYPE_LOOPBACK:
+		entry->intf_type = ifrow->dwType;
+		break;
+	default:
+		entry->intf_type = INTF_TYPE_OTHER;
+		break;
+	}
+	/* Get interface flags. */
+	entry->intf_flags = 0;
+	
+	if (ifrow->dwAdminStatus == MIB_IF_ADMIN_STATUS_UP)
+		entry->intf_flags |= INTF_FLAG_UP;
+	if (ifrow->dwType == MIB_IF_TYPE_LOOPBACK)
+		entry->intf_flags |= INTF_FLAG_LOOPBACK;
+	else
+		entry->intf_flags |= INTF_FLAG_MULTICAST;
+	
+	/* Get interface MTU. */
+	entry->intf_mtu = ifrow->dwMtu;
+	
+	/* Get hardware address. */
+	if (ifrow->dwType == MIB_IF_TYPE_ETHERNET &&
+	    ifrow->dwPhysAddrLen == ETH_ADDR_LEN) {
+		entry->intf_link_addr.addr_type = ADDR_TYPE_ETH;
+		entry->intf_link_addr.addr_bits = ETH_ADDR_BITS;
+		memcpy(&entry->intf_link_addr.addr_eth, ifrow->bPhysAddr,
+		    ETH_ADDR_LEN);
+	}
+	/* Get addresses. */
+	ap = entry->intf_alias_addrs;
+	for (i = 0; i < iptable->dwNumEntries; i++) {
+		if (iptable->table[i].dwIndex != ifrow->dwIndex)
+			continue;
+		
+		if (entry->intf_addr.addr_type != ADDR_TYPE_IP) {
+			entry->intf_addr.addr_type = ADDR_TYPE_IP;
+			entry->intf_addr.addr_ip = iptable->table[i].dwAddr;
+			addr_mtob(&iptable->table[i].dwMask, IP_ADDR_LEN,
+			    &entry->intf_addr.addr_bits);
+		} else {
+			ap->addr_type = ADDR_TYPE_IP;
+			ap->addr_ip = iptable->table[i].dwAddr;
+			addr_mtob(&iptable->table[i].dwMask, IP_ADDR_LEN,
+			    &ap->addr_bits);
+			ap++, entry->intf_alias_num++;
+		}
+	}
+	entry->intf_len = (u_char *)ap - (u_char *)entry;
+}
+
+int
+intf_get_dst(intf_t *intf, struct intf_entry *entry, struct addr *dst)
+{
+	MIB_IFROW ifrow;
+	MIB_IPADDRTABLE *iptable;
+	u_char ipbuf[1024];
+	ULONG len;
+
+	if (dst->addr_type != ADDR_TYPE_IP) {
+		errno = ENXIO;
+		SetLastError(ERROR_NO_DATA);
+		return (-1);
+	}
+	if (GetBestInterface(dst->addr_ip, &ifrow.dwIndex) != NO_ERROR)
+		return (-1);
+	
+        iptable = (MIB_IPADDRTABLE *)ipbuf;
+	len = sizeof(ipbuf);
+	
+	if (GetIpAddrTable(iptable, &len, FALSE) != NO_ERROR)
+		return (-1);
+	
+	_mibII_to_intf(&ifrow, iptable, entry);
+	
+	return (0);
+}
+
 int
 intf_set(intf_t *intf, const struct intf_entry *entry)
 {
@@ -71,11 +190,10 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 {
 	MIB_IPADDRTABLE *iptable;
 	MIB_IFTABLE *iftable;
-	ULONG len;
 	struct intf_entry *entry;
-	struct addr *ap;
 	u_char ebuf[1024], ifbuf[4192], ipbuf[1024];
-	int i, j, ret;
+	ULONG len;
+	int i, ret;
 
 	iftable = (MIB_IFTABLE *)ifbuf;
 	len = sizeof(ifbuf);
@@ -92,64 +210,7 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	entry = (struct intf_entry *)ebuf;
 	
 	for (i = 0; i < iftable->dwNumEntries; i++) {
-		memset(entry, 0, sizeof(*entry));
-		
-		strlcpy(entry->intf_name, iftable->table[i].bDescr,
-		    sizeof(entry->intf_name));
-		
-		/* XXX - dwType matches MIB-II ifType. */
-		switch (iftable->table[i].dwType) {
-		case MIB_IF_TYPE_ETHERNET:
-		case MIB_IF_TYPE_LOOPBACK:
-			entry->intf_type = iftable->table[i].dwType;
-			break;
-		default:
-			entry->intf_type = INTF_TYPE_OTHER;
-			break;
-		}
-		/* Get interface flags. */
-		entry->intf_flags = 0;
-		
-		if (iftable->table[i].dwAdminStatus == MIB_IF_ADMIN_STATUS_UP)
-			entry->intf_flags |= INTF_FLAG_UP;
-		if (iftable->table[i].dwType == MIB_IF_TYPE_LOOPBACK)
-			entry->intf_flags |= INTF_FLAG_LOOPBACK;
-		else
-			entry->intf_flags |= INTF_FLAG_MULTICAST;
-
-		/* Get interface MTU. */
-		entry->intf_mtu = iftable->table[i].dwMtu;
-
-		/* Get hardware address. */
-		if (iftable->table[i].dwType == MIB_IF_TYPE_ETHERNET &&
-		    iftable->table[i].dwPhysAddrLen == ETH_ADDR_LEN) {
-			entry->intf_link_addr.addr_type = ADDR_TYPE_ETH;
-			entry->intf_link_addr.addr_bits = ETH_ADDR_BITS;
-			memcpy(&entry->intf_link_addr.addr_eth,
-			    iftable->table[i].bPhysAddr, ETH_ADDR_LEN);
-		}
-		/* Get addresses. */
-		ap = entry->intf_alias_addrs;
-		for (j = 0; j < iptable->dwNumEntries; j++) {
-			if (iptable->table[j].dwIndex !=
-			    iftable->table[i].dwIndex)
-				continue;
-
-			if (entry->intf_addr.addr_type != ADDR_TYPE_IP) {
-				entry->intf_addr.addr_type = ADDR_TYPE_IP;
-				entry->intf_addr.addr_ip =
-				    iptable->table[j].dwAddr;
-				addr_mtob(&iptable->table[j].dwMask,
-				    IP_ADDR_LEN, &entry->intf_addr.addr_bits);
-			} else {
-				ap->addr_type = ADDR_TYPE_IP;
-				ap->addr_ip = iptable->table[j].dwAddr;
-				addr_mtob(&iptable->table[j].dwMask,
-				    IP_ADDR_LEN, &ap->addr_bits);
-				ap++, entry->intf_alias_num++;
-			}
-		}
-		entry->intf_len = (u_char *)ap - (u_char *)entry;
+		_mibII_to_intf(&iftable->table[i], iptable, entry);
 		
 		if ((ret = (*callback)(entry, arg)) != 0)
 			return (ret);
