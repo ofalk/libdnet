@@ -74,7 +74,7 @@ DISTCLEANFILES = *~
 
 dnetincludedir = $(includedir)/dnet
 
-dnetinclude_HEADERS = addr.h arp.h eth.h fw.h icmp.h intf.h ip.h os.h		rand.h route.h tcp.h udp.h
+dnetinclude_HEADERS = addr.h arp.h blob.h eth.h fw.h icmp.h intf.h ip.h 	os.h rand.h route.h tcp.h udp.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../include/config.h

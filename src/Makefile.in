@@ -74,7 +74,7 @@ DISTCLEANFILES = *~
 
 lib_LIBRARIES = libdnet.a
 
-libdnet_a_SOURCES = addr.c ip-util.c rand.c
+libdnet_a_SOURCES = addr.c blob.c ip-util.c rand.c
 
 libdnet_a_LIBADD = @LIBOBJS@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -88,7 +88,7 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 libdnet_a_DEPENDENCIES =  @LIBOBJS@
-libdnet_a_OBJECTS =  addr.o ip-util.o rand.o
+libdnet_a_OBJECTS =  addr.o blob.o ip-util.o rand.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
