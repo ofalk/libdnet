@@ -1,11 +1,7 @@
-figure out why intf_set on Linux doesn't set netmask on first try
-
 make iterators prevent modification within loop, or 
 modify only post-iteration
 
 prefix everything with dnet_*
-
-figure out interface aliases on non-BSD platforms for intf_{add,delete}
 
 documentation
 
@@ -60,9 +56,14 @@ aix     |   X  |  5  |  -  |  - |  - |   X  |   6   |
 6. route_loop doesn't work
 
 arp-{bsd,ioctl} both b0rked on unixware
-eth_send() doesn't allow src mac spoofing on MacOS X (no BIOCSHDRCMPLT)
+
+eth_send() doesn't allow src mac spoofing on MacOS X (no
+BIOCSHDRCMPLT) without patch (http://slagheap.net/etherspoof/),
+maybe also b0rked on BSD/OS (markus, you know?)
+
 no support for ICMP code in ipfw, therefore none in fw-ipfw.c
 
-never built on:
+need reliable, legit Tru64, Unixware, and AIX accounts with root
+access to finish the ports to those platforms...
 
 $Id$
