@@ -93,7 +93,7 @@ rand_open(void)
 	return (r);
 }
 
-static inline uint8_t
+static uint8_t
 rand_getbyte(rand_t *r)
 {
 	uint8_t si, sj;
