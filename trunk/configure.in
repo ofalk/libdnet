@@ -182,6 +182,8 @@ fi
 dnl Check for raw IP interface.
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
 	LIBOBJS="$LIBOBJS ip-win32.o"
+elif test "$ac_cv_dnet_rawip_cooked" = yes ; then
+	LIBOBJS="$LIBOBJS ip-cooked.o"
 else
 	LIBOBJS="$LIBOBJS ip.o"
 fi
