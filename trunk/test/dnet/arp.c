@@ -99,7 +99,7 @@ arp_main(int argc, char *argv[])
 		arp_usage();
 	
 	/* XXX - total trash */
-	if (argc == 2 &&
+	if (argc > 1 &&
 	    (strcmp(argv[1], "show") == 0 || strcmp(argv[1], "get") == 0 ||
 		strcmp(argv[1], "add") == 0 || strcmp(argv[1], "delete") == 0))
 		return (arp_kern_main(argc, argv));
