@@ -8,7 +8,6 @@
 
 #include "config.h"
 
-#include <ws2tcpip.h>
 #include <iphlpapi.h>
 
 #include <ctype.h>
@@ -95,7 +94,7 @@ static void
 _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 {
 	struct addr *ap, *lap;
-	u_long i;
+	int i;
 	
 	memset(entry, 0, sizeof(*entry));
 
@@ -106,7 +105,7 @@ _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 	/* XXX - dwType matches MIB-II ifType. */
 	snprintf(entry->intf_name, sizeof(entry->intf_name), "%s%lu",
 	    _ifcombo_name(ifrow->dwType), i);
-	entry->intf_type = ifrow->dwType;
+	entry->intf_type = (uint16_t)ifrow->dwType;
 	
 	/* Get interface flags. */
 	entry->intf_flags = 0;
@@ -131,7 +130,7 @@ _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 	ap = entry->intf_alias_addrs;
 	lap = ap + ((entry->intf_len - sizeof(*entry)) /
 	    sizeof(entry->intf_alias_addrs[0]));
-	for (i = 0; i < intf->iptable->dwNumEntries; i++) {
+	for (i = 0; i < (int)intf->iptable->dwNumEntries; i++) {
 		if (intf->iptable->table[i].dwIndex == ifrow->dwIndex &&
 		    intf->iptable->table[i].dwAddr != 0) {
 			if (entry->intf_addr.addr_type == ADDR_TYPE_NONE) {
@@ -187,7 +186,7 @@ _refresh_tables(intf_t *intf)
 	 * Map "unfriendly" win32 interface indices to ours.
 	 * XXX - like IP_ADAPTER_INFO ComboIndex
 	 */
-	for (i = 0; i < intf->iftable->dwNumEntries; i++) {
+	for (i = 0; i < (int)intf->iftable->dwNumEntries; i++) {
 		ifrow = &intf->iftable->table[i];
 		if (ifrow->dwType < MIB_IF_TYPE_MAX) {
 			_ifcombo_add(&intf->ifcombo[ifrow->dwType],
@@ -268,7 +267,7 @@ intf_get_src(intf_t *intf, struct intf_entry *entry, struct addr *src)
 	if (_refresh_tables(intf) < 0)
 		return (-1);
 	
-	for (i = 0; i < intf->iptable->dwNumEntries; i++) {
+	for (i = 0; i < (int)intf->iptable->dwNumEntries; i++) {
 		iprow = &intf->iptable->table[i];
 		if (iprow->dwAddr == src->addr_ip) {
 			ifrow.dwIndex = iprow->dwIndex;
@@ -347,7 +346,7 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	
 	entry = (struct intf_entry *)ebuf;
 	
-	for (i = 0; i < intf->iftable->dwNumEntries; i++) {
+	for (i = 0; i < (int)intf->iftable->dwNumEntries; i++) {
 		entry->intf_len = sizeof(ebuf);
 		_ifrow_to_entry(intf, &intf->iftable->table[i], entry);
 		if ((ret = (*callback)(entry, arg)) != 0)

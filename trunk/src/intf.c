@@ -174,7 +174,7 @@ _intf_delete_aliases(intf_t *intf, struct intf_entry *entry)
 	memset(&ifra, 0, sizeof(ifra));
 	strlcpy(ifra.ifra_name, entry->intf_name, sizeof(ifra.ifra_name));
 	
-	for (i = 0; i < entry->intf_alias_num; i++) {
+	for (i = 0; i < (int)entry->intf_alias_num; i++) {
 		addr_ntos(&entry->intf_alias_addrs[i], &ifra.ifra_addr);
 		ioctl(intf->fd, SIOCDIFADDR, &ifra);
 	}
@@ -208,7 +208,7 @@ _intf_add_aliases(intf_t *intf, const struct intf_entry *entry)
 	memset(&ifra, 0, sizeof(ifra));
 	strlcpy(ifra.ifra_name, entry->intf_name, sizeof(ifra.ifra_name));
 	
-	for (i = 0; i < entry->intf_alias_num; i++) {
+	for (i = 0; i < (int)entry->intf_alias_num; i++) {
 		if (entry->intf_alias_addrs[i].addr_type != ADDR_TYPE_IP)
 			continue;
 		
@@ -467,7 +467,7 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 	struct addr *ap, *lap;
 	char *p;
 	
-	if (intf->ifc.ifc_len < sizeof(*ifr)) {
+	if (intf->ifc.ifc_len < (int)sizeof(*ifr)) {
 		errno = EINVAL;
 		return (-1);
 	}
