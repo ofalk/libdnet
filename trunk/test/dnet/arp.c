@@ -29,7 +29,7 @@ arp_usage(int die)
 }
 
 static int
-op_aton(char *string, u_short *op)
+op_aton(char *string, uint16_t *op)
 {
 	long l;
 	char *p;

@@ -30,7 +30,7 @@ ip_usage(int die)
 }
 
 static int
-proto_aton(char *string, u_char *proto)
+proto_aton(char *string, uint8_t *proto)
 {
 	struct protoent *pp;
 	long l;
