@@ -281,3 +281,20 @@ eth_get_hwaddr(eth_t *e, struct addr *ha)
 
 	return (0);
 }
+
+int
+eth_set_hwaddr(eth_t *e, struct addr *ha)
+{
+	union DL_primitives *dlp;
+	u_char buf[2048];
+
+	dlp = (union DL_primitives *)buf;
+	dlp->set_physaddr_req.dl_primitive = DL_SET_PHYS_ADDR_REQ;
+	dlp->set_physaddr_req.dl_addr_length = ETH_ADDR_LEN;
+	dlp->set_physaddr_req_dl_addr_offset = buf + DL_SET_PHYS_ADDR_REQ_SIZE;
+
+	memcpy(buf + DL_SET_PHYS_ADDR_REQ_SIZE, &ha->addr_eth, ETH_ADDR_LEN);
+	
+	return (dlpi_msg(e->fd, dlp, DL_SET_PHYS_ADDR_REQ_SIZE + ETH_ADDR_LEN,
+	    0, DL_OK_ACK, DL_OK_ACK_SIZE, sizeof(buf)));
+}
