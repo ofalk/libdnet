@@ -213,7 +213,7 @@ _find_ifindex(intf_t *intf, const char *device)
 intf_t *
 intf_open(void)
 {
-	return (calloc(1, sizeof(struct intf_handle)));
+	return (calloc(1, sizeof(intf_t)));
 }
 
 int

@@ -18,16 +18,13 @@
 #include "dnet.h"
 
 struct arp_handle {
-	int	fd;
+	MIB_IPNETTABLE *iptable;
 };
 
 arp_t *
 arp_open(void)
 {
-	arp_t *arp;
-
-	arp = calloc(1, sizeof(*arp));
-	return (arp);
+	return (calloc(1, sizeof(arp_t)));
 }
 
 int
@@ -99,31 +96,32 @@ arp_get(arp_t *arp, struct arp_entry *entry)
 int
 arp_loop(arp_t *arp, arp_handler callback, void *arg)
 {
-	MIB_IPNETTABLE *iptable;
-	ULONG len;
 	struct arp_entry entry;
-	u_char buf[2048];
-	u_long i;
-	int ret;
-	
-	iptable = (MIB_IPNETTABLE *)buf;
-	len = sizeof(buf);
-	
-	if (GetIpNetTable(iptable, &len, FALSE) != NO_ERROR)
-		return (-1);
+	ULONG len;
+	int i, ret;
 
+	for (len = sizeof(arp->iptable[0]); ; ) {
+		if (arp->iptable)
+			free(arp->iptable);
+		arp->iptable = malloc(len);
+		ret = GetIpNetTable(arp->iptable, &len, FALSE);
+		if (ret == NO_ERROR)
+			break;
+		else if (ret != ERROR_INSUFFICIENT_BUFFER)
+			return (-1);
+	}
 	entry.arp_pa.addr_type = ADDR_TYPE_IP;
 	entry.arp_pa.addr_bits = IP_ADDR_BITS;
 	
 	entry.arp_ha.addr_type = ADDR_TYPE_ETH;
 	entry.arp_ha.addr_bits = ETH_ADDR_BITS;
 	
-	for (i = 0; i < iptable->dwNumEntries; i++) {
-		if (iptable->table[i].dwPhysAddrLen != ETH_ADDR_LEN)
+	for (i = 0; i < arp->iptable->dwNumEntries; i++) {
+		if (arp->iptable->table[i].dwPhysAddrLen != ETH_ADDR_LEN)
 			continue;
-		entry.arp_pa.addr_ip = iptable->table[i].dwAddr;
-		memcpy(&entry.arp_ha.addr_eth, iptable->table[i].bPhysAddr,
-		    ETH_ADDR_LEN);
+		entry.arp_pa.addr_ip = arp->iptable->table[i].dwAddr;
+		memcpy(&entry.arp_ha.addr_eth,
+		    arp->iptable->table[i].bPhysAddr, ETH_ADDR_LEN);
 		
 		if ((ret = (*callback)(&entry, arg)) != 0)
 			return (ret);
@@ -135,6 +133,8 @@ arp_t *
 arp_close(arp_t *arp)
 {
 	if (arp != NULL) {
+		if (arp->iptable != NULL)
+			free(arp->iptable);
 		free(arp);
 	}
 	return (NULL);
