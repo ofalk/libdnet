@@ -11,7 +11,7 @@ $(srcdir)/dnet.c: $(srcdir)/dnet.pyx
 	pyrexc $(srcdir)/dnet.pyx
 
 python-build: $(srcdir)/dnet.c
-	$(PYTHON) setup.py build --build-lib build
+	$(PYTHON) setup.py build
 	touch python-build
 
 python-clean:
@@ -22,7 +22,7 @@ clean: python-clean
 distclean: clean
 
 install-exec-local:
-	python $(srcdir)/setup.py install --prefix=$(DESTDIR)$(prefix)
+	$(PYTHON) setup.py install --prefix=$(DESTDIR)$(prefix)
 
 TESTS = test.py
 endif
