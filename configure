@@ -2466,7 +2466,7 @@ rm -f conftest*
 
 fi
 
-    case "$target_os" in
+    case "$host_os" in
     irix*)
         ac_cv_dnet_ioctl_arp=no ;;
     esac

@@ -183,7 +183,7 @@ AC_DEFUN(AC_DNET_IOCTL_ARP,
 #	endif],
 	ac_cv_dnet_ioctl_arp=yes,
 	ac_cv_dnet_ioctl_arp=no))
-    case "$target_os" in
+    case "$host_os" in
     irix*)
         ac_cv_dnet_ioctl_arp=no ;;
     esac
