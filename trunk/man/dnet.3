@@ -124,6 +124,9 @@
 .Fn ip_send "ip_t *i" "const void *buf" "size_t len"
 .Ft ip_t *
 .Fn ip_close "ip_t *i"
+.Ss Internet Protocol Version 6
+.Ft void
+.Fn ip6_checksum "void *buf" "size_t len"
 .Ss Random number generation
 .Pp
 .Ft rand_t *
@@ -187,14 +190,16 @@ struct addr {
 	union {
 		eth_addr_t	__eth;
 		ip_addr_t	__ip;
+		ip6_addr_t	__ip6;
 		
-		uint8_t		__data8[20];
-		uint16_t	__data16[10];
-		uint32_t	__data32[5];
+		uint8_t		__data8[16];
+		uint16_t	__data16[8];
+		uint32_t	__data32[4];
 	} __addr_u;
 };
 #define addr_eth	__addr_u.__eth
 #define addr_ip		__addr_u.__ip
+#define addr_ip6	__addr_u.__ip6
 #define addr_data8	__addr_u.__data8
 #define addr_data16	__addr_u.__data16
 #define addr_data32	__addr_u.__data32
@@ -206,6 +211,7 @@ The following values are defined for
 #define ADDR_TYPE_NONE		0	/* No address set */
 #define	ADDR_TYPE_ETH		1	/* Ethernet */
 #define	ADDR_TYPE_IP		2	/* Internet Protocol v4 */
+#define	ADDR_TYPE_IP6		3	/* Internet Protocol v6 */
 .Ed
 .Pp
 The field
@@ -465,14 +471,14 @@ closes the specified handle.
 Firewall rules are described by the following structure:
 .Bd -literal
 struct fw_rule {
-	char		fw_device[14];	/* interface name */
-	uint8_t		fw_op:4,	/* operation */
-			fw_dir:4;	/* direction */
-	uint8_t		fw_proto;	/* IP protocol */
-	struct addr	fw_src;		/* src address or net */
-	struct addr	fw_dst;		/* dst address or net */
-	uint16_t	fw_sport[2];	/* range or ICMP type/mask */
-	uint16_t	fw_dport[2];	/* range or ICMP code/mask */
+	char		fw_device[INTF_NAME_LEN]; /* interface name */
+	uint8_t		fw_op;			  /* operation */
+	uint8_t		fw_dir;			  /* direction */
+	uint8_t		fw_proto;		  /* IP protocol */
+	struct addr	fw_src;			  /* src address / net */
+	struct addr	fw_dst;			  /* dst address / net */
+	uint16_t	fw_sport[2];		  /* range / ICMP type */
+	uint16_t	fw_dport[2];		  /* range / ICMP code */
 };
 .Ed
 .Pp
@@ -519,17 +525,19 @@ closes the specified handle.
 .Ss Network interfaces
 Network interface information is described by the following structure:
 .Bd -literal
+#define INTF_NAME_LEN	16
+
 struct intf_entry {
-	u_int		intf_len;		/* length of entry */
-	char		intf_name[60];		/* interface name */
-	u_short		intf_type;		/* interface type (r/o) */
-	u_short		intf_flags;		/* interface flags */
-	u_int		intf_mtu;		/* interface MTU */
-	struct addr	intf_addr;		/* interface address */
-	struct addr	intf_dst_addr;		/* point-to-point dst */
-	struct addr	intf_link_addr;		/* link-layer address */
-	u_int		intf_alias_num;		/* number of aliases */
-	struct addr	intf_alias_addr __flexarr; /* array of aliases */
+	u_int		intf_len;		    /* length of entry */
+	char		intf_name[INTF_NAME_LEN];   /* interface name */
+	u_short		intf_type;		    /* interface type (r/o) */
+	u_short		intf_flags;		    /* interface flags */
+	u_int		intf_mtu;		    /* interface MTU */
+	struct addr	intf_addr;		    /* interface address */
+	struct addr	intf_dst_addr;		    /* point-to-point dst */
+	struct addr	intf_link_addr;		    /* link-layer address */
+	u_int		intf_alias_num;		    /* number of aliases */
+	struct addr	intf_alias_addrs __flexarr; /* array of aliases */
 };
 .Ed
 .Pp
@@ -611,7 +619,7 @@ a word boundary if necessary.
 .Pp
 .Fn ip_checksum
 sets the IP checksum and any appropriate transport protocol checksum
-for the packet pointed to by
+for the IP packet pointed to by
 .Fa buf 
 of length
 .Fa len .
@@ -624,6 +632,14 @@ bytes of the IP packet pointed to by
 .Pp
 .Fn ip_close
 closes the specified handle.
+.Pp
+.Ss Internet Protocol Version 6
+.Fn ip6_checksum
+sets the appropriate transport protocol checksum for the IPv6 packet
+pointed to by
+.Fa buf
+of length
+.Fa len .
 .Pp
 .Ss Random number generation
 .Fn rand_open
