@@ -1,10 +1,5 @@
 @BOTTOM@
-#ifndef HAVE_ERR
-void	err(int, const char *, ...);
-void	warn(const char *, ...);
-void	errx(int, const char *, ...);
-void	warnx(const char *, ...);
-#endif
+#include <sys/types.h>
 
 #ifndef HAVE_INET_PTON
 int	inet_pton(int, const char *, void *);
@@ -15,5 +10,5 @@ size_t	strlcat(char *, const char *, size_t);
 #endif
 
 #ifndef HAVE_STRLCPY
-size_t	strlcat(char *, const char *, size_t);
+size_t	strlcpy(char *, const char *, size_t);
 #endif
