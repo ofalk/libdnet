@@ -2468,12 +2468,12 @@ else
 	LIBOBJS="$LIBOBJS fw-none.o"
 fi
 
-if test $ac_cv_dnet_solaris_dev_ip = yes ; then
-	LIBOBJS="$LIBOBJS ip-cooked.o"
-elif test $ac_cv_header_net_raw_h = yes ; then
-	LIBOBJS="$LIBOBJS ip-cooked.o"
-else
-	LIBOBJS="$LIBOBJS ip.o"
+if test $ac_cv_dnet_solaris_dev_ip = yes || \
+   test $ac_cv_header_net_raw_h = yes ; then
+   cat >> confdefs.h <<\EOF
+#define HAVE_COOKED_RAWIP 1
+EOF
+
 fi
 
 if test $ac_cv_dnet_route_h_has_rt_msghdr = yes ; then

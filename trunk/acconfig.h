@@ -1,4 +1,7 @@
 @BOTTOM@
+/* Define if raw IP sockets are cooked. */
+#undef HAVE_COOKED_RAWIP
+
 #include <sys/types.h>
 
 #ifdef __svr4__
