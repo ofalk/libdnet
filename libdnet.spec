@@ -7,7 +7,7 @@
 #						(see --with-gnu-ld in ./configure)
 #
 %define name libdnet
-%define version 1.9
+%define version 1.10
 %define release 1
 %define appname %{name}-%{version}
 %define rpmname %{name}-%{version}-%{release}
