@@ -146,10 +146,10 @@ arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 			return (-1);
 		}
 		fr->sport[0] = (u_short)strtol(argv[6], &p, 10);
-		fr->sport[1] = 0xffff;
+		fr->sport[1] = 0xff;
 		if (*p == '/') {
 			fr->dport[0] = (u_short)strtol(p + 1, NULL, 10);
-			fr->dport[1] = 0xffff;
+			fr->dport[1] = 0xff;
 		}
 	}
 	return (0);
