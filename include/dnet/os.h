@@ -12,14 +12,16 @@
 #define DNET_OS_H
 
 #ifdef _WIN32
-# include <windows.h>
 # include <winsock2.h>
-# include <stdint.h>
+# include <windows.h>
 /* XXX */
 # undef IP_OPT_LSRR
 # undef IP_OPT_TS
 # undef IP_OPT_RR
 # undef IP_OPT_SSRR
+  typedef u_char	uint8_t;
+  typedef u_short	uint16_t;
+  typedef u_int		uint32_t;
 #else
 # include <sys/param.h>
 # include <sys/types.h>
@@ -66,6 +68,11 @@
 # define DNET_BYTESEX		DNET_BIG_ENDIAN
 #endif
 
+/* Win32 - XXX */
+#ifdef _WIN32
+# define DNET_BYTESEX		DNET_LIL_ENDIAN
+#endif
+
 /* Nastiness from old BIND code. */
 #ifndef DNET_BYTESEX
 # if defined(vax) || defined(ns32000) || defined(sun386) || defined(i386) || \
@@ -105,7 +112,10 @@
 # ifdef __GNUC__
 #  define __flexarr	[0]
 # else
-#  if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+#  if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#   define __flexarr	[]
+#  elif defined(_WIN32)
+/* MS VC++ */
 #   define __flexarr	[]
 #  else
 /* Some other non-C99 compiler. Approximate with [1]. */
