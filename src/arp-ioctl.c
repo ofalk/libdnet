@@ -131,7 +131,7 @@ arp_add(arp_t *a, const struct arp_entry *entry)
 	/* XXX - screwy extended arpreq struct */
 	{
 		struct sockaddr_in *sin;
-		
+
 		ar.arp_hw_addr_len = ETH_ADDR_LEN;
 		sin = (struct sockaddr_in *)&ar.arp_pa_mask;
 		sin->sin_family = AF_INET;
@@ -372,7 +372,7 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 	ret = 0;
 	
 	for (i = 0; i < n; i++) {
-		if (arpentries[i].Type != INTM_DYNAMIC ||
+		if (arpentries[i].Type == INTM_INVALID ||
 		    arpentries[i].PhysAddr.o_length != ETH_ADDR_LEN)
 			continue;
 		
