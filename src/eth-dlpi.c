@@ -94,7 +94,7 @@ strioctl(int fd, int cmd, int len, char *dp)
 #define ND_GET	('N' << 8 + 0)
 
 static int
-eth_match_ppa(eth_t *e, char *device)
+eth_match_ppa(eth_t *e, const char *device)
 {
 	char *p, dev[16], buf[256];
 	int len, ppa;
