@@ -1302,10 +1302,10 @@ cdef class rand:
         """Return a random 32-bit integer."""
         return rand_uint32(self.rand)
 
-    def xrange(self, unsigned long start, unsigned long stop=0):
+    def xrange(self, start, stop=0):
         """xrange([start,] stop) -> xrange object
 
-        Return a permutation iterator to walk an unsigned integer range,
+        Return a random permutation iterator to walk an unsigned integer range,
         like xrange().
         """
         if stop == 0:
@@ -1331,10 +1331,12 @@ cdef class __rand_xrange:
     
     def __init__(self, r, start, stop):
         cdef unsigned int bits
-
+        
         self.rand = (<rand>r).rand
-        self.start = start
-        self.max = stop - start
+        self.start = PyLong_AsUnsignedLong(start)
+        self.max = PyLong_AsUnsignedLong(stop) - self.start
+        # XXX - permute range once only!
+        rand_get(self.rand, <char *>self.sbox, sizeof(self.sbox))
         
         bits = 0
         while self.max > (1 << bits):
@@ -1353,7 +1355,7 @@ cdef class __rand_xrange:
 
     def __iter__(self):
         self.cur = self.enc = 0
-        rand_get(self.rand, <char *>self.sbox, sizeof(self.sbox))
+        # XXX - rewind iterator, but do not permute range again!
         return self
 
     def __len__(self):
