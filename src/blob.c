@@ -408,8 +408,9 @@ fmt_s(int pack, int len, blob_t *b, va_list *ap)
 		}
 	} else {
 		if (len <= 0) return (-1);
-		
-		end = MIN(len, b->end - b->off);
+
+		if ((end = b->end - b->off) < len)
+			end = len;
 		
 		for (i = 0; i < end; i++) {
 			if ((p[i] = b->base[b->off + i]) == '\0') {
