@@ -75,6 +75,44 @@ if test "$CYGWIN" != yes ; then
 	AC_CHECK_LIB(nm, open_mib)
 fi
 
+dnl Checks for libcheck.
+AC_MSG_CHECKING(for libcheck)
+AC_ARG_WITH(libcheck,
+[  --with-libcheck=DIR     use libcheck in DIR],
+[ case "$withval" in
+  yes|no)
+     AC_MSG_RESULT(no)
+     ;;
+  *)
+     AC_MSG_RESULT($withval)
+     if test -f $withval/include/check.h -a -f $withval/lib/libcheck.a; then
+        owd=`pwd`
+        if cd $withval; then withval=`pwd`; cd $owd; fi
+        CHECKINC="-I$withval/include"
+        CHECKLIB="-L$withval/lib -lcheck"
+     elif test -f $withval/src/check.h -a -f $withval/src/libcheck.a; then
+        owd=`pwd`
+        if cd $withval; then withval=`pwd`; cd $owd; fi
+        CHECKINC="-I$withval/src"
+        CHECKLIB="-L$withval/src -lcheck"
+     else
+        AC_ERROR(check.h or libcheck.a not found in $withval)
+     fi
+     ;;
+  esac ],
+[ if test -f ${prefix}/include/check.h -a -f ${prefix}/lib/libcheck.a;
+then
+     CHECKINC="-I${prefix}/include"
+     CHECKLIB="-L${prefix}/lib -lcheck"
+  else
+     AC_MSG_RESULT(no)
+     AC_ERROR(libcheck not found)
+  fi
+  AC_MSG_RESULT(yes) ]
+)
+AC_SUBST(CHECKINC)
+AC_SUBST(CHECKLIB)
+
 dnl Checks for header files.
 AC_HEADER_STDC
 if test "$CYGWIN" = yes ; then
@@ -203,5 +241,6 @@ else
 fi
 
 AC_OUTPUT([Makefile dnet-config include/Makefile include/dnet/Makefile
-	man/Makefile src/Makefile test/Makefile test/dnet/Makefile],
+	man/Makefile src/Makefile test/Makefile test/check/Makefile
+	test/dnet/Makefile],
 	[chmod 755 dnet-config])
