@@ -75,27 +75,27 @@ print_intf(const struct intf_entry *entry, void *arg)
 
 	printf("\n");
 	
-	if (entry->intf_addr != NULL) {
-		addr_btom(entry->intf_addr->addr_bits, &mask, IP_ADDR_LEN);
+	if (entry->intf_addr.addr_type == ADDR_TYPE_IP) {
+		addr_btom(entry->intf_addr.addr_bits, &mask, IP_ADDR_LEN);
 		mask = ntohl(mask);
-		addr_bcast(entry->intf_addr, &bcast);
+		addr_bcast(&entry->intf_addr, &bcast);
 
-		if (entry->intf_dst_addr != NULL) {
+		if (entry->intf_dst_addr.addr_type == ADDR_TYPE_IP) {
 			printf("\tinet %s --> %s netmask 0x%x broadcast %s\n",
-			    ip_ntoa(&entry->intf_addr->addr_ip),
-			    addr_ntoa(entry->intf_dst_addr),
+			    ip_ntoa(&entry->intf_addr.addr_ip),
+			    addr_ntoa(&entry->intf_dst_addr),
 			    mask, addr_ntoa(&bcast));
 		} else {
 			printf("\tinet %s netmask 0x%x broadcast %s\n",
-			    ip_ntoa(&entry->intf_addr->addr_ip),
+			    ip_ntoa(&entry->intf_addr.addr_ip),
 			    mask, addr_ntoa(&bcast));
 		}
 	}
-	if (entry->intf_link_addr != NULL)
-		printf("\tlink %s\n", addr_ntoa(entry->intf_link_addr));
+	if (entry->intf_link_addr.addr_type == ADDR_TYPE_ETH)
+		printf("\tlink %s\n", addr_ntoa(&entry->intf_link_addr));
 
 	for (i = 0; i < entry->intf_alias_num; i++)
-		printf("\talias %s\n", addr_ntoa(entry->intf_alias_addr + i));
+		printf("\talias %s\n", addr_ntoa(&entry->intf_alias_addrs[i]));
 	
 	return (0);
 }
@@ -137,30 +137,23 @@ intf_main(int argc, char *argv[])
 			usage();
 		
 		strlcpy(entry->intf_name, argv[2], sizeof(entry->intf_name));
-		entry->intf_alias_addr = &entry->intf_addr_data[3];
-		
+
 		for (argv += 3, argc -= 3; argc > 1; argv += 2, argc -= 2) {
 			if (strcmp(argv[0], "alias") == 0) {
-				addr = &entry->intf_alias_addr
+				addr = &entry->intf_alias_addrs
 				    [entry->intf_alias_num++];
 			} else if (strcmp(argv[0], "dst") == 0) {
-				addr = entry->intf_dst_addr =
-				    &entry->intf_addr_data[1];
+				addr = &entry->intf_dst_addr;
 			} else if (strcmp(argv[0], "inet") == 0) {
-				addr = entry->intf_addr =
-				    &entry->intf_addr_data[0];
+				addr = &entry->intf_addr;
 			} else if (strcmp(argv[0], "link") == 0) {
-				addr = entry->intf_link_addr =
-				    &entry->intf_addr_data[2];
+				addr = &entry->intf_link_addr;
 			} else
 				break;
 			
 			if (addr_pton(argv[1], addr) < 0)
 				err(1, "invalid address: %s", argv[1]);
 		}
-		if (entry->intf_alias_num == 0)
-			entry->intf_alias_addr = NULL;
-		
 		for ( ; argc > 0; argv++, argc--) {
 			if (strcmp(argv[0], "up") == 0)
 				entry->intf_flags |= INTF_FLAG_UP;
