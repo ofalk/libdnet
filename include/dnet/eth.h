@@ -68,6 +68,8 @@ eth_t	*eth_close(eth_t *e);
 
 char	*eth_ntop(const eth_addr_t *eth, char *dst, size_t len);
 int	 eth_pton(const char *src, eth_addr_t *dst);
+char	*eth_ntoa(const eth_addr_t *eth);
+#define	 eth_aton eth_pton
 __END_DECLS
 
 #endif /* DNET_ETH_H */
