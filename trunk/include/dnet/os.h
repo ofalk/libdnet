@@ -11,7 +11,7 @@
 #ifndef DNET_OS_H
 #define DNET_OS_H
 
-#ifdef WIN32
+#ifdef _WIN32
 # include <windows.h>
 # include <winsock2.h>
 # include <stdint.h>
