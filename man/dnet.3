@@ -172,9 +172,9 @@
 .Fn tun_fileno "tun_t *t"
 .Ft const char *
 .Fn tun_name "tun_t *t"
-.Ft size_t
+.Ft ssize_t
 .Fn tun_send "tun_t *t" "const void *buf" "size_t size"
-.Ft size_t
+.Ft ssize_t
 .Fn tun_recv "tun_t *t" "void *buf" "size_t size"
 .Ft tun_t *
 .Fn tun_close "tun_t *t"
