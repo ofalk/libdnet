@@ -65,6 +65,9 @@ int	 eth_get(eth_t *e, eth_addr_t *ea);
 int	 eth_set(eth_t *e, const eth_addr_t *ea);
 size_t	 eth_send(eth_t *e, const void *buf, size_t len);
 eth_t	*eth_close(eth_t *e);
+
+char	*eth_ntop(const eth_addr_t *eth, char *dst, size_t len);
+int	 eth_pton(const char *src, eth_addr_t *dst);
 __END_DECLS
 
 #endif /* DNET_ETH_H */
