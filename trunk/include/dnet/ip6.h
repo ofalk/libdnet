@@ -174,6 +174,9 @@ struct ip6_ext_hdr {
 } while (0);
 
 __BEGIN_DECLS
+char	*ip6_ntop(const ip6_addr_t *ip6, char *dst, size_t size);
+int	 ip6_pton(const char *src, ip6_addr_t *dst);
+
 void	 ip6_checksum(void *buf, size_t len);
 __END_DECLS
 
