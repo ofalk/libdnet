@@ -111,7 +111,7 @@ ipfw_to_fr(struct ip_fw *ipfw, struct fw_rule *fr)
 {
 	int i;
 	
-	memset(fr, 0, sizeof(fr));
+	memset(fr, 0, sizeof(*fr));
 
 	if ((ipfw->fw_flg & IP_FW_F_IN) && *ipfw->fw_in_if.fu_via_if.name)
 		snprintf(fr->device, sizeof(fr->device), "%s%d",
