@@ -116,7 +116,7 @@ intf_add(intf_t *i, char *device, struct addr *addr)
 	strlcpy(ifra.ifra_name, device, sizeof(ifra.ifra_name));
 	addr_ntos(addr, &ifra.ifra_addr);
 	/* XXX - needed? */
-	if (addr->mask > 0 && addr->mask < 32)
+	if (addr->mask > 0 && addr->mask < IP_ADDR_BITS)
 		addr_mtos(addr->mask, &ifra.ifra_mask);
 	/* XXX - broadcast? */
 	

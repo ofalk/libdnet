@@ -84,7 +84,7 @@ route_add(route_t *r, struct addr *dst, struct addr *gw)
 			return (-1);
 	} else {
 		rt.rt_flags = RTF_UP | RTF_HOST | RTF_GATEWAY;
-		addr_btos(32, &rt.rt_genmask);
+		addr_btos(IP_ADDR_BITS, &rt.rt_genmask);
 	}
 	return (ioctl(r->fd, SIOCADDRT, &rt));
 }
@@ -103,7 +103,7 @@ route_delete(route_t *r, struct addr *dst)
 	if (addr_ntos(dst, &rt.rt_dst) < 0)
 		return (-1);
 
-	if (dst->addr_bits < 32) {
+	if (dst->addr_bits < IP_ADDR_BITS) {
 		rt.rt_flags = RTF_UP;
 		if (addr_btos(dst->addr_bits, &rt.rt_genmask) < 0)
 			return (-1);
