@@ -40,9 +40,10 @@ ip_open(void)
 	
 	on = TRUE;
 	if (setsockopt(ip->fd, IPPROTO_IP, IP_HDRINCL,
-	    (const char *)&on, sizeof(on)) == SOCKET_ERROR)
+	    (const char *)&on, sizeof(on)) == SOCKET_ERROR) {
+		SetLastError(ERROR_NETWORK_ACCESS_DENIED);
 		return (ip_close(ip));
-	
+	}
 	ip->sin.sin_family = AF_INET;
 	ip->sin.sin_port = htons(666);
 	
