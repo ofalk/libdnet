@@ -238,7 +238,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 @PYTHON_TRUE@	pyrexc $(srcdir)/dnet.pyx
 
 @PYTHON_TRUE@python-build: $(srcdir)/dnet.c
-@PYTHON_TRUE@	$(PYTHON) setup.py build --build-lib build
+@PYTHON_TRUE@	$(PYTHON) setup.py build
 @PYTHON_TRUE@	touch python-build
 
 @PYTHON_TRUE@python-clean:
@@ -249,7 +249,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 @PYTHON_TRUE@distclean: clean
 
 @PYTHON_TRUE@install-exec-local:
-@PYTHON_TRUE@	python $(srcdir)/setup.py install --prefix=$(DESTDIR)$(prefix)
+@PYTHON_TRUE@	$(PYTHON) setup.py install --prefix=$(DESTDIR)$(prefix)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
