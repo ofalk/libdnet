@@ -26,6 +26,9 @@ struct adapter {
 	char		*desc;
 };
 
+/* XXX */
+extern const char *intf_get_desc(intf_t *intf, const char *device);
+
 eth_t *
 eth_open(const char *device)
 {
@@ -36,7 +39,17 @@ eth_open(const char *device)
 	char *desc, *namea;
 	int i, j, alen;
 	OSVERSIONINFO osvi;
+	intf_t *intf;
 
+	if ((intf = intf_open()) == NULL)
+		return (NULL);
+	
+	device = intf_get_desc(intf, device);
+	intf_close(intf);
+
+	if (device == NULL)
+		return (NULL);
+	
 	alen = sizeof(alist) / sizeof(alist[0]);
 	wlen = sizeof(wbuf) / sizeof(wbuf[0]);
 	
