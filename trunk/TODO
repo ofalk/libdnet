@@ -1,5 +1,6 @@
-make iterators prevent modification within loop, or 
-modify only post-iteration
+
+make *_loop() prevent modification within loop, or modify only
+post-iteration
 
 prefix everything with dnet_*
 
