@@ -40,6 +40,4 @@ endif
 
 CLEANFILES = *~ *.core
 
-DISTCLEANFILES = dnet.py* *.c
-
-
+DISTCLEANFILES = dnet.py *.pyc *.c
