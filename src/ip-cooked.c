@@ -21,7 +21,7 @@
 
 struct ip_intf {
 	eth_t			*eth;
-	char			 name[60];
+	char			 name[INTF_NAME_LEN];
 	struct addr		 ha;
 	struct addr		 pa;
 	int			 mtu;
