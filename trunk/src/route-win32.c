@@ -31,14 +31,19 @@ int
 route_add(route_t *route, const struct route_entry *entry)
 {
 	MIB_IPFORWARDROW ipfrow;
+	struct addr net;
 
 	memset(&ipfrow, 0, sizeof(ipfrow));
 
 	if (GetBestInterface(entry->route_gw.addr_ip,
 	    &ipfrow.dwForwardIfIndex) != NO_ERROR)
 		return (-1);
+
+	if (addr_net(&entry->route_dst, &net) < 0 ||
+	    net.addr_type != ADDR_TYPE_IP)
+		return (-1);
 	
-	ipfrow.dwForwardDest = entry->route_dst.addr_ip;
+	ipfrow.dwForwardDest = net.addr_ip;
 	addr_btom(entry->route_dst.addr_bits,
 	    &ipfrow.dwForwardMask, IP_ADDR_LEN);
 	ipfrow.dwForwardNextHop = entry->route_gw.addr_ip;
@@ -57,7 +62,8 @@ route_delete(route_t *route, const struct route_entry *entry)
 	MIB_IPFORWARDROW ipfrow;
 	DWORD mask;
 	
-	if (GetBestRoute(entry->route_dst.addr_ip,
+	if (entry->route_dst.addr_type != ADDR_TYPE_IP ||
+	    GetBestRoute(entry->route_dst.addr_ip,
 	    IP_ADDR_ANY, &ipfrow) != NO_ERROR)
 		return (-1);
 
@@ -81,7 +87,8 @@ route_get(route_t *route, struct route_entry *entry)
 	MIB_IPFORWARDROW ipfrow;
 	DWORD mask;
 
-	if (GetBestRoute(entry->route_dst.addr_ip,
+	if (entry->route_dst.addr_type != ADDR_TYPE_IP ||
+	    GetBestRoute(entry->route_dst.addr_ip,
 	    IP_ADDR_ANY, &ipfrow) != NO_ERROR)
 		return (-1);
 
