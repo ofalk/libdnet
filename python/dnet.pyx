@@ -625,7 +625,7 @@ def icmp_pack_hdr(type, code):
 #
 cdef extern from *:
     void __tcp_pack_hdr "tcp_pack_hdr" (char *hdr,
-        int sport, int dport, int seq, int ack, int flags, int win, int urp)
+        int sport, int dport, unsigned long seq, unsigned long ack, int flags, int win, int urp)
 
 TCP_HDR_LEN =	20		# /* base TCP header length */
 

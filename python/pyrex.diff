@@ -1,0 +1,26 @@
+needed this for Pyrex-0.9...
+
+--- Pyrex/Compiler/PyrexTypes.py.orig	Tue May  4 18:48:58 2004
++++ Pyrex/Compiler/PyrexTypes.py	Tue May  4 18:50:42 2004
+@@ -296,6 +296,12 @@
+ 		self.is_returncode = is_returncode
+ 
+ 
++class CULongType(CIntType):
++
++	to_py_function = "PyLong_FromUnsignedLong"
++	from_py_function = "PyLong_AsUnsignedLong"
++
++
+ class CLongLongType(CIntType):
+ 
+ 	to_py_function = "PyLong_FromLongLong"
+@@ -636,7 +642,7 @@
+ c_uchar_type =     CIntType(0, 0, "T_UBYTE")
+ c_ushort_type =    CIntType(1, 0, "T_USHORT")
+ c_uint_type =      CIntType(2, 0, "T_UINT")
+-c_ulong_type =     CIntType(3, 0, "T_ULONG")
++c_ulong_type =     CULongType(3, 0, "T_ULONG")
+ c_ulonglong_type = CULongLongType(4, 0)
+ 
+ c_float_type =      CFloatType(5, "T_FLOAT")
