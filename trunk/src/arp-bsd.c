@@ -264,9 +264,12 @@ arp_loop(arp_t *arp, arp_handler callback, void *arg)
 	if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0)
 		return (-1);
 
-	if (len == 0 || (buf = malloc(len)) == NULL)
-		return (-1);
+	if (len == 0)
+		return (0);
 
+	if ((buf = malloc(len)) == NULL)
+		return (-1);
+	
 	if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
 		free(buf);
 		return (-1);
