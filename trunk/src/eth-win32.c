@@ -8,13 +8,16 @@
 
 #include "config.h"
 
+/* XXX - VC++ 6.0 bogosity */
+#define sockaddr_storage sockaddr
+#include <Packet32.h>
+#undef sockaddr_storage
+#include <Ntddndis.h>
+
 #include <errno.h>
 #include <stdlib.h>
 
 #include "dnet.h"
-
-#include <Packet32.h>
-#include <Ntddndis.h>
 
 struct eth_handle {
 	LPADAPTER	 lpa;
