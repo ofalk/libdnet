@@ -33,11 +33,8 @@ _intf_get_entry(const struct intf_entry *entry, void *arg)
 	struct intf_entry *e = (struct intf_entry *)arg;
 	
 	if (strcmp(e->intf_name, entry->intf_name) == 0) {
-		if (e->intf_len < entry->intf_len) {
-			errno = EINVAL;
-			return (-1);
-		}
-		memcpy(e, entry, entry->intf_len);
+		/* XXX - truncated result if entry is too small. */
+		memcpy(e, entry, e->intf_len);
 		return (1);
 	}
 	return (0);
@@ -60,10 +57,9 @@ _match_intf_src(const struct intf_entry *entry, void *arg)
 	struct intf_entry *save = (struct intf_entry *)arg;
 	
 	if (entry->intf_addr.addr_type == ADDR_TYPE_IP &&
-	    entry->intf_addr.addr_ip == save->intf_addr.addr_ip &&
-	    entry->intf_len <= save->intf_len) {
-		save->intf_len = entry->intf_len;
-		memcpy(save, entry, entry->intf_len);
+	    entry->intf_addr.addr_ip == save->intf_addr.addr_ip) {
+		/* XXX - truncated result if entry is too small. */
+		memcpy(save, entry, save->intf_len);
 		return (1);
 	}
 	return (0);
