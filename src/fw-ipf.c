@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define KMEM_NAME	"/dev/kmem"
 
@@ -49,8 +50,6 @@ struct fw_handle {
 static void
 rule_to_ipf(struct fw_rule *rule, struct frentry *fr)
 {
-	int i;
-	
 	memset(fr, 0, sizeof(*fr));
 
 	if (*rule->device != '\0') {
@@ -142,8 +141,6 @@ ipf_ports_to_rule(u_char cmp, u_short port, u_short top, u_short *range)
 static void
 ipf_to_rule(struct frentry *fr, struct fw_rule *rule)
 {
-	int i;
-	
 	memset(rule, 0, sizeof(*rule));
 
 	strlcpy(rule->device, fr->fr_ifname, sizeof(rule->device));
@@ -249,24 +246,27 @@ int
 fw_loop(fw_t *fw, fw_handler callback, void *arg)
 {
 	struct friostat fio;
-	struct friostat fiop = &fio;
+	struct friostat *fiop = &fio;
 	struct frentry *frp, fr;
 	struct fw_rule rule;
 	int ret;
 	
 	memset(&fio, 0, sizeof(fio));
-	
-	if (ioctl(fw->fd, SIOCGETFS, &fiop) < 0)
+#ifdef __OpenBSD__
+	if (ioctl(fw->fd, SIOCGETFS, fiop) < 0)
+#else
+	if (ioctl(fw->fd, SIOCGETFS, &fiop) < 0)	/* XXX - darren! */
+#endif
 		return (-1);
 
-	for (frp = fio.f_fout[fio.f_active]; frp != NULL; frp = fr.fr_next) {
+	for (frp = fio.f_fout[(int)fio.f_active]; frp != NULL; frp = fr.fr_next) {
 		if (fw_kcopy(fw, (u_char *)&fr, (u_long)frp, sizeof(fr)) < 0)
 			return (-1);
 		ipf_to_rule(&fr, &rule);
 		if ((ret = callback(&rule, arg)) != 0)
 			return (ret);
 	}
-	for (frp = fio.f_fin[fio.f_active]; frp != NULL; frp = fr.fr_next) {
+	for (frp = fio.f_fin[(int)fio.f_active]; frp != NULL; frp = fr.fr_next) {
 		if (fw_kcopy(fw, (u_char *)&fr, (u_long)frp, sizeof(fr)) < 0)
 			return (-1);
 		ipf_to_rule(&fr, &rule);
