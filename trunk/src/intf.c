@@ -210,7 +210,7 @@ intf_get(intf_t *i, char *device, struct addr *addr, int *flags)
 			if (addr_ston(&ifr.ifr_hwaddr, addr) < 0)
 				return (-1);
 			break;
-#elif defined(HAVE_SYS_DLPI_H) || defined(HAVE_NET_RAW_H)
+#elif defined(HAVE_SYS_DLPI_H) || defined(HAVE_SYS_DLPIHDR_H) || defined(HAVE_NET_RAW_H)
 			eth_t *eth;
 
 			if ((eth = eth_open(device)) == NULL)
