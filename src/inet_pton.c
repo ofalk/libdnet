@@ -16,11 +16,12 @@
  * SOFTWARE.
  */
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+#include "config.h"
+
 #include <string.h>
 #include <errno.h>
+
+#include "dnet.h"
 
 /*
  * WARNING: Don't even consider trying to compile this on a system where
@@ -57,7 +58,7 @@ inet_pton(af, src, dst)
 		return (inet_pton6(src, dst));
 #endif
 	default:
-		errno = EAFNOSUPPORT;
+		errno = EINVAL;
 		return (-1);
 	}
 	/* NOTREACHED */
