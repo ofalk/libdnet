@@ -126,8 +126,12 @@ intf_open(void)
 		if ((intf->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 			return (intf_close(intf));
 #ifdef SIOCGIFNETMASK_IN6
-		if ((intf->fd6 = socket(AF_INET6, SOCK_DGRAM, 0)) < 0)
-			return (intf_close(intf));
+		if ((intf->fd6 = socket(AF_INET6, SOCK_DGRAM, 0)) < 0) {
+#  ifdef EPROTONOSUPPORT
+			if (errno != EPROTONOSUPPORT)
+#  endif
+				return (intf_close(intf));
+		}
 #endif
 	}
 	return (intf);
@@ -465,7 +469,7 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 				continue;
 		}
 #ifdef SIOCGIFNETMASK_IN6
-		else if (ap->addr_type == ADDR_TYPE_IP6) {
+		else if (ap->addr_type == ADDR_TYPE_IP6 && intf->fd6 != -1) {
 			struct in6_ifreq ifr6;
 
 			memset(&ifr6, 0, sizeof(ifr6));
