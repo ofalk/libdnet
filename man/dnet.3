@@ -13,49 +13,49 @@
 .Fd #include <dnet.h>
 .Ss Network addressing
 .Ft int
-.Fn addr_cmp "struct addr *a" "struct addr *b"
+.Fn addr_cmp "const struct addr *a" "const struct addr *b"
 .Ft int
-.Fn addr_bcast "struct addr *a" "struct addr *b"
+.Fn addr_bcast "const struct addr *a" "struct addr *b"
 .Ft int
-.Fn addr_ntop "struct addr *src" "char *dst" "size_t size"
+.Fn addr_ntop "const struct addr *src" "char *dst" "size_t size"
 .Ft int
-.Fn addr_pton "char *src" "struct addr *dst"
+.Fn addr_pton "const char *src" "struct addr *dst"
 .Ft char *
-.Fn addr_ntoa "struct addr *a"
+.Fn addr_ntoa "const struct addr *a"
 .Ft int
-.Fn addr_aton "char *src" "struct addr *dst"
+.Fn addr_aton "const char *src" "struct addr *dst"
 .Ft int
-.Fn addr_ntos "struct addr *a" "struct sockaddr *sa"
+.Fn addr_ntos "const struct addr *a" "struct sockaddr *sa"
 .Ft int
-.Fn addr_ston "struct sockaddr *sa" "struct addr *a"
+.Fn addr_ston "const struct sockaddr *sa" "struct addr *a"
 .Ft int
 .Fn addr_btos "uint16_t bits" "struct sockaddr *sa"
 .Ft int
-.Fn addr_stob "struct sockaddr *sa" "uint16_t *bits"
+.Fn addr_stob "const struct sockaddr *sa" "uint16_t *bits"
 .Ft int
 .Fn addr_btom "uint16_t bits" "void *mask" "size_t size"
 .Ft int
-.Fn addr_mtob "void *mask" "size_t size" "uint16_t *bits"
+.Fn addr_mtob "const void *mask" "size_t size" "uint16_t *bits"
 .Ss Address Resolution Protocol
 .Pp
-.Li typedef Ar int Fn (*arp_handler) "struct addr *pa" "struct addr *ha" "void *arg"
+.Li typedef Ar int Fn (*arp_handler) "const struct addr *pa" "const struct addr *ha" "void *arg"
 .Ft arp_t *
 .Fn arp_open "void"
 .Ft int
-.Fn arp_add "arp_t *a" "struct addr *pa" "struct addr *ha"
+.Fn arp_add "arp_t *a" "const struct addr *pa" "const struct addr *ha"
 .Ft int
-.Fn arp_delete "arp_t *a" "struct addr *pa"
+.Fn arp_delete "arp_t *a" "const struct addr *pa"
 .Ft int
-.Fn arp_get "arp_t *a" "struct addr *pa" "struct addr *ha"
+.Fn arp_get "arp_t *a" "const struct addr *pa" "struct addr *ha"
 .Ft int
 .Fn arp_loop "arp_t *a" "arp_handler callback" "void *arg"
 .Ft int
 .Fn arp_close "arp_t *a"
 .Ss Ethernet
 .Ft eth_t *
-.Fn eth_open "char *device"
+.Fn eth_open "const char *device"
 .Ft int
-.Fn eth_set "eth_t *e" "eth_addr_t *ea"
+.Fn eth_set "eth_t *e" "const eth_addr_t *ea"
 .Ft int
 .Fn eth_get "eth_t *e" "eth_addr_t *ea"
 .Ft ssize_t
@@ -64,30 +64,30 @@
 .Fn eth_close "eth_t *e"
 .Ss Firewalling
 .Pp
-.Li typedef Ar int Fn (*fw_handler) "struct fw_rule *rule" "void *arg"
+.Li typedef Ar int Fn (*fw_handler) "const struct fw_rule *rule" "void *arg"
 .Ft fw_t *
 .Fn fw_open "void"
 .Ft int
-.Fn fw_add "fw_t *f" "struct fw_rule *rule"
+.Fn fw_add "fw_t *f" "const struct fw_rule *rule"
 .Ft int
-.Fn fw_delete "fw_t *f" "struct fw_rule *rule"
+.Fn fw_delete "fw_t *f" "const struct fw_rule *rule"
 .Ft int
 .Fn fw_loop "fw_t *f" "fw_handler callback" "void *arg"
 .Ft int
 .Fn fw_close "fw_t *f"
 .Ss Network interfaces
 .Pp
-.Li typedef Ar int Fn (*intf_handler) "char *device" "struct intf_info *info" "void *arg"
+.Li typedef Ar int Fn (*intf_handler) "const char *device" "const struct intf_info *info" "void *arg"
 .Ft intf_t *
 .Fn intf_open "void"
 .\".Ft int
-.\".Fn intf_add "intf_t *i" "char *device" "struct addr *addr"
+.\".Fn intf_add "intf_t *i" "const char *device" "const struct addr *addr"
 .\".Ft int
-.\".Fn intf_delete "intf_t *i" "char *device" "struct addr *addr"
+.\".Fn intf_delete "intf_t *i" "const char *device" "const struct addr *addr"
 .Ft int
-.Fn intf_set "intf_t *i" "char *device" "struct intf_info *info"
+.Fn intf_set "intf_t *i" "const char *device" "const struct intf_info *info"
 .Ft int
-.Fn intf_get "intf_t *i" "char *device" "struct intf_info *info"
+.Fn intf_get "intf_t *i" "const char *device" "struct intf_info *info"
 .Ft int
 .Fn intf_loop "intf_t *i" "intf_handler callback" "void *arg"
 .Ft int
@@ -105,15 +105,15 @@
 .Fn ip_close "ip_t *i"
 .Ss Routing
 .Pp
-.Li typedef Ar int Fn (*route_handler) "struct addr *dst" "struct addr *gw" "void *arg"
+.Li typedef Ar int Fn (*route_handler) "const struct addr *dst" "const struct addr *gw" "void *arg"
 .Ft route_t *
 .Fn route_open "void"
 .Ft int
-.Fn route_add "route_t *r" "struct addr *dst" "struct addr *gw"
+.Fn route_add "route_t *r" "const struct addr *dst" "const struct addr *gw"
 .Ft int
-.Fn route_delete "route_t *r" "struct addr *dst"
+.Fn route_delete "route_t *r" "const struct addr *dst"
 .Ft int
-.Fn route_get "route_t *r" "struct addr *dst" "struct addr *gw"
+.Fn route_get "route_t *r" "const struct addr *dst" "struct addr *gw"
 .Ft int
 .Fn route_loop "route_t *r" "route_handler callback" "void *arg"
 .Ft int
