@@ -70,21 +70,28 @@ struct tcp_hdr {
 #define TCP_OPT_TYPEONLY(type)	\
 	((type) == TCP_OPT_EOL || (type) == TCP_OPT_NOP)
 
+#ifndef __GNUC__
+# define __attribute__(x)
+# pragma pack(1)
+#endif
+
 struct tcp_opt {
-	u_char		__opt_void[2];		/* XXX - word-align union */
 	u_char		opt_type;
 	u_char		opt_len;		/* length of entire option */
 	union tcp_opt_data {
 		u_short		mss;
 		u_char		wscale[2];	/* XXX - scale + NOP */
-		u_short		sack[0];	/* origin / size pairs */
+		u_short		sack __flexarr;	/* origin / size pairs */
 		u_int32_t	cc;
 		u_char		md5[16];
-		u_char		data8[0];
+		u_char		data8[TCP_OPT_LEN_MAX - TCP_OPT_LEN];
 	} opt_data;
-};
+} __attribute__((__packed__));
 
-__BEGIN_DECLS
+#ifndef __GNUC__
+# pragma pack()
+#endif
+
 #define tcp_fill_hdr(hdr, sport, dport, seq, ack, flags, win, urp) do {	\
 	struct tcp_hdr *tcp_fill_p = (struct tcp_hdr *)(hdr);		\
 	tcp_fill_p->th_sport = htons(sport);				\
@@ -97,6 +104,7 @@ __BEGIN_DECLS
 	tcp_fill_p->th_urp = htons(urp);				\
 } while (0)
 
+__BEGIN_DECLS
 size_t	tcp_add_opt(void *buf, size_t len, const void *optbuf, size_t optlen);
 __END_DECLS
 

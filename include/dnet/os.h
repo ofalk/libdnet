@@ -75,11 +75,29 @@
 #undef __BEGIN_DECLS
 #undef __END_DECLS
 #ifdef __cplusplus
-#define __BEGIN_DECLS	extern "C" {
+# define __BEGIN_DECLS	extern "C" {
 # define __END_DECLS	}
 #else
 # define __BEGIN_DECLS
 # define __END_DECLS
+#endif
+
+/* Support for flexible arrays. */
+#undef __flexarr
+#if defined(__GNUC__) && ((__GNUC__ > 2) || (__GNUC__ == 2 && __GNUC_MINOR__ >= 97))
+/* GCC 2.97 supports C99 flexible array members.  */
+# define __flexarr	[]
+#else
+# ifdef __GNUC__
+#  define __flexarr	[0]
+# else
+#  if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+#   define __flexarr	[]
+#  else
+/* Some other non-C99 compiler. Approximate with [1]. */
+#   define __flexarr	[1]
+#  endif
+# endif
 #endif
 
 #endif /* DNET_OS_H */

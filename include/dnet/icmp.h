@@ -29,20 +29,20 @@ struct icmp_hdr {
 struct icmp_msg_echo {
 	u_int32_t	icmp_id;
 	u_int32_t	icmp_seq;
-	u_char		icmp_data[0];	/* optional data */
+	u_char		icmp_data __flexarr;	/* optional data */
 };
 
 struct icmp_msg_unreach_frag {
 	u_int16_t	icmp_void;	/* must be zero */
 	u_int16_t	icmp_nextmtu;	/* MTU of next-hop network */
-	u_char		icmp_ip8[0];	/* IP hdr + 8 bytes of original pkt */
+	u_char		icmp_ip8 __flexarr; /* IP hdr + 8 bytes of orig pkt */
 };
 
 struct icmp_msg_quote {
 	u_int32_t	icmp_void;	/* must be zero */
 #define icmp_gwaddr	icmp_void	/* router IP address to use */
 #define icmp_pptr	icmp_void	/* pointer to offending octet field */
-	u_char		icmp_ip8[0];	/* IP hdr + 8 bytes of original pkt */
+	u_char		icmp_ip8 __flexarr; /* IP hdr + 8 bytes of orig pkt */
 };
 
 /* RFC 1256 */
@@ -54,7 +54,7 @@ struct icmp_msg_rtradv {
 		u_int32_t	icmp_void;	/* router IP address */
 #define		icmp_gwaddr	icmp_void
 		u_int32_t	icmp_pref;	/* preference (usually zero) */
-	} icmp_rtr[0];			/* variable number of routers */
+	} icmp_rtr __flexarr;			/* variable # of routers */
 };
 #define ICMP_RTR_PREF_NODEFAULT	0x80000000
 
