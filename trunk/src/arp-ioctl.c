@@ -25,6 +25,7 @@
 #include <sys/mib.h>
 #endif
 
+#include <net/if.h>
 #include <net/if_arp.h>
 #ifdef HAVE_STREAMS_MIB2
 #include <netinet/in.h>
