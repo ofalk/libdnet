@@ -13,12 +13,12 @@
 
 #include <check.h>
 
-#define ADDR_FILL(a, ip)		\
+#define ADDR_PACK(a, ip)		\
 	(a)->addr_type = ADDR_TYPE_IP;	\
 	(a)->addr_bits = IP_ADDR_BITS;	\
 	(a)->addr_ip = (ip)
 
-#define SIN_FILL(s, ip, port)				\
+#define SIN_PACK(s, ip, port)				\
 	(s)->sin_len = sizeof(struct sockaddr_in);	\
 	(s)->sin_family = AF_INET;			\
 	(s)->sin_port = htons(port);			\
@@ -26,14 +26,14 @@
 
 typedef struct sockaddr SA;
 
-START_TEST(test_addr_fill)
+START_TEST(test_addr_pack)
 {
 	struct addr a, b;
 
 	memset(&a, 0, sizeof(a)); memset(&b, 0, sizeof(b));
 
-	ADDR_FILL(&a, 666);
-	addr_fill(&b, ADDR_TYPE_IP, IP_ADDR_BITS, &a.addr_ip, IP_ADDR_LEN);
+	ADDR_PACK(&a, 666);
+	addr_pack(&b, ADDR_TYPE_IP, IP_ADDR_BITS, &a.addr_ip, IP_ADDR_LEN);
 	fail_unless(memcmp(&a, &b, sizeof(a)) == 0, "got different address");
 }
 END_TEST
@@ -42,7 +42,7 @@ START_TEST(test_addr_cmp)
 {
 	struct addr a, b;
 
-	ADDR_FILL(&a, 666);
+	ADDR_PACK(&a, 666);
 	memcpy(&b, &a, sizeof(a));
 	fail_unless(addr_cmp(&a, &b) == 0, "failed on equal addresses");
 	b.addr_type = ADDR_TYPE_ETH;
@@ -58,7 +58,7 @@ START_TEST(test_addr_bcast)
 {
 	struct addr a, b;
 
-	ADDR_FILL(&a, htonl(0x01020304));
+	ADDR_PACK(&a, htonl(0x01020304));
 	a.addr_bits = 29; addr_bcast(&a, &b);
 	fail_unless(b.addr_ip == htonl(0x01020307), "wrong for /29");
 	a.addr_bits = 16; addr_bcast(&a, &b);
@@ -73,7 +73,7 @@ START_TEST(test_addr_ntop)
 	struct addr a;
 	char buf[64];
 	
-	ADDR_FILL(&a, htonl(0x010203ff));
+	ADDR_PACK(&a, htonl(0x010203ff));
 	a.addr_bits = 23; addr_ntop(&a, buf, sizeof(buf));
 	fail_unless(strcmp(buf, "1.2.3.255/23") == 0, "bad /23 handling");
 	a.addr_bits = 0; addr_ntop(&a, buf, sizeof(buf));
@@ -88,7 +88,7 @@ START_TEST(test_addr_pton)
 {
 	struct addr a, b;
 
-	ADDR_FILL(&a, htonl(0x010203ff));
+	ADDR_PACK(&a, htonl(0x010203ff));
 	
 	a.addr_bits = 17; addr_pton("1.2.3.255/17", &b);
 	fail_unless(addr_cmp(&a, &b) == 0, "bad /17 handling");
@@ -110,7 +110,7 @@ START_TEST(test_addr_ntoa)
 	struct addr a;
 	int i;
 
-	ADDR_FILL(&a, htonl(0x01020304));
+	ADDR_PACK(&a, htonl(0x01020304));
 	for (i = 0; i < 1000; i++) {
 		fail_unless(strcmp(addr_ntoa(&a), "1.2.3.4") == 0,
 		    "barfed on 1.2.3.4 loop");
@@ -125,8 +125,8 @@ START_TEST(test_addr_ntos)
 
 	memset(&s1, 0, sizeof(s1));
 	memset(&s2, 0, sizeof(s2));
-	SIN_FILL(&s1, htonl(0x01020304), 0);
-	ADDR_FILL(&a, htonl(0x01020304));
+	SIN_PACK(&s1, htonl(0x01020304), 0);
+	ADDR_PACK(&a, htonl(0x01020304));
 	addr_ntos(&a, (SA *)&s2);
 	fail_unless(memcmp(&s1, &s2, sizeof(s1)) == 0, "bad sockaddr_in");
 }
@@ -138,9 +138,9 @@ START_TEST(test_addr_ston)
 	struct addr a, b;
 
 	memset(&a, 0, sizeof(a));
-	ADDR_FILL(&a, htonl(0x01020304));
+	ADDR_PACK(&a, htonl(0x01020304));
 	memcpy(&b, &a, sizeof(&b));
-	SIN_FILL(&s, htonl(0x01020304), 0);
+	SIN_PACK(&s, htonl(0x01020304), 0);
 	memcpy(&t, &s, sizeof(&t));
 	
 	addr_ston((SA *)&s, &b);
@@ -157,7 +157,7 @@ START_TEST(test_addr_btos)
 	struct sockaddr s;
 	struct addr a;
 	
-	ADDR_FILL(&a, htonl(0xffffff00));
+	ADDR_PACK(&a, htonl(0xffffff00));
 	a.addr_bits = 24;
 	fail_unless(addr_btos(a.addr_bits, &s) == 0, "b0rked");
 }
@@ -168,7 +168,7 @@ START_TEST(test_addr_stob)
 	struct sockaddr_in s;
 	struct addr a;
 
-	SIN_FILL(&s, htonl(0xffffff00), 0);
+	SIN_PACK(&s, htonl(0xffffff00), 0);
 	addr_stob((struct sockaddr *)&s, &a.addr_bits);
 	fail_unless(a.addr_bits == 24, "b0rked");
 }
@@ -179,7 +179,7 @@ START_TEST(test_addr_btom)
 	struct addr a;
 	uint32_t mask;
 
-	ADDR_FILL(&a, htonl(0xffffff00));
+	ADDR_PACK(&a, htonl(0xffffff00));
 	a.addr_bits = 24;
 	addr_btom(a.addr_bits, &mask, sizeof(mask));
 	fail_unless(mask == htonl(0xffffff00), "b0rked");
@@ -204,7 +204,7 @@ addr_suite(void)
 	TCase *tc_core = tcase_create("core");
 
 	suite_add_tcase(s, tc_core);
-	tcase_add_test(tc_core, test_addr_fill);
+	tcase_add_test(tc_core, test_addr_pack);
 	tcase_add_test(tc_core, test_addr_cmp);
 	tcase_add_test(tc_core, test_addr_bcast);
 	tcase_add_test(tc_core, test_addr_ntop);
