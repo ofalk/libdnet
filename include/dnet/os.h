@@ -15,6 +15,11 @@
 # include <windows.h>
 # include <winsock2.h>
 # include <stdint.h>
+/* XXX */
+# undef IP_OPT_LSRR
+# undef IP_OPT_TS
+# undef IP_OPT_RR
+# undef IP_OPT_SSRR
 #else
 # include <sys/param.h>
 # include <sys/types.h>
