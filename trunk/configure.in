@@ -117,5 +117,6 @@ else
 	LIBOBJS="$LIBOBJS route-none.o"
 fi
 
-AC_OUTPUT(Makefile include/Makefile include/dnet/Makefile man/Makefile \
-	src/Makefile test/Makefile test/dnet/Makefile)
+AC_OUTPUT([Makefile dnet-config include/Makefile include/dnet/Makefile
+	man/Makefile src/Makefile test/Makefile test/dnet/Makefile],
+	[chmod 755 dnet-config])
