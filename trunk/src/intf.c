@@ -228,7 +228,8 @@ intf_loop(intf_t *i, intf_handler callback, void *arg)
 	struct intf_info info;
 	struct ifreq *ifr;
 	struct ifconf ifc;
-	u_char *p, *pdev, buf[BUFSIZ];
+	u_char *p, buf[BUFSIZ];
+	char *pdev;
 	int ret;
 	
 	ifc.ifc_len = sizeof(buf);
