@@ -9,8 +9,6 @@
 
 %module dnet
 
-// XXX - audit %newobject - diff
-
 %{
 #include <sys/types.h>
 #include <dnet.h>
@@ -32,17 +30,8 @@ typedef unsigned int	uint32_t;
 %apply(char *STRING, int LENGTH) { (char *buf2, int len2) };
 %apply(char *STRING, int LENGTH) { (char *buf3, int len3) };
 %apply(char *STRING, int LENGTH) { (char *buf4, int len4) };
-%cstring_output_allocate_size(char **dstp, int *dlenp, free(*$1));
 
-#ifdef SWIGPYTHON
-/* Python callback handle */
-%{
-struct cb_handle {
-	PyObject	*func;
-	PyObject	*arg;
-};
-%}
-#endif
+%cstring_output_allocate_size(char **dstp, int *dlenp, free(*$1));
 
 /* Exception handling */
 %{
@@ -59,8 +48,7 @@ dnet_error(int code, const char *fmt, ...)
 		vsnprintf(_dnet_errmsg, sizeof(_dnet_errmsg), fmt, ap);
 		va_end(ap);
 	} else {
-		strncpy(_dnet_errmsg, strerror(errno), 
-		    sizeof(_dnet_errmsg) - 1);
+		strncpy(_dnet_errmsg, strerror(errno), sizeof(_dnet_errmsg)-1);
 		_dnet_errmsg[sizeof(_dnet_errmsg) - 1] = '\0';
 	}
 	_dnet_errcode = code;
@@ -77,7 +65,7 @@ dnet_error(int code, const char *fmt, ...)
 }
 
 #ifdef SWIGPYTHON
-/* StopIteration exception for iterator types */
+/* Exception for iterator types */
 %exception next {
 	$action
 	if (!result) {
@@ -85,6 +73,14 @@ dnet_error(int code, const char *fmt, ...)
 		return (NULL);
 	}
 }
+
+/* Python callback handle */
+%{
+struct cb_handle {
+	PyObject	*func;
+	PyObject	*arg;
+};
+%}
 #endif
 
 /*
@@ -114,11 +110,12 @@ __addr_data_set(struct addr *a, PyObject *obj, int len)
 {
 	char *p;
 	int n;
-		if (PyArg_Parse(obj, "s#:addr_data_set", &p, &n) && n == len) {
+
+	if (PyArg_Parse(obj, "s#:addr_data_set", &p, &n) && n == len) {
 		memcpy(a->addr_data8, p, len);
 	} else
-		dnet_error(SWIG_ValueError, "expected %d-byte binary string",
-		    len);
+		dnet_error(SWIG_ValueError, 
+		    "expected %d-byte binary string", len);
 }
 
 static PyObject *addr_eth_get(struct addr *a) {
@@ -295,7 +292,8 @@ void __eth_pack_hdr(char *eth_hdr,
 	if (len1 == ETH_ADDR_LEN && len2 == ETH_ADDR_LEN) {
 		eth_pack_hdr(eth_hdr, *buf1, *buf2, type);
 	} else
-		dnet_error(SWIG_ValueError, "invalid MAC addresses");
+		dnet_error(SWIG_ValueError, "expected 6-byte binary string "
+		    "for MAC address");
 }
 void __eth_aton(char *buf, char *eth_addr) {
 	if (eth_aton(buf, (eth_addr_t *)eth_addr) < 0)
@@ -313,7 +311,13 @@ char *__eth_ntoa(char *buf1, int len1) {
 #ifdef SWIGPYTHON
 %pythoncode %{
 def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST, type=ETH_TYPE_IP):
-	"""Return a packed binary string representing an Ethernet header."""
+	"""Return a packed binary string representing an Ethernet header.
+	
+	Keyword arguments:
+	dst  -- destination address			(6-byte binary string)
+	src  -- source address				(6-byte binary address)
+	type -- Ethernet payload type (ETH_TYPE_*)	(uint16)
+	"""
 	return _dnet.__eth_pack_hdr(dst, src, type)
 
 def eth_aton(string):
@@ -423,11 +427,24 @@ void __icmp_pack_hdr_echo(char **dstp, int *dlenp, int type, int code,
 #ifdef SWIGPYTHON
 %pythoncode %{
 def icmp_pack_hdr(type=8, code=0):
-	"""Return a packed binary string representing an ICMP header."""
+	"""Return a packed binary string representing an ICMP header.
+	
+	Keyword arguments:
+	type -- type of message	(ICMP_TYPE_*)	(uint8)
+	code -- type subcode (ICMP_CODE_*)	(uint8)
+	"""
 	return _dnet.__icmp_pack_hdr(type, code)
 
 def icmp_pack_hdr_echo(type=8, code=0, id=0, seq=0, data=''):
-	"""Return a packed binary string representing an ICMP echo message."""
+	"""Return a packed binary string representing an ICMP echo message.
+	
+	Keyword arguments:
+	type -- type of message (ICMP_TYPE_*)	(uint8)
+	code -- type subcode (ICMP_CODE_*)	(uint8)
+	id   -- message ID			(uint8)
+	seq  -- sequence number			(uint8)
+	data -- message data			(binary string)
+	"""
 	return _dnet.__icmp_pack_hdr_echo(type, code, id, seq, data);
 
 %}
@@ -491,9 +508,12 @@ IP_ADDR_MCAST_LOCAL =		"\xe0\x00\x00\xff"
 void __ip_pack_hdr(char *ip_hdr,
 	int tos, int len, int id, int off, int ttl, int p,
 	char *buf1, int len1, char *buf2, int len2) {
-	if (len1 == IP_ADDR_LEN && len2 == IP_ADDR_LEN)
+	if (len1 == IP_ADDR_LEN && len2 == IP_ADDR_LEN) {
 		ip_pack_hdr(ip_hdr, tos, len, id, off, ttl, p, 
 		    *(uint32_t *)buf1, *(uint32_t *)buf2);
+	} else
+		dnet_error(SWIG_ValueError, "expected 4-byte binary string ",
+		    "for IP address");
 }
 void __ip_aton(char *buf, char *ip_addr) {
 	ip_aton(buf, (ip_addr_t *)ip_addr);
@@ -503,16 +523,27 @@ char *__ip_ntoa(char *buf1, int len1) {
 		return (NULL);
 	return (ip_ntoa((ip_addr_t *)buf1));
 }
-void __ip_checksum(char **dstp, int *dlenp, char *src, int slen) {
-	*dstp = malloc(slen); *dlenp = slen;
-	memcpy(*dstp, src, *dlenp);
+void __ip_checksum(char **dstp, int *dlenp, char *buf1, int len1) {
+	*dstp = malloc(len1); *dlenp = len1;
+	memcpy(*dstp, buf1, *dlenp);
 	ip_checksum(*dstp, *dlenp);
 }
 %}
 #ifdef SWIGPYTHON
 %pythoncode %{
 def ip_pack_hdr(tos=0, len=IP_HDR_LEN, id=0, off=0, ttl=IP_TTL_DEFAULT, p=IP_PROTO_IP, src=IP_ADDR_ANY, dst=IP_ADDR_ANY):
-	"""Return a packed binary string representing an IP header."""
+	"""Return a packed binary string representing an IP header.
+	
+	Keyword arguments:
+	tos -- type of service			(uint8)
+	len -- length (IP_HDR_LEN + payload)	(uint16)
+	id  -- packet ID			(uint16)
+	off -- fragmentation offset		(uint16)
+	ttl -- time-to-live			(uint8)
+	p   -- protocol (IP_PROTO_*)		(uint8)
+	src -- source address			(4-byte binary string)
+	dst -- destination address		(4-byte binary string)
+	"""
 	return _dnet.__ip_pack_hdr(tos, len, id, off, ttl, p, src, dst)
 
 def ip_aton(string):
@@ -524,8 +555,8 @@ def ip_ntoa(addr):
 	return _dnet.__ip_ntoa(addr)
 
 def ip_checksum(packet):
-	"Return a packed binary string representing an IP packet "
-	"with the IP and transport-layer checksums set."
+	"""Return a packed binary string representing an IP packet \
+with the IP and transport-layer checksums set."""
 	return _dnet.__ip_checksum(packet)
 
 %}
@@ -581,13 +612,22 @@ void __arp_pack_hdr_ethip(char *arp_ethip, int op,
 	    len3 == ETH_ADDR_LEN && len4 == IP_ADDR_LEN) {
 		arp_pack_hdr_ethip(arp_ethip, op, *buf1, *buf2, *buf3, *buf4);
 	} else
-		dnet_error(SWIG_ValueError, "invalid argument lengths");
+		dnet_error(SWIG_ValueError, "expected 6-byte binary string "
+		    "for MAC address and 4-byte binary string for IP address");
 }
 %}
 #ifdef SWIGPYTHON
 %pythoncode %{
 def arp_pack_hdr_ethip(op=ARP_OP_REQUEST, sha=ETH_ADDR_BROADCAST, spa=IP_ADDR_ANY, dha=ETH_ADDR_BROADCAST, dpa=IP_ADDR_ANY):
-	"""Return a packed binary string representing an Ethernet/IP ARP message."""
+	"""Return a packed binary string representing an Ethernet/IP ARP message.
+	
+	Keyword arguments:
+	op  -- operation (ARP_OP_*)		(uint16)
+	sha -- sender hardware address		(6-byte binary string)
+	spa -- sender protocol address		(4-byte binary string)
+	dha -- destination hardware address	(6-byte binary string)
+	dpa -- destination protocol address	(4-byte binary string)
+	"""
 	return _dnet.__arp_pack_hdr_ethip(op, sha, spa, dha, dpa)
 
 %}
@@ -794,7 +834,17 @@ def arp_pack_hdr_ethip(op=ARP_OP_REQUEST, sha=ETH_ADDR_BROADCAST, spa=IP_ADDR_AN
 #ifdef SWIGPYTHON
 %pythoncode %{
 def tcp_pack_hdr(sport=0, dport=0, seq=0, ack=0, flags=TH_SYN, win=0, urp=0):
-	"""Return a packed binary string representing a TCP header."""
+	"""Return a packed binary string representing a TCP header.
+	
+	Keyword arguments:
+	sport  -- source port			(uint16)
+	dport  -- destination port		(uint16)
+	seq    -- sequence number		(uint32)
+	ack    -- acknowledgement number	(uint32)
+	flags  -- control flags (TH_*)		(uint8)
+	win    -- window size			(uint16)
+	urp    -- urgent pointer                (uint16)
+	"""
 	return struct.pack("!HHIIBBHHH",
 	    sport, dport, seq, ack, 5 << 4, flags, win, 0, urp)
 
@@ -810,7 +860,13 @@ def tcp_pack_hdr(sport=0, dport=0, seq=0, ack=0, flags=TH_SYN, win=0, urp=0):
 #ifdef SWIGPYTHON
 %pythoncode %{
 def udp_pack_hdr(sport=0, dport=0, ulen=UDP_HDR_LEN):
-	"""Return a packed binary string representing a UDP header."""
+	"""Return a packed binary string representing a UDP header.
+	
+	Keyword arguments:
+	sport -- source port				(uint16)
+	dport -- destination port			(uint16)
+	ulen  -- length (UDP_HDR_LEN + payload)		(uint16)
+	"""
 	return struct.pack("!HHHH", sport, dport, ulen, 0)
 
 %}

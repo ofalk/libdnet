@@ -120,7 +120,13 @@ __eth_aton = _dnet.__eth_aton
 __eth_ntoa = _dnet.__eth_ntoa
 
 def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST, type=ETH_TYPE_IP):
-	"""Return a packed binary string representing an Ethernet header."""
+	"""Return a packed binary string representing an Ethernet header.
+	
+	Keyword arguments:
+	dst  -- destination address			(6-byte binary string)
+	src  -- source address				(6-byte binary address)
+	type -- Ethernet payload type (ETH_TYPE_*)	(uint16)
+	"""
 	return _dnet.__eth_pack_hdr(dst, src, type)
 def eth_aton(string):
 	"""Convert an Ethernet MAC address from a printable string to a
@@ -162,10 +168,23 @@ __icmp_pack_hdr = _dnet.__icmp_pack_hdr
 __icmp_pack_hdr_echo = _dnet.__icmp_pack_hdr_echo
 
 def icmp_pack_hdr(type=8, code=0):
-	"""Return a packed binary string representing an ICMP header."""
+	"""Return a packed binary string representing an ICMP header.
+	
+	Keyword arguments:
+	type -- type of message	(ICMP_TYPE_*)	(uint8)
+	code -- type subcode (ICMP_CODE_*)	(uint8)
+	"""
 	return _dnet.__icmp_pack_hdr(type, code)
 def icmp_pack_hdr_echo(type=8, code=0, id=0, seq=0, data=''):
-	"""Return a packed binary string representing an ICMP echo message."""
+	"""Return a packed binary string representing an ICMP echo message.
+	
+	Keyword arguments:
+	type -- type of message (ICMP_TYPE_*)	(uint8)
+	code -- type subcode (ICMP_CODE_*)	(uint8)
+	id   -- message ID			(uint8)
+	seq  -- sequence number			(uint8)
+	data -- message data			(binary string)
+	"""
 	return _dnet.__icmp_pack_hdr_echo(type, code, id, seq, data);
 
 
@@ -213,7 +232,18 @@ __ip_ntoa = _dnet.__ip_ntoa
 __ip_checksum = _dnet.__ip_checksum
 
 def ip_pack_hdr(tos=0, len=IP_HDR_LEN, id=0, off=0, ttl=IP_TTL_DEFAULT, p=IP_PROTO_IP, src=IP_ADDR_ANY, dst=IP_ADDR_ANY):
-	"""Return a packed binary string representing an IP header."""
+	"""Return a packed binary string representing an IP header.
+	
+	Keyword arguments:
+	tos -- type of service			(uint8)
+	len -- length (IP_HDR_LEN + payload)	(uint16)
+	id  -- packet ID			(uint16)
+	off -- fragmentation offset		(uint16)
+	ttl -- time-to-live			(uint8)
+	p   -- protocol (IP_PROTO_*)		(uint8)
+	src -- source address			(4-byte binary string)
+	dst -- destination address		(4-byte binary string)
+	"""
 	return _dnet.__ip_pack_hdr(tos, len, id, off, ttl, p, src, dst)
 def ip_aton(string):
 	"""Return a packed binary string representing an IP address."""
@@ -222,8 +252,8 @@ def ip_ntoa(addr):
 	"""Return the printable string represention of a packed IP address."""
 	return _dnet.__ip_ntoa(addr)
 def ip_checksum(packet):
-	"Return a packed binary string representing an IP packet "
-	"with the IP and transport-layer checksums set."
+	"""Return a packed binary string representing an IP packet \
+with the IP and transport-layer checksums set."""
 	return _dnet.__ip_checksum(packet)
 
 
@@ -262,7 +292,15 @@ ARP_OP_REVREPLY = _dnet.ARP_OP_REVREPLY
 __arp_pack_hdr_ethip = _dnet.__arp_pack_hdr_ethip
 
 def arp_pack_hdr_ethip(op=ARP_OP_REQUEST, sha=ETH_ADDR_BROADCAST, spa=IP_ADDR_ANY, dha=ETH_ADDR_BROADCAST, dpa=IP_ADDR_ANY):
-	"""Return a packed binary string representing an Ethernet/IP ARP message."""
+	"""Return a packed binary string representing an Ethernet/IP ARP message.
+	
+	Keyword arguments:
+	op  -- operation (ARP_OP_*)		(uint16)
+	sha -- sender hardware address		(6-byte binary string)
+	spa -- sender protocol address		(4-byte binary string)
+	dha -- destination hardware address	(6-byte binary string)
+	dpa -- destination protocol address	(4-byte binary string)
+	"""
 	return _dnet.__arp_pack_hdr_ethip(op, sha, spa, dha, dpa)
 
 
@@ -358,7 +396,17 @@ TH_CWR = _dnet.TH_CWR
 TCP_PORT_MAX = _dnet.TCP_PORT_MAX
 TCP_WIN_MAX = _dnet.TCP_WIN_MAX
 def tcp_pack_hdr(sport=0, dport=0, seq=0, ack=0, flags=TH_SYN, win=0, urp=0):
-	"""Return a packed binary string representing a TCP header."""
+	"""Return a packed binary string representing a TCP header.
+	
+	Keyword arguments:
+	sport  -- source port			(uint16)
+	dport  -- destination port		(uint16)
+	seq    -- sequence number		(uint32)
+	ack    -- acknowledgement number	(uint32)
+	flags  -- control flags (TH_*)		(uint8)
+	win    -- window size			(uint16)
+	urp    -- urgent pointer                (uint16)
+	"""
 	return struct.pack("!HHIIBBHHH",
 	    sport, dport, seq, ack, 5 << 4, flags, win, 0, urp)
 
@@ -366,7 +414,13 @@ def tcp_pack_hdr(sport=0, dport=0, seq=0, ack=0, flags=TH_SYN, win=0, urp=0):
 UDP_HDR_LEN = _dnet.UDP_HDR_LEN
 UDP_PORT_MAX = _dnet.UDP_PORT_MAX
 def udp_pack_hdr(sport=0, dport=0, ulen=UDP_HDR_LEN):
-	"""Return a packed binary string representing a UDP header."""
+	"""Return a packed binary string representing a UDP header.
+	
+	Keyword arguments:
+	sport -- source port				(uint16)
+	dport -- destination port			(uint16)
+	ulen  -- length (UDP_HDR_LEN + payload)		(uint16)
+	"""
 	return struct.pack("!HHHH", sport, dport, ulen, 0)
 
 

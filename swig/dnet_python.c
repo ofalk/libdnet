@@ -724,12 +724,6 @@ static void _SWIG_exception(int code, const char *msg) {
 #define SWIG_exception(a,b) { _SWIG_exception(a,b); SWIG_fail; }
 
 
-struct cb_handle {
-	PyObject	*func;
-	PyObject	*arg;
-};
-
-
 static char		_dnet_errmsg[256];
 static int		_dnet_errcode = 0;
 
@@ -743,12 +737,17 @@ dnet_error(int code, const char *fmt, ...)
 		vsnprintf(_dnet_errmsg, sizeof(_dnet_errmsg), fmt, ap);
 		va_end(ap);
 	} else {
-		strncpy(_dnet_errmsg, strerror(errno), 
-		    sizeof(_dnet_errmsg) - 1);
+		strncpy(_dnet_errmsg, strerror(errno), sizeof(_dnet_errmsg)-1);
 		_dnet_errmsg[sizeof(_dnet_errmsg) - 1] = '\0';
 	}
 	_dnet_errcode = code;
 }
+
+
+struct cb_handle {
+	PyObject	*func;
+	PyObject	*arg;
+};
 
 
 /* Helper routines for addr_{eth,ip,ip6} members */
@@ -767,11 +766,12 @@ __addr_data_set(struct addr *a, PyObject *obj, int len)
 {
 	char *p;
 	int n;
-		if (PyArg_Parse(obj, "s#:addr_data_set", &p, &n) && n == len) {
+
+	if (PyArg_Parse(obj, "s#:addr_data_set", &p, &n) && n == len) {
 		memcpy(a->addr_data8, p, len);
 	} else
-		dnet_error(SWIG_ValueError, "expected %d-byte binary string",
-		    len);
+		dnet_error(SWIG_ValueError, 
+		    "expected %d-byte binary string", len);
 }
 
 static PyObject *addr_eth_get(struct addr *a) {
@@ -898,7 +898,8 @@ void __eth_pack_hdr(char *eth_hdr,
 	if (len1 == ETH_ADDR_LEN && len2 == ETH_ADDR_LEN) {
 		eth_pack_hdr(eth_hdr, *buf1, *buf2, type);
 	} else
-		dnet_error(SWIG_ValueError, "invalid MAC addresses");
+		dnet_error(SWIG_ValueError, "expected 6-byte binary string "
+		    "for MAC address");
 }
 void __eth_aton(char *buf, char *eth_addr) {
 	if (eth_aton(buf, (eth_addr_t *)eth_addr) < 0)
@@ -978,9 +979,12 @@ void __icmp_pack_hdr_echo(char **dstp, int *dlenp, int type, int code,
 void __ip_pack_hdr(char *ip_hdr,
 	int tos, int len, int id, int off, int ttl, int p,
 	char *buf1, int len1, char *buf2, int len2) {
-	if (len1 == IP_ADDR_LEN && len2 == IP_ADDR_LEN)
+	if (len1 == IP_ADDR_LEN && len2 == IP_ADDR_LEN) {
 		ip_pack_hdr(ip_hdr, tos, len, id, off, ttl, p, 
 		    *(uint32_t *)buf1, *(uint32_t *)buf2);
+	} else
+		dnet_error(SWIG_ValueError, "expected 4-byte binary string ",
+		    "for IP address");
 }
 void __ip_aton(char *buf, char *ip_addr) {
 	ip_aton(buf, (ip_addr_t *)ip_addr);
@@ -990,9 +994,9 @@ char *__ip_ntoa(char *buf1, int len1) {
 		return (NULL);
 	return (ip_ntoa((ip_addr_t *)buf1));
 }
-void __ip_checksum(char **dstp, int *dlenp, char *src, int slen) {
-	*dstp = malloc(slen); *dlenp = slen;
-	memcpy(*dstp, src, *dlenp);
+void __ip_checksum(char **dstp, int *dlenp, char *buf1, int len1) {
+	*dstp = malloc(len1); *dlenp = len1;
+	memcpy(*dstp, buf1, *dlenp);
 	ip_checksum(*dstp, *dlenp);
 }
 
@@ -1016,7 +1020,8 @@ void __arp_pack_hdr_ethip(char *arp_ethip, int op,
 	    len3 == ETH_ADDR_LEN && len4 == IP_ADDR_LEN) {
 		arp_pack_hdr_ethip(arp_ethip, op, *buf1, *buf2, *buf3, *buf4);
 	} else
-		dnet_error(SWIG_ValueError, "invalid argument lengths");
+		dnet_error(SWIG_ValueError, "expected 6-byte binary string "
+		    "for MAC address and 4-byte binary string for IP address");
 }
 
 struct arp_handle *new_arp_handle(){
@@ -2213,12 +2218,17 @@ static PyObject *_wrap___ip_checksum(PyObject *self, PyObject *args) {
     int arg4 ;
     char *temp1 = 0 ;
     int tempn1 ;
+    PyObject * obj0 = 0 ;
     
     {
         arg1 = &temp1;
         arg2 = &tempn1;
     }
-    if(!PyArg_ParseTuple(args,(char *)"si:__ip_checksum",&arg3,&arg4)) goto fail;
+    if(!PyArg_ParseTuple(args,(char *)"O:__ip_checksum",&obj0)) goto fail;
+    {
+        arg3 = (char *) PyString_AsString(obj0);
+        arg4 = (int) PyString_Size(obj0);
+    }
     {
         __ip_checksum(arg1,arg2,arg3,arg4);
         

@@ -87,7 +87,7 @@ ac_aux_dir = @ac_aux_dir@
 
 CLEANFILES = *~ *.core
 
-DISTCLEANFILES = dnet.py* *.c
+DISTCLEANFILES = dnet.py *.pyc *.c
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../include/config.h
 CONFIG_CLEAN_FILES = 
