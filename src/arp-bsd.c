@@ -69,15 +69,17 @@ arp_open(void)
 static int
 arp_msg(arp_t *arp, struct arpmsg *msg)
 {
-	int len;
+	struct arpmsg smsg;
+	int len, i = 0;
 	
 	msg->rtm.rtm_version = RTM_VERSION;
 	msg->rtm.rtm_seq = ++arp->seq; 
+	memcpy(&smsg, msg, sizeof(smsg));
 	
 #ifdef HAVE_STREAMS_ROUTE
 	return (ioctl(arp->fd, RTSTR_SEND, &msg->rtm));
 #else
-	if (write(arp->fd, msg, msg->rtm.rtm_msglen) < 0) {
+	if (write(arp->fd, &smsg, smsg.rtm.rtm_msglen) < 0) {
 		if (errno != ESRCH || msg->rtm.rtm_type != RTM_DELETE)
 			return (-1);
 	}
@@ -85,10 +87,19 @@ arp_msg(arp_t *arp, struct arpmsg *msg)
 	while ((len = read(arp->fd, msg, sizeof(*msg))) > 0) {
 		if (len < sizeof(msg->rtm))
 			return (-1);
+
+		if (msg->rtm.rtm_pid == arp->pid) {
+			if (msg->rtm.rtm_seq == arp->seq)
+				break;
+			continue;
+		} else if ((i++ % 2) == 0)
+			continue;
 		
-		if (msg->rtm.rtm_seq == arp->seq &&
-		    msg->rtm.rtm_pid == arp->pid)
-			break;
+		/* Repeat request. */
+		if (write(arp->fd, &smsg, smsg.rtm.rtm_msglen) < 0) {
+			if (errno != ESRCH || msg->rtm.rtm_type != RTM_DELETE)
+				return (-1);
+		}
 	}
 	if (len < 0)
 		return (-1);
