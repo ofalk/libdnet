@@ -60,13 +60,24 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
+AS = @AS@
 CC = @CC@
 CHECKINC = @CHECKINC@
 CHECKLIB = @CHECKLIB@
+DLLTOOL = @DLLTOOL@
+ECHO = @ECHO@
+EXEEXT = @EXEEXT@
+LIBTOOL = @LIBTOOL@
+LN_S = @LN_S@
+LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
+OBJDUMP = @OBJDUMP@
+OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
+STRIP = @STRIP@
 VERSION = @VERSION@
+ac_aux_dir = @ac_aux_dir@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
@@ -75,7 +86,7 @@ INCLUDES = -I$(top_srcdir)/include
 DISTCLEANFILES = *~
 
 SUBDIRS = check dnet
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../include/config.h
 CONFIG_CLEAN_FILES = 
 DIST_COMMON =  Makefile.am Makefile.in
@@ -256,6 +267,7 @@ clean-am:  clean-tags clean-generic mostlyclean-am
 clean: clean-recursive
 
 distclean-am:  distclean-tags distclean-generic clean-am
+	-rm -f libtool
 
 distclean: distclean-recursive
 

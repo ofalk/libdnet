@@ -60,13 +60,24 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
+AS = @AS@
 CC = @CC@
 CHECKINC = @CHECKINC@
 CHECKLIB = @CHECKLIB@
+DLLTOOL = @DLLTOOL@
+ECHO = @ECHO@
+EXEEXT = @EXEEXT@
+LIBTOOL = @LIBTOOL@
+LN_S = @LN_S@
+LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
+OBJDUMP = @OBJDUMP@
+OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
+STRIP = @STRIP@
 VERSION = @VERSION@
+ac_aux_dir = @ac_aux_dir@
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
@@ -74,31 +85,34 @@ INCLUDES = -I$(top_srcdir)/include
 
 DISTCLEANFILES = *~
 
-lib_LIBRARIES = libdnet.a
+lib_LTLIBRARIES = libdnet.la
 
-libdnet_a_SOURCES = addr-util.c addr.c blob.c ip-util.c ip6.c rand.c
+libdnet_la_SOURCES = addr-util.c addr.c blob.c ip-util.c ip6.c rand.c
 
-EXTRA_libdnet_a_SOURCES = arp-bsd.c arp-ioctl.c arp-none.c arp-win32.c 	eth-bsd.c eth-dlpi.c eth-linux.c eth-ndd.c eth-none.c eth-snoop.c 	eth-win32.c fw-ipchains.c fw-ipf.c fw-ipfw.c fw-none.c fw-pf.c 	intf-win32.c intf.c ip-cooked.c ip.c ip-win32.c route-bsd.c 	route-hpux.c route-linux.c route-none.c route-win32.c
+EXTRA_libdnet_la_SOURCES = arp-bsd.c arp-ioctl.c arp-none.c arp-win32.c 	eth-bsd.c eth-dlpi.c eth-linux.c eth-ndd.c eth-none.c eth-snoop.c 	eth-win32.c fw-ipchains.c fw-ipf.c fw-ipfw.c fw-none.c fw-pf.c 	intf-win32.c intf.c ip-cooked.c ip.c ip-win32.c route-bsd.c 	route-hpux.c route-linux.c route-none.c route-win32.c
 
 
-libdnet_a_LIBADD = @LIBOBJS@
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+libdnet_la_LIBADD = @LTLIBOBJS@
+
+libdnet_la_LDFLAGS = -version-info 0:0:0
+mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../include/config.h
 CONFIG_CLEAN_FILES = 
-LIBRARIES =  $(lib_LIBRARIES)
+LTLIBRARIES =  $(lib_LTLIBRARIES)
 
 
 DEFS = @DEFS@ -I. -I$(srcdir) -I../include
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-libdnet_a_DEPENDENCIES =  @LIBOBJS@
-libdnet_a_OBJECTS =  addr-util.o addr.o blob.o ip-util.o ip6.o rand.o
-AR = ar
+libdnet_la_DEPENDENCIES =  @LTLIBOBJS@
+libdnet_la_OBJECTS =  addr-util.lo addr.lo blob.lo ip-util.lo ip6.lo \
+rand.lo
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in err.c memcmp.c strlcat.c \
 strlcpy.c
 
@@ -107,12 +121,12 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libdnet_a_SOURCES) $(EXTRA_libdnet_a_SOURCES)
-OBJECTS = $(libdnet_a_OBJECTS)
+SOURCES = $(libdnet_la_SOURCES) $(EXTRA_libdnet_la_SOURCES)
+OBJECTS = $(libdnet_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .lo .o .obj .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) $(top_srcdir)/Makefile.am.common
 	cd $(top_srcdir) && $(AUTOMAKE) --foreign src/Makefile
 
@@ -121,40 +135,38 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 
-mostlyclean-libLIBRARIES:
+mostlyclean-libLTLIBRARIES:
 
-clean-libLIBRARIES:
-	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
 
-distclean-libLIBRARIES:
+distclean-libLTLIBRARIES:
 
-maintainer-clean-libLIBRARIES:
+maintainer-clean-libLTLIBRARIES:
 
-install-libLIBRARIES: $(lib_LIBRARIES)
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
-	@list='$(lib_LIBRARIES)'; for p in $$list; do \
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(libdir)/$$p"; \
-	    $(INSTALL_DATA) $$p $(DESTDIR)$(libdir)/$$p; \
-	  else :; fi; \
-	done
-	@$(POST_INSTALL)
-	@list='$(lib_LIBRARIES)'; for p in $$list; do \
-	  if test -f $$p; then \
-	    echo " $(RANLIB) $(DESTDIR)$(libdir)/$$p"; \
-	    $(RANLIB) $(DESTDIR)$(libdir)/$$p; \
+	    echo "$(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p"; \
+	    $(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p; \
 	  else :; fi; \
 	done
 
-uninstall-libLIBRARIES:
+uninstall-libLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	list='$(lib_LIBRARIES)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(libdir)/$$p; \
+	list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	  $(LIBTOOL)  --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p; \
 	done
 
 .c.o:
 	$(COMPILE) -c $<
+
+# FIXME: We should only use cygpath when building on Windows,
+# and only if it is available.
+.c.obj:
+	$(COMPILE) -c `cygpath -w $<`
 
 .s.o:
 	$(COMPILE) -c $<
@@ -164,6 +176,7 @@ uninstall-libLIBRARIES:
 
 mostlyclean-compile:
 	-rm -f *.o core *.core
+	-rm -f *.$(OBJEXT)
 
 clean-compile:
 
@@ -172,10 +185,27 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libdnet.a: $(libdnet_a_OBJECTS) $(libdnet_a_DEPENDENCIES)
-	-rm -f libdnet.a
-	$(AR) cru libdnet.a $(libdnet_a_OBJECTS) $(libdnet_a_LIBADD)
-	$(RANLIB) libdnet.a
+.c.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+
+maintainer-clean-libtool:
+
+libdnet.la: $(libdnet_la_OBJECTS) $(libdnet_la_DEPENDENCIES)
+	$(LINK) -rpath $(libdir) $(libdnet_la_LDFLAGS) $(libdnet_la_OBJECTS) $(libdnet_la_LIBADD) $(LIBS)
 
 tags: TAGS
 
@@ -229,7 +259,7 @@ check-am: all-am
 check: check-am
 installcheck-am:
 installcheck: installcheck-am
-install-exec-am: install-libLIBRARIES
+install-exec-am: install-libLTLIBRARIES
 install-exec: install-exec-am
 
 install-data-am:
@@ -238,9 +268,9 @@ install-data: install-data-am
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-uninstall-am: uninstall-libLIBRARIES
+uninstall-am: uninstall-libLTLIBRARIES
 uninstall: uninstall-am
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(LTLIBRARIES)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
@@ -258,39 +288,45 @@ distclean-generic:
 	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
-mostlyclean-am:  mostlyclean-libLIBRARIES mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+mostlyclean-am:  mostlyclean-libLTLIBRARIES mostlyclean-compile \
+		mostlyclean-libtool mostlyclean-tags \
+		mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-libLIBRARIES clean-compile clean-tags clean-generic \
-		mostlyclean-am
+clean-am:  clean-libLTLIBRARIES clean-compile clean-libtool clean-tags \
+		clean-generic mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-libLIBRARIES distclean-compile distclean-tags \
-		distclean-generic clean-am
+distclean-am:  distclean-libLTLIBRARIES distclean-compile \
+		distclean-libtool distclean-tags distclean-generic \
+		clean-am
+	-rm -f libtool
 
 distclean: distclean-am
 
-maintainer-clean-am:  maintainer-clean-libLIBRARIES \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
+maintainer-clean-am:  maintainer-clean-libLTLIBRARIES \
+		maintainer-clean-compile maintainer-clean-libtool \
+		maintainer-clean-tags maintainer-clean-generic \
+		distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: mostlyclean-libLIBRARIES distclean-libLIBRARIES \
-clean-libLIBRARIES maintainer-clean-libLIBRARIES uninstall-libLIBRARIES \
-install-libLIBRARIES mostlyclean-compile distclean-compile \
-clean-compile maintainer-clean-compile tags mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
-dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
-install-exec install-data-am install-data install-am install \
-uninstall-am uninstall all-redirect all-am all installdirs \
-mostlyclean-generic distclean-generic clean-generic \
-maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+.PHONY: mostlyclean-libLTLIBRARIES distclean-libLTLIBRARIES \
+clean-libLTLIBRARIES maintainer-clean-libLTLIBRARIES \
+uninstall-libLTLIBRARIES install-libLTLIBRARIES mostlyclean-compile \
+distclean-compile clean-compile maintainer-clean-compile \
+mostlyclean-libtool distclean-libtool clean-libtool \
+maintainer-clean-libtool tags mostlyclean-tags distclean-tags \
+clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
+check-am installcheck-am installcheck install-exec-am install-exec \
+install-data-am install-data install-am install uninstall-am uninstall \
+all-redirect all-am all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
