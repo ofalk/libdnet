@@ -18,7 +18,7 @@
 #include "dnet.h"
 
 struct intf_handle {
-	char			*device;
+	const char		*device;
 	struct intf_info	*info;
 };
 

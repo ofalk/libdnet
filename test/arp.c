@@ -23,27 +23,15 @@ usage(void)
 	fprintf(stderr, "Usage: arp show\n"
 	                "Usage: arp get host\n"
 	                "Usage: arp add host mac\n"
-	                "Usage: arp delete host\n"
-	                "Usage: arp flush\n");
+			"Usage: arp delete host\n");
 	exit(1);
 }
 
 static int
-print_arp(struct addr *pa, struct addr *ha, void *arg)
+print_arp(const struct addr *pa, const struct addr *ha, void *arg)
 {
 	printf("%s at %s\n", addr_ntoa(pa), addr_ntoa(ha));
 	return (0);
-}
-
-static int
-delete_arp(struct addr *pa, struct addr *ha, void *arg)
-{
-	arp_t *a = (arp_t *)arg;
-
-	if (arp_delete(a, pa) < 0)
-		return (-1);
-	
-	return (print_arp(pa, ha, NULL));
 }
 
 int
@@ -88,9 +76,6 @@ main(int argc, char *argv[])
 			err(1, "arp_delete");
 
 		printf("%s deleted\n", addr_ntoa(&pa));
-	} else if (strcmp(cmd, "flush") == 0) {
-		if (arp_loop(a, delete_arp, a) < 0)
-			err(1, "arp_loop");
 	} else
 		usage();
 

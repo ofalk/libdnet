@@ -56,7 +56,7 @@ flags2string(u_int flags)
 }
 
 static int
-print_intf(char *device, struct intf_info *info, void *arg)
+print_intf(const char *device, const struct intf_info *info, void *arg)
 {
 	struct addr bcast;
 	uint32_t mask;

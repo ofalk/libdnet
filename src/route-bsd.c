@@ -190,20 +190,21 @@ route_open(void)
 }
 
 int
-route_add(route_t *r, struct addr *dst, struct addr *gw)
+route_add(route_t *r, const struct addr *dst, const struct addr *gw)
 {
 	u_char buf[BUFSIZ];
 
 	assert(dst != NULL && gw != NULL);
 
-	if (route_msg(r, RTM_ADD, buf, sizeof(buf), dst, gw) < 0)
+	if (route_msg(r, RTM_ADD, buf, sizeof(buf), (struct addr *)dst,
+	    (struct addr *)gw) < 0)
 		return (-1);
 	
 	return (0);
 }
 
 int
-route_delete(route_t *r, struct addr *dst)
+route_delete(route_t *r, const struct addr *dst)
 {
 	struct addr gw;
 	u_char buf[BUFSIZ];
@@ -213,20 +214,22 @@ route_delete(route_t *r, struct addr *dst)
 	if (route_get(r, dst, &gw) < 0)
 		return (-1);
 	
-	if (route_msg(r, RTM_DELETE, buf, sizeof(buf), dst, &gw) < 0)
+	if (route_msg(r, RTM_DELETE, buf, sizeof(buf),
+	    (struct addr *)dst, &gw) < 0)
 		return (-1);
 	
 	return (0);
 }
 
 int
-route_get(route_t *r, struct addr *dst, struct addr *gw)
+route_get(route_t *r, const struct addr *dst, struct addr *gw)
 {
 	u_char buf[BUFSIZ];
 	
 	assert(dst != NULL && gw != NULL);
 	
-	if (route_msg(r, RTM_GET, buf, sizeof(buf), dst, gw) < 0)
+	if (route_msg(r, RTM_GET, buf, sizeof(buf),
+	    (struct addr *)dst, gw) < 0)
 		return (-1);
 	
 	return (0);
