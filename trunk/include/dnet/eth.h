@@ -11,6 +11,10 @@
 #ifndef DNET_ETH_H
 #define DNET_ETH_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define ETH_ADDR_LEN	6
 #define ETH_ADDR_BITS	48
 #define ETH_TYPE_LEN	2
@@ -64,5 +68,9 @@ int	 eth_close(eth_t *e);
 	memmove(&eth_fill_p->eth_src, &(src), ETH_ADDR_LEN);	\
 	eth_fill_p->eth_type = htons(type);			\
 } while (0)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* DNET_ETH_H */

@@ -11,6 +11,10 @@
 #ifndef DNET_ADDR_H
 #define DNET_ADDR_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+	
 #define	ADDR_TYPE_ETH		1	/* Ethernet */
 #define	ADDR_TYPE_IP		2	/* Internet Protocol v4 */
 
@@ -54,5 +58,9 @@ int	 addr_mtob(u_int32_t mask, u_short *bits);
 	(addr)->addr_bits = bits;			\
 	memmove((addr)->addr_data8, (char *)data, len);	\
 } while (0)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* DNET_ADDR_H */

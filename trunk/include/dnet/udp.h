@@ -11,6 +11,10 @@
 #ifndef DNET_UDP_H
 #define DNET_UDP_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+	
 #define UDP_HDR_LEN	8
 
 struct udp_hdr {
@@ -28,5 +32,9 @@ struct udp_hdr {
 	udp_fill_p->uh_dport = htons(dport);			\
 	udp_fill_p->uh_ulen = htons(ulen);			\
 } while (0)
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* DNET_UDP_H */
