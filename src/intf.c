@@ -138,6 +138,33 @@ intf_open(void)
 }
 
 static int
+_intf_delete_addrs(intf_t *intf, struct intf_entry *entry)
+{
+#if defined(SIOCDIFADDR)
+	struct dnet_ifaliasreq ifra;
+	
+	memset(&ifra, 0, sizeof(ifra));
+	strlcpy(ifra.ifra_name, entry->intf_name, sizeof(ifra.ifra_name));
+	if (entry->intf_addr.addr_type == ADDR_TYPE_IP) {
+		addr_ntos(&entry->intf_addr, &ifra.ifra_addr);
+		ioctl(intf->fd, SIOCDIFADDR, &ifra);
+	}
+	if (entry->intf_dst_addr.addr_type == ADDR_TYPE_IP) {
+		addr_ntos(&entry->intf_dst_addr, &ifra.ifra_addr);
+		ioctl(intf->fd, SIOCDIFADDR, &ifra);
+	}
+#elif defined(SIOCLIFREMOVEIF)
+	struct ifreq ifr;
+
+	memset(&ifr, 0, sizeof(ifr));
+	strlcpy(ifr.ifr_name, entry->intf_name, sizeof(ifr.ifr_name));
+	/* XXX - overloading Solaris lifreq with ifreq */
+	ioctl(intf->fd, SIOCLIFREMOVEIF, &ifr);
+#endif
+	return (0);
+}
+
+static int
 _intf_delete_aliases(intf_t *intf, struct intf_entry *entry)
 {
 	int i;
@@ -237,6 +264,10 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 	
 	/* Delete any existing aliases. */
 	if (_intf_delete_aliases(intf, orig) < 0)
+		return (-1);
+
+	/* Delete any existing addrs. */
+	if (_intf_delete_addrs(intf, orig) < 0)
 		return (-1);
 	
 	memset(&ifr, 0, sizeof(ifr));
