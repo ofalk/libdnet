@@ -52,13 +52,14 @@ int
 addr_cmp(const struct addr *a, const struct addr *b)
 {
 	int i, j, k;
-	
-	if ((i = a->addr_bits - b->addr_bits) != 0)
-		return (i);
-	
+
 	if ((i = a->addr_type - b->addr_type) != 0)
 		return (i);
 
+	/* XXX - 10.0.0.1 is "smaller" than 10.0.0.0/8 */
+	if ((i = a->addr_bits - b->addr_bits) != 0)
+		return (-i);
+	
 	j = b->addr_bits / 8;
 
 	for (i = 0; i < j; i++) {
