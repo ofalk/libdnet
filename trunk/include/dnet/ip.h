@@ -29,7 +29,7 @@ struct ip_hdr {
 			ip_hl:4;	/* header length */
 #endif
 	u_char		ip_tos;		/* type of service */
-	u_short		ip_len;		/* total length (incl. header) */
+	u_short		ip_len;		/* total length (including header) */
 	u_short		ip_id;		/* identification */
 	u_short		ip_off;		/* fragment offset and flags */
 	u_char		ip_ttl;		/* time to live */
@@ -184,5 +184,14 @@ void	 ip_cksum(struct ip_hdr *ip);
 int	 ip_cksum_add(void *buf, u_int len, int cksum);
 #define	 ip_cksum_carry(x) \
 	    (x = (x >> 16) + (x & 0xffff), (~(x + (x >> 16)) & 0xffff))
+
+#define ip_fill(h, tos, len, id, off, ttl, p, src, dst) do {		\
+	struct ip_hdr *ip_fill_p = (struct ip_hdr *)(h);		\
+	ip_fill_p->ip_v = 4; ip_fill_p->ip_hl = 5;			\
+	ip_fill_p->ip_tos = tos; ip_fill_p->ip_len = htons(len);	\
+ 	ip_fill_p->ip_id = htons(id); ip_fill_p->ip_off = htons(off);	\
+	ip_fill_p->ip_ttl = ttl; ip_fill_p->ip_p = p;			\
+	ip_fill_p->ip_src = src; ip_fill_p->ip_dst = dst;		\
+} while (0)
 
 #endif /* DNET_IP_H */
