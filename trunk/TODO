@@ -1,7 +1,7 @@
 
 figure out interface aliases on non-BSD platforms for intf_{add,delete}
 
-port to other target platforms: AIX, HP-UX, win32
+port to other target platforms: AIX, win32
 
 code cleanup
 
@@ -32,10 +32,10 @@ macosx  |   X  |     |     |    |    |      |       |
 --------+------+-----+-----+----+----+------+-------+
 irix    |   X  |  X  |  X  |  - |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
+hp-ux   |   X  |     |     |    |    |      |       |
+--------+------+-----+-----+----+----+------+-------+
 
 never built on:
---------+------+-----+-----+----+----+------+-------+
-hp-ux   |      |     |     |    |    |      |       |
 --------+------+-----+-----+----+----+------+-------+
 aix     |      |     |     |    |    |      |       |
 --------+------+-----+-----+----+----+------+-------+
