@@ -16,7 +16,7 @@ __author__ = 'Dug Song <dugsong@monkey.org>'
 __copyright__ = 'Copyright (c) 2003 Dug Song'
 __license__ = 'BSD'
 __url__ = 'http://libdnet.sourceforge.net/'
-__version__ = '1.9'
+__version__ = '1.10'
 
 cdef extern from "dnet.h":
     pass
