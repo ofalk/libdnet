@@ -484,7 +484,10 @@ ARP_OP_REVREPLY =	4	# /* response giving protocol address */
 
 cdef int __arp_callback(arp_entry *entry, void *arg):
     f, a = <object>arg
-    return f(addr(addr_ntoa(&entry.arp_pa)), addr(addr_ntoa(&entry.arp_ha)), a)
+    ret = f(addr(addr_ntoa(&entry.arp_pa)), addr(addr_ntoa(&entry.arp_ha)), a)
+    if not ret:
+        ret = 0
+    return ret
 
 cdef class arp:
     """arp() -> ARP table object
@@ -725,7 +728,10 @@ cdef dict_to_ifent(object d, intf_entry *entry):
 
 cdef int __intf_callback(intf_entry *entry, void *arg):
     f, a = <object>arg
-    return f(ifent_to_dict(entry), a)
+    ret = f(ifent_to_dict(entry), a)
+    if not ret:
+        ret = 0
+    return ret
 
 cdef class intf:
     """intf() -> Interface table object
@@ -832,8 +838,11 @@ cdef extern from *:
 
 cdef int __route_callback(route_entry *entry, void *arg):
     f, a = <object>arg
-    return f(addr(addr_ntoa(&entry.route_dst)),
-             addr(addr_ntoa(&entry.route_gw)), a)
+    ret = f(addr(addr_ntoa(&entry.route_dst)),
+            addr(addr_ntoa(&entry.route_gw)), a)
+    if not ret:
+        ret = 0
+    return ret
 
 cdef class route:
     """route() -> Routing table object
@@ -968,7 +977,10 @@ cdef dict_to_rule(object d, fw_rule *rule):
 
 cdef int __fw_callback(fw_rule *rule, void *arg):
     f, a = <object>arg
-    return f(rule_to_dict(rule), a)
+    ret = f(rule_to_dict(rule), a)
+    if not ret:
+        ret = 0
+    return ret
 
 cdef class fw:
     """fw() -> Firewall ruleset object
