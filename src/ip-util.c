@@ -14,34 +14,6 @@
 
 #include "dnet.h"
 
-char *
-ip_ntoa(const ip_addr_t *ip)
-{
-	struct addr addr;
-
-	addr.addr_type = ADDR_TYPE_IP;
-	addr.addr_bits = IP_ADDR_BITS;
-	addr.addr_ip = *ip;
-
-	return (addr_ntoa(&addr));
-}
-
-int
-ip_aton(const char *src, ip_addr_t *ip)
-{
-	struct addr addr;
-
-	if (addr_aton(src, &addr) < 0)
-		return (-1);
-
-	if (addr.addr_type != ADDR_TYPE_IP)
-		return (-1);
-	
-	*ip = addr.addr_ip;
-	
-	return (0);
-}
-
 size_t
 ip_add_option(void *buf, size_t len, int proto,
     const void *optbuf, size_t optlen)
