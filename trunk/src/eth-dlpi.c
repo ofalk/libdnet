@@ -238,7 +238,10 @@ eth_send(eth_t *e, const void *buf, size_t len)
 	data.len = len;
 	data.buf = (char *)buf;
 
-	return (putmsg(e->fd, &ctl, &data, 0));
+	if (putmsg(e->fd, &ctl, &data, 0) < 0)
+		return (-1);
+
+	return (len);
 #endif
 }
 
