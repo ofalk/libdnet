@@ -246,7 +246,7 @@ route_close(route_t *r)
 	if (r->fd > 0)
 		close(r->fd);
 	if (r->nlfd > 0)
-		close(r->nlfd) < 0);
+		close(r->nlfd);
 	free(r);
 	return (NULL);
 }
