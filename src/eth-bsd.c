@@ -8,11 +8,16 @@
 
 #include "config.h"
 
+#include <sys/param.h>
 #include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <sys/time.h>
-
+#if defined(HAVE_SYS_SYSCTL_H) && defined(HAVE_ROUTE_RT_MSGHDR)
+#include <sys/sysctl.h>
+#include <net/route.h>
+#include <net/if_dl.h>
+#endif
 #include <net/bpf.h>
 #include <net/if.h>
 
@@ -27,6 +32,7 @@
 
 struct eth_handle {
 	int	fd;
+	char	device[16];
 };
 
 eth_t *
@@ -60,11 +66,12 @@ eth_open(char *device)
 		return (NULL);
 	}
 #endif
-	if ((e = malloc(sizeof(*e))) == NULL) {
+	if ((e = calloc(1, sizeof(*e))) == NULL) {
 		close(fd);
 		return (NULL);
 	}
 	e->fd = fd;
+	strlcpy(e->device, device, sizeof(e->device));
 	
 	return (e);
 }
@@ -87,4 +94,63 @@ eth_close(eth_t *e)
 	
 	free(e);
 	return (0);
+}
+
+#if defined(HAVE_SYS_SYSCTL_H) && defined(HAVE_ROUTE_RT_MSGHDR)
+int
+eth_get_hwaddr(eth_t *e, struct addr *ha)
+{
+	struct if_msghdr *ifm;
+	struct sockaddr_dl *sdl;
+	u_char *p, *buf;
+	size_t len;
+	int mib[] = { CTL_NET, AF_ROUTE, 0, AF_LINK, NET_RT_IFLIST, 0 };
+	
+	if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0)
+		return (-1);
+	
+	if ((buf = malloc(len)) == NULL)
+		return (-1);
+	
+	if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
+		free(buf);
+		return (-1);
+	}
+	for (p = buf; p < buf + len; p += ifm->ifm_msglen) {
+		ifm = (struct if_msghdr *)p;
+		sdl = (struct sockaddr_dl *)(ifm + 1);
+		
+		if (ifm->ifm_type != RTM_IFINFO ||
+		    (ifm->ifm_addrs & RTA_IFP) == 0)
+			continue;
+		
+		if (sdl->sdl_family != AF_LINK || sdl->sdl_nlen == 0 ||
+		    memcmp(sdl->sdl_data, e->device, sdl->sdl_nlen) != 0)
+			continue;
+		
+		if (!addr_ston((struct sockaddr *)sdl, ha))
+			break;
+	}
+	free(buf);
+	
+	if (p >= buf + len) {
+		errno = ESRCH;
+		return (-1);
+	}
+	return (0);
+}
+#else
+int
+eth_get_hwaddr(eth_t *e, struct addr *ha)
+{
+	errno = EOPNOTSUPP;
+	return (-1);
+}
+#endif
+
+int
+eth_set_hwaddr(eth_t *e, struct addr *ha)
+{
+	errno = EOPNOTSUPP;
+	return (-1);
 }
