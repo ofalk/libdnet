@@ -106,7 +106,7 @@ _ip_match_intf(const struct intf_entry *entry, void *arg)
 		i->ip_src.addr_ip == IP_ADDR_ANY)) {
 		if (i->eth != NULL)
 			i->eth = eth_close(i->eth);
-		if ((i->eth = eth_open(device)) == NULL)
+		if ((i->eth = eth_open(entry->intf_name)) == NULL)
 			return (-1);
 		if (eth_get(i->eth, &i->eth_src.addr_eth) < 0) {
 			i->eth = eth_close(i->eth);
