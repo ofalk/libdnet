@@ -37,7 +37,7 @@ hex_main(int argc, char *argv[])
 		hex_usage();
 	
 	for (c = 1; c < argc; c++) {
-		if ((len = fmt_aton(argv[c], argv[c])) < 0)
+		if ((len = fmt_aton(argv[c], (u_char *)argv[c])) < 0)
 			hex_usage();
 		
 		if (write(STDOUT_FILENO, argv[c], len) != len)
