@@ -16,15 +16,15 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "aton.h"
 #include "dnet.h"
-#include "dnet-int.h"
+#include "mod.h"
 
 void
-icmp_usage(int die)
+icmp_usage(void)
 {
 	fprintf(stderr, "Usage: dnet icmp [type|code <value>] ...\n");
-	if (die)
-		exit(1);
+	exit(1);
 }
 
 int
@@ -41,7 +41,7 @@ icmp_main(int argc, char *argv[])
 	icmp->icmp_type = ICMP_ECHO;
 	icmp->icmp_code = 0;
 	
-	for (c = 0; c + 1 < argc; c += 2) {
+	for (c = 1; c + 1 < argc; c += 2) {
 		name = argv[c];
 		value = argv[c + 1];
 
@@ -50,13 +50,13 @@ icmp_main(int argc, char *argv[])
 		} else if (strcmp(name, "code") == 0) {
 			icmp->icmp_code = atoi(value);
 		} else
-			icmp_usage(1);
+			icmp_usage();
 	}
 	argc -= c;
 	argv += c;
 
 	if (argc != 0)
-		icmp_usage(1);
+		icmp_usage();
 
 	p = buf + ICMP_HDR_LEN;
 	
@@ -74,3 +74,9 @@ icmp_main(int argc, char *argv[])
 
 	return (0);
 }
+
+struct mod mod_icmp = {
+	"icmp",
+	MOD_TYPE_ENCAP,
+	icmp_main
+};

@@ -17,15 +17,15 @@
 #include <time.h>
 #include <unistd.h>
 
+#include "aton.h"
 #include "dnet.h"
-#include "dnet-int.h"
+#include "mod.h"
 
 void
-hex_usage(int die)
+hex_usage(void)
 {
-	fprintf(stderr, "Usage: dnet hex <value> ...\n");
-	if (die)
-		exit(1);
+	fprintf(stderr, "Usage: dnet hex <string> ...\n");
+	exit(1);
 }
 
 int
@@ -33,15 +33,21 @@ hex_main(int argc, char *argv[])
 {
 	int c, len;
 	
-	if (argc == 0)
-		hex_usage(1);
+	if (argc == 1 || *(argv[1]) == '-')
+		hex_usage();
 	
-	for (c = 0; c < argc; c++) {
+	for (c = 1; c < argc; c++) {
 		if ((len = fmt_aton(argv[c], argv[c])) < 0)
-			hex_usage(1);
+			hex_usage();
 		
 		if (write(STDOUT_FILENO, argv[c], len) != len)
 			err(1, "write");
 	}
 	return (0);
 }
+
+struct mod mod_hex = {
+	"hex",
+	MOD_TYPE_DATA,
+	hex_main
+};
