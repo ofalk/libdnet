@@ -52,6 +52,7 @@ intf_get(intf_t *intf, const char *device, struct intf_info *info)
 
 	if (ret == 0) {
 		errno = ENXIO;
+		SetLastError(ERROR_NO_DATA);
 		return (-1);
 	} else if (ret == 1)
 		return (0);
@@ -67,6 +68,7 @@ intf_set(intf_t *intf, const char *device, const struct intf_info *info)
 	 * but what about the rest of the configuration? :-(
 	 */
 	errno = ENOSYS;
+	SetLastError(ERROR_NOT_SUPPORTED);
 	return (-1);
 }
 
