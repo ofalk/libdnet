@@ -51,6 +51,27 @@
 .Fn arp_loop "arp_t *a" "arp_handler callback" "void *arg"
 .Ft arp_t *
 .Fn arp_close "arp_t *a"
+.Ss Binary buffers
+.Ft blob_t *
+.Fn blob_new "void"
+.Ft int
+.Fn blob_read "blob_t *b" "void *buf" "int len"
+.Ft int
+.Fn blob_write "blob_t *b" "const void *buf" "int len"
+.Ft int
+.Fn blob_seek "blob_t *b" "int off" "int whence"
+.Ft int
+.Fn blob_index "blob_t *b" "const void *buf" "int len"
+.Ft int
+.Fn blob_rindex "blob_t *b" "const void *buf" "int len"
+.Ft int
+.Fn blob_pack "blob_t *b" "const void *fmt" "..."
+.Ft int
+.Fn blob_unpack "blob_t *b" "const void *fmt" "..."
+.Ft int
+.Fn blob_print "blob_t *b" "char *style" "int len"
+.Ft blob_t *
+.Fn blob_free "blob_t *b"
 .Ss Ethernet
 .Ft eth_t *
 .Fn eth_open "const char *device"
@@ -153,7 +174,7 @@ In addition,
 .Nm
 also provides platform-independent definitions of various network
 protocol formats and values for portable low-level network
-programming.
+programming, as well as a simple binary buffer handling API.
 .Pp
 .Ss Network addressing
 Network addresses are described by the following structure:
@@ -285,6 +306,135 @@ passed to
 .Pp
 .Fn arp_close
 closes the specified handle.
+.Pp
+.Ss Binary buffers
+Binary buffers are described by the following structure:
+.Bd -literal
+typedef struct blob {
+	u_char		*base;		/* start of data */
+	int		 off;		/* offset into data */
+	int		 end;		/* end of data */
+	int		 size;		/* size of allocation */
+} blob_t;
+.Ed
+.Pp
+.Fn blob_new
+is used to allocate a new dynamic binary buffer, returning NULL on failure.
+.Pp
+.Fn blob_read
+reads 
+.Fa len
+bytes from the current offset in blob
+.Fa b 
+into
+.Fa buf ,
+returning the total number of bytes read, or -1 on failure.
+.Pp
+.Fn blob_write
+writes
+.Fa len
+bytes from
+.Fa buf
+to blob
+.Fa b ,
+advancing the current offset. It returns the number of bytes written,
+or -1 on failure.
+.Pp
+.Fn blob_seek
+repositions the offset within blob
+.Fa b
+to 
+.Fa off ,
+according to the directive
+.Fa whence
+(see
+.Xr lseek 2
+for details), returning the new absolute offset, or -1 on failure.
+.Pp
+.Fn blob_index
+returns the offset of the first occurence in blob 
+.Fa b
+of the specified
+.Fa buf
+of length
+.Fa len ,
+or -1 on failure.
+.Pp
+.Fn blob_index
+returns the offset of the last occurence in blob 
+.Fa b
+of the specified
+.Fa buf
+of length
+.Fa len ,
+or -1 on failure.
+.Pp
+.Fn blob_pack
+converts and writes, and
+.Fn blob_unpack
+reads and converts data in blob
+.Fa b
+according to the given format
+.Fa fmt
+as described below, returning 0 on success, and -1 on failure.
+.Pp
+The format string is composed of zero or more directives: ordinary
+characters (not
+.Cm %
+),
+which are copied to / read from the blob, and conversion
+specifications, each of which results in reading / writing zero or
+more subsequent arguments.
+.Pp
+Each conversion specification is introduced by the character
+.Cm % ,
+and may be prefixed by length specifier. The arguments must correspond
+properly (after type promotion) with the length and conversion specifiers.
+.Pp
+The length specifier is either a a decimal digit string specifying the
+length of the following argument, or the literal character
+.Cm *
+indicating that the length should be read from an integer argument for
+the argument following it.
+.Pp
+The conversion specifiers and their meanings are:
+.Bl -tag -width indent
+.It Cm D
+An unsigned 32-bit integer in network byte order.
+.It Cm H
+An unsigned 16-bit integer in network byte order.
+.It Cm b
+A binary buffer (length specifier required).
+.It Cm c
+An unsigned character.
+.It Cm d
+An unsigned 32-bit integer in host byte order.
+.It Cm h
+An unsigned 16-bit integer in host byte order.
+.It Cm s
+A C-style null-terminated string, whose maximum length must be
+specified when unpacking.
+.El
+.Pp
+Custom conversion routines and their specifiers may be registered via
+.Fn blob_register_pack ,
+currently undocumented.
+.Pp
+.Fn blob_print
+prints 
+.Fa len
+bytes of the contents of blob
+.Fa b
+from the current offset in the specified
+.Fa style ;
+currently only
+.Dq hexl 
+is available.
+.Pp
+.Fn blob_free
+deallocates the memory associated with blob
+.Fa b 
+and returns NULL.
 .Pp
 .Ss Ethernet
 .Fn eth_open
