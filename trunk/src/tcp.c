@@ -46,7 +46,7 @@ tcp_add_opt(void *buf, size_t len, const void *optbuf, size_t optlen)
 	if (datalen) {
 		memmove(p + optlen + padlen, p, datalen);
 	}
-	memmove(p, &opt->opt_type, optlen);
+	memmove(p, optbuf, optlen);
 	p += optlen;
 	
 	/* XXX - pad with NOPs to word boundary. */
