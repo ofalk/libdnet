@@ -386,7 +386,7 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 	lap = (struct addr *)((u_char *)entry + entry->intf_len);
 	
 	while (ioctl(intf->fd, SIOCLIFADDR, &ifra) == 0 &&
-	    ifra.ifra_cookie > 0 && ap < lap) {
+	    ifra.ifra_cookie > 0 && (ap + 1) < lap) {
 		if (addr_ston(&ifra.ifra_addr, ap) < 0)
 			break;
 		ap++, entry->intf_alias_num++;
@@ -413,7 +413,7 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 	lap = (struct addr *)((u_char *)entry + entry->intf_len);
 	
 	/* Get addresses for this interface. */
-	for (ifr = intf->ifc.ifc_req; ifr < lifr && ap < lap;
+	for (ifr = intf->ifc.ifc_req; ifr < lifr && (ap + 1) < lap;
 	    ifr = NEXTIFR(ifr)) {
 		/* XXX - Linux, Solaris ifaliases */
 		if ((p = strchr(ifr->ifr_name, ':')) != NULL)
