@@ -112,7 +112,7 @@ addr_cmp(const struct addr *a, const struct addr *b)
 	if ((k = b->addr_bits % 8) == 0)
 		return (0);
 
-	k = ~(~0 << (8 - k));
+	k = ~0 << (8 - k);
 	i = b->addr_data8[j] & k;
 	j = a->addr_data8[j] & k;
 	
