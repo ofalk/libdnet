@@ -4,8 +4,8 @@ include $(top_srcdir)/Makefile.am.common
 
 sbin_PROGRAMS = dnet
 
-dnet_SOURCES = dnet-int.h dnet.c addr.c arp.c aton.c eth.c hex.c ip.c icmp.c \
-	tcp.c udp.c send.c fw.c intf.c route.c
+dnet_SOURCES = addr.c arp.c aton.c aton.h dnet.c eth.c fw.c hex.c \
+	icmp.c intf.c ip.c mod.h route.c send.c tcp.c udp.c
 
 man_MANS = dnet.8
 

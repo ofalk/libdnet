@@ -72,7 +72,7 @@ DISTCLEANFILES = *~
 
 sbin_PROGRAMS = dnet
 
-dnet_SOURCES = dnet-int.h dnet.c addr.c arp.c aton.c eth.c hex.c ip.c icmp.c 	tcp.c udp.c send.c fw.c intf.c route.c
+dnet_SOURCES = addr.c arp.c aton.c aton.h dnet.c eth.c fw.c hex.c 	icmp.c intf.c ip.c mod.h route.c send.c tcp.c udp.c
 
 
 man_MANS = dnet.8
@@ -90,8 +90,8 @@ DEFS = @DEFS@ -I. -I$(srcdir) -I../../include
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-dnet_OBJECTS =  dnet.o addr.o arp.o aton.o eth.o hex.o ip.o icmp.o tcp.o \
-udp.o send.o fw.o intf.o route.o
+dnet_OBJECTS =  addr.o arp.o aton.o dnet.o eth.o fw.o hex.o icmp.o \
+intf.o ip.o route.o send.o tcp.o udp.o
 dnet_LDADD = $(LDADD)
 dnet_DEPENDENCIES =  $(top_srcdir)/src/libdnet.a
 dnet_LDFLAGS = 
