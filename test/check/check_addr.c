@@ -256,7 +256,8 @@ START_TEST(test_addr_ston)
 	addr_ston((SA *)&s, &b);
 	fail_unless(memcmp(&a, &b, sizeof(a)) == 0, "bad addr");
 	s.sin_len = 0;
-	fail_unless(addr_ston((SA *)&s, &b) == 0, "sin_len == 0");
+	fail_unless(addr_ston((SA *)&s, &b) == 0 && addr_cmp(&a, &b) == 0,
+	    "sin_len == 0");
 	s.sin_family = 123;
 	fail_unless(addr_ston((SA *)&s, &b) < 0, "sin_family == 123");
 }
@@ -279,8 +280,12 @@ START_TEST(test_addr_stob)
 	struct addr a;
 
 	SIN_PACK(&s, htonl(0xffffff00), 0);
-	addr_stob((struct sockaddr *)&s, &a.addr_bits);
+	addr_stob((SA *)&s, &a.addr_bits);
 	fail_unless(a.addr_bits == 24, "b0rked");
+	/* XXX - BSD routing sockets or SIOCGIFNETMASK */
+	s.sin_family = 0;
+	fail_unless(addr_stob((SA *)&s, &a.addr_bits) == 0 &&
+	    a.addr_bits == 24, "sin_family = 0");
 }
 END_TEST
 
