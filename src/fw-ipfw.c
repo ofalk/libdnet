@@ -251,6 +251,8 @@ fw_delete(fw_t *fw, struct fw_rule *rule)
 		}
 	}
 	ret = 0;
+
+	/* XXX - 65535 is the fixed ipfw default rule. */
 	for (ipfw = (struct ip_fw *)buf; ipfw->fw_number < 65535; ipfw++) {
 		ipfw_to_fr(ipfw, &fr);
 		if (fw_cmp(&fr, rule) == 0) {
@@ -273,7 +275,7 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 {
 	struct ip_fw *ipfw;
 	struct fw_rule fr;
-	int nbytes, nalloc, ret;
+	int i, cnt, nbytes, nalloc, ret;
 	u_char *buf, *new;
 
 	nbytes = nalloc = sizeof(*ipfw);
@@ -295,9 +297,12 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 			return (-1);
 		}
 	}
+	cnt = nbytes / sizeof(*ipfw);
+	ipfw = (struct ip_fw *)buf;
 	ret = 0;
-	for (ipfw = (struct ip_fw *)buf; ipfw->fw_number <= 65535; ipfw++) {
-		ipfw_to_fr(ipfw, &fr);
+	
+	for (i = 0; i < cnt; i++) {
+		ipfw_to_fr(&ipfw[i], &fr);
 		if ((ret = callback(&fr, arg)) != 0)
 			break;
 	}
