@@ -165,7 +165,7 @@ fw_main(int argc, char *argv[])
 		printf("+ ");
 		print_rule(&fr, NULL);
 		if (fw_add(fw, &fr) < 0)
-			err(1, "fw_delete");
+			err(1, "fw_add");
 	} else if (argc > 2 && strcmp(argv[1], "delete") == 0) {
 		if (arg_to_fr(argc - 2, argv + 2, &fr) < 0)
 			err(1, "arg_to_fr");
