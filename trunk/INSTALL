@@ -51,7 +51,7 @@ To build a MinGW native library (under Cygwin+MinGW):
 To build a Microsoft Visual C++ native library and Python module
 (again, under Cygwin+MinGW):
 
-	./configure --with-python
+	./configure
 	cd python && C:/Python23/python.exe setup.py build
 
 
