@@ -127,7 +127,10 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 
 	memset(&ifr, 0, sizeof(ifr));
 	strlcpy(ifr.ifr_name, entry->intf_name, sizeof(ifr.ifr_name));
-
+#ifdef SIOCAIFADDR
+	memset(&ifra, 0, sizeof(ifra));
+	strlcpy(ifra.ifra_name, entry->intf_name, sizeof(ifra.ifra_name));
+#endif
 	/* Set interface MTU. */
 	if (entry->intf_mtu != 0) {
 		ifr.ifr_mtu = entry->intf_mtu;
@@ -163,8 +166,10 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 #ifdef SIOCDIFADDR
 	/* Delete original address, if none specified. */
 	else if (orig->intf_addr != NULL) {
-		addr_ntos(orig->intf_addr, &ifr.ifr_addr);
-		if (ioctl(intf->fd, SIOCDIFADDR, &ifr) < 0)
+		addr_ntos(orig->intf_addr, &ifra.ifra_addr);
+		addr_btos(orig->intf_addr->addr_bits, &ifra.ifra_mask);
+		
+		if (ioctl(intf->fd, SIOCDIFADDR, &ifra) < 0)
 			return (-1);
 	}
 #endif
@@ -204,9 +209,6 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 	}
 	/* Delete any existing aliases. */
 #ifdef SIOCAIFADDR			/* XXX - skip Linux SIOCDIFADDR */
-	memset(&ifra, 0, sizeof(ifra));
-	strlcpy(ifra.ifra_name, entry->intf_name, sizeof(ifra.ifra_name));
-	
 	for (i = 0; i < orig->intf_alias_num; i++) {
 		addr_ntos(&orig->intf_alias_addr[i], &ifra.ifra_addr);
 		ioctl(intf->fd, SIOCDIFADDR, &ifra);
@@ -328,11 +330,11 @@ _intf_set_type(struct intf_entry *entry)
 int
 intf_loop(intf_t *intf, intf_handler callback, void *arg)
 {
-	struct intf_entry *entry;
-	struct ifconf ifc;
 #ifdef SIOCLIFADDR
 	struct dnet_ifaliasreq ifra;
 #endif
+	struct intf_entry *entry;
+	struct ifconf ifc;
 	struct ifreq *ifr, *lifr, iftmp;
 	struct addr *ap, *lap;
 	char *p, ebuf[4096], ibuf[8192];
