@@ -78,9 +78,9 @@ route_add(route_t *r, struct addr *dst, struct addr *gw)
 	    addr_ntos(gw, &rt.rt_gateway) < 0)
 		return (-1);
 
-	if (dst->bits < IP_ADDR_BITS) {
+	if (dst->addr_bits < IP_ADDR_BITS) {
 		rt.rt_flags = RTF_UP | RTF_GATEWAY;
-		if (addr_btos(dst->bits, &rt.rt_genmask) < 0)
+		if (addr_btos(dst->addr_bits, &rt.rt_genmask) < 0)
 			return (-1);
 	} else {
 		rt.rt_flags = RTF_UP | RTF_HOST | RTF_GATEWAY;
@@ -103,9 +103,9 @@ route_delete(route_t *r, struct addr *dst)
 	if (addr_ntos(dst, &rt.rt_dst) < 0)
 		return (-1);
 
-	if (dst->bits < 32) {
+	if (dst->addr_bits < 32) {
 		rt.rt_flags = RTF_UP;
-		if (addr_btos(dst->bits, &rt.rt_genmask) < 0)
+		if (addr_btos(dst->addr_bits, &rt.rt_genmask) < 0)
 			return (-1);
 	} else {
 		rt.rt_flags = RTF_UP | RTF_HOST;
@@ -142,7 +142,7 @@ route_get(route_t *r, struct addr *dst, struct addr *gw)
 
 	rmsg = (struct rtmsg *)(nmsg + 1);
 	rmsg->rtm_family = AF_INET;
-	rmsg->rtm_dst_len = dst->bits;
+	rmsg->rtm_dst_len = dst->addr_bits;
 	
 	rta = RTM_RTA(rmsg);
 	rta->rta_type = RTA_DST;
@@ -190,7 +190,7 @@ route_get(route_t *r, struct addr *dst, struct addr *gw)
 		if (rta->rta_type == RTA_GATEWAY) {
 			gw->type = ADDR_TYPE_IP;
 			memcpy(&gw->addr_ip, RTA_DATA(rta), IP_ADDR_LEN);
-			gw->bits = IP_ADDR_BITS;
+			gw->addr_bits = IP_ADDR_BITS;
 			return (0);
 		}
 		rta = RTA_NEXT(rta, i);
