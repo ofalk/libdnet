@@ -2,7 +2,7 @@
 
 include $(top_srcdir)/Makefile.am.common
 
-bin_PROGRAMS = dnet
+sbin_PROGRAMS = dnet
 
 dnet_SOURCES = dnet-int.h dnet.c addr.c arp.c aton.c eth.c hex.c ip.c icmp.c \
 	tcp.c udp.c send.c fw.c intf.c route.c
