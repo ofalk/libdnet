@@ -60,13 +60,20 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = @host_alias@
 host_triplet = @host@
+AR = @AR@
 AS = @AS@
 CC = @CC@
 CHECKINC = @CHECKINC@
 CHECKLIB = @CHECKLIB@
+CXX = @CXX@
+CXXCPP = @CXXCPP@
 DLLTOOL = @DLLTOOL@
 ECHO = @ECHO@
+EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+F77 = @F77@
+GCJ = @GCJ@
+GCJFLAGS = @GCJFLAGS@
 LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
@@ -76,6 +83,7 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PYTHON = @PYTHON@
 RANLIB = @RANLIB@
+RC = @RC@
 STRIP = @STRIP@
 TCLINC = @TCLINC@
 TCLLIB = @TCLLIB@
@@ -224,11 +232,11 @@ mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-@PYTHON_TRUE@dnet.c: dnet.pyx
-@PYTHON_TRUE@	pyrexc dnet.pyx
+@PYTHON_TRUE@$(srcdir)/dnet.c: $(srcdir)/dnet.pyx
+@PYTHON_TRUE@	pyrexc $(srcdir)/dnet.pyx
 
-@PYTHON_TRUE@python-build: dnet.c
-@PYTHON_TRUE@	$(PYTHON) setup.py build --build-lib build
+@PYTHON_TRUE@python-build: $(srcdir)/dnet.c
+@PYTHON_TRUE@	$(PYTHON) $(srcdir)/setup.py build --build-lib build
 @PYTHON_TRUE@	touch python-build
 
 @PYTHON_TRUE@python-clean:
@@ -237,7 +245,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 @PYTHON_TRUE@clean: python-clean
 
 @PYTHON_TRUE@install-exec-local:
-@PYTHON_TRUE@	python setup.py install --prefix=$(DESTDIR)$(prefix)
+@PYTHON_TRUE@	python $(srcdir)/setup.py install --prefix=$(DESTDIR)$(prefix)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
