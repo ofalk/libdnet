@@ -27,26 +27,24 @@ ip_open(void)
 	BOOL on;
 	ip_t *ip;
 
-	if ((ip = calloc(1, sizeof(*ip))) == NULL)
-		return (NULL);
-
-	if (WSAStartup(MAKEWORD(2, 2), &ip->wsdata) != 0) {
-		free(ip);
-		return (NULL);
+	if ((ip = calloc(1, sizeof(*ip))) != NULL) {
+		if (WSAStartup(MAKEWORD(2, 2), &ip->wsdata) != 0) {
+			free(ip);
+			return (NULL);
+		}
+		if ((ip->fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) ==
+		    INVALID_SOCKET)
+			return (ip_close(ip));
+		
+		on = TRUE;
+		if (setsockopt(ip->fd, IPPROTO_IP, IP_HDRINCL,
+			(const char *)&on, sizeof(on)) == SOCKET_ERROR) {
+			SetLastError(ERROR_NETWORK_ACCESS_DENIED);
+			return (ip_close(ip));
+		}
+		ip->sin.sin_family = AF_INET;
+		ip->sin.sin_port = htons(666);
 	}
-	if ((ip->fd = socket(AF_INET, SOCK_RAW, IPPROTO_RAW)) ==
-	    INVALID_SOCKET)
-		return (ip_close(ip));
-	
-	on = TRUE;
-	if (setsockopt(ip->fd, IPPROTO_IP, IP_HDRINCL,
-	    (const char *)&on, sizeof(on)) == SOCKET_ERROR) {
-		SetLastError(ERROR_NETWORK_ACCESS_DENIED);
-		return (ip_close(ip));
-	}
-	ip->sin.sin_family = AF_INET;
-	ip->sin.sin_port = htons(666);
-	
 	return (ip);
 }
 
@@ -67,9 +65,11 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 ip_t *
 ip_close(ip_t *ip)
 {
-	WSACleanup();
-	if (ip->fd != INVALID_SOCKET)
-		closesocket(ip->fd);
-	free(ip);
+	if (ip != NULL) {
+		WSACleanup();
+		if (ip->fd != INVALID_SOCKET)
+			closesocket(ip->fd);
+		free(ip);
+	}
 	return (NULL);
 }

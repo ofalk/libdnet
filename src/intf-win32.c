@@ -361,14 +361,16 @@ intf_close(intf_t *intf)
 {
 	int i;
 
-	for (i = 0; i < MIB_IF_TYPE_MAX; i++) {
-		if (intf->ifcombo[i].idx)
-			free(intf->ifcombo[i].idx);
+	if (intf != NULL) {
+		for (i = 0; i < MIB_IF_TYPE_MAX; i++) {
+			if (intf->ifcombo[i].idx)
+				free(intf->ifcombo[i].idx);
+		}
+		if (intf->iftable)
+			free(intf->iftable);
+		if (intf->iptable)
+			free(intf->iptable);
+		free(intf);
 	}
-	if (intf->iftable)
-		free(intf->iftable);
-	if (intf->iptable)
-		free(intf->iptable);
-	free(intf);
 	return (NULL);
 }

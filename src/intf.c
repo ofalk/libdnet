@@ -646,10 +646,12 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 intf_t *
 intf_close(intf_t *intf)
 {
-	if (intf->fd >= 0)
-		close(intf->fd);
-	if (intf->fd6 >= 0)
-		close(intf->fd6);
-	free(intf);
+	if (intf != NULL) {
+		if (intf->fd >= 0)
+			close(intf->fd);
+		if (intf->fd6 >= 0)
+			close(intf->fd6);
+		free(intf);
+	}
 	return (NULL);
 }

@@ -44,30 +44,28 @@ eth_open(const char *device)
 	eth_t *e;
 	int i;
 
-	if ((e = calloc(1, sizeof(*e))) == NULL)
-		return (NULL);
-	
-	for (i = 0; i < 32; i++) {
-		snprintf(file, sizeof(file), "/dev/bpf%d", i);
-		e->fd = open(file, O_WRONLY);
-		if (e->fd != -1 || errno != EBUSY)
-			break;
-	}
-	if (e->fd < 0)
-		return (eth_close(e));
-	
-	memset(&ifr, 0, sizeof(ifr));
-	strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
-	
-	if (ioctl(e->fd, BIOCSETIF, (char *)&ifr) < 0)
-		return (eth_close(e));
+	if ((e = calloc(1, sizeof(*e))) != NULL) {
+		for (i = 0; i < 32; i++) {
+			snprintf(file, sizeof(file), "/dev/bpf%d", i);
+			e->fd = open(file, O_WRONLY);
+			if (e->fd != -1 || errno != EBUSY)
+				break;
+		}
+		if (e->fd < 0)
+			return (eth_close(e));
+		
+		memset(&ifr, 0, sizeof(ifr));
+		strlcpy(ifr.ifr_name, device, sizeof(ifr.ifr_name));
+		
+		if (ioctl(e->fd, BIOCSETIF, (char *)&ifr) < 0)
+			return (eth_close(e));
 #ifdef BIOCSHDRCMPLT
-	i = 1;
-	if (ioctl(e->fd, BIOCSHDRCMPLT, &i) < 0)
-		return (eth_close(e));
+		i = 1;
+		if (ioctl(e->fd, BIOCSHDRCMPLT, &i) < 0)
+			return (eth_close(e));
 #endif
-	strlcpy(e->device, device, sizeof(e->device));
-	
+		strlcpy(e->device, device, sizeof(e->device));
+	}
 	return (e);
 }
 
@@ -80,11 +78,11 @@ eth_send(eth_t *e, const void *buf, size_t len)
 eth_t *
 eth_close(eth_t *e)
 {
-	assert(e != NULL);
-
-	if (e->fd > 0)
-		close(e->fd);
-	free(e);
+	if (e != NULL) {
+		if (e->fd >= 0)
+			close(e->fd);
+		free(e);
+	}
 	return (NULL);
 }
 

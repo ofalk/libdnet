@@ -69,26 +69,26 @@ ip_open(void)
 {
 	ip_t *ip;
 
-	if ((ip = calloc(1, sizeof(*ip))) == NULL)
-		return (NULL);
+	if ((ip = calloc(1, sizeof(*ip))) != NULL) {
+		ip->fd = -1;
+		
+		if ((ip->arp = arp_open()) == NULL ||
+		    (ip->intf = intf_open()) == NULL ||
+		    (ip->route = route_open()) == NULL)
+			return (ip_close(ip));
+		
+		if ((ip->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
+			return (ip_close(ip));
 
-	if ((ip->arp = arp_open()) == NULL ||
-	    (ip->intf = intf_open()) == NULL ||
-	    (ip->route = route_open()) == NULL)
-		return (ip_close(ip));
+		memset(&ip->sin, 0, sizeof(ip->sin));
+		ip->sin.sin_family = AF_INET;
+		ip->sin.sin_port = htons(666);
+		
+		LIST_INIT(&ip->ip_intf_list);
 
-	if ((ip->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
-		return (ip_close(ip));
-
-	memset(&ip->sin, 0, sizeof(ip->sin));
-	ip->sin.sin_family = AF_INET;
-	ip->sin.sin_port = htons(666);
-	
-	LIST_INIT(&ip->ip_intf_list);
-
-	if (intf_loop(ip->intf, _add_ip_intf, ip) != 0)
-		return (ip_close(ip));
-	
+		if (intf_loop(ip->intf, _add_ip_intf, ip) != 0)
+			return (ip_close(ip));
+	}
 	return (ip);
 }
 
@@ -223,19 +223,24 @@ ip_t *
 ip_close(ip_t *ip)
 {
 	struct ip_intf *ipi, *nxt;
-	
-	for (ipi = LIST_FIRST(&ip->ip_intf_list);
-	    ipi != LIST_END(&ip->ip_intf_list); ipi = nxt) {
-		nxt = LIST_NEXT(ipi, next);
-		if (ipi->eth != NULL)
-			eth_close(ipi->eth);
-		free(ipi);
+
+	if (ip != NULL) {
+		for (ipi = LIST_FIRST(&ip->ip_intf_list);
+		    ipi != LIST_END(&ip->ip_intf_list); ipi = nxt) {
+			nxt = LIST_NEXT(ipi, next);
+			if (ipi->eth != NULL)
+				eth_close(ipi->eth);
+			free(ipi);
+		}
+		if (ip->fd >= 0)
+			close(ip->fd);
+		if (ip->route != NULL)
+			route_close(ip->route);
+		if (ip->intf != NULL)
+			intf_close(ip->intf);
+		if (ip->arp != NULL)
+			arp_close(ip->arp);
+		free(ip);
 	}
-	if (ip->fd > 0)		close(ip->fd);
-	if (ip->route != NULL)	route_close(ip->route);
-	if (ip->intf != NULL)	intf_close(ip->intf);
-	if (ip->arp != NULL)	arp_close(ip->arp);
-	free(ip);
-	
 	return (NULL);
 }
