@@ -111,7 +111,7 @@ intf_open(void)
 	if ((intf->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 		return (intf_close(intf));
 
-	intf->ifc.ifc_buf = intf->ifcbuf;
+	intf->ifc.ifc_buf = (caddr_t)intf->ifcbuf;
 	intf->ifc.ifc_len = sizeof(intf->ifcbuf);
 	
 	return (intf);
