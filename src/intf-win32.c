@@ -8,8 +8,6 @@
 
 #include "config.h"
 
-#include <iphlpapi.h>
-
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -17,6 +15,8 @@
 #include <string.h>
 
 #include "dnet.h"
+
+#include <iphlpapi.h>
 
 struct ifcombo {
 	DWORD		*idx;
