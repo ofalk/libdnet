@@ -186,7 +186,6 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 		flags = 0;
 		
 		do {
-			struct sockaddr_in sin;
 			struct addr pa, ha;
 			
 			rc = getmsg(r->fd, NULL, &msg, &flags);
@@ -205,7 +204,7 @@ arp_loop(arp_t *r, arp_handler callback, void *arg)
 			pa.addr_bits = IP_ADDR_BITS;
 			
 			ha.addr_type = ADDR_TYPE_ETH;
-			ha.addr_bits = ETH_ADDR_BITS
+			ha.addr_bits = ETH_ADDR_BITS;
 
 			for ( ; arp < arpend; arp++) {
 				pa.addr_ip = arp->ipNetToMediaNetAddress;
