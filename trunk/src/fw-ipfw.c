@@ -296,7 +296,7 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 		}
 	}
 	ret = 0;
-	for (ipfw = (struct ip_fw *)buf; ipfw->fw_number < 65535; ipfw++) {
+	for (ipfw = (struct ip_fw *)buf; ipfw->fw_number <= 65535; ipfw++) {
 		ipfw_to_fr(ipfw, &fr);
 		if ((ret = callback(&fr, arg)) != 0)
 			break;
