@@ -195,6 +195,9 @@ START_TEST(test_addr_pton)
 	fail_unless(addr_pton("localhost", &b) == 0, "barfed on localhost");
 	fail_unless(addr_pton("localhost/24", &b) == 0,
 	    "barfed on localhost/24");
+	addr_pton("1.2.3.4/24", &a);
+	addr_pton("1.2.3.4/255.255.255.0", &b);
+	fail_unless(addr_cmp(&a, &b) == 0, "bad /255.255.255.0 handling");
 
 	for (pton = pton_eth; pton->n != NULL; pton++) {
 		res = addr_pton(pton->p, &a);
