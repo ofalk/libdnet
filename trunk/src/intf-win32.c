@@ -224,6 +224,33 @@ intf_get_dst(intf_t *intf, struct intf_entry *entry, struct addr *dst)
 	return (0);
 }
 
+const char *
+intf_get_desc(intf_t *intf, const char *name)
+{
+	static char desc[MAXLEN_IFDESCR + 1];
+	MIB_IFROW ifrow;
+	u_int i;
+
+	if (_refresh_tables(intf) < 0)
+		return (NULL);
+	
+	if (strncmp(name, "eth", 3) == 0 &&
+	    (i = atoi(name + 3)) < ETHIDXSZ) {
+		ifrow.dwIndex = intf->eth_idx[i];
+	} else if (strncmp(name, "lo", 2) == 0 &&
+	    (i = atoi(name + 2)) < LOOPIDXSZ) {
+		ifrow.dwIndex = intf->loop_idx[i];
+	} else
+		return (NULL);
+
+	if (GetIfEntry(&ifrow) != NO_ERROR)
+		return (NULL);
+
+	strlcpy(desc, ifrow.bDescr, sizeof(desc));
+	
+	return (desc);
+}
+
 int
 intf_set(intf_t *intf, const struct intf_entry *entry)
 {
