@@ -243,11 +243,11 @@ ip_t	*ip_open(void);
 size_t	 ip_send(ip_t *i, const void *buf, size_t len);
 int	 ip_close(ip_t *i);
 
-char	*ip_ntoa(ip_addr_t *ip);
-int	 ip_aton(char *src, ip_addr_t *dst);
+char	*ip_ntoa(const ip_addr_t *ip);
+int	 ip_aton(const char *src, ip_addr_t *dst);
 
-size_t	 ip_add_option(void *buf, size_t len,
-	    int proto, const void *optbuf, size_t optlen);
+size_t	 ip_add_option(void *buf, size_t len, int proto,
+	    const void *optbuf, size_t optlen);
 void	 ip_checksum(void *buf, size_t len);
 
 int	 ip_cksum_add(const void *buf, size_t len, int cksum);

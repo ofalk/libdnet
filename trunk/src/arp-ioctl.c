@@ -87,7 +87,7 @@ arp_open(void)
 
 #ifdef HAVE_ARPREQ_ARP_DEV
 static int
-arp_set_dev(char *device, struct intf_info *info, void *arg)
+arp_set_dev(const char *device, const struct intf_info *info, void *arg)
 {
 	struct arpreq *ar = (struct arpreq *)arg;
 	struct addr dst;

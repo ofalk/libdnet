@@ -23,13 +23,12 @@ usage(void)
 {
 	fprintf(stderr, "Usage: fw show\n"
 	    "Usage: fw add|delete allow|block in|out device|any "
-	    "proto src[:sport[-max]] dst[:dport[-max]] [type/code]\n"
-	    "Usage: fw flush\n");
+	    "proto src[:sport[-max]] dst[:dport[-max]] [type/code]\n");
 	exit(1);
 }
 
 static int
-print_rule(struct fw_rule *fr, void *arg)
+print_rule(const struct fw_rule *fr, void *arg)
 {
 	struct protoent *pr;
 	char proto[16], sport[16], dport[16], typecode[16];
@@ -79,19 +78,6 @@ print_rule(struct fw_rule *fr, void *arg)
 	return (0);
 }
 
-static int
-delete_rule(struct fw_rule *fr, void *arg)
-{
-	fw_t *fw = (fw_t *)arg;
-
-	if (fw_delete(fw, fr) < 0)
-		return (-1);
-
-	printf("- ");
-	
-	return (print_rule(fr, NULL));
-}
-	
 static int
 arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 {
@@ -185,9 +171,6 @@ main(int argc, char *argv[])
 		print_rule(&fr, NULL);
 		if (fw_delete(fw, &fr) < 0)
 			err(1, "fw_delete");
-	} else if (strcmp(argv[1], "flush") == 0) {
-		if (fw_loop(fw, delete_rule, fw) < 0)
-			err(1, "fw_loop");
 	} else
 		usage();
 	

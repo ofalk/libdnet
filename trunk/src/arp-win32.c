@@ -18,9 +18,9 @@
 #include "dnet.h"
 
 struct arp_handle {
-	intf_t		*intf;
-	struct addr	*pa;
-	struct addr	*ha;
+	intf_t			*intf;
+	const struct addr	*pa;
+	struct addr		*ha;
 };
 
 arp_t *

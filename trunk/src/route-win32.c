@@ -29,7 +29,7 @@ route_open(void)
 }
 
 int
-route_add(route_t *route, struct addr *dst, struct addr *gw)
+route_add(route_t *route, const struct addr *dst, const struct addr *gw)
 {
 	MIB_IPFORWARDROW ipfrow;
 
@@ -52,7 +52,7 @@ route_add(route_t *route, struct addr *dst, struct addr *gw)
 }
 
 int
-route_delete(route_t *route, struct addr *dst)
+route_delete(route_t *route, const struct addr *dst)
 {
 	MIB_IPFORWARDROW ipfrow;
 	DWORD mask;
@@ -74,7 +74,7 @@ route_delete(route_t *route, struct addr *dst)
 }
 
 int
-route_get(route_t *route, struct addr *dst, struct addr *gw)
+route_get(route_t *route, const struct addr *dst, const struct addr *gw)
 {
 	MIB_IPFORWARDROW ipfrow;
 	DWORD mask;

@@ -107,7 +107,7 @@ ip_open(void)
 
 #ifdef HAVE_RAWIP_COOKED
 static int
-ip_match_intf(char *device, struct intf_info *info, void *arg)
+ip_match_intf(const char *device, const struct intf_info *info, void *arg)
 {
 	ip_t *i = (ip_t *)arg;
 	
