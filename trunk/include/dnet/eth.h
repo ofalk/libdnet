@@ -53,6 +53,8 @@ struct eth_hdr {
 typedef struct eth_handle eth_t;
 
 eth_t	*eth_open(char *device);
+int	 eth_get(eth_t *e, eth_addr_t *ea);
+int	 eth_set(eth_t *e, eth_addr_t *ea);
 ssize_t	 eth_send(eth_t *e, const void *buf, size_t len);
 int	 eth_close(eth_t *e);
 
