@@ -76,7 +76,10 @@ DISTCLEANFILES = *~
 
 lib_LIBRARIES = libdnet.a
 
-libdnet_a_SOURCES = addr.c addr-util.c blob.c ip-util.c ip6.c rand.c
+libdnet_a_SOURCES = addr-util.c addr.c blob.c ip-util.c ip6.c rand.c
+
+EXTRA_libdnet_a_SOURCES = arp-bsd.c arp-ioctl.c arp-none.c arp-win32.c 	eth-bsd.c eth-dlpi.c eth-linux.c eth-ndd.c eth-none.c eth-snoop.c 	eth-win32.c fw-ipchains.c fw-ipf.c fw-ipfw.c fw-none.c fw-pf.c 	intf-win32.c intf.c ip-cooked.c ip.c route-bsd.c route-hpux.c 	route-linux.c route-none.c route-win32.c
+
 
 libdnet_a_LIBADD = @LIBOBJS@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -90,7 +93,7 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 libdnet_a_DEPENDENCIES =  @LIBOBJS@
-libdnet_a_OBJECTS =  addr.o addr-util.o blob.o ip-util.o ip6.o rand.o
+libdnet_a_OBJECTS =  addr-util.o addr.o blob.o ip-util.o ip6.o rand.o
 AR = ar
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -104,7 +107,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libdnet_a_SOURCES)
+SOURCES = $(libdnet_a_SOURCES) $(EXTRA_libdnet_a_SOURCES)
 OBJECTS = $(libdnet_a_OBJECTS)
 
 all: all-redirect
