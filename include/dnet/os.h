@@ -71,4 +71,15 @@
 # endif
 #endif
 
+/* C++ support. */
+#undef __BEGIN_DECLS
+#undef __END_DECLS
+#ifdef __cplusplus
+#define __BEGIN_DECLS	extern "C" {
+# define __END_DECLS	}
+#else
+# define __BEGIN_DECLS
+# define __END_DECLS
+#endif
+
 #endif /* DNET_OS_H */

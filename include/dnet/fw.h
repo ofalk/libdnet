@@ -11,10 +11,6 @@
 #ifndef DNET_FW_H
 #define DNET_FW_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-	
 struct fw_rule {
 	char		device[14];	/* interface name */
 	u_char		op:4,		/* operation */
@@ -36,6 +32,7 @@ typedef struct fw_handle fw_t;
 
 typedef int (*fw_handler)(struct fw_rule *rule, void *arg);
 
+__BEGIN_DECLS
 fw_t	*fw_open(void);
 int	 fw_add(fw_t *f, struct fw_rule *rule);
 int	 fw_delete(fw_t *f, struct fw_rule *rule);
@@ -52,9 +49,6 @@ do {									\
 	(rule)->sport[0] = sp1; (rule)->sport[1] = sp2;			\
 	(rule)->dport[0] = dp1; (rule)->dport[1] = dp2;			\
 } while (0)
-
-#ifdef __cplusplus
-}
-#endif
+__END_DECLS
 
 #endif /* DNET_FW_H */

@@ -11,10 +11,6 @@
 #ifndef DNET_IP_H
 #define DNET_IP_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define IP_ADDR_LEN	4
 #define IP_ADDR_BITS	32
 
@@ -233,6 +229,7 @@ struct ip_opt {
 
 typedef struct ip_handle ip_t;
 
+__BEGIN_DECLS
 ip_t	*ip_open(void);
 ssize_t	 ip_send(ip_t *i, const void *buf, size_t len);
 int	 ip_close(ip_t *i);
@@ -252,9 +249,6 @@ int	 ip_cksum_add(void *buf, size_t len, int cksum);
 	ip_fill_p->ip_ttl = ttl; ip_fill_p->ip_p = p;			\
 	ip_fill_p->ip_src = src; ip_fill_p->ip_dst = dst;		\
 } while (0)
-
-#ifdef __cplusplus
-}
-#endif
+__END_DECLS
 
 #endif /* DNET_IP_H */
