@@ -61,18 +61,18 @@ POST_UNINSTALL = :
 host_alias = i386-unknown-openbsd3.0
 host_triplet = i386-unknown-openbsd3.0
 CC = gcc
-CHECKINC = -I/home/dugsong/third-party/check-0.8.0/src
-CHECKLIB = -L/home/dugsong/third-party/check-0.8.0/src -lcheck
+CHECKINC = 
+CHECKLIB = 
 MAKEINFO = makeinfo
 PACKAGE = libdnet
 RANLIB = ranlib
-VERSION = 1.2
+VERSION = 1.3
 
 AUTOMAKE_OPTIONS = foreign no-dependencies
 
 DISTCLEANFILES = *~
 
-INCLUDES = -I/home/dugsong/third-party/check-0.8.0/src
+INCLUDES = 
 
 TESTS = check_addr check_arp check_eth check_fw check_ip check_intf 	check_rand check_route
 
@@ -88,7 +88,7 @@ check_ip_SOURCES = check_ip.c
 check_rand_SOURCES = check_rand.c
 check_route_SOURCES = check_route.c
 
-LDADD = $(top_srcdir)/src/libdnet.a -L/home/dugsong/third-party/check-0.8.0/src -lcheck
+LDADD = $(top_srcdir)/src/libdnet.a 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../include/config.h
 CONFIG_CLEAN_FILES = 
