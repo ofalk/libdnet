@@ -74,18 +74,14 @@ route_msg_print(struct rt_msghdr *rtm)
 #endif
 
 static int
-route_msg(route_t *r, int type, u_char *buf, int buflen,
-    struct addr *dst, struct addr *gw)
+route_msg(route_t *r, int type, struct addr *dst, struct addr *gw)
 {
 	struct rt_msghdr *rtm;
 	struct sockaddr *sa;
+	u_char buf[BUFSIZ];
 	int len;
 
-	if (buflen < sizeof(*rtm) + (3 * sizeof(*sa))) {
-		errno = EINVAL;
-		return (-1);
-	}
-	memset(buf, 0, buflen);
+	memset(buf, 0, sizeof(buf));
 
 	rtm = (struct rt_msghdr *)buf;
 	rtm->rtm_version = RTM_VERSION;
@@ -129,7 +125,7 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 	if (write(r->fd, buf, rtm->rtm_msglen) < 0)
 		return (-1);
 	
-	while (type == RTM_GET && (len = read(r->fd, buf, buflen)) > 0) {
+	while (type == RTM_GET && (len = read(r->fd, buf, sizeof(buf))) > 0) {
 		if (len < sizeof(*rtm)) {
 			return (-1);
 		}
@@ -184,12 +180,10 @@ int
 route_add(route_t *r, const struct route_entry *entry)
 {
 	struct route_entry rtent;
-	u_char buf[BUFSIZ];
-
+	
 	memcpy(&rtent, entry, sizeof(rtent));
 	
-	if (route_msg(r, RTM_ADD, buf, sizeof(buf),
-	    &rtent.route_dst, &rtent.route_gw) < 0)
+	if (route_msg(r, RTM_ADD, &rtent.route_dst, &rtent.route_gw) < 0)
 		return (-1);
 	
 	return (0);
@@ -199,15 +193,13 @@ int
 route_delete(route_t *r, const struct route_entry *entry)
 {
 	struct route_entry rtent;
-	u_char buf[BUFSIZ];
-
+	
 	memcpy(&rtent, entry, sizeof(rtent));
 	
 	if (route_get(r, &rtent) < 0)
 		return (-1);
 	
-	if (route_msg(r, RTM_DELETE, buf, sizeof(buf),
-	    &rtent.route_dst, &rtent.route_gw) < 0)
+	if (route_msg(r, RTM_DELETE, &rtent.route_dst, &rtent.route_gw) < 0)
 		return (-1);
 	
 	return (0);
@@ -216,10 +208,7 @@ route_delete(route_t *r, const struct route_entry *entry)
 int
 route_get(route_t *r, struct route_entry *entry)
 {
-	u_char buf[BUFSIZ];
-	
-	if (route_msg(r, RTM_GET, buf, sizeof(buf),
-	    &entry->route_dst, &entry->route_gw) < 0)
+	if (route_msg(r, RTM_GET, &entry->route_dst, &entry->route_gw) < 0)
 		return (-1);
 	
 	return (0);
