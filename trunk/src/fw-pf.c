@@ -29,8 +29,9 @@
 /*
  * XXX - cope with moving pf API
  */
-#if defined(DIOCRINABEGIN)
-/* OpenBSD 3.3 */
+#if defined(DIOCRINABEGIN) || defined(DIOCXBEGIN)
+/* OpenBSD 3.3 - 3.6 */
+/*     $OpenBSD: pfvar.h,v 1.197 2004/06/14 20:53:27 cedric Exp $ */
 /*     $OpenBSD: pfvar.h,v 1.130 2003/01/09 10:40:45 cedric Exp $ */
 /*     $OpenBSD: pfvar.h,v 1.127 2003/01/05 22:14:23 dhartmei Exp $ */
 # define PFRA_ADDR(ra)	(ra)->addr.v.a.addr.v4.s_addr
