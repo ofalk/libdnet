@@ -93,8 +93,8 @@ LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in arp-bsd.c arp-linux.c arp-none.c \
 arp-solaris.c err.c eth-bsd.c eth-dlpi.c eth-linux.c eth-none.c \
 eth-snoop.c fw-ipchains.c fw-ipf.c fw-ipfw.c fw-none.c fw-pf.c \
-inet_pton.c ip-cooked.c ip.c memcmp.c route-bsd.c route-linux.c \
-route-none.c strlcat.c strlcpy.c
+inet_pton.c ip-cooked.c ip.c memcmp.c route-bsd.c route-hpux.c \
+route-linux.c route-none.c strlcat.c strlcpy.c
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)

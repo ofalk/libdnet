@@ -78,6 +78,9 @@
 /* Define if you have the <sys/dlpi.h> header file.  */
 #undef HAVE_SYS_DLPI_H
 
+/* Define if you have the <sys/dlpi_ext.h> header file.  */
+#undef HAVE_SYS_DLPI_EXT_H
+
 /* Define if you have the <sys/ioctl.h> header file.  */
 #undef HAVE_SYS_IOCTL_H
 
