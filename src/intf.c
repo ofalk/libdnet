@@ -111,9 +111,6 @@ intf_open(void)
 	if ((intf->fd = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 		return (intf_close(intf));
 
-	intf->ifc.ifc_buf = (caddr_t)intf->ifcbuf;
-	intf->ifc.ifc_len = sizeof(intf->ifcbuf);
-	
 	return (intf);
 }
 
@@ -447,6 +444,9 @@ intf_get(intf_t *intf, struct intf_entry *entry)
 	if (_intf_get_noalias(intf, entry) < 0)
 		return (-1);
 #ifndef SIOCLIFADDR
+	intf->ifc.ifc_buf = (caddr_t)intf->ifcbuf;
+	intf->ifc.ifc_len = sizeof(intf->ifcbuf);
+	
 	if (ioctl(intf->fd, SIOCGIFCONF, &intf->ifc) < 0)
 		return (-1);
 #endif
@@ -469,6 +469,12 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	if ((fp = fopen(PROC_DEV_FILE, "r")) == NULL)
 		return (-1);
 	
+	intf->ifc.ifc_buf = (caddr_t)intf->ifcbuf;
+	intf->ifc.ifc_len = sizeof(intf->ifcbuf);
+	
+	if (ioctl(intf->fd, SIOCGIFCONF, &intf->ifc) < 0)
+		return (-1);
+
 	ret = 0;
 	while (fgets(buf, sizeof(buf), fp) != NULL) {
 		if ((p = strchr(buf, ':')) == NULL)
@@ -509,6 +515,9 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 
 	entry = (struct intf_entry *)ebuf;
 
+	intf->ifc.ifc_buf = (caddr_t)intf->ifcbuf;
+	intf->ifc.ifc_len = sizeof(intf->ifcbuf);
+	
 	if (ioctl(intf->fd, SIOCGIFCONF, &intf->ifc) < 0)
 		return (-1);
 
