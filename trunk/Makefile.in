@@ -88,7 +88,7 @@ INCLUDES = -I$(top_srcdir)/include
 
 DISTCLEANFILES = *~
 
-SUBDIRS = include man src swig test
+SUBDIRS = include man src python test
 
 bin_SCRIPTS = dnet-config
 
