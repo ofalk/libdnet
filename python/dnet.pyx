@@ -992,7 +992,7 @@ cdef class fw:
     def __init__(self):
         self.fw = fw_open()
         if not self.fw:
-            raise OSError
+            raise OSError, __oserror()
 
     def add(self, d):
         """Add a firewall rule specified as a dict.
@@ -1011,7 +1011,7 @@ cdef class fw:
         memset(<char *>&rule, 0, sizeof(rule))
         dict_to_rule(d, &rule)
         if fw_add(self.fw, &rule) < 0:
-            raise OSError
+            raise OSError, __oserror()
 
     def delete(self, d):
         """Delete a firewall rule specified as a dict."""
@@ -1019,7 +1019,7 @@ cdef class fw:
         memset(<char *>&rule, 0, sizeof(rule))
         dict_to_rule(d, &rule)
         if fw_delete(self.fw, &rule) < 0:
-            raise OSError
+            raise OSError, __oserror()
 
     def loop(self, callback, arg=None):
         """Iterate over the local firewall ruleset, invoking a user callback
@@ -1066,7 +1066,7 @@ cdef class rand:
     def __init__(self):
         self.rand = rand_open()
         if not self.rand:
-            raise OSError
+            raise OSError, __oserror()
 
     def get(self, len):
         """Return a string of random bytes.
