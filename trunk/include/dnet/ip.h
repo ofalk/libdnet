@@ -133,13 +133,18 @@ struct ip_hdr {
 
 #define IP_OPT_TYPEONLY(type)	((type) == IP_OPT_EOL || (type) == IP_OPT_NOP)
 
+#ifndef __GNUC__
+# define __attribute__(x)
+# pragma pack(1)
+#endif
+
 struct ip_opt_data_security {
 	u_short		s;
 	u_short		c;
 	u_short		h;
 	u_char		tcc[3];
-	u_char		nop;		/* XXX - pad with NOP for alignment */
-};
+} __attribute__((__packed__));
+
 #define IP_OPT_SECUR_UNCLASS	0x0000
 #define IP_OPT_SECUR_CONFID	0xf135
 #define IP_OPT_SECUR_EFTO	0x789a
@@ -150,8 +155,8 @@ struct ip_opt_data_security {
 
 struct ip_opt_data_route {
 	u_char		ptr;		/* from start of option, >= 4 */
-	u_char		iplist[0];	/* list of IP addresses */
-};
+	u_int32_t	iplist __flexarr; /* list of IP addresses */
+} __attribute__((__packed__));
 
 struct ip_opt_data_ts {
 	u_char		ptr;		/* from start of option, >= 5 */
@@ -162,14 +167,14 @@ struct ip_opt_data_ts {
 	u_char		flg:4,
 			oflw:4;
 #endif
-	u_int32_t	ipts[0];	/* IP address [ / timestamp] pairs */
-};
+	u_int32_t	ipts __flexarr;	/* IP address [ / timestamp] pairs */
+} __attribute__((__packed__));
+
 #define IP_OPT_TS_TSONLY	0	/* timestamps only */
 #define IP_OPT_TS_TSADDR	1	/* IP address / timestamp pairs */
 #define IP_OPT_TS_PRESPEC	3	/* IP address / zero timestamp pairs */
 
 struct ip_opt {
-	u_char		__opt_void[2];	/* XXX - word-align union */
 	u_char		opt_type;
 	u_char		opt_len;	/* length of entire option */
 	union ip_opt_data {
@@ -177,9 +182,13 @@ struct ip_opt {
 		struct ip_opt_data_route	route;
 		struct ip_opt_data_ts		timestamp;
 		u_short				satid;
-		u_char				data8[0];
+		u_char				data8[IP_OPT_LEN_MAX - IP_OPT_LEN];
 	} opt_data;
-};
+} __attribute__((__packed__));
+
+#ifndef __GNUC__
+#pragma pack()
+#endif
 
 /*
  * Classful addressing
