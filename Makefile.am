@@ -2,7 +2,7 @@
 
 include $(top_srcdir)/Makefile.am.common
 
-SUBDIRS =	include man src swig test
+SUBDIRS =	include man src python test
 
 bin_SCRIPTS =	dnet-config
 
