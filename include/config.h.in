@@ -115,6 +115,9 @@
 /* Define if <net/route.h> has rt_msghdr struct. */
 #undef HAVE_ROUTE_RT_MSGHDR
 
+/* Define if <netinet/in.h> has sockaddr_in6 struct. */
+#undef HAVE_SOCKADDR_IN6
+
 /* Define if sockaddr struct has sa_len. */
 #undef HAVE_SOCKADDR_SA_LEN
 
