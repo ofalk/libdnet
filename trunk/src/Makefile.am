@@ -15,4 +15,4 @@ EXTRA_libdnet_la_SOURCES = arp-bsd.c arp-ioctl.c arp-none.c arp-win32.c \
 
 libdnet_la_LIBADD = @LTLIBOBJS@
 
-libdnet_la_LDFLAGS = -version-info 0:0:0
+libdnet_la_LDFLAGS = -version-info 1:0:0
