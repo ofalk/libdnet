@@ -1294,9 +1294,16 @@ cdef class rand:
         Arguments:
         len -- number of random bytes to generate
         """
-        buf = ' ' * len
-        rand_get(self.rand, buf, len)
-        return buf
+        cdef char buf[1024]
+        cdef char *p
+        if len <= 1024:
+            rand_get(self.rand, buf, len)
+            return PyString_FromStringAndSize(buf, len)
+        p = malloc(len)
+        rand_get(self.rand, p, len)
+        s = PyString_FromStringAndSize(p, len)
+        free(p)
+        return s
     
     def set(self, buf):
         """Initialize the PRNG from a known seed.
