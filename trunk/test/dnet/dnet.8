@@ -1,0 +1,98 @@
+.\" $Id$
+.\"
+.\" Copyright (c) 2001 Dug Song <dugsong@monkey.org>
+.\"
+.Dd October 17, 2001
+.Dt DNET 8
+.Os
+.Sh NAME
+.Nm dnet
+.Nd create and send arbitrary network packets
+.Sh SYNOPSIS
+.Nm dnet eth
+.Op type Ar eth-type
+.Op src Ar mac
+.Op dst Ar mac
+.Op send Ar device
+.Nm dnet arp
+.Op op Ar arp-op
+.Op sha Ar mac
+.Op spa Ar host
+.Op tha Ar mac
+.Op tpa Ar host
+.Nm dnet ip
+.Op tos Ar num
+.Op id Ar num
+.Op ttl Ar num
+.Op proto Ar ip-proto
+.Op src Ar host
+.Op dst Ar host
+.Op send
+.Nm dnet icmp
+.Op type Ar num
+.Op code Ar num
+.Nm dnet tcp
+.Op sport Ar num
+.Op dport Ar num
+.Op flags Ar tcp-flags
+.Op seq Ar num
+.Op ack Ar num
+.Op win Ar num
+.Op urp Ar num
+.Nm dnet udp
+.Op sport Ar num
+.Op dport Ar num
+.Sh DESCRIPTION
+.Nm
+is a simple test program for the 
+.Xr dnet 3
+raw IP datagram and Ethernet frame transmission interfaces, and
+can be used to compose and transmit network datagrams as a
+Unix-style filter, reading from or writing to files and pipes.
+.Pp
+If no arguments are given, 
+.Nm
+defaults to reasonable (or random) values for each protocol field.
+.Pp
+Some of the trickier protocol fields are as follows:
+.Pp
+.Ar eth-type
+may be specified as a string (e.g. ``arp'', ``ip'') or as a number.
+.Pp
+.Ar arp-op
+may be specified as a string (e.g. ``req'', ``rep'', ``revreq'',
+``revrep'', ``invreq'', ``invrep'') or as a number.
+.Pp
+.Ar ip-proto
+may be specified as a string (e.g. ``icmp'') or as a number.
+.Pp
+.Ar tcp-flags
+are specified as a combination of S, A, F, R, P, and U.
+.Pp
+.Ar host
+may be specified as an IP address in dotted-quad notation
+(e.g. 1.2.3.4) or as a hostname.
+.Sh EXAMPLES
+Send a simple UDP greeting:
+.Bd -literal -offset -indent
+echo "hello, world!" | dnet udp sport 555 dport 666 | \\
+dnet ip proto udp src 1.2.3.4 dst 5.6.7.8 send
+.Ed
+.Pp
+Save an ARP request in a file, and send it three times:
+.Bd -literal -offset -indent
+dnet arp op req sha 0:d:e:a:d:0 spa 10.0.0.3 tpa 10.0.0.4 > foo
+for i in 1 2 3; do
+	dnet eth type arp src 0:d:e:a:d:0 dst ff:ff:ff:ff:ff < foo
+done
+.Ed
+.Pp
+Send a completely random ICMP packet:
+.Bd -literal -offset -indent
+openssl rand 666 | dnet ip proto icmp src 1.2.3.4 dst 5.6.7.8 send
+.Ed
+.Sh SEE ALSO
+.Xr dnet 3
+.Sh AUTHORS
+Dug Song
+.Aq dugsong@monkey.org
