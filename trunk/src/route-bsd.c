@@ -399,7 +399,14 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	}
 	return (0);
 }
-#endif /* HAVE_SOLARIS_DEV_IP */
+#else
+int
+route_loop(route_t *r, route_handler callback, void *arg)
+{
+	errno = EOPNOTSUPP;
+	return (-1);
+}
+#endif
 
 int
 route_close(route_t *r)
