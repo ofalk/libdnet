@@ -35,14 +35,14 @@ struct intf_handle {
 static char *
 _ifcombo_name(int type)
 {
-	char *name = "if";	/* XXX */
+	char *name = "net";	/* XXX */
 	
 	if (type == MIB_IF_TYPE_ETHERNET) {
 		name = "eth";
 	} else if (type == MIB_IF_TYPE_TOKENRING) {
 		name = "tr";
 	} else if (type == MIB_IF_TYPE_FDDI) {
-		name = "fd";
+		name = "fddi";
 	} else if (type == MIB_IF_TYPE_PPP) {
 		name = "ppp";
 	} else if (type == MIB_IF_TYPE_LOOPBACK) {
