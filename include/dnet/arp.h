@@ -24,11 +24,11 @@
 #define ARP_ETHIP_LEN	20
 
 struct arp_hdr {
-	u_short		ar_hrd;	/* format of hardware address */
-	u_short		ar_pro;	/* format of protocol address */
-	u_char		ar_hln;	/* length of hardware address (ETH_ADDR_LEN) */
-	u_char		ar_pln;	/* length of protocol address (IP_ADDR_LEN) */
-	u_short		ar_op;	/* operation */
+	uint16_t	ar_hrd;	/* format of hardware address */
+	uint16_t	ar_pro;	/* format of protocol address */
+	uint8_t		ar_hln;	/* length of hardware address (ETH_ADDR_LEN) */
+	uint8_t		ar_pln;	/* length of protocol address (IP_ADDR_LEN) */
+	uint16_t	ar_op;	/* operation */
 };
 
 /* Hardware address format */
@@ -48,10 +48,10 @@ struct arp_hdr {
 #define	ARP_OP_INVREPLY	9	/* response identifying peer */
 
 struct arp_ethip {
-	u_char		ar_sha[ETH_ADDR_LEN];	/* sender hardware address */
-	u_char		ar_spa[IP_ADDR_LEN];	/* sender protocol address */
-	u_char		ar_tha[ETH_ADDR_LEN];	/* target hardware address */
-	u_char		ar_tpa[IP_ADDR_LEN];	/* target protocol address */
+	uint8_t		ar_sha[ETH_ADDR_LEN];	/* sender hardware address */
+	uint8_t		ar_spa[IP_ADDR_LEN];	/* sender protocol address */
+	uint8_t		ar_tha[ETH_ADDR_LEN];	/* target hardware address */
+	uint8_t		ar_tpa[IP_ADDR_LEN];	/* target protocol address */
 };
 
 typedef struct arp_handle arp_t;
@@ -69,7 +69,7 @@ int	 arp_close(arp_t *a);
 #define arp_fill_hdr_ethip(hdr, op, sha, spa, tha, tpa) do {	\
 	struct arp_hdr *fill_arp_p = (struct arp_hdr *)(hdr);	\
 	struct arp_ethip *fill_ethip_p = (struct arp_ethip *)	\
-		((u_char *)(hdr) + ARP_HDR_LEN);		\
+		((uint8_t *)(hdr) + ARP_HDR_LEN);		\
 	fill_arp_p->ar_hrd = htons(ARP_HRD_ETH);		\
 	fill_arp_p->ar_pro = htons(ARP_PRO_IP);			\
 	fill_arp_p->ar_hln = ETH_ADDR_LEN;			\

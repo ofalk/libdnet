@@ -15,15 +15,15 @@
 #define	ADDR_TYPE_IP		2	/* Internet Protocol v4 */
 
 struct addr {
-	u_short			addr_type;
-	u_short			addr_bits;
+	uint16_t		addr_type;
+	uint16_t		addr_bits;
 	union {
 		eth_addr_t	__eth;
 		ip_addr_t	__ip;
 		
-		u_int8_t	__data8[20];
-		u_int16_t	__data16[10];
-		u_int32_t	__data32[5];
+		uint8_t		__data8[20];
+		uint16_t	__data16[10];
+		uint32_t	__data32[5];
 	} __addr_u;
 };
 #define addr_eth	__addr_u.__eth
@@ -45,11 +45,11 @@ char	*addr_ntoa(struct addr *a);
 int	 addr_ntos(struct addr *a, struct sockaddr *sa);
 int	 addr_ston(struct sockaddr *sa, struct addr *a);
 
-int	 addr_btos(u_short bits, struct sockaddr *sa);
-int	 addr_stob(struct sockaddr *sa, u_short *bits);
+int	 addr_btos(uint16_t bits, struct sockaddr *sa);
+int	 addr_stob(struct sockaddr *sa, uint16_t *bits);
 
-int	 addr_btom(u_short bits, void *mask, size_t size);
-int	 addr_mtob(void *mask, size_t size, u_short *bits);
+int	 addr_btom(uint16_t bits, void *mask, size_t size);
+int	 addr_mtob(void *mask, size_t size, uint16_t *bits);
 
 #define addr_fill(addr, type, bits, data, len) do {	\
 	(addr)->addr_type = type;			\

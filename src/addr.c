@@ -359,7 +359,7 @@ addr_ston(struct sockaddr *sa, struct addr *a)
 }
 
 int
-addr_btos(u_short bits, struct sockaddr *sa)
+addr_btos(uint16_t bits, struct sockaddr *sa)
 {
 	struct sockaddr_in *sin;
 	
@@ -375,11 +375,11 @@ addr_btos(u_short bits, struct sockaddr *sa)
 }
 
 int
-addr_stob(struct sockaddr *sa, u_short *bits)
+addr_stob(struct sockaddr *sa, uint16_t *bits)
 {
 	struct sockaddr_in *sin;
 	int i, j, len;
-	u_short n;
+	uint16_t n;
 	u_char *p;
 	
 	sin = (struct sockaddr_in *)sa;
@@ -406,14 +406,14 @@ addr_stob(struct sockaddr *sa, u_short *bits)
 }
 	
 int
-addr_btom(u_short bits, void *mask, size_t size)
+addr_btom(uint16_t bits, void *mask, size_t size)
 {
 	int net, host;
 	u_char *p;
 
 	if (size == IP_ADDR_LEN) {
 		assert(bits <= IP_ADDR_BITS);
-		*(u_int32_t *)mask = bits ?
+		*(uint32_t *)mask = bits ?
 		    htonl(~0 << (IP_ADDR_BITS - bits)) : 0;
 	} else {
 		assert(size * 8 >= bits);
@@ -432,9 +432,9 @@ addr_btom(u_short bits, void *mask, size_t size)
 }
 
 int
-addr_mtob(void *mask, size_t size, u_short *bits)
+addr_mtob(void *mask, size_t size, uint16_t *bits)
 {
-	u_short n;
+	uint16_t n;
 	u_char *p;
 	int i, j;
 

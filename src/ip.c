@@ -392,7 +392,7 @@ ip_checksum(void *buf, size_t len)
 int
 ip_cksum_add(void *buf, size_t len, int cksum)
 {
-	u_short *sp = (u_short *)buf;
+	uint16_t *sp = (uint16_t *)buf;
 	int n, sn;
 	
 	sn = len / 2;

@@ -91,7 +91,7 @@ arp_set_dev(char *device, struct intf_info *info, void *arg)
 {
 	struct arpreq *ar = (struct arpreq *)arg;
 	struct addr dst;
-	u_int32_t mask;
+	uint32_t mask;
 	
 	addr_btom(info->intf_addr.addr_bits, &mask, IP_ADDR_LEN);
 	addr_ston((struct sockaddr *)&ar->arp_pa, &dst);

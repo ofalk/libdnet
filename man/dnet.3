@@ -29,13 +29,13 @@
 .Ft int
 .Fn addr_ston "struct sockaddr *sa" "struct addr *a"
 .Ft int
-.Fn addr_btos "u_short bits" "struct sockaddr *sa"
+.Fn addr_btos "uint16_t bits" "struct sockaddr *sa"
 .Ft int
-.Fn addr_stob "struct sockaddr *sa" "u_short *bits"
+.Fn addr_stob "struct sockaddr *sa" "uint16_t *bits"
 .Ft int
-.Fn addr_btom "u_short bits" "void *mask" "size_t size"
+.Fn addr_btom "uint16_t bits" "void *mask" "size_t size"
 .Ft int
-.Fn addr_mtob "void *mask" "size_t size" "u_short *bits"
+.Fn addr_mtob "void *mask" "size_t size" "uint16_t *bits"
 .Ss Address Resolution Protocol
 .Pp
 .Li typedef Ar int Fn (*arp_handler) "struct addr *pa" "struct addr *ha" "void *arg"
@@ -141,15 +141,15 @@ programming.
 Network addresses are described by the following structure:
 .Bd -literal -offset indent
 struct addr {
-	u_short			addr_type;
-	u_short			addr_bits;
+	uint16_t		addr_type;
+	uint16_t		addr_bits;
 	union {
 		eth_addr_t	__eth;
 		ip_addr_t	__ip;
 		
-		u_int8_t	__data8[20];
-		u_int16_t	__data16[10];
-		u_int32_t	__data32[5];
+		uint8_t		__data8[20];
+		uint16_t	__data16[10];
+		uint32_t	__data32[5];
 	} __addr_u;
 };
 #define addr_eth	__addr_u.__eth
@@ -289,13 +289,13 @@ Firewall rules are described by the following structure:
 .Bd -literal -offset indent
 struct fw_rule {
 	char		fw_device[14];	/* interface name */
-	u_char		fw_op:4,	/* operation */
+	uint8_t		fw_op:4,	/* operation */
 			fw_dir:4;	/* direction */
-	u_char		fw_proto;	/* IP protocol */
+	uint8_t		fw_proto;	/* IP protocol */
 	struct addr	fw_src;		/* src address or net */
 	struct addr	fw_dst;		/* dst address or net */
-	u_short		fw_sport[2];	/* range or ICMP type/mask */
-	u_short		fw_dport[2];	/* range or ICMP code/mask */
+	uint16_t	fw_sport[2];	/* range or ICMP type/mask */
+	uint16_t	fw_dport[2];	/* range or ICMP code/mask */
 };
 .Ed
 .Pp
@@ -343,10 +343,10 @@ closes the specified handle.
 Network interface information is described by the following structure:
 .Bd -literal -offset indent
 struct intf_info {
-	u_int		intf_info;	/* bitmask of fields set */
+	uint32_t	intf_info;	/* bitmask of fields set */
 	struct addr	intf_addr;	/* interface IP address */
-	u_int		intf_flags;	/* interface flags */
-	u_int		intf_mtu;	/* interface MTU */
+	uint32_t	intf_flags;	/* interface flags */
+	uint32_t	intf_mtu;	/* interface MTU */
 };
 .Ed
 .Pp

@@ -19,10 +19,10 @@
 #define INTF_INFO_MTU	0x04		/* intf_mtu is set */
 
 struct intf_info {
-	u_int		intf_info;	/* bitmask of fields set */
+	uint32_t	intf_info;	/* bitmask of fields set */
 	struct addr	intf_addr;	/* interface IP address */
-	u_int		intf_flags;	/* interface flags */
-	u_int		intf_mtu;	/* interface MTU */
+	uint32_t	intf_flags;	/* interface flags */
+	uint32_t	intf_mtu;	/* interface MTU */
 };
 
 #define INTF_FLAG_UP		0x01	/* enable interface */

@@ -178,7 +178,7 @@ fw_loop(fw_t *fw, fw_handler callback, void *arg)
 {
 	struct pfioc_rule pr;
 	struct fw_rule fr;
-	u_int32_t n, max;
+	uint32_t n, max;
 	int ret;
 	
 	if (ioctl(fw->fd, DIOCGETRULES, &pr) < 0)

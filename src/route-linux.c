@@ -204,7 +204,7 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	char buf[BUFSIZ], ifbuf[16];
 	int i, iflags, refcnt, use, metric, mss, win, irtt, ret;
 	struct addr dst, gw;
-	u_int32_t mask;
+	uint32_t mask;
 
 	dst.addr_type = gw.addr_type = ADDR_TYPE_IP;
 	dst.addr_bits = gw.addr_bits = IP_ADDR_BITS;
