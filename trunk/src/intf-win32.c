@@ -145,7 +145,7 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 		}
 		/* Get addresses. */
 		for (j = 0; j < iptable->dwNumEntries; j++) {
-			if (iptable->table[i].dwIndex !=
+			if (iptable->table[j].dwIndex !=
 			    iftable->table[i].dwIndex)
 				continue;
 			
