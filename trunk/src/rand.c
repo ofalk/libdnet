@@ -12,12 +12,15 @@
 #include "config.h"
 
 #ifdef _WIN32
-#include <windows.h>
-#include <wincrypt.h>
+/* XXX */
+# undef _WIN32_WINNT
+# define _WIN32_WINNT 0x0400
+# include <wincrypt.h>
+# define inline __inline
 #else
-#include <sys/types.h>
-#include <sys/time.h>
-#include <unistd.h>
+# include <sys/types.h>
+# include <sys/time.h>
+# include <unistd.h>
 #endif
 #include <fcntl.h>
 #include <stdlib.h>
