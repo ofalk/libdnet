@@ -397,7 +397,7 @@ struct ip_opt {
 #define IP_ADDR_BROADCAST	(htonl(0xffffffff))	/* 255.255.255.255 */
 #define IP_ADDR_LOOPBACK	(htonl(0x7f000001))	/* 127.0.0.1 */
 #define IP_ADDR_MCAST_ALL	(htonl(0xe0000001))	/* 224.0.0.1 */
-#define IP_ADDR_MCAST_LOCAL	(htonl(0xe00000ff))	/* 224.0.0.225 */
+#define IP_ADDR_MCAST_LOCAL	(htonl(0xe00000ff))	/* 224.0.0.255 */
 
 #define ip_pack_hdr(hdr, tos, len, id, off, ttl, p, src, dst) do {	\
 	struct ip_hdr *ip_pack_p = (struct ip_hdr *)(hdr);		\
