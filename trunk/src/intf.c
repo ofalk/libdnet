@@ -325,6 +325,9 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 {
 	struct intf_entry *entry;
 	struct ifconf ifc;
+#ifdef SIOCLIFADDR
+	struct dnet_ifaliasreq ifra;
+#endif
 	struct ifreq *ifr, *lifr, iftmp;
 	struct addr *ap, *lap;
 	char *p, ebuf[4096], ibuf[8192];
@@ -429,7 +432,7 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 		    sizeof(ifra.ifra_name));
 		addr_ntos(entry->intf_addr, &ifra.ifra_addr);
 		addr_btos(entry->intf_addr->addr_bits, &ifra.ifra_mask);
-
+		memset(&ifra.ifra_brdaddr, 0, sizeof(ifra.ifra_brdaddr));
 		ifra.ifra_cookie = 1;
 
 		while (ioctl(intf->fd, SIOCLIFADDR, &ifra) == 0 &&
