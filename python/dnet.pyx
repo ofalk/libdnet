@@ -553,7 +553,7 @@ cdef class addr:
             next._addr.addr_ip = htonl(i)
             yield next
         """
-        return addr_ip4_iter(a.addr_ip, b.addr_ip)
+        return __addr_ip4_iter(a.addr_ip, b.addr_ip)
     
     def __str__(self):
         cdef char *p
@@ -562,7 +562,7 @@ cdef class addr:
             return '<invalid address>'
         return p
 
-cdef class addr_ip4_iter:
+cdef class __addr_ip4_iter:
     cdef unsigned long cur	# XXX - HBO
     cdef unsigned long max	# XXX - HBO
 
@@ -1289,7 +1289,7 @@ cdef class rand:
         string -- binary string
         """
         rand_add(self.rand, buf, PyString_Size(buf))
-
+    
     def uint8(self):
         """Return a random 8-bit integer."""
         return rand_uint8(self.rand)
@@ -1302,9 +1302,82 @@ cdef class rand:
         """Return a random 32-bit integer."""
         return rand_uint32(self.rand)
 
+    def xrange(self, unsigned long start, unsigned long stop=0):
+        """xrange([start,] stop) -> xrange object
+
+        Return a permutation iterator to walk an unsigned integer range,
+        like xrange().
+        """
+        if stop == 0:
+            start, stop = 0, start
+        return __rand_xrange(self, start, stop)
+    
     def __dealloc__(self):
         if self.rand:
             rand_close(self.rand)
+
+# Modified (variable block length) TEA by Niels Provos <provos@monkey.org>
+cdef enum:
+    TEADELTA	 = 0x9e3779b9
+    TEAROUNDS	 = 32
+    TEASBOXSIZE	 = 128
+    TEASBOXSHIFT = 7
+
+cdef class __rand_xrange:
+    cdef rand_t *rand
+    cdef unsigned long cur, enc, max, mask, start, sboxmask
+    cdef unsigned int sbox[128] # TEASBOXSIZE
+    cdef int left, right, kshift
+    
+    def __init__(self, r, start, stop):
+        cdef unsigned int bits
+
+        self.rand = (<rand>r).rand
+        self.start = start
+        self.max = stop - start
+        
+        bits = 0
+        while self.max > (1 << bits):
+            bits = bits + 1
+        
+        self.left = bits / 2
+        self.right = bits - self.left
+        self.mask = (1 << bits) - 1
+
+        if TEASBOXSIZE < (1 << self.left):
+            self.sboxmask = TEASBOXSIZE - 1
+            self.kshift = TEASBOXSHIFT
+        else:
+            self.sboxmask = (1 << self.left) - 1
+            self.kshift = self.left
+
+    def __iter__(self):
+        self.cur = self.enc = 0
+        rand_get(self.rand, <char *>self.sbox, sizeof(self.sbox))
+        return self
+
+    def __len__(self):
+        return self.max
+    
+    def __next__(self):
+        cdef unsigned long c, sum
+        
+        if self.cur == self.max:
+            raise StopIteration
+        self.cur = self.cur + 1
+        while 1:
+            c = self.enc
+            self.enc = self.enc + 1
+            sum = 0
+            for i from 0 < i < TEAROUNDS:
+                sum = sum + TEADELTA
+                c = c ^ (self.sbox[(c ^ sum) & self.sboxmask] << self.kshift)
+                c = c + sum
+                c = c & self.mask
+                c = ((c << self.left) | (c >> self.right)) & self.mask
+            if c < self.max:
+                break
+        return self.start + c
 
 #
 # tun.h
