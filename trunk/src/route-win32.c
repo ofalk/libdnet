@@ -132,7 +132,7 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	entry.route_gw.addr_type = ADDR_TYPE_IP;
 	entry.route_gw.addr_bits = IP_ADDR_BITS;
 	
-	for (i = 0; i < r->ipftable->dwNumEntries; i++) {
+	for (i = 0; i < (int)r->ipftable->dwNumEntries; i++) {
 		entry.route_dst.addr_ip = r->ipftable->table[i].dwForwardDest;
 		addr_mtob(&r->ipftable->table[i].dwForwardMask, IP_ADDR_LEN,
 		    &entry.route_dst.addr_bits);
