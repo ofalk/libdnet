@@ -160,6 +160,9 @@ intf_set(intf_t *i, char *device, struct addr *addr, int *flags)
 #ifdef SIOCSIFHWADDR
 			return (ioctl(i->fd, SIOCSIFHWADDR, &ifr));
 			break;
+#elif defined(SIOCSIFLLADDR)
+			return (ioctl(i->fd, SIOCSIFLLADDR, &ifr));
+			break;
 #else
 			eth_t *eth;
 			
