@@ -94,7 +94,7 @@ static const char *octet2hex[] = {
 };
 
 int
-addr_cmp(struct addr *a, struct addr *b)
+addr_cmp(const struct addr *a, const struct addr *b)
 {
 	int i, j, k;
 	
@@ -121,7 +121,7 @@ addr_cmp(struct addr *a, struct addr *b)
 }
 
 int
-addr_bcast(struct addr *a, struct addr *b)
+addr_bcast(const struct addr *a, struct addr *b)
 {
 	struct addr mask;
 	
@@ -143,10 +143,10 @@ addr_bcast(struct addr *a, struct addr *b)
 }
 
 int
-addr_ntop(struct addr *src, char *dst, size_t size)
+addr_ntop(const struct addr *src, char *dst, size_t size)
 {
 	const char *p;
-	u_char *u;
+	const u_char *u;
 	
 	u = src->addr_data8;
 	
@@ -187,7 +187,7 @@ addr_ntop(struct addr *src, char *dst, size_t size)
 }
 
 int
-addr_pton(char *src, struct addr *dst)
+addr_pton(const char *src, struct addr *dst)
 {
 	char *p, tmp[MAXHOSTNAMELEN];
 	long l;
@@ -250,7 +250,7 @@ addr_pton(char *src, struct addr *dst)
 }
 
 char *
-addr_ntoa(struct addr *a)
+addr_ntoa(const struct addr *a)
 {
 	static char *p, buf[BUFSIZ];
 	char *q;
@@ -268,7 +268,7 @@ addr_ntoa(struct addr *a)
 }
 
 int
-addr_ntos(struct addr *a, struct sockaddr *sa)
+addr_ntos(const struct addr *a, struct sockaddr *sa)
 {
 	switch (a->addr_type) {
 	case ADDR_TYPE_ETH:
@@ -310,7 +310,7 @@ addr_ntos(struct addr *a, struct sockaddr *sa)
 }
 
 int
-addr_ston(struct sockaddr *sa, struct addr *a)
+addr_ston(const struct sockaddr *sa, struct addr *a)
 {
 	memset(a, 0, sizeof(*a));
 	
@@ -378,7 +378,7 @@ addr_btos(uint16_t bits, struct sockaddr *sa)
 }
 
 int
-addr_stob(struct sockaddr *sa, uint16_t *bits)
+addr_stob(const struct sockaddr *sa, uint16_t *bits)
 {
 	struct sockaddr_in *sin;
 	int i, j, len;
@@ -435,7 +435,7 @@ addr_btom(uint16_t bits, void *mask, size_t size)
 }
 
 int
-addr_mtob(void *mask, size_t size, uint16_t *bits)
+addr_mtob(const void *mask, size_t size, uint16_t *bits)
 {
 	uint16_t n;
 	u_char *p;

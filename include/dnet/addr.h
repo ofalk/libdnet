@@ -33,23 +33,23 @@ struct addr {
 #define addr_data32	__addr_u.__data32
 
 __BEGIN_DECLS
-int	 addr_cmp(struct addr *a, struct addr *b);
-int	 addr_bcast(struct addr *a, struct addr *b);
+int	 addr_cmp(const struct addr *a, const struct addr *b);
+int	 addr_bcast(const struct addr *a, struct addr *b);
 
-int	 addr_ntop(struct addr *src, char *dst, size_t size);
-int	 addr_pton(char *src, struct addr *dst);
+int	 addr_ntop(const struct addr *src, char *dst, size_t size);
+int	 addr_pton(const char *src, struct addr *dst);
 
-char	*addr_ntoa(struct addr *a);
+char	*addr_ntoa(const struct addr *a);
 #define	 addr_aton	addr_pton
 
-int	 addr_ntos(struct addr *a, struct sockaddr *sa);
-int	 addr_ston(struct sockaddr *sa, struct addr *a);
+int	 addr_ntos(const struct addr *a, struct sockaddr *sa);
+int	 addr_ston(const struct sockaddr *sa, struct addr *a);
 
 int	 addr_btos(uint16_t bits, struct sockaddr *sa);
-int	 addr_stob(struct sockaddr *sa, uint16_t *bits);
+int	 addr_stob(const struct sockaddr *sa, uint16_t *bits);
 
 int	 addr_btom(uint16_t bits, void *mask, size_t size);
-int	 addr_mtob(void *mask, size_t size, uint16_t *bits);
+int	 addr_mtob(const void *mask, size_t size, uint16_t *bits);
 
 #define addr_fill(addr, type, bits, data, len) do {	\
 	(addr)->addr_type = type;			\
