@@ -15,17 +15,16 @@
  * Interface entry
  */
 struct intf_entry {
-	u_int		 intf_len;		/* length of entry */
-	char		 intf_name[60];		/* interface name */
-	u_short		 intf_type;		/* interface type (r/o) */
-	u_short		 intf_flags;		/* interface flags */
-	u_int		 intf_mtu;		/* interface MTU */
-	struct addr	*intf_addr;		/* interface address */
-	struct addr	*intf_dst_addr;		/* point-to-point dst */
-	struct addr	*intf_link_addr;	/* link-layer address */
-	u_int		 intf_alias_num;	/* number of aliases */
-	struct addr	*intf_alias_addr;	/* array of addresses */
-	struct addr	 intf_addr_data __flexarr;
+	u_int		intf_len;		/* length of entry */
+	char		intf_name[60];		/* interface name */
+	u_short		intf_type;		/* interface type (r/o) */
+	u_short		intf_flags;		/* interface flags */
+	u_int		intf_mtu;		/* interface MTU */
+	struct addr	intf_addr;		/* interface address */
+	struct addr	intf_dst_addr;		/* point-to-point dst */
+	struct addr	intf_link_addr;		/* link-layer address */
+	u_int		intf_alias_num;		/* number of aliases */
+	struct addr	intf_alias_addrs __flexarr; /* array of aliases */
 };
 
 /*

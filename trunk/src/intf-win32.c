@@ -31,7 +31,6 @@ static int
 _intf_get_entry(const struct intf_entry *entry, void *arg)
 {
 	struct intf_entry *e = (struct intf_entry *)arg;
-	off_t off;
 	
 	if (strcmp(e->intf_name, entry->intf_name) == 0) {
 		if (e->intf_len < entry->intf_len) {
@@ -39,18 +38,6 @@ _intf_get_entry(const struct intf_entry *entry, void *arg)
 			return (-1);
 		}
 		memcpy(e, entry, entry->intf_len);
-		off = (u_char *)e - (u_char *)entry;
-
-#define ADDROFF(a, o)	((struct addr *)((u_char *)a + o))
-		if (e->intf_addr != NULL)
-			e->intf_addr = ADDROFF(e->intf_addr, off);
-		if (e->intf_link_addr != NULL)
-			e->intf_link_addr = ADDROFF(e->intf_link_addr, off);
-		if (e->intf_dst_addr != NULL)
-			e->intf_dst_addr = ADDROFF(e->intf_dst_addr, off);
-		if (e->intf_alias_addr != NULL)
-			e->intf_alias_addr = ADDROFF(e->intf_alias_addr, off);
-
 		return (1);
 	}
 	return (0);
@@ -87,7 +74,7 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	ULONG len;
 	struct intf_entry *entry;
 	struct addr *ap;
-	u_char ebuf[1024], ifbuf[4192], ipbuf[2048];
+	u_char ebuf[1024], ifbuf[4192], ipbuf[1024];
 	int i, j, ret;
 
 	iftable = (MIB_IFTABLE *)ifbuf;
@@ -106,8 +93,7 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	
 	for (i = 0; i < iftable->dwNumEntries; i++) {
 		memset(entry, 0, sizeof(*entry));
-		ap = entry->intf_addr_data;
-
+		
 		strlcpy(entry->intf_name, iftable->table[i].bDescr,
 		    sizeof(entry->intf_name));
 		
@@ -137,31 +123,31 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 		/* Get hardware address. */
 		if (iftable->table[i].dwType == MIB_IF_TYPE_ETHERNET &&
 		    iftable->table[i].dwPhysAddrLen == ETH_ADDR_LEN) {
-			ap->addr_type = ADDR_TYPE_ETH;
-			ap->addr_bits = ETH_ADDR_BITS;
-			memcpy(&ap->addr_eth, iftable->table[i].bPhysAddr,
-			    ETH_ADDR_LEN);
-			entry->intf_link_addr = ap++;
+			entry->intf_link_addr.addr_type = ADDR_TYPE_ETH;
+			entry->intf_link_addr.addr_bits = ETH_ADDR_BITS;
+			memcpy(&entry->intf_link_addr.addr_eth,
+			    iftable->table[i].bPhysAddr, ETH_ADDR_LEN);
 		}
 		/* Get addresses. */
+		ap = entry->intf_alias_addrs;
 		for (j = 0; j < iptable->dwNumEntries; j++) {
 			if (iptable->table[j].dwIndex !=
 			    iftable->table[i].dwIndex)
 				continue;
-			
-			ap->addr_type = ADDR_TYPE_IP;
-			ap->addr_ip = iptable->table[j].dwAddr;
-			addr_mtob(&iptable->table[j].dwMask, IP_ADDR_LEN,
-			    &ap->addr_bits);
 
-			if (entry->intf_addr == NULL) {
-				entry->intf_addr = ap;
+			if (entry->intf_addr.addr_type != ADDR_TYPE_IP) {
+				entry->intf_addr.addr_type = ADDR_TYPE_IP;
+				entry->intf_addr.addr_ip =
+				    iptable->table[j].dwAddr;
+				addr_mtob(&iptable->table[j].dwMask,
+				    IP_ADDR_LEN, &entry->intf_addr.addr_bits);
 			} else {
-				if (entry->intf_alias_addr == NULL)
-					entry->intf_alias_addr = ap;
-				entry->intf_alias_num++;
+				ap->addr_type = ADDR_TYPE_IP;
+				ap->addr_ip = iptable->table[j].dwAddr;
+				addr_mtob(&iptable->table[j].dwMask,
+				    IP_ADDR_LEN, &ap->addr_bits);
+				ap++, entry->intf_alias_num++;
 			}
-			ap++;
 		}
 		entry->intf_len = (u_char *)ap - (u_char *)entry;
 		

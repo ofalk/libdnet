@@ -47,14 +47,15 @@ _add_ip_intf(const struct intf_entry *entry, void *arg)
 	if (entry->intf_type == INTF_TYPE_ETH &&
 	    (entry->intf_flags & INTF_FLAG_UP) != 0 &&
 	    entry->intf_mtu >= ETH_LEN_MIN &&
-	    entry->intf_addr != NULL && entry->intf_link_addr != NULL) {
+	    entry->intf_addr.addr_type == ADDR_TYPE_IP &&
+	    entry->intf_link_addr.addr_type == ADDR_TYPE_ETH) {
 		
 		if ((ipi = calloc(1, sizeof(*ipi))) == NULL)
 			return (-1);
 		
 		strlcpy(ipi->name, entry->intf_name, sizeof(ipi->name));
-		memcpy(&ipi->ha, entry->intf_link_addr, sizeof(ipi->ha));
-		memcpy(&ipi->pa, entry->intf_addr, sizeof(ipi->pa));
+		memcpy(&ipi->ha, &entry->intf_link_addr, sizeof(ipi->ha));
+		memcpy(&ipi->pa, &entry->intf_addr, sizeof(ipi->pa));
 		ipi->mtu = entry->intf_mtu;
 
 		LIST_INSERT_HEAD(&ip->ip_intf_list, ipi, next);

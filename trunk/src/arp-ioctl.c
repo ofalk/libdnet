@@ -84,11 +84,12 @@ _arp_set_dev(const struct intf_entry *entry, void *arg)
 	struct addr dst;
 	uint32_t mask;
 
-	if (entry->intf_type == INTF_TYPE_ETH && entry->intf_addr != NULL) {
-		addr_btom(entry->intf_addr->addr_bits, &mask, IP_ADDR_LEN);
+	if (entry->intf_type == INTF_TYPE_ETH &&
+	    entry->intf_addr.addr_type == ADDR_TYPE_IP) {
+		addr_btom(entry->intf_addr.addr_bits, &mask, IP_ADDR_LEN);
 		addr_ston((struct sockaddr *)&ar->arp_pa, &dst);
 	
-		if ((entry->intf_addr->addr_ip & mask) ==
+		if ((entry->intf_addr.addr_ip & mask) ==
 		    (dst.addr_ip & mask)) {
 			strlcpy(ar->arp_dev, entry->intf_name,
 			    sizeof(ar->arp_dev));
