@@ -247,18 +247,17 @@ addr_ntos(struct addr *a, struct sockaddr *sa)
 	switch (a->addr_type) {
 	case ADDR_TYPE_ETH:
 	{
-#ifdef HAVE_NET_IF_DL_H
+#if defined(HAVE_NET_IF_DL_H) && defined(HAVE_SOCKADDR_SA_LEN)
 		struct sockaddr_dl *sdl = (struct sockaddr_dl *)sa;
 
 		memset(sa, 0, sizeof(*sa));
-#ifdef HAVE_SOCKADDR_SA_LEN
 		sdl->sdl_len = sizeof(*sdl);
-#endif
 		sdl->sdl_family = AF_LINK;
 		sdl->sdl_alen = ETH_ADDR_LEN;
 		memcpy(LLADDR(sdl), &a->addr_eth, ETH_ADDR_LEN);
 #else
 		memset(sa, 0, sizeof(*sa));
+		/* XXX - AF_UNSPEC for Solaris, IRIX */
 #ifdef __linux__
 		sa->sa_family = ARP_HRD_ETH;
 #endif
