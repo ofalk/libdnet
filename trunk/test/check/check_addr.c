@@ -46,11 +46,16 @@ START_TEST(test_addr_cmp)
 	memcpy(&b, &a, sizeof(a));
 	fail_unless(addr_cmp(&a, &b) == 0, "failed on equal addresses");
 	b.addr_type = ADDR_TYPE_ETH;
-	fail_unless(addr_cmp(&a, &b) < 0, "failed on different addr_type");
+	fail_unless(addr_cmp(&a, &b) != 0, "failed on different addr_type");
 	memcpy(&b, &a, sizeof(a)); b.addr_bits--;
-	fail_unless(addr_cmp(&a, &b) < 0, "failed on different addr_bits");
+	fail_unless(addr_cmp(&a, &b) > 0, "failed on lesser addr_bits");
 	memcpy(&b, &a, sizeof(a)); b.addr_ip--;
-	fail_unless(addr_cmp(&a, &b) < 0, "failed on different addr_ip");
+	fail_unless(addr_cmp(&a, &b) != 0, "failed on different addr_ip");
+
+	addr_aton("10.0.0.1", &a);
+	addr_aton("10.0.0.2", &b);
+	fail_unless(addr_cmp(&a, &b) < 0, "failed on lesser addr compare");
+	fail_unless(addr_cmp(&b, &a) > 0, "failed on greater addr compare");
 }
 END_TEST
 
