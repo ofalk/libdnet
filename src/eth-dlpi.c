@@ -187,7 +187,7 @@ eth_open(const char *device)
 	return (e);
 }
 
-sssize_t
+ssize_t
 eth_send(eth_t *e, const void *buf, size_t len)
 {
 #if defined(DLIOCRAW)
