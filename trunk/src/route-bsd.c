@@ -137,6 +137,11 @@ route_msg(route_t *r, int type, u_char *buf, int buflen,
 #endif
 		if (addr_ston(sa, gw) < 0)
 			return (-1);
+
+		if (gw->addr_type != ADDR_TYPE_IP) {
+			errno = EINVAL;
+			return (-1);
+		}
 	}
 	return (0);
 }
