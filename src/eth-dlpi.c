@@ -175,9 +175,10 @@ eth_open(char *device)
 	memset(&dlp->bind_req, 0, DL_BIND_REQ_SIZE);
 	dlp->bind_req.dl_primitive = DL_BIND_REQ;
 #ifdef DL_HP_RAWDLS
-	dlp->bind_req.dl_sap = ETH_TYPE_IP + 1;		/* XXX */
+	dlp->bind_req.dl_sap = 24;	/* from HP-UX DLPI programmers guide */
 	dlp->bind_req.dl_service_mode = DL_HP_RAWDLS;
 #else
+	dlp->bind_req.dl_sap = DL_ETHER;
 	dlp->bind_req.dl_service_mode = DL_CLDLS;
 #endif
 	if (dlpi_msg(e->fd, dlp, DL_BIND_REQ_SIZE, 0,
@@ -204,29 +205,33 @@ eth_send(eth_t *e, const void *buf, size_t len)
 	struct strbuf ctl, data;
 	struct eth_hdr *eth;
 	u_int32_t ctlbuf[8192];
+	int dlen;
 
-	eth = (struct eth_hdr *)buf;
-	
 	dlp = (union DL_primitives *)ctlbuf;
+#ifdef DL_HP_RAWDATA_REQ
+	dlp->dl_primitive = DL_HP_RAWDATA_REQ;
+	dlen = DL_HP_RAWDATA_REQ_SIZE;
+#else
 	dlp->unitdata_req.dl_primitive = DL_UNITDATA_REQ;
 	dlp->unitdata_req.dl_dest_addr_length = ETH_ADDR_LEN;
 	dlp->unitdata_req.dl_dest_addr_offset = DL_UNITDATA_REQ_SIZE;
 	dlp->unitdata_req.dl_priority.dl_min =
 	    dlp->unitdata_req.dl_priority.dl_max = 0;
-	
+	dlen = DL_UNITDATA_REQ_SIZE;
+#endif
 	ctl.maxlen = 0;
-	ctl.len = DL_UNITDATA_REQ_SIZE + ETH_ADDR_LEN + sizeof(eth->eth_type);
+	ctl.len = dlen + ETH_ADDR_LEN + sizeof(eth->eth_type);
 	ctl.buf = (char *)ctlbuf;
 
+	eth = (struct eth_hdr *)buf;
+	
 	if (e->sap_first) {
-		memcpy(ctlbuf + DL_UNITDATA_REQ_SIZE,
-		    &eth->eth_type, sizeof(eth->eth_type));
-		memcpy(ctlbuf + DL_UNITDATA_REQ_SIZE + sizeof(eth->eth_type),
+		memcpy(ctlbuf + dlen, &eth->eth_type, sizeof(eth->eth_type));
+		memcpy(ctlbuf + dlen + sizeof(eth->eth_type),
 		    eth->eth_dst.data, ETH_ADDR_LEN);
 	} else {
-		memcpy(ctlbuf + DL_UNITDATA_REQ_SIZE,
-		    eth->eth_dst.data, ETH_ADDR_LEN);
-		memcpy(ctlbuf + DL_UNITDATA_REQ_SIZE + ETH_ADDR_LEN,
+		memcpy(ctlbuf + dlen, eth->eth_dst.data, ETH_ADDR_LEN);
+		memcpy(ctlbuf + dlen + ETH_ADDR_LEN,
 		    &eth->eth_type, sizeof(eth->eth_type));
 	}
 	data.maxlen = 0;
