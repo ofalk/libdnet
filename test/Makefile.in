@@ -72,9 +72,7 @@ AUTOMAKE_OPTIONS = foreign no-dependencies
 
 DISTCLEANFILES = *~
 
-SUBDIRS = dnet
-
-EXTRA_DIST = check
+SUBDIRS = check dnet
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../include/config.h
 CONFIG_CLEAN_FILES = 

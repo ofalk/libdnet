@@ -2,7 +2,5 @@
 
 include $(top_srcdir)/Makefile.am.common
 
-SUBDIRS = dnet
-
-EXTRA_DIST = check
+SUBDIRS = check dnet
 
