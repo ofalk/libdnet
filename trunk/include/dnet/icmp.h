@@ -12,11 +12,11 @@
 #ifndef DNET_ICMP_H
 #define DNET_ICMP_H
 
-#define ICMP_HDR_LEN	4
-#define ICMP_LEN_MIN	8		/* minimum ICMP msg size, with hdr */
+#define ICMP_HDR_LEN	4	/* base ICMP header length */
+#define ICMP_LEN_MIN	8	/* minimum ICMP message size, with header */
 
 /*
- * Common ICMP header.
+ * ICMP header
  */
 struct icmp_hdr {
 	uint8_t		icmp_type;	/* type of message, see below */
@@ -25,80 +25,8 @@ struct icmp_hdr {
 };
 
 /*
- * ICMP message definitions.
- */
-struct icmp_msg_echo {
-	uint16_t	icmp_id;
-	uint16_t	icmp_seq;
-	uint8_t		icmp_data __flexarr;	/* optional data */
-};
-
-struct icmp_msg_unreach_frag {
-	uint16_t	icmp_void;	/* must be zero */
-	uint16_t	icmp_nextmtu;	/* MTU of next-hop network */
-	uint8_t		icmp_ip8 __flexarr; /* IP hdr + 8 bytes of orig pkt */
-};
-
-struct icmp_msg_quote {
-	uint32_t	icmp_void;	/* must be zero */
-#define icmp_gwaddr	icmp_void	/* router IP address to use */
-#define icmp_pptr	icmp_void	/* pointer to offending octet field */
-	uint8_t		icmp_ip8 __flexarr; /* IP hdr + 8 bytes of orig pkt */
-};
-
-struct icmp_msg_tstamp {
-	uint32_t	icmp_id;
-	uint32_t	icmp_seq;
-	uint32_t	icmp_ts_orig;
-	uint32_t	icmp_ts_rcv;
-	uint32_t	icmp_ts_tx;
-};
-
-/* RFC 950 */
-struct icmp_msg_mask {
-	uint32_t	icmp_id;
-	uint32_t	icmp_seq;
-	uint32_t	icmp_mask;
-};
-
-/* RFC 1256 */
-struct icmp_msg_rtr {
-	uint8_t		icmp_num_addrs;	/* number of address / pref pairs */
-	uint8_t		icmp_wpa;	/* words / address - always 2 */
-	uint16_t	icmp_lifetime;	/* route lifetime in seconds */
-	struct icmp_msg_rtr_data {
-		uint32_t	icmp_void;	/* router IP address */
-#define		icmp_gwaddr	icmp_void
-		uint32_t	icmp_pref;	/* preference (usually zero) */
-	} icmp_rtr __flexarr;			/* variable # of routers */
-};
-#define ICMP_RTR_PREF_NODEFAULT	0x80000000
-
-union icmp_msg {
-	/* ICMP_ECHO, ICMP_ECHO_REPLY */
-	struct icmp_msg_echo		echo;
-	/* ICMP_UNREACH */
-	struct icmp_msg_quote		unreach;
-	/* ICMP_UNREACH / ICMP_UNREACH_FRAG */
-	struct icmp_msg_unreach_frag	unreach_frag;
-	/* ICMP_SRCQUENCH */
-	struct icmp_msg_quote		srcquench;
-	/* ICMP_REDIRECT */
-	struct icmp_msg_quote		redirect;
-	/* ICMP_RTRADVERT, ICMP_RTRSOLICIT */
-	struct icmp_msg_rtr		rtr;
-	/* ICMP_TIMEXCEED */
-	struct icmp_msg_quote		timexceed;
-	/* ICMP_PARAMPROB */
-	struct icmp_msg_quote		paramprob;
-	/* ICMP_TSTAMP, ICMP_TSTAMPREPLY */
-	struct icmp_msg_tstamp		tstamp;
-	/* ICMP_MASK, ICMP_MASKREPLY */
-	struct icmp_msg_mask		mask;
-};
-
-/*
- * Definition of type and code field values.
+ * Types (icmp_type) and codes (icmp_code) -
+ * http://www.iana.org/assignments/icmp-parameters
  */
 #define		ICMP_CODE_NONE		0	/* for types without codes */
 #define	ICMP_ECHOREPLY		0		/* echo reply */
@@ -151,6 +79,8 @@ union icmp_msg {
 #define ICMP_IPV6_IAMHERE	34		/* IPv6 i-am-here */
 #define ICMP_MOBILE_REG		35		/* mobile registration req */
 #define ICMP_MOBILE_REGREPLY	36		/* mobile registration reply */
+#define ICMP_DNS		37		/* domain name request */
+#define ICMP_DNSREPLY		38		/* domain name reply */
 #define ICMP_SKIP		39		/* SKIP */
 #define ICMP_PHOTURIS		40		/* Photuris */
 #define		ICMP_PHOTURIS_UNKNOWN_INDEX	0	/* unknown sec index */
@@ -159,7 +89,6 @@ union icmp_msg {
 #define		ICMP_PHOTURIS_DECRYPT_FAILED	3	/* decrypt failed */
 #define		ICMP_PHOTURIS_NEED_AUTHN	4	/* no authentication */
 #define		ICMP_PHOTURIS_NEED_AUTHZ	5	/* no authorization */
-
 #define	ICMP_TYPE_MAX		40
 
 #define	ICMP_INFOTYPE(type)						\
@@ -168,6 +97,121 @@ union icmp_msg {
 	(type) == ICMP_TSTAMP || (type) == ICMP_TSTAMPREPLY ||		\
 	(type) == ICMP_INFO || (type) == ICMP_INFOREPLY ||		\
 	(type) == ICMP_MASK || (type) == ICMP_MASKREPLY)
+
+/*
+ * Echo message data
+ */
+struct icmp_msg_echo {
+	uint16_t	icmp_id;
+	uint16_t	icmp_seq;
+	uint8_t		icmp_data __flexarr;	/* optional data */
+};
+
+/*
+ * Fragmentation-needed (unreachable) message data
+ */
+struct icmp_msg_needfrag {
+	uint16_t	icmp_void;		/* must be zero */
+	uint16_t	icmp_mtu;		/* MTU of next-hop network */
+	uint8_t		icmp_ip __flexarr;	/* IP hdr + 8 bytes of pkt */
+};
+
+/*
+ *  Unreachable, source quench, redirect, time exceeded,
+ *  parameter problem message data
+ */
+struct icmp_msg_quote {
+	uint32_t	icmp_void;		/* must be zero */
+#define icmp_gwaddr	icmp_void		/* router IP address to use */
+#define icmp_pptr	icmp_void		/* ptr to bad octet field */
+	uint8_t		icmp_ip __flexarr;	/* IP hdr + 8 bytes of pkt */
+};
+
+/*
+ * Router advertisement message data, RFC 1256
+ */
+struct icmp_msg_rtradvert {
+	uint8_t		icmp_num_addrs;		/* # of address / pref pairs */
+	uint8_t		icmp_wpa;		/* words / address == 2 */
+	uint16_t	icmp_lifetime;		/* route lifetime in seconds */
+	struct icmp_msg_rtr_data {
+		uint32_t	icmp_void;
+#define icmp_gwaddr		icmp_void	/* router IP address */
+		uint32_t	icmp_pref;	/* router preference (usu 0) */
+	} icmp_rtr __flexarr;			/* variable # of routers */
+};
+#define ICMP_RTR_PREF_NODEFAULT	0x80000000	/* do not use as default gw */
+
+/*
+ * Timestamp message data
+ */
+struct icmp_msg_tstamp {
+	uint32_t	icmp_id;		/* identifier */
+	uint32_t	icmp_seq;		/* sequence number */
+	uint32_t	icmp_ts_orig;		/* originate timestamp */
+	uint32_t	icmp_ts_rx;		/* receive timestamp */
+	uint32_t	icmp_ts_tx;		/* transmit timestamp */
+};
+
+/*
+ * Address mask message data, RFC 950
+ */
+struct icmp_msg_mask {
+	uint32_t	icmp_id;		/* identifier */
+	uint32_t	icmp_seq;		/* sequence number */
+	uint32_t	icmp_mask;		/* address mask */
+};
+
+/*
+ * Traceroute message data, RFC 1393, RFC 1812
+ */
+struct icmp_msg_traceroute {
+	uint16_t	icmp_id;		/* identifier */
+	uint16_t	icmp_void;		/* unused */
+	uint16_t	icmp_ohc;		/* outbound hop count */
+	uint16_t	icmp_rhc;		/* return hop count */
+	uint32_t	icmp_speed;		/* link speed, bytes/sec */
+	uint32_t	icmp_mtu;		/* MTU in bytes */
+};
+
+/*
+ * Domain name reply message data, RFC 1788
+ */
+struct icmp_msg_dnsreply {
+	uint16_t	icmp_id;		/* identifier */
+	uint16_t	icmp_seq;		/* sequence number */
+	uint32_t	icmp_ttl;		/* time-to-live */
+	uint8_t		icmp_names __flexarr;	/* variable number of names */
+};
+
+/*
+ * Generic identifier, sequence number data
+ */
+struct icmp_msg_idseq {
+	uint16_t	icmp_id;
+	uint16_t	icmp_seq;
+};
+
+/*
+ * ICMP message union
+ */
+union icmp_msg {
+	struct icmp_msg_echo	   echo;	/* ICMP_ECHO{REPLY} */
+	struct icmp_msg_quote	   unreach;	/* ICMP_UNREACH */
+	struct icmp_msg_needfrag   needfrag;	/* ICMP_UNREACH_NEEDFRAG */
+	struct icmp_msg_quote	   srcquench;	/* ICMP_SRCQUENCH */
+	struct icmp_msg_quote	   redirect;	/* ICMP_REDIRECT (set to 0) */
+	uint32_t		   rtrsolicit;	/* ICMP_RTRSOLICIT */
+	struct icmp_msg_rtradvert  rtradvert;	/* ICMP_RTRADVERT */
+	struct icmp_msg_quote	   timexceed;	/* ICMP_TIMEXCEED */
+	struct icmp_msg_quote	   paramprob;	/* ICMP_PARAMPROB */
+	struct icmp_msg_tstamp	   tstamp;	/* ICMP_TSTAMP{REPLY} */
+	struct icmp_msg_idseq	   info;	/* ICMP_INFO{REPLY} */
+	struct icmp_msg_mask	   mask;	/* ICMP_MASK{REPLY} */
+	struct icmp_msg_traceroute traceroute;	/* ICMP_TRACEROUTE */
+	struct icmp_msg_idseq	   dns;		/* ICMP_DNS */
+	struct icmp_msg_dnsreply   dnsreply;	/* ICMP_DNSREPLY */
+};
 
 #define icmp_fill_hdr(hdr, type, code) do {				\
 	struct icmp_hdr *icmp_fill_p = (struct icmp_hdr *)(hdr);	\
@@ -188,7 +232,7 @@ union icmp_msg {
 		((uint8_t *)(hdr) + ICMP_HDR_LEN);			\
 	icmp_fill_hdr(hdr, type, code);					\
 	quote_fill_p->icmp_void = htonl(word);				\
-	memmove(quote_fill_p->icmp_ip8, pkt, len);			\
+	memmove(quote_fill_p->icmp_ip, pkt, len);			\
 } while (0)
 
 #define icmp_fill_hdr_mask(hdr, type, code, id, seq, mask) do {		\
@@ -200,13 +244,13 @@ union icmp_msg {
 	mask_fill_p->icmp_mask = htonl(mask);				\
 } while (0)
 
-#define icmp_fill_hdr_unreach_frag(hdr, type, code, mtu, pkt, len) do {	\
-	struct icmp_msg_unreach_frag *frag_fill_p =			\
-	(struct icmp_msg_unreach_frag *)((uint8_t *)(hdr) + ICMP_HDR_LEN); \
+#define icmp_fill_hdr_needfrag(hdr, type, code, mtu, pkt, len) do {	\
+	struct icmp_msg_needfrag *frag_fill_p =				\
+	(struct icmp_msg_needfrag *)((uint8_t *)(hdr) + ICMP_HDR_LEN);	\
 	icmp_fill_hdr(hdr, type, code);					\
 	frag_fill_p->icmp_void = 0;					\
-	frag_fill_p->icmp_nextmtu = htons(mtu);				\
-	memmove(frag_fill_p->icmp_ip8, pkt, len);			\
+	frag_fill_p->icmp_mtu = htons(mtu);				\
+	memmove(frag_fill_p->icmp_ip, pkt, len);			\
 } while (0)
 
 #endif /* DNET_ICMP_H */
