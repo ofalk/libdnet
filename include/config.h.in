@@ -30,9 +30,6 @@
 /* Define if you have the <Iphlpapi.h> header file.  */
 #undef HAVE_IPHLPAPI_H
 
-/* Define if you have the <_mingw.h> header file.  */
-#undef HAVE__MINGW_H
-
 /* Define if you have the <fcntl.h> header file.  */
 #undef HAVE_FCNTL_H
 

@@ -39,7 +39,7 @@ AC_CHECK_HEADERS(net/bpf.h net/if.h net/if_dl.h net/pfvar.h net/raw.h \
 	linux/netfilter_ipv4/ipchains_core.h)
 AC_CHECK_HEADERS(ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h \
 	netinet/ip_compat.h ip_fil.h netinet/ip_fil.h)
-AC_CHECK_HEADERS(_mingw.h Iphlpapi.h winsock2.h)
+AC_CHECK_HEADERS(Iphlpapi.h winsock2.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -54,14 +54,16 @@ if test "$GCC" = yes ; then
 fi
 AC_CYGWIN
 if test "$CYGWIN" = yes ; then
-	if test $ac_cv_header__mingw_h != yes ; then
+	if test -d /usr/include/mingw ; then
+		CFLAGS="$CFLAGS -mno-cygwin"
+		LDFLAGS="$LDFLAGS -mno-cygwin"
+		AC_DEFINE(WIN32_LEAN_AND_MEAN, 1, 
+		    [Define for faster code generation.])
+		AC_CHECK_LIB(ws2_32, main)
+		AC_CHECK_LIB(iphlpapi, main)
+	else
 		AC_MSG_ERROR([need MingW32 package to build under Cygwin])
 	fi
-	CFLAGS="$CFLAGS -mno-cygwin"
-	LDFLAGS="$LDFLAGS -mno-cygwin"
-	AC_DEFINE(WIN32_LEAN_AND_MEAN, 1, [Define for faster code generation.])
-	AC_CHECK_LIB(ws2_32, main)
-	AC_CHECK_LIB(iphlpapi, main)
 fi
 
 dnl Checks for library functions.
