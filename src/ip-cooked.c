@@ -127,9 +127,9 @@ _request_arp(struct ip_intf *ipi, struct addr *dst)
 {
 	u_char frame[ETH_HDR_LEN + ARP_HDR_LEN + ARP_ETHIP_LEN];
 
-	eth_fill_hdr(frame, ETH_ADDR_BROADCAST, ipi->ha.addr_eth,
+	eth_pack_hdr(frame, ETH_ADDR_BROADCAST, ipi->ha.addr_eth,
 	    ETH_TYPE_ARP);
-	arp_fill_hdr_ethip(frame + ETH_HDR_LEN, ARP_OP_REQUEST,
+	arp_pack_hdr_ethip(frame + ETH_HDR_LEN, ARP_OP_REQUEST,
 	    ipi->ha.addr_eth, ipi->pa.addr_ip, ETH_ADDR_BROADCAST,
 	    dst->addr_ip);
 
@@ -175,7 +175,7 @@ ip_send(ip_t *ip, const void *buf, size_t len)
 	if (i == 3)
 		memset(&arpent.arp_ha.addr_eth, 0xff, ETH_ADDR_LEN);
 	
-	eth_fill_hdr(frame, arpent.arp_ha.addr_eth,
+	eth_pack_hdr(frame, arpent.arp_ha.addr_eth,
 	    ipi->ha.addr_eth, ETH_TYPE_IP);
 
 	if (len > ipi->mtu) {
