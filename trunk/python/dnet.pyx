@@ -1350,6 +1350,10 @@ cdef class tun:
         def __get__(self):
             return tun_fileno(self.tun)
 
+    def fileno(self):
+        """Return file descriptor for tunnel handle."""
+        return tun_fileno(self.tun)
+    
     def send(self, pkt):
         """Send an IP packet, returning the number of bytes sent
         or -1 on failure.
