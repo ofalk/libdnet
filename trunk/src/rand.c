@@ -168,6 +168,9 @@ rand_shuffle(rand_t *r, void *base, size_t nmemb, size_t size)
 	u_char *save, *src, *dst, *start = (u_char *)base;
 	int i, j;
 
+	if (nmemb < 2)
+		return (0);
+	
 	if (r->tmplen < size) {
 		if (r->tmp == NULL) {
 			if ((save = malloc(size)) == NULL)
