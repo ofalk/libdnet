@@ -279,7 +279,7 @@ addr_ntoa(const struct addr *a)
 	static char *p, buf[BUFSIZ];
 	char *q;
 	
-	if (p == NULL || p > buf + sizeof(buf))
+	if (p == NULL || p > buf + sizeof(buf) - 32 /* XXX */)
 		p = buf;
 	
 	if (addr_ntop(a, p, (buf + sizeof(buf)) - p) < 0)
