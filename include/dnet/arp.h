@@ -24,22 +24,28 @@
 #define ARP_ETHIP_LEN	20
 
 struct arp_hdr {
-	u_short		ar_hrd;	/* format of hardware address: */
+	u_short		ar_hrd;	/* format of hardware address */
+	u_short		ar_pro;	/* format of protocol address */
+	u_char		ar_hln;	/* length of hardware address (ETH_ADDR_LEN) */
+	u_char		ar_pln;	/* length of protocol address (IP_ADDR_LEN) */
+	u_short		ar_op;	/* operation */
+};
+
+/* Hardware address format */
 #define ARP_HRD_ETH 	0x0001	/* ethernet hardware */
 #define ARP_HRD_IEEE802	0x0006	/* IEEE 802 hardware */
 #define ARP_HRD_FRELAY 	0x000F	/* frame relay hardware */
-	u_short		ar_pro;	/* format of protocol address: */
+
+/* Protocol address format */
 #define ARP_PRO_IP	0x0800	/* IP protocol */
-	u_char		ar_hln;	/* length of hardware address (ETH_ADDR_LEN) */
-	u_char		ar_pln;	/* length of protocol address (IP_ADDR_LEN) */
-	u_short		ar_op;	/* ARP operation: */
+
+/* ARP operation */
 #define	ARP_OP_REQUEST	1	/* request to resolve address */
 #define	ARP_OP_REPLY	2	/* response to previous request */
 #define	ARP_OP_REVREQUEST 3	/* request protocol address given hardware */
 #define	ARP_OP_REVREPLY	4	/* response giving protocol address */
 #define	ARP_OP_INVREQUEST 8 	/* request to identify peer */
 #define	ARP_OP_INVREPLY	9	/* response identifying peer */
-};
 
 struct arp_ethip {
 	u_char		ar_sha[ETH_ADDR_LEN];	/* sender hardware address */
@@ -58,5 +64,20 @@ int	 arp_delete(arp_t *a, struct addr *pa);
 int	 arp_get(arp_t *a, struct addr *pa, struct addr *ha);
 int	 arp_loop(arp_t *a, arp_handler callback, void *arg);
 int	 arp_close(arp_t *a);
+
+#define arp_ethip_fill(h, op, sha, spa, tha, tpa) do {		\
+	struct arp_hdr *fill_arp_p = (struct arp_hdr *)(h);	\
+	struct arp_ethip *fill_ethip_p =			\
+		(struct arp_ethip *)((char *)(h) + ARP_HDR_LEN);\
+	fill_arp_p->ar_hrd = htons(ARP_HRD_ETH);		\
+	fill_arp_p->ar_pro = htons(ARP_PRO_IP);			\
+	fill_arp_p->ar_hln = ETH_ADDR_LEN;			\
+	fill_arp_p->ar_pln = IP_ADDR_LEN;			\
+	fill_arp_p->ar_op = htons(op);				\
+	memcpy(fill_ethip_p->ar_sha, &(sha), ETH_ADDR_LEN);	\
+	memcpy(fill_ethip_p->ar_spa, &(spa), IP_ADDR_LEN);	\
+	memcpy(fill_ethip_p->ar_tha, &(tha), ETH_ADDR_LEN);	\
+	memcpy(fill_ethip_p->ar_tpa, &(tpa), IP_ADDR_LEN);	\
+} while (0)
 
 #endif /* DNET_ARP_H */
