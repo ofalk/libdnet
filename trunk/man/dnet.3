@@ -37,6 +37,8 @@
 .Ft int
 .Fn addr_mtob "void *mask" "size_t size" "u_short *bits"
 .Ss Address Resolution Protocol
+.Pp
+.Li typedef Ar int Fn (*arp_handler) "struct addr *pa" "struct addr *ha" "void *arg"
 .Ft arp_t *
 .Fn arp_open "void"
 .Ft int
@@ -60,20 +62,9 @@
 .Fn eth_send "eth_t *e" "const void *buf" "size_t len"
 .Ft int
 .Fn eth_close "eth_t *e"
-.Ss Internet Protocol
-.Ft ip_t *
-.Fn ip_open "void"
-.Ft size_t
-.Fn ip_add_opt "void *buf" "size_t len" "const void *optbuf" "size_t optlen"
-.Ft size_t
-.Fn tcp_add_opt "void *buf" "size_t len" "const void *optbuf" "size_t optlen"
-.Ft void
-.Fn ip_checksum "void *buf" "size_t len"
-.Ft ssize_t
-.Fn ip_send "ip_t *i" "const void *buf" "size_t len"
-.Ft int
-.Fn ip_close "ip_t *i"
 .Ss Firewalling
+.Pp
+.Li typedef Ar int Fn (*fw_handler) "struct fw_rule *rule" "void *arg"
 .Ft fw_t *
 .Fn fw_open "void"
 .Ft int
@@ -85,6 +76,8 @@
 .Ft int
 .Fn fw_close "fw_t *f"
 .Ss Interfaces
+.Pp
+.Li typedef Ar int Fn (*intf_handler) "char *device" "struct intf_info *info" "void *arg"
 .Ft intf_t *
 .Fn intf_open "void"
 .\".Ft int
@@ -99,7 +92,22 @@
 .Fn intf_loop "intf_t *i" "intf_handler callback" "void *arg"
 .Ft int
 .Fn intf_close "void"
+.Ss Internet Protocol
+.Ft ip_t *
+.Fn ip_open "void"
+.Ft size_t
+.Fn ip_add_opt "void *buf" "size_t len" "const void *optbuf" "size_t optlen"
+.Ft size_t
+.Fn tcp_add_opt "void *buf" "size_t len" "const void *optbuf" "size_t optlen"
+.Ft void
+.Fn ip_checksum "void *buf" "size_t len"
+.Ft ssize_t
+.Fn ip_send "ip_t *i" "const void *buf" "size_t len"
+.Ft int
+.Fn ip_close "ip_t *i"
 .Ss Routing
+.Pp
+.Li typedef Ar int Fn (*route_handler) "struct addr *dst" "struct addr *gw" "void *arg"
 .Ft route_t *
 .Fn route_open "void"
 .Ft int
@@ -204,7 +212,7 @@ sockaddr.
 converts an address from a struct sockaddr to network format.
 .Pp
 .Fn addr_btos
-converts a network mask length to a network mask specified in a struct
+converts a network mask length to a network mask specified as a struct
 sockaddr.
 .Pp
 .Fn addr_stob
@@ -240,11 +248,18 @@ for the specified protocol address
 .Fa pa .
 .Pp
 .Fn arp_loop
-iterates over all entries in the kernel
+iterates over the kernel
 .Xr arp 4
 cache, invoking the specified
 .Fa callback
-routine on each entry.
+with each entry's protocol address
+.Fa pa ,
+hardware address
+.Fa ha ,
+and the context
+.Fa arg
+passed to
+.Fn arp_loop .
 .Pp
 .Fn arp_close
 closes the specified handle.
@@ -262,6 +277,7 @@ configures the hardware MAC address for the interface specified by
 .Fn eth_get
 retrieves the hardware MAC address for the interface specified by
 .Ar e .
+.Pp
 .Fn eth_send
 transmits 
 .Fa len
@@ -269,54 +285,6 @@ bytes of the Ethernet frame pointed to by
 .Fa buf .
 .Pp
 .Fn eth_close
-closes the specified handle.
-.Pp
-.Ss Internet Protocol
-.Fn ip_open
-is used to obtain a handle to transmit raw IP packets, routed by the
-kernel.
-.Pp
-.Fn ip_add_opt
-adds the IP option specified by
-.Fa optbuf
-of length
-.Fa optlen
-and appends it to the IP header of the IP packet contained in the
-specified buffer
-.Fa buf
-of size
-.Fa len ,
-shifting any existing IP payload, and adding NOPs to pad the option to
-a word boundary, if necessary.
-
-.Pp
-.Fn tcp_add_opt
-adds the TCP option specified by
-.Fa optbuf
-of length
-.Fa optlen
-and appends it to the TCP header of the IP packet contained in the
-specified buffer
-.Fa buf
-of size
-.Fa len ,
-shifting any existing TCP payload and adding NOPs to pad the option to
-a word boundary, if necessary.
-.Pp
-.Fn ip_checksum
-sets the IP checksum and any appropriate transport protocol checksum
-for the packet pointed to by
-.Fa buf 
-of length
-.Fa len .
-.Pp
-.Fn ip_send
-transmits
-.Fa len
-bytes of the IP packet pointed to by
-.Fa buf .
-.Pp
-.Fn ip_close
 closes the specified handle.
 .Pp
 .Ss Firewalling
@@ -363,10 +331,15 @@ deletes the specified firewall
 .Fa rule .
 .Pp
 .Fn fw_loop
-iterates over all rules in the local firewall configuration, invoking
+iterates over the active firewall ruleset, invoking
 the specified 
 .Fa callback
-on each entry.
+with each entry's
+.Fa rule
+and the context
+.Fa arg
+passed to 
+.Fn fw_loop .
 .Pp
 .Fn fw_close
 closes the specified handle.
@@ -399,11 +372,64 @@ for the specified interface
 .Fa device .
 .Pp
 .Fn intf_loop
-iterates over all configured up interfaces, invoking the specified 
+iterates over all active interfaces, invoking the specified 
 .Fa callback
-on each entry.
+with each entry's interface
+.Fa name ,
+.Fa info ,
+and the context
+.Fa arg
+passed to
+.Fn intf_loop .
 .Pp
 .Fn intf_close
+closes the specified handle.
+.Pp
+.Ss Internet Protocol
+.Fn ip_open
+is used to obtain a handle to transmit raw IP packets, routed by the
+kernel.
+.Pp
+.Fn ip_add_opt
+adds the IP option specified by
+.Fa optbuf
+of length
+.Fa optlen
+and appends it to the IP header of the IP packet contained in the
+specified buffer
+.Fa buf
+of size
+.Fa len ,
+shifting any existing IP payload, and adding NOPs to pad the option to
+a word boundary, if necessary.
+.Pp
+.Fn tcp_add_opt
+adds the TCP option specified by
+.Fa optbuf
+of length
+.Fa optlen
+and appends it to the TCP header of the IP packet contained in the
+specified buffer
+.Fa buf
+of size
+.Fa len ,
+shifting any existing TCP payload and adding NOPs to pad the option to
+a word boundary, if necessary.
+.Pp
+.Fn ip_checksum
+sets the IP checksum and any appropriate transport protocol checksum
+for the packet pointed to by
+.Fa buf 
+of length
+.Fa len .
+.Pp
+.Fn ip_send
+transmits
+.Fa len
+bytes of the IP packet pointed to by
+.Fa buf .
+.Pp
+.Fn ip_close
 closes the specified handle.
 .Pp
 .Ss Routing
@@ -429,11 +455,18 @@ for the specified network address
 .Fa dst .
 .Pp
 .Fn route_loop
-iterates over all entries in the kernel
+iterates over the kernel
 .Xr route 4
 table, invoking the specified
 .Fa callback
-routine on each entry.
+with each entry's destination address
+.Fa dst ,
+gateway address
+.Fa gw ,
+and the context
+.Fa arg
+passed to
+.Fn route_loop .
 .Pp
 .Fn route_close
 closes the specified handle.
