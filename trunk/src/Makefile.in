@@ -93,7 +93,7 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CF
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in arp-bsd.c arp-ioctl.c arp-none.c \
-err.c eth-bsd.c eth-dlpi.c eth-linux.c eth-none.c eth-snoop.c \
+err.c eth-bsd.c eth-dlpi.c eth-linux.c eth-ndd.c eth-none.c eth-snoop.c \
 fw-ipchains.c fw-ipf.c fw-ipfw.c fw-none.c fw-pf.c inet_pton.c memcmp.c \
 route-bsd.c route-hpux.c route-linux.c route-none.c strlcat.c strlcpy.c
 
