@@ -24,6 +24,11 @@
 
 typedef uint32_t	ip_addr_t;
 
+#ifndef __GNUC__
+# define __attribute__(x)
+# pragma pack(1)
+#endif
+
 /*
  * IP header, without options
  */
@@ -268,10 +273,6 @@ struct ip_hdr {
 #define IP_OPT_NUMBER(o)	((o) & 0x1f)
 #define IP_OPT_TYPEONLY(o)	((o) == IP_OPT_EOL || (o) == IP_OPT_NOP)
 
-#ifndef __GNUC__
-# define __attribute__(x)
-# pragma pack(1)			/* XXX - begin squirrely alignment */
-#endif
 /*
  * Security option data - RFC 791, 3.1
  */
@@ -349,7 +350,7 @@ struct ip_opt {
 } __attribute__((__packed__));
 
 #ifndef __GNUC__
-# pragma pack()				/* XXX - end squirrely alignment */
+# pragma pack()
 #endif
 
 /*

@@ -26,7 +26,7 @@ typedef struct ip6_addr {
 
 #ifndef __GNUC__
 # define __attribute__(x)
-# pragma pack(1)			/* XXX - begin squirrely alignment */
+# pragma pack(1)
 #endif
 
 /*
@@ -150,7 +150,7 @@ struct ip6_ext_hdr {
 } __attribute__((__packed__));
 
 #ifndef __GNUC__
-# pragma pack()				/* XXX - end squirrely alignment */
+# pragma pack()
 #endif
 
 /*

@@ -15,6 +15,11 @@
 #define ICMP_HDR_LEN	4	/* base ICMP header length */
 #define ICMP_LEN_MIN	8	/* minimum ICMP message size, with header */
 
+#ifndef __GNUC__
+# define __attribute__(x)
+# pragma pack(1)
+#endif
+
 /*
  * ICMP header
  */
@@ -212,6 +217,10 @@ union icmp_msg {
 	struct icmp_msg_idseq	   dns;		/* ICMP_DNS */
 	struct icmp_msg_dnsreply   dnsreply;	/* ICMP_DNSREPLY */
 };
+
+#ifndef __GNUC__
+# pragma pack()
+#endif
 
 #define icmp_pack_hdr(hdr, type, code) do {				\
 	struct icmp_hdr *icmp_pack_p = (struct icmp_hdr *)(hdr);	\

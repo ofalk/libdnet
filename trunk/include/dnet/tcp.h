@@ -16,6 +16,11 @@
 #define TCP_OPT_LEN_MAX	40
 #define TCP_HDR_LEN_MAX	(TCP_HDR_LEN + TCP_OPT_LEN_MAX)
 
+#ifndef __GNUC__
+# define __attribute__(x)
+# pragma pack(1)
+#endif
+
 /*
  * TCP header, without options
  */
@@ -115,10 +120,6 @@ struct tcp_hdr {
 #define TCP_OPT_TYPEONLY(type)	\
 	((type) == TCP_OPT_EOL || (type) == TCP_OPT_NOP)
 
-#ifndef __GNUC__
-# define __attribute__(x)
-# pragma pack(1)			/* XXX - begin squirrely alignment */
-#endif
 /*
  * TCP option (following TCP header)
  */
@@ -139,7 +140,7 @@ struct tcp_opt {
 } __attribute__((__packed__));
 
 #ifndef __GNUC__
-# pragma pack()				/* XXX - end squirrely alignment */
+# pragma pack()
 #endif
 
 #define tcp_pack_hdr(hdr, sport, dport, seq, ack, flags, win, urp) do {	\
