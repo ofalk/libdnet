@@ -58,6 +58,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
 CC = @CC@
 MAKEINFO = @MAKEINFO@
 PACKAGE = @PACKAGE@
@@ -76,7 +78,8 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ./include/config.h
 CONFIG_CLEAN_FILES = 
 DIST_COMMON =  README Makefile.am Makefile.in TODO acinclude.m4 \
-aclocal.m4 configure configure.in install-sh missing mkinstalldirs
+aclocal.m4 config.guess config.sub configure configure.in install-sh \
+missing mkinstalldirs
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)

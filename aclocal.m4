@@ -138,43 +138,92 @@ AC_DEFUN(AC_DNET_LINUX_PF_PACKET,
     fi])
 
 dnl
-dnl Check for Solaris /dev/ip device
+dnl Check for SNMP MIB2 STREAMS (Solaris only?)
 dnl
-dnl usage:      AC_DNET_SOLARIS_DEV_IP
-dnl results:    HAVE_SOLARIS_DEV_IP
+dnl usage:      AC_DNET_STREAMS_MIB2
+dnl results:    HAVE_STREAMS_MIB2
 dnl
-AC_DEFUN(AC_DNET_SOLARIS_DEV_IP,
-    [AC_MSG_CHECKING(for Solaris /dev/ip device)
-    AC_CACHE_VAL(ac_cv_dnet_solaris_dev_ip,
+AC_DEFUN(AC_DNET_STREAMS_MIB2,
+    [AC_MSG_CHECKING(for SNMP MIB2 STREAMS)
+    AC_CACHE_VAL(ac_cv_dnet_streams_mib2,
         if test -f /usr/include/inet/mib2.h -a -c /dev/ip ; then
-            ac_cv_dnet_solaris_dev_ip=yes
+            ac_cv_dnet_streams_mib2=yes
         else
-            ac_cv_dnet_solaris_dev_ip=no
+            ac_cv_dnet_streams_mib2=no
         fi)
-    AC_MSG_RESULT($ac_cv_dnet_solaris_dev_ip)
-    if test $ac_cv_dnet_solaris_dev_ip = yes ; then
-        AC_DEFINE(HAVE_SOLARIS_DEV_IP, 1,
-                  [Define if you have the Solaris /dev/ip device.])
+    AC_MSG_RESULT($ac_cv_dnet_streams_mib2)
+    if test $ac_cv_dnet_streams_mib2 = yes ; then
+        AC_DEFINE(HAVE_STREAMS_MIB2, 1,
+                  [Define if you have SNMP MIB2 STREAMS.])
     fi])
 
 dnl
-dnl Check for /dev/route device (UnixWare, Linux, but different)
+dnl Check for route(7) STREAMS (UnixWare only?)
 dnl
-dnl usage:      AC_DNET_DEV_ROUTE
-dnl results:    HAVE_DEV_ROUTE
+dnl usage:      AC_DNET_STREAMS_ROUTE
+dnl results:    HAVE_STREAMS_ROUTE
 dnl
-AC_DEFUN(AC_DNET_DEV_ROUTE,
-    [AC_MSG_CHECKING(for /dev/route device)
-    AC_CACHE_VAL(ac_cv_dnet_dev_route,
-        if test -c /dev/route ; then
-            ac_cv_dnet_dev_route=yes
+AC_DEFUN(AC_DNET_STREAMS_ROUTE,
+    [AC_MSG_CHECKING(for route(7) STREAMS)
+    AC_CACHE_VAL(ac_cv_dnet_streams_route,
+        if grep RTSTR_SEND /usr/include/net/route.h >/dev/null 2>&1 ; then
+            ac_cv_dnet_streams_route=yes
         else
-            ac_cv_dnet_dev_route=no
+            ac_cv_dnet_streams_route=no
         fi)
-    AC_MSG_RESULT($ac_cv_dnet_dev_route)
-    if test $ac_cv_dnet_dev_route = yes ; then
-        AC_DEFINE(HAVE_DEV_ROUTE, 1,
-                  [Define if you have the /dev/route device.])
+    AC_MSG_RESULT($ac_cv_dnet_streams_route)
+    if test $ac_cv_dnet_streams_route = yes ; then
+        AC_DEFINE(HAVE_STREAMS_ROUTE, 1,
+                  [Define if you have route(7) STREAMS.])
+    fi])
+
+dnl
+dnl Check for arp(7) ioctls
+dnl
+dnl usage:      AC_DNET_IOCTL_ARP
+dnl results:    HAVE_IOCTL_ARP
+dnl
+AC_DEFUN(AC_DNET_IOCTL_ARP,
+    [AC_MSG_CHECKING(for arp(7) ioctls)
+    AC_CACHE_VAL(ac_cv_dnet_ioctl_arp,
+	AC_EGREP_CPP(werd, [
+#	include <sys/types.h>
+#	define BSD_COMP
+#	include <sys/ioctl.h>
+#	ifdef SIOCGARP
+	werd
+#	endif],
+	ac_cv_dnet_ioctl_arp=yes,
+	ac_cv_dnet_ioctl_arp=no))
+    case "$target_os" in
+    irix*)
+        ac_cv_dnet_ioctl_arp=no ;;
+    esac
+    AC_MSG_RESULT($ac_cv_dnet_ioctl_arp)
+    if test $ac_cv_dnet_ioctl_arp = yes ; then
+        AC_DEFINE(HAVE_IOCTL_ARP, 1,
+                  [Define if you have arp(7) ioctls.])
+    fi])
+
+dnl
+dnl Check for cooked raw IP sockets
+dnl
+dnl usage:      AC_DNET_RAWIP_COOKED
+dnl results:    HAVE_RAWIP_COOKED
+dnl
+AC_DEFUN(AC_DNET_RAWIP_COOKED,
+    [AC_MSG_CHECKING(for STREAMS route support)
+    AC_CACHE_VAL(ac_cv_dnet_rawip_cooked, [
+	case "$host_os" in
+	solaris*|irix*)
+	    ac_cv_dnet_rawip_cooked=yes ;;
+	*)
+	    ac_cv_dnet_rawip_cooked=no ;;
+	esac])
+    AC_MSG_RESULT($ac_cv_dnet_rawip_cooked)
+    if test $ac_cv_dnet_rawip_cooked = yes ; then
+        AC_DEFINE(HAVE_RAWIP_COOKED, 1,
+                  [Define if you have cooked raw IP sockets.])
     fi])
 
 dnl

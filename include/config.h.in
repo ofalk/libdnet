@@ -132,14 +132,17 @@
 /* Define if you have Linux PF_PACKET sockets. */
 #undef HAVE_LINUX_PF_PACKET
 
-/* Define if you have the Solaris /dev/ip device. */
-#undef HAVE_SOLARIS_DEV_IP
+/* Define if you have SNMP MIB2 STREAMS. */
+#undef HAVE_STREAMS_MIB2
 
-/* Define if you have the /dev/route device. */
-#undef HAVE_DEV_ROUTE
+/* Define if you have route(7) STREAMS. */
+#undef HAVE_STREAMS_ROUTE
 
-/* Define if raw IP sockets are cooked. */
-#undef HAVE_COOKED_RAWIP
+/* Define if you have arp(7) ioctls. */
+#undef HAVE_IOCTL_ARP
+
+/* Define if you have cooked raw IP sockets. */
+#undef HAVE_RAWIP_COOKED
 
 #include <sys/types.h>
 
