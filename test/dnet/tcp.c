@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 
 #include "dnet.h"
@@ -100,7 +101,7 @@ tcp_main(int argc, char *argv[])
 	char *name, *value;
 	int c, len;
 	
-	srand(getpid());
+	srand(time(NULL));
 	
 	tcp = (struct tcp_hdr *)buf;
 	

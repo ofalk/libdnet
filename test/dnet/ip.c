@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 
 #include "dnet.h"
@@ -57,7 +58,7 @@ ip_main(int argc, char *argv[])
 	int c, len;
 	ip_t *i = NULL;
 
-	srand(getpid());
+	srand(time(NULL));
 
 	ip = (struct ip_hdr *)buf;
 	ip->ip_hl = 5;

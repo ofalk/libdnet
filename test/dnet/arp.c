@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 
 #include "dnet.h"
@@ -64,7 +65,7 @@ arp_main(int argc, char *argv[])
 	char *name, *value;
 	int c, len;
 
-	srand(getpid());
+	srand(time(NULL));
 
 	arp = (struct arp_hdr *)buf;
 	arp->ar_hrd = htons(ARP_HRD_ETH);
