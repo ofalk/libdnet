@@ -118,6 +118,14 @@ rand_set(rand_t *r, const void *buf, size_t len)
 {
 	rand_init(r);
 	rand_addrandom(r, (u_char *)buf, len);
+	rand_addrandom(r, (u_char *)buf, len);
+	return (0);
+}
+
+int
+rand_add(rand_t *r, const void *buf, size_t len)
+{
+	rand_addrandom(r, (u_char *)buf, len);
 	return (0);
 }
 
