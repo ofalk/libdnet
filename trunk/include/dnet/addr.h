@@ -44,7 +44,9 @@ struct addr {
 
 __BEGIN_DECLS
 int	 addr_cmp(const struct addr *a, const struct addr *b);
+
 int	 addr_bcast(const struct addr *a, struct addr *b);
+int	 addr_net(const struct addr *a, struct addr *b);
 
 char	*addr_ntop(const struct addr *src, char *dst, size_t size);
 int	 addr_pton(const char *src, struct addr *dst);
