@@ -1,5 +1,5 @@
 /*
- * intf.c
+ * intf-win32.c
  *
  * Copyright (c) 2002 Dug Song <dugsong@monkey.org>
  *
