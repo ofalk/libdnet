@@ -160,7 +160,7 @@ union icmp_msg {
 #define		ICMP_PHOTURIS_NEED_AUTHN	4	/* no authentication */
 #define		ICMP_PHOTURIS_NEED_AUTHZ	5	/* no authorization */
 
-#define	ICMP_MAXTYPE		40
+#define	ICMP_TYPE_MAX		40
 
 #define	ICMP_INFOTYPE(type)						\
 	((type) == ICMP_ECHOREPLY || (type) == ICMP_ECHO ||		\
