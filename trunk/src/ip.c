@@ -419,7 +419,7 @@ ip_checksum(void *buf, size_t len)
 }
 
 int
-ip_cksum_add(void *buf, size_t len, int cksum)
+ip_cksum_add(const void *buf, size_t len, int cksum)
 {
 	uint16_t *sp = (uint16_t *)buf;
 	int n, sn;
