@@ -1944,7 +1944,7 @@ else
 fi
 done
 
-for ac_hdr in Iphlpapi.h winsock2.h
+for ac_hdr in _mingw.h Iphlpapi.h winsock2.h
 do
 ac_safe=`echo "$ac_hdr" | sed 'y%./+-%__p_%'`
 echo $ac_n "checking for $ac_hdr""... $ac_c" 1>&6
@@ -2314,37 +2314,8 @@ fi
 echo "$ac_t""$ac_cv_cygwin" 1>&6
 CYGWIN=
 test "$ac_cv_cygwin" = yes && CYGWIN=yes
-echo $ac_n "checking for mingw32 environment""... $ac_c" 1>&6
-echo "configure:2319: checking for mingw32 environment" >&5
-if eval "test \"`echo '$''{'ac_cv_mingw32'+set}'`\" = set"; then
-  echo $ac_n "(cached) $ac_c" 1>&6
-else
-  cat > conftest.$ac_ext <<EOF
-#line 2324 "configure"
-#include "confdefs.h"
-
-int main() {
-return __MINGW32__;
-; return 0; }
-EOF
-if { (eval echo configure:2331: \"$ac_compile\") 1>&5; (eval $ac_compile) 2>&5; }; then
-  rm -rf conftest*
-  ac_cv_mingw32=yes
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  ac_cv_mingw32=no
-fi
-rm -f conftest*
-rm -f conftest*
-fi
-
-echo "$ac_t""$ac_cv_mingw32" 1>&6
-MINGW32=
-test "$ac_cv_mingw32" = yes && MINGW32=yes
 if test "$CYGWIN" = yes ; then
-	if test "$MINGW32" != yes ; then
+	if test $ac_cv_header__mingw_h != yes ; then
 		{ echo "configure: error: need MingW32 package to build under Cygwin" 1>&2; exit 1; }
 	fi
 	CFLAGS="$CFLAGS -mno-cygwin"
@@ -2354,7 +2325,7 @@ if test "$CYGWIN" = yes ; then
 EOF
 
 	echo $ac_n "checking for main in -lws2_32""... $ac_c" 1>&6
-echo "configure:2358: checking for main in -lws2_32" >&5
+echo "configure:2329: checking for main in -lws2_32" >&5
 ac_lib_var=`echo ws2_32'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -2362,14 +2333,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-lws2_32  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 2366 "configure"
+#line 2337 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:2373: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:2344: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -2397,7 +2368,7 @@ else
 fi
 
 	echo $ac_n "checking for main in -liphlpapi""... $ac_c" 1>&6
-echo "configure:2401: checking for main in -liphlpapi" >&5
+echo "configure:2372: checking for main in -liphlpapi" >&5
 ac_lib_var=`echo iphlpapi'_'main | sed 'y%./+-%__p_%'`
 if eval "test \"`echo '$''{'ac_cv_lib_$ac_lib_var'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
@@ -2405,14 +2376,14 @@ else
   ac_save_LIBS="$LIBS"
 LIBS="-liphlpapi  $LIBS"
 cat > conftest.$ac_ext <<EOF
-#line 2409 "configure"
+#line 2380 "configure"
 #include "confdefs.h"
 
 int main() {
 main()
 ; return 0; }
 EOF
-if { (eval echo configure:2416: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:2387: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_lib_$ac_lib_var=yes"
 else
@@ -2442,7 +2413,7 @@ fi
 fi
 
 echo $ac_n "checking for 8-bit clean memcmp""... $ac_c" 1>&6
-echo "configure:2446: checking for 8-bit clean memcmp" >&5
+echo "configure:2417: checking for 8-bit clean memcmp" >&5
 if eval "test \"`echo '$''{'ac_cv_func_memcmp_clean'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2450,7 +2421,7 @@ else
   ac_cv_func_memcmp_clean=no
 else
   cat > conftest.$ac_ext <<EOF
-#line 2454 "configure"
+#line 2425 "configure"
 #include "confdefs.h"
 
 main()
@@ -2460,7 +2431,7 @@ main()
 }
 
 EOF
-if { (eval echo configure:2464: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
+if { (eval echo configure:2435: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext} && (./conftest; exit) 2>/dev/null
 then
   ac_cv_func_memcmp_clean=yes
 else
@@ -2480,12 +2451,12 @@ test $ac_cv_func_memcmp_clean = no && LIBOBJS="$LIBOBJS memcmp.${ac_objext}"
 for ac_func in socket
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
-echo "configure:2484: checking for $ac_func" >&5
+echo "configure:2455: checking for $ac_func" >&5
 if eval "test \"`echo '$''{'ac_cv_func_$ac_func'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 2489 "configure"
+#line 2460 "configure"
 #include "confdefs.h"
 /* System header to define __stub macros and hopefully few prototypes,
     which can conflict with char $ac_func(); below.  */
@@ -2508,7 +2479,7 @@ $ac_func();
 
 ; return 0; }
 EOF
-if { (eval echo configure:2512: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:2483: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_func_$ac_func=yes"
 else
@@ -2535,12 +2506,12 @@ done
 for ac_func in err inet_pton strlcat strlcpy
 do
 echo $ac_n "checking for $ac_func""... $ac_c" 1>&6
-echo "configure:2539: checking for $ac_func" >&5
+echo "configure:2510: checking for $ac_func" >&5
 if eval "test \"`echo '$''{'ac_cv_func_$ac_func'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 2544 "configure"
+#line 2515 "configure"
 #include "confdefs.h"
 /* System header to define __stub macros and hopefully few prototypes,
     which can conflict with char $ac_func(); below.  */
@@ -2563,7 +2534,7 @@ $ac_func();
 
 ; return 0; }
 EOF
-if { (eval echo configure:2567: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+if { (eval echo configure:2538: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
   rm -rf conftest*
   eval "ac_cv_func_$ac_func=yes"
 else
@@ -2591,7 +2562,7 @@ done
 
 
 echo $ac_n "checking for Berkeley Packet Filter""... $ac_c" 1>&6
-echo "configure:2595: checking for Berkeley Packet Filter" >&5
+echo "configure:2566: checking for Berkeley Packet Filter" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_bsd_bpf'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2610,7 +2581,7 @@ EOF
 
     fi
 echo $ac_n "checking for Linux proc filesystem""... $ac_c" 1>&6
-echo "configure:2614: checking for Linux proc filesystem" >&5
+echo "configure:2585: checking for Linux proc filesystem" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_linux_procfs'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2629,7 +2600,7 @@ EOF
 
     fi
 echo $ac_n "checking for Linux PF_PACKET sockets""... $ac_c" 1>&6
-echo "configure:2633: checking for Linux PF_PACKET sockets" >&5
+echo "configure:2604: checking for Linux PF_PACKET sockets" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_linux_pf_packet'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2648,7 +2619,7 @@ EOF
 
     fi
 echo $ac_n "checking for SNMP MIB2 STREAMS""... $ac_c" 1>&6
-echo "configure:2652: checking for SNMP MIB2 STREAMS" >&5
+echo "configure:2623: checking for SNMP MIB2 STREAMS" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_streams_mib2'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2667,7 +2638,7 @@ EOF
 
     fi
 echo $ac_n "checking for route(7) STREAMS""... $ac_c" 1>&6
-echo "configure:2671: checking for route(7) STREAMS" >&5
+echo "configure:2642: checking for route(7) STREAMS" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_streams_route'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2686,12 +2657,12 @@ EOF
 
     fi
 echo $ac_n "checking for arp(7) ioctls""... $ac_c" 1>&6
-echo "configure:2690: checking for arp(7) ioctls" >&5
+echo "configure:2661: checking for arp(7) ioctls" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_ioctl_arp'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
   cat > conftest.$ac_ext <<EOF
-#line 2695 "configure"
+#line 2666 "configure"
 #include "confdefs.h"
 
 #	include <sys/types.h>
@@ -2725,7 +2696,7 @@ EOF
 
     fi
 echo $ac_n "checking for raw IP sockets ip_{len,off} host byte ordering""... $ac_c" 1>&6
-echo "configure:2729: checking for raw IP sockets ip_{len,off} host byte ordering" >&5
+echo "configure:2700: checking for raw IP sockets ip_{len,off} host byte ordering" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_rawip_host_offlen'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
@@ -2748,7 +2719,7 @@ EOF
 
     fi
 echo $ac_n "checking for cooked raw IP sockets""... $ac_c" 1>&6
-echo "configure:2752: checking for cooked raw IP sockets" >&5
+echo "configure:2723: checking for cooked raw IP sockets" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_rawip_cooked'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
