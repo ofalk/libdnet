@@ -83,6 +83,10 @@
 .Ft int
 .Fn intf_get "intf_t *i" "struct intf_entry *entry"
 .Ft int
+.Fn intf_get_src "intf_t *i" "struct intf_entry *entry" "struct addr *src"
+.Ft int
+.Fn intf_get_dst "intf_t *i" "struct intf_entry *entry" "struct addr *dst"
+.Ft int
 .Fn intf_set "intf_t *i" "const struct intf_entry *entry"
 .Ft int
 .Fn intf_loop "intf_t *i" "intf_handler callback" "void *arg"
@@ -388,6 +392,16 @@ retrieves an interface configuration
 .Fa entry ,
 keyed on
 .Fa intf_name .
+.Pp
+.Fn intf_get_src
+retrieves the configuration for the interface whose primary address
+matches the specified
+.Fa src .
+.Pp
+.Fn intf_get_dst
+retrieves the configuration for the best interface with which to reach
+the specified
+.Fa dst .
 .Pp
 .Fn intf_set
 sets the interface configuration
