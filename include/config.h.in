@@ -114,6 +114,9 @@
 /* Define if sockaddr struct has sa_len. */
 #undef HAVE_SOCKADDR_SA_LEN
 
+/* Define if arpreq struct has arp_dev. */
+#undef HAVE_ARPREQ_ARP_DEV
+
 /* Define if <net/route.h> has rt_msghdr struct. */
 #undef HAVE_ROUTE_RT_MSGHDR
 
