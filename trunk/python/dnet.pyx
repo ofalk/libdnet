@@ -366,6 +366,8 @@ cdef extern from *:
         char           addr_data8[16]
 
     int   addr_cmp(addr_t *a, addr_t *b)
+    int   addr_bcast(addr_t *a, addr_t *b)
+    int   addr_net(addr_t *a, addr_t *b)
     char *addr_ntoa(addr_t *a)
     int   addr_aton(char *src, addr_t *dst)
 
@@ -388,6 +390,7 @@ cdef class addr:
             raise ValueError, "invalid network address"
     
     property type:
+        """Address type (ADDR_TYPE_*) integer."""
         def __get__(self):
             return self._addr.addr_type
         def __set__(self, value):
@@ -395,6 +398,7 @@ cdef class addr:
             self._addr.addr_type = value
     
     property bits:
+        """Address bitlength integer."""
         def __get__(self):
             return self._addr.addr_bits
         def __set__(self, value):
@@ -402,6 +406,7 @@ cdef class addr:
             self._addr.addr_bits = value
 
     property eth:
+        """Ethernet MAC address as binary string."""
         def __get__(self):
             if self._addr.addr_type != ADDR_TYPE_ETH:
                 raise ValueError, "non-Ethernet address"
@@ -413,6 +418,7 @@ cdef class addr:
             __memcpy(self._addr.addr_data8, value, 6)
     
     property ip:
+        """IPv4 address as binary string."""
         def __get__(self):
             if self._addr.addr_type != ADDR_TYPE_IP:
                 raise ValueError, "non-IP address"
@@ -424,6 +430,7 @@ cdef class addr:
             __memcpy(self._addr.addr_data8, value, 4)
     
     property ip6:
+        """IPv6 address as binary string."""
         def __get__(self):
             if self._addr.addr_type != ADDR_TYPE_IP6:
                 raise ValueError, "non-IPv6 address"
@@ -433,6 +440,18 @@ cdef class addr:
             if self._addr.addr_type != ADDR_TYPE_IP6:
                 raise ValueError, "non-IPv6 address"
             __memcpy(self._addr.addr_data8, value, 16)
+
+    def bcast(self):
+        """Return an addr object for our broadcast address."""
+        bcast = self.__class__(self.__str__())
+        addr_bcast(&self._addr, &(<addr>bcast)._addr)
+        return bcast
+
+    def net(self):
+        """Return an addr object for our network address."""
+        net = self.__class__(self.__str__())
+        addr_net(&self._addr, &(<addr>net)._addr)
+        return net
     
     def __copy__(self):
         return self.__class__(self.__str__())
