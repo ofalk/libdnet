@@ -18,9 +18,6 @@
 /* Define if you have the inet_pton function.  */
 #undef HAVE_INET_PTON
 
-/* Define if you have the socket function.  */
-#undef HAVE_SOCKET
-
 /* Define if you have the strlcat function.  */
 #undef HAVE_STRLCAT
 

@@ -83,7 +83,6 @@ fi
 
 dnl Checks for library functions.
 AC_FUNC_MEMCMP
-AC_CHECK_FUNCS(socket)
 AC_REPLACE_FUNCS(err inet_pton strlcat strlcpy)
 
 dnl Checks for other system-specific jonks.
