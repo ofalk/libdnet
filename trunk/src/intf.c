@@ -472,11 +472,8 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 		else if (ap->addr_type == ADDR_TYPE_IP6 && intf->fd6 != -1) {
 			struct in6_ifreq ifr6;
 
-			memset(&ifr6, 0, sizeof(ifr6));
-			strlcpy(ifr6.ifr_name, ifr->ifr_name,
-			    sizeof(ifr6.ifr_name));
-			memcpy(&ifr6.ifr_addr, &ifr->ifr_addr,
-			    sizeof(struct sockaddr_in6));
+			/* XXX - sizeof(ifr) < sizeof(ifr6) */
+			memcpy(&ifr6, ifr, sizeof(ifr6));
 			
 			if (ioctl(intf->fd6, SIOCGIFNETMASK_IN6, &ifr6) == 0) {
 				addr_stob((struct sockaddr *)&ifr6.ifr_addr,
