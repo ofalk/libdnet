@@ -2396,6 +2396,8 @@ fi
 
 if test $ac_cv_dnet_solaris_dev_ip = yes ; then
 	LIBOBJS="$LIBOBJS ip-cooked.o"
+elif test $ac_cv_header_net_raw_h = yes ; then
+	LIBOBJS="$LIBOBJS ip-cooked.o"
 else
 	LIBOBJS="$LIBOBJS ip.o"
 fi
