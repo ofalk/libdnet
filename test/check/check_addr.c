@@ -92,7 +92,7 @@ START_TEST(test_addr_net)
 	addr_aton("cafe:babe::dead:beef", &a);
 	a.addr_bits = 20; addr_net(&a, &b);
 	addr_aton("cafe:b000::", &a);
-	a.addr_bits = 20;
+	a.addr_bits = IP6_ADDR_BITS;
 	fail_unless(addr_cmp(&a, &b) == 0, "IPv6 net failed");
 }
 END_TEST
