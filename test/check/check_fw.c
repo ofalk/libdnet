@@ -9,7 +9,7 @@
 
 #include <check.h>
 
-START_TEST(test_fw_fill)
+START_TEST(test_fw_pack)
 {
 }
 END_TEST
@@ -50,7 +50,7 @@ fw_suite(void)
 	TCase *tc_core = tcase_create("core");
 
 	suite_add_tcase(s, tc_core);
-	tcase_add_test(tc_core, test_fw_fill);
+	tcase_add_test(tc_core, test_fw_pack);
 	tcase_add_test(tc_core, test_fw_openclose);
 	tcase_add_test(tc_core, test_fw_add);
 	tcase_add_test(tc_core, test_fw_delete);

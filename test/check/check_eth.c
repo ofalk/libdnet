@@ -9,7 +9,7 @@
 
 #include <check.h>
 
-START_TEST(test_eth_fill)
+START_TEST(test_eth_pack)
 {
 }
 END_TEST
@@ -41,7 +41,7 @@ eth_suite(void)
 	TCase *tc_core = tcase_create("core");
 
 	suite_add_tcase(s, tc_core);
-	tcase_add_test(tc_core, test_eth_fill);
+	tcase_add_test(tc_core, test_eth_pack);
 	tcase_add_test(tc_core, test_eth_openclose);
 	tcase_add_test(tc_core, test_eth_get);
 	tcase_add_test(tc_core, test_eth_set);

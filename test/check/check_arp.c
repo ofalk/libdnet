@@ -9,7 +9,7 @@
 
 #include <check.h>
 
-START_TEST(test_arp_fill)
+START_TEST(test_arp_pack)
 {
 }
 END_TEST
@@ -51,7 +51,7 @@ arp_suite(void)
 	TCase *tc_core = tcase_create("core");
 
 	suite_add_tcase(s, tc_core);
-	tcase_add_test(tc_core, test_arp_fill);
+	tcase_add_test(tc_core, test_arp_pack);
 	tcase_add_test(tc_core, test_arp_openclose);
 	tcase_add_test(tc_core, test_arp_add);
 	tcase_add_test(tc_core, test_arp_delete);
