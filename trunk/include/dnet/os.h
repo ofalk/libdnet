@@ -22,7 +22,15 @@
 # include <netinet/in.h>
 # include <arpa/inet.h>
 # include <netdb.h>
-# include <inttypes.h>
+# ifdef __bsdi__
+#  include <machine/types.h>
+   typedef u_int8_t	uint8_t;
+   typedef u_int16_t	uint16_t;
+   typedef u_int32_t	uint32_t;
+   typedef u_int64_t	uint64_t;
+# else
+#  include <inttypes.h>
+# endif
 #endif
 
 #define DNET_LIL_ENDIAN		1234
