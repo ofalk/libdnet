@@ -74,7 +74,7 @@ route_delete(route_t *route, const struct addr *dst)
 }
 
 int
-route_get(route_t *route, const struct addr *dst, const struct addr *gw)
+route_get(route_t *route, const struct addr *dst, struct addr *gw)
 {
 	MIB_IPFORWARDROW ipfrow;
 	DWORD mask;
