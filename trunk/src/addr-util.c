@@ -142,7 +142,7 @@ ip_ntoa(const ip_addr_t *ip)
 {
 	struct addr a;
 	
-	addr_pack(&a, ADDR_TYPE_IP, IP_ADDR_BITS, &ip, IP_ADDR_LEN);
+	addr_pack(&a, ADDR_TYPE_IP, IP_ADDR_BITS, ip, IP_ADDR_LEN);
 	return (addr_ntoa(&a));
 }
 
@@ -228,7 +228,7 @@ ip6_ntoa(const ip6_addr_t *ip6)
 {
 	struct addr a;
 	
-	addr_pack(&a, ADDR_TYPE_IP6, IP6_ADDR_BITS, &ip6->data, IP6_ADDR_LEN);
+	addr_pack(&a, ADDR_TYPE_IP6, IP6_ADDR_BITS, ip6->data, IP6_ADDR_LEN);
 	return (addr_ntoa(&a));
 }
 
