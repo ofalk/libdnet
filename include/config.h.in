@@ -138,6 +138,12 @@
 /* Version number of package */
 #undef VERSION
 
+/* Define for faster code generation. */
+#undef WIN32_LEAN_AND_MEAN
+
+/* Use MingW32's internal snprintf */
+#undef snprintf
+
 /* Define if sockaddr struct has sa_len. */
 #undef HAVE_SOCKADDR_SA_LEN
 
@@ -146,9 +152,6 @@
 
 /* Define if <net/route.h> has rt_msghdr struct. */
 #undef HAVE_ROUTE_RT_MSGHDR
-
-/* Define for faster code generation. */
-#undef WIN32_LEAN_AND_MEAN
 
 /* Define if you have the Berkeley Packet Filter. */
 #undef HAVE_BSD_BPF
