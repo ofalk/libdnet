@@ -26,9 +26,12 @@ static void
 usage(void)
 {
 	fprintf(stderr, "Usage: dnet intf show\n"
-			"       dnet intf get <name>\n"
-			"       dnet intf set <name> "
-	    "[alias|dst|inet|link <addr> ...] [up|down|arp|noarp ...]\n");
+	    "       dnet intf get <name>\n"
+	    "       dnet intf set <name> "
+	    "[alias|dst|inet|link <addr> ...] [up|down|arp|noarp ...]\n"
+	    "       dnet intf src <ip>\n"
+	    "       dnet intf dst <ip>\n"
+);
 	exit(1);
 }
 
@@ -104,7 +107,7 @@ int
 intf_main(int argc, char *argv[])
 {
 	struct intf_entry *entry;
-	struct addr *addr;
+	struct addr *ap, addr;
 	char *cmd, buf[1024];
 	
 	if (argc < 2)
@@ -125,12 +128,21 @@ intf_main(int argc, char *argv[])
 	} else if (strcmp(cmd, "get") == 0) {
 		if (argc < 3)
 			usage();
-		
 		strlcpy(entry->intf_name, argv[2], sizeof(entry->intf_name));
-		
 		if (intf_get(intf, entry) < 0)
 			err(1, "intf_get");
-		
+		print_intf(entry, NULL);
+	} else if (strcmp(cmd, "src") == 0) {
+		if (argc < 3 || addr_aton(argv[2], &addr) < 0)
+			usage();
+		if (intf_get_src(intf, entry, &addr) < 0)
+			err(1, "intf_get_src");
+		print_intf(entry, NULL);
+	} else if (strcmp(cmd, "dst") == 0) {
+		if (argc < 3 || addr_aton(argv[2], &addr) < 0)
+			usage();
+		if (intf_get_dst(intf, entry, &addr) < 0)
+			err(1, "intf_get_dst");
 		print_intf(entry, NULL);
 	} else if (strcmp(cmd, "set") == 0) {
 		if (argc < 4)
@@ -140,18 +152,18 @@ intf_main(int argc, char *argv[])
 
 		for (argv += 3, argc -= 3; argc > 1; argv += 2, argc -= 2) {
 			if (strcmp(argv[0], "alias") == 0) {
-				addr = &entry->intf_alias_addrs
+				ap = &entry->intf_alias_addrs
 				    [entry->intf_alias_num++];
 			} else if (strcmp(argv[0], "dst") == 0) {
-				addr = &entry->intf_dst_addr;
+				ap = &entry->intf_dst_addr;
 			} else if (strcmp(argv[0], "inet") == 0) {
-				addr = &entry->intf_addr;
+				ap = &entry->intf_addr;
 			} else if (strcmp(argv[0], "link") == 0) {
-				addr = &entry->intf_link_addr;
+				ap = &entry->intf_link_addr;
 			} else
 				break;
 			
-			if (addr_pton(argv[1], addr) < 0)
+			if (addr_pton(argv[1], ap) < 0)
 				err(1, "invalid address: %s", argv[1]);
 		}
 		for ( ; argc > 0; argv++, argc--) {
