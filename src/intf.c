@@ -30,10 +30,10 @@ struct intf_handle {
 	int	fd;
 };
 
-static void
-intf_flags_to_iff(u_int flags, short *iff)
+static int
+intf_flags_to_iff(int flags)
 {
-	short n = *iff;
+	int n = 0;
 	
 	if (flags & INTF_FLAG_UP)
 		n |= IFF_UP;
@@ -60,13 +60,13 @@ intf_flags_to_iff(u_int flags, short *iff)
 	else
 		n &= ~IFF_MULTICAST;
 	
-	*iff = n;
+	return (n);
 }
 
-static void
-intf_iff_to_flags(short iff, u_int *flags)
+static int
+intf_iff_to_flags(int iff)
 {
-	u_int n = 0;
+	int n = 0;
 
 	if (iff & IFF_UP)
 		n |= INTF_FLAG_UP;	
@@ -79,7 +79,7 @@ intf_iff_to_flags(short iff, u_int *flags)
 	if (iff & IFF_MULTICAST)
 		n |= INTF_FLAG_MULTICAST;
 
-	*flags = n;
+	return (n);
 }
 
 intf_t *
@@ -160,13 +160,14 @@ intf_set(intf_t *i, char *device, struct intf_info *info)
 		if (ioctl(i->fd, SIOCGIFFLAGS, &ifr) < 0)
 			return (-1);
 		
-		intf_flags_to_iff(info->intf_flags, &ifr.ifr_flags);
+		ifr.ifr_flags = intf_flags_to_iff(info->intf_flags);
 		
 		if (ioctl(i->fd, SIOCSIFFLAGS, &ifr) < 0)
 			return (-1);
 	}
 	if ((info->intf_info & INTF_INFO_MTU) != 0) {
-		ifr.ifr_mtu = info->intf_mtu;
+		/* XXX - ifr_mtu missing on Solaris */
+		ifr.ifr_metric = info->intf_mtu;
 		
 		if (ioctl(i->fd, SIOCSIFMTU, &ifr) < 0)
 			return (-1);
@@ -202,13 +203,14 @@ intf_get(intf_t *i, char *device, struct intf_info *info)
 	if (ioctl(i->fd, SIOCGIFFLAGS, &ifr) < 0)
 		return (-1);
 	
-	intf_iff_to_flags(ifr.ifr_flags, &info->intf_flags);
+	info->intf_flags = intf_iff_to_flags(ifr.ifr_flags);
 	info->intf_info |= INTF_INFO_FLAGS;
 	
 	if (ioctl(i->fd, SIOCGIFMTU, &ifr) < 0)
 		return (-1);
-	
-	info->intf_mtu = ifr.ifr_mtu;
+
+	/* XXX - ifr_mtu missing on Solaris */
+	info->intf_mtu = ifr.ifr_metric;
 	info->intf_info |= INTF_INFO_MTU;
 	
 	return (0);
