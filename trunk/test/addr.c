@@ -53,12 +53,12 @@ main(int argc, char *argv[])
 		if (addr_btom(addr.addr_bits, &mask.addr_ip, IP_ADDR_LEN) < 0)
 			err(1, "addr_btom");
 		printf("addr_btom: %d -> 0x%08x\n",
-		    addr.addr_bits, (u_int)ntohl(mask.addr_ip));
+		    addr.addr_bits, (uint32_t)ntohl(mask.addr_ip));
 
 		if (addr_mtob(&mask.addr_ip, IP_ADDR_LEN, &addr.addr_bits) < 0)
 			err(1, "addr_mtob");
 		printf("addr_mtob: 0x%08x -> %d\n",
-		    (u_int)ntohl(mask.addr_ip), addr.addr_bits);
+		    (uint32_t)ntohl(mask.addr_ip), addr.addr_bits);
 	} else if (addr.addr_type == ADDR_TYPE_ETH) {
 		mask.addr_type = ADDR_TYPE_ETH;
 		mask.addr_bits = ETH_ADDR_BITS;

@@ -59,7 +59,7 @@ static int
 print_intf(char *device, struct intf_info *info, void *arg)
 {
 	struct addr bcast;
-	u_int32_t mask;
+	uint32_t mask;
 	
 	printf("%s:", device);
 	

@@ -22,26 +22,26 @@
 #define IP_LEN_MAX	65535
 #define IP_LEN_MIN	IP_HDR_LEN
 
-typedef u_int32_t	ip_addr_t;
+typedef uint32_t	ip_addr_t;
 
 /*
  * IP header
  */
 struct ip_hdr {
 #if DNET_BYTESEX == DNET_LIL_ENDIAN
-	u_char		ip_hl:4,	/* header length */
+	uint8_t		ip_hl:4,	/* header length */
 			ip_v:4;		/* version */
 #elif DNET_BYTESEX == DNET_BIG_ENDIAN
-	u_char		ip_v:4,		/* version */
+	uint8_t		ip_v:4,		/* version */
 			ip_hl:4;	/* header length */
 #endif
-	u_char		ip_tos;		/* type of service */
-	u_short		ip_len;		/* total length (including header) */
-	u_short		ip_id;		/* identification */
-	u_short		ip_off;		/* fragment offset and flags */
-	u_char		ip_ttl;		/* time to live */
-	u_char		ip_p;		/* protocol */
-	u_short		ip_sum;		/* checksum */
+	uint8_t		ip_tos;		/* type of service */
+	uint16_t	ip_len;		/* total length (including header) */
+	uint16_t	ip_id;		/* identification */
+	uint16_t	ip_off;		/* fragment offset and flags */
+	uint8_t		ip_ttl;		/* time to live */
+	uint8_t		ip_p;		/* protocol */
+	uint16_t	ip_sum;		/* checksum */
 	ip_addr_t	ip_src;		/* source address */
 	ip_addr_t	ip_dst;		/* destination address */
 };
@@ -139,10 +139,10 @@ struct ip_hdr {
 #endif
 
 struct ip_opt_data_security {
-	u_short		s;
-	u_short		c;
-	u_short		h;
-	u_char		tcc[3];
+	uint16_t	s;
+	uint16_t	c;
+	uint16_t	h;
+	uint8_t		tcc[3];
 } __attribute__((__packed__));
 
 #define IP_OPT_SECUR_UNCLASS	0x0000
@@ -154,20 +154,20 @@ struct ip_opt_data_security {
 #define IP_OPT_SECUR_TOPSECRET	0x6bc5
 
 struct ip_opt_data_route {
-	u_char		ptr;		/* from start of option, >= 4 */
-	u_int32_t	iplist __flexarr; /* list of IP addresses */
+	uint8_t		ptr;		/* from start of option, >= 4 */
+	uint32_t	iplist __flexarr; /* list of IP addresses */
 } __attribute__((__packed__));
 
 struct ip_opt_data_ts {
-	u_char		ptr;		/* from start of option, >= 5 */
+	uint8_t		ptr;		/* from start of option, >= 5 */
 #if DNET_BYTESEX == DNET_BIG_ENDIAN
-	u_char		oflw:4,
+	uint8_t		oflw:4,
 			flg:4;
 #elif DNET_BYTESEX == DNET_LIL_ENDIAN
-	u_char		flg:4,
+	uint8_t		flg:4,
 			oflw:4;
 #endif
-	u_int32_t	ipts __flexarr;	/* IP address [ / timestamp] pairs */
+	uint32_t	ipts __flexarr;	/* IP address [ / timestamp] pairs */
 } __attribute__((__packed__));
 
 #define IP_OPT_TS_TSONLY	0	/* timestamps only */
@@ -175,14 +175,14 @@ struct ip_opt_data_ts {
 #define IP_OPT_TS_PRESPEC	3	/* IP address / zero timestamp pairs */
 
 struct ip_opt {
-	u_char		opt_type;
-	u_char		opt_len;	/* length of entire option */
+	uint8_t		opt_type;
+	uint8_t		opt_len;	/* length of entire option */
 	union ip_opt_data {
 		struct ip_opt_data_security	security;
 		struct ip_opt_data_route	route;
 		struct ip_opt_data_ts		timestamp;
-		u_short				satid;
-		u_char				data8[IP_OPT_LEN_MAX - IP_OPT_LEN];
+		uint16_t			satid;
+		uint8_t				data8[IP_OPT_LEN_MAX - IP_OPT_LEN];
 	} opt_data;
 } __attribute__((__packed__));
 
@@ -193,27 +193,27 @@ struct ip_opt {
 /*
  * Classful addressing
  */
-#define	IP_CLASSA(i)		(((u_int32_t)(i) & htonl(0x80000000)) == \
+#define	IP_CLASSA(i)		(((uint32_t)(i) & htonl(0x80000000)) == \
 				 htonl(0x00000000))
 #define	IP_CLASSA_NET		(htonl(0xff000000))
 #define	IP_CLASSA_NSHIFT	24
 #define	IP_CLASSA_HOST		(htonl(0x00ffffff))
 #define	IP_CLASSA_MAX		128
 
-#define	IP_CLASSB(i)		(((u_int32_t)(i) & htonl(0xc0000000)) == \
+#define	IP_CLASSB(i)		(((uint32_t)(i) & htonl(0xc0000000)) == \
 				 htonl(0x80000000))
 #define	IP_CLASSB_NET		(htonl(0xffff0000))
 #define	IP_CLASSB_NSHIFT	16
 #define	IP_CLASSB_HOST		(htonl(0x0000ffff))
 #define	IP_CLASSB_MAX		65536
 
-#define	IP_CLASSC(i)		(((u_int32_t)(i) & htonl(0xe0000000)) == \
+#define	IP_CLASSC(i)		(((uint32_t)(i) & htonl(0xe0000000)) == \
 				 htonl(0xc0000000))
 #define	IP_CLASSC_NET		(htonl(0xffffff00))
 #define	IP_CLASSC_NSHIFT	8
 #define	IP_CLASSC_HOST		(htonl(0x000000ff))
 
-#define	IP_CLASSD(i)		(((u_int32_t)(i) & htonl(0xf0000000)) == \
+#define	IP_CLASSD(i)		(((uint32_t)(i) & htonl(0xf0000000)) == \
 				 htonl(0xe0000000))
 /* These ones aren't really net and host fields, but routing needn't know. */
 #define	IP_CLASSD_NET		(htonl(0xf0000000))
@@ -221,11 +221,11 @@ struct ip_opt {
 #define	IP_CLASSD_HOST		(htonl(0x0fffffff))
 #define	IP_MULTICAST(i)		IP_CLASSD(i)
 
-#define	IP_EXPERIMENTAL(i)	(((u_int32_t)(i) & htonl(0xf0000000)) == \
+#define	IP_EXPERIMENTAL(i)	(((uint32_t)(i) & htonl(0xf0000000)) == \
 				 htonl(0xf0000000))
-#define	IP_BADCLASS(i)		(((u_int32_t)(i) & htonl(0xf0000000)) == \
+#define	IP_BADCLASS(i)		(((uint32_t)(i) & htonl(0xf0000000)) == \
 				 htonl(0xf0000000))
-#define	IP_LOCAL_GROUP(i)	(((u_int32_t)(i) & htonl(0xffffff00)) == \
+#define	IP_LOCAL_GROUP(i)	(((uint32_t)(i) & htonl(0xffffff00)) == \
 				 htonl(0xe0000000))
 /*
  * Reserved addresses

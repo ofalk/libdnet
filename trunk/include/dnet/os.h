@@ -45,12 +45,6 @@
 #elif defined (_BIT_FIELDS_HTOL)
 # define DNET_BYTESEX		DNET_BIG_ENDIAN
 #endif
-#if defined(_SYS_INT_TYPES_H) || defined(__INTTYPES_INCLUDED)
-# define u_int64_t		uint64_t
-# define u_int32_t		uint32_t
-# define u_int16_t		uint16_t
-# define u_int8_t		uint8_t
-#endif
 
 /* Nastiness from old BIND code. */
 #ifndef DNET_BYTESEX
@@ -76,7 +70,7 @@
 #undef __END_DECLS
 #ifdef __cplusplus
 # define __BEGIN_DECLS	extern "C" {
-# define __END_DECLS	}
+# define __END_DECLS	} /* extern "C" */
 #else
 # define __BEGIN_DECLS
 # define __END_DECLS
@@ -99,5 +93,8 @@
 #  endif
 # endif
 #endif
+
+/* C9X standard integer types. */
+#include <inttypes.h>
 
 #endif /* DNET_OS_H */

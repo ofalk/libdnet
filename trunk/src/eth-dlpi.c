@@ -119,7 +119,7 @@ eth_t *
 eth_open(char *device)
 {
 	union DL_primitives *dlp;
-	u_int32_t buf[8192];
+	uint32_t buf[8192];
 	char *p, dev[16];
 	eth_t *e;
 	int ppa;
@@ -207,7 +207,7 @@ eth_send(eth_t *e, const void *buf, size_t len)
 	union DL_primitives *dlp;
 	struct strbuf ctl, data;
 	struct eth_hdr *eth;
-	u_int32_t ctlbuf[8192];
+	uint32_t ctlbuf[8192];
 	int dlen;
 
 	dlp = (union DL_primitives *)ctlbuf;

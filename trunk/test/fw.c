@@ -123,9 +123,9 @@ arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 		return (-1);
 
 	if ((p = strtok(NULL, ":")) != NULL) {
-		fr->fw_sport[0] = (u_short)strtol(p, &p, 10);
+		fr->fw_sport[0] = (uint16_t)strtol(p, &p, 10);
 		if (*p == '-')
-			fr->fw_sport[1] = (u_short)strtol(p + 1, NULL, 10);
+			fr->fw_sport[1] = (uint16_t)strtol(p + 1, NULL, 10);
 		else
 			fr->fw_sport[1] = fr->fw_sport[0];
 	}
@@ -135,9 +135,9 @@ arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 		return (-1);
 
 	if ((p = strtok(NULL, ":")) != NULL) {
-		fr->fw_dport[0] = (u_short)strtol(p, &p, 10);
+		fr->fw_dport[0] = (uint16_t)strtol(p, &p, 10);
 		if (*p == '-')
-			fr->fw_dport[1] = (u_short)strtol(p + 1, NULL, 10);
+			fr->fw_dport[1] = (uint16_t)strtol(p + 1, NULL, 10);
 		else
 			fr->fw_dport[1] = fr->fw_dport[0];
 	}
@@ -147,10 +147,10 @@ arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 			errno = EINVAL;
 			return (-1);
 		}
-		fr->fw_sport[0] = (u_short)strtol(argv[6], &p, 10);
+		fr->fw_sport[0] = (uint16_t)strtol(argv[6], &p, 10);
 		fr->fw_sport[1] = 0xff;
 		if (*p == '/') {
-			fr->fw_dport[0] = (u_short)strtol(p + 1, NULL, 10);
+			fr->fw_dport[0] = (uint16_t)strtol(p + 1, NULL, 10);
 			fr->fw_dport[1] = 0xff;
 		}
 	}

@@ -19,57 +19,57 @@
  * Common ICMP header.
  */
 struct icmp_hdr {
-	u_char		icmp_type;	/* type of message, see below */
-	u_char		icmp_code;	/* type sub code */
-	u_short		icmp_cksum;	/* ones complement cksum of struct */
+	uint8_t		icmp_type;	/* type of message, see below */
+	uint8_t		icmp_code;	/* type sub code */
+	uint16_t	icmp_cksum;	/* ones complement cksum of struct */
 };
 
 /*
  * ICMP message definitions.
  */
 struct icmp_msg_echo {
-	u_int32_t	icmp_id;
-	u_int32_t	icmp_seq;
-	u_char		icmp_data __flexarr;	/* optional data */
+	uint32_t	icmp_id;
+	uint32_t	icmp_seq;
+	uint8_t		icmp_data __flexarr;	/* optional data */
 };
 
 struct icmp_msg_unreach_frag {
-	u_int16_t	icmp_void;	/* must be zero */
-	u_int16_t	icmp_nextmtu;	/* MTU of next-hop network */
-	u_char		icmp_ip8 __flexarr; /* IP hdr + 8 bytes of orig pkt */
+	uint16_t	icmp_void;	/* must be zero */
+	uint16_t	icmp_nextmtu;	/* MTU of next-hop network */
+	uint8_t		icmp_ip8 __flexarr; /* IP hdr + 8 bytes of orig pkt */
 };
 
 struct icmp_msg_quote {
-	u_int32_t	icmp_void;	/* must be zero */
+	uint32_t	icmp_void;	/* must be zero */
 #define icmp_gwaddr	icmp_void	/* router IP address to use */
 #define icmp_pptr	icmp_void	/* pointer to offending octet field */
-	u_char		icmp_ip8 __flexarr; /* IP hdr + 8 bytes of orig pkt */
+	uint8_t		icmp_ip8 __flexarr; /* IP hdr + 8 bytes of orig pkt */
 };
 
 struct icmp_msg_tstamp {
-	u_int32_t	icmp_id;
-	u_int32_t	icmp_seq;
-	u_int32_t	icmp_ts_orig;
-	u_int32_t	icmp_ts_rcv;
-	u_int32_t	icmp_ts_tx;
+	uint32_t	icmp_id;
+	uint32_t	icmp_seq;
+	uint32_t	icmp_ts_orig;
+	uint32_t	icmp_ts_rcv;
+	uint32_t	icmp_ts_tx;
 };
 
 /* RFC 950 */
 struct icmp_msg_mask {
-	u_int32_t	icmp_id;
-	u_int32_t	icmp_seq;
-	u_int32_t	icmp_mask;
+	uint32_t	icmp_id;
+	uint32_t	icmp_seq;
+	uint32_t	icmp_mask;
 };
 
 /* RFC 1256 */
 struct icmp_msg_rtr {
-	u_char		icmp_num_addrs;	/* number of address / pref pairs */
-	u_char		icmp_wpa;	/* words / address - always 2 */
-	u_short		icmp_lifetime;	/* route lifetime in seconds */
+	uint8_t		icmp_num_addrs;	/* number of address / pref pairs */
+	uint8_t		icmp_wpa;	/* words / address - always 2 */
+	uint16_t	icmp_lifetime;	/* route lifetime in seconds */
 	struct icmp_msg_rtr_data {
-		u_int32_t	icmp_void;	/* router IP address */
+		uint32_t	icmp_void;	/* router IP address */
 #define		icmp_gwaddr	icmp_void
-		u_int32_t	icmp_pref;	/* preference (usually zero) */
+		uint32_t	icmp_pref;	/* preference (usually zero) */
 	} icmp_rtr __flexarr;			/* variable # of routers */
 };
 #define ICMP_RTR_PREF_NODEFAULT	0x80000000
@@ -176,7 +176,7 @@ union icmp_msg {
 
 #define icmp_fill_hdr_echo(hdr, type, code, id, seq, data, len) do {	\
 	struct icmp_msg_echo *echo_fill_p = (struct icmp_msg_echo *)	\
-		((u_char *)(hdr) + ICMP_HDR_LEN);			\
+		((uint8_t *)(hdr) + ICMP_HDR_LEN);			\
 	icmp_fill_hdr(hdr, type, code);					\
 	echo_fill_p->icmp_id = htonl(id);				\
 	echo_fill_p->icmp_seq = htonl(seq);				\
@@ -184,7 +184,7 @@ union icmp_msg {
 
 #define icmp_fill_hdr_quote(hdr, type, code, word, pkt, len) do {	\
 	struct icmp_msg_quote *quote_fill_p = (struct icmp_msg_quote *)	\
-		((u_char *)(hdr) + ICMP_HDR_LEN);			\
+		((uint8_t *)(hdr) + ICMP_HDR_LEN);			\
 	icmp_fill_hdr(hdr, type, code);					\
 	quote_fill_p->icmp_void = htonl(word);				\
 	memmove(quote_fill_p->icmp_ip8, pkt, len);			\
@@ -192,7 +192,7 @@ union icmp_msg {
 
 #define icmp_fill_hdr_mask(hdr, type, code, id, seq, mask) do {		\
 	struct icmp_msg_mask *mask_fill_p = (struct icmp_msg_mask *)	\
-		((u_char *)(hdr) + ICMP_HDR_LEN);			\
+		((uint8_t *)(hdr) + ICMP_HDR_LEN);			\
 	icmp_fill_hdr(hdr, type, code);					\
 	mask_fill_p->icmp_id = htonl(id);				\
 	mask_fill_p->icmp_seq = htonl(seq);				\
@@ -201,7 +201,7 @@ union icmp_msg {
 
 #define icmp_fill_hdr_unreach_frag(hdr, type, code, mtu, pkt, len) do {	\
 	struct icmp_msg_unreach_frag *frag_fill_p =			\
-	(struct icmp_msg_unreach_frag *)((u_char *)(hdr) + ICMP_HDR_LEN); \
+	(struct icmp_msg_unreach_frag *)((uint8_t *)(hdr) + ICMP_HDR_LEN); \
 	icmp_fill_hdr(hdr, type, code);					\
 	frag_fill_p->icmp_void = 0;					\
 	frag_fill_p->icmp_nextmtu = htons(mtu);				\

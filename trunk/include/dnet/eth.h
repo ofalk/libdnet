@@ -24,13 +24,13 @@
 #define ETH_MIN		(ETH_LEN_MIN - ETH_HDR_LEN - ETH_CRC_LEN)
 
 typedef struct eth_addr {
-	u_char		data[ETH_ADDR_LEN];
+	uint8_t		data[ETH_ADDR_LEN];
 } eth_addr_t;
 
 struct eth_hdr {
 	eth_addr_t	eth_dst;	/* destination address */
 	eth_addr_t	eth_src;	/* source address */
-	u_short		eth_type;	/* payload type */
+	uint16_t	eth_type;	/* payload type */
 };
 
 /*

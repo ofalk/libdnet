@@ -94,7 +94,7 @@ rule_to_ipf(struct fw_rule *rule, struct frentry *fr)
 }
 
 static void
-ipf_ports_to_rule(u_char cmp, u_short port, u_short top, u_short *range)
+ipf_ports_to_rule(uint8_t cmp, uint16_t port, uint16_t top, uint16_t *range)
 {
 	switch (cmp) {
 	case FR_EQUAL:

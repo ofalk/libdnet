@@ -20,21 +20,21 @@
  * TCP header
  */
 struct tcp_hdr {
-	u_short		th_sport;	/* source port */
-	u_short		th_dport;	/* destination port */
-	u_int32_t	th_seq;		/* sequence number */
-	u_int32_t	th_ack;		/* acknowledgement number */
+	uint16_t	th_sport;	/* source port */
+	uint16_t	th_dport;	/* destination port */
+	uint32_t	th_seq;		/* sequence number */
+	uint32_t	th_ack;		/* acknowledgement number */
 #if DNET_BYTESEX == DNET_LIL_ENDIAN
-	u_char		th_x2:4,	/* (unused) */
+	uint8_t		th_x2:4,	/* (unused) */
 			th_off:4;	/* data offset */
 #elif DNET_BYTESEX == DNET_BIG_ENDIAN
-	u_char		th_off:4,	/* data offset */
+	uint8_t		th_off:4,	/* data offset */
 			th_x2:4;	/* (unused) */
 #endif
-	u_char		th_flags;
-	u_short		th_win;		/* window */
-	u_short		th_sum;		/* checksum */
-	u_short		th_urp;		/* urgent pointer */
+	uint8_t		th_flags;
+	uint16_t	th_win;		/* window */
+	uint16_t	th_sum;		/* checksum */
+	uint16_t	th_urp;		/* urgent pointer */
 };
 
 /*
@@ -76,15 +76,15 @@ struct tcp_hdr {
 #endif
 
 struct tcp_opt {
-	u_char		opt_type;
-	u_char		opt_len;		/* length of entire option */
+	uint8_t		opt_type;
+	uint8_t		opt_len;		/* length of entire option */
 	union tcp_opt_data {
-		u_short		mss;
-		u_char		wscale[2];	/* XXX - scale + NOP */
-		u_short		sack __flexarr;	/* origin / size pairs */
-		u_int32_t	cc;
-		u_char		md5[16];
-		u_char		data8[TCP_OPT_LEN_MAX - TCP_OPT_LEN];
+		uint16_t	mss;
+		uint8_t		wscale[2];	/* XXX - scale + NOP */
+		uint16_t	sack __flexarr;	/* origin / size pairs */
+		uint32_t	cc;
+		uint8_t		md5[16];
+		uint8_t		data8[TCP_OPT_LEN_MAX - TCP_OPT_LEN];
 	} opt_data;
 } __attribute__((__packed__));
 

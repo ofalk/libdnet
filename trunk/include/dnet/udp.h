@@ -14,10 +14,10 @@
 #define UDP_HDR_LEN	8
 
 struct udp_hdr {
-	u_short		uh_sport;	/* source port */
-	u_short		uh_dport;	/* destination port */
-	u_short		uh_ulen;	/* udp length (including header) */
-	u_short		uh_sum;		/* udp checksum */
+	uint16_t	uh_sport;	/* source port */
+	uint16_t	uh_dport;	/* destination port */
+	uint16_t	uh_ulen;	/* udp length (including header) */
+	uint16_t	uh_sum;		/* udp checksum */
 };
 
 #define UDP_PORT_MAX	65535
