@@ -69,9 +69,6 @@ struct addr {
 	%name(ntoa) char *__ntoa() {
 		return (addr_ntoa(self));
 	}
-	void ip() {
-		return (ip_addr...
-	}
 	char *__str__() {
 		static char str[256];
 		snprintf(str, sizeof(str), "<addr object, type=%d, bits=%d>",
@@ -318,6 +315,7 @@ void __icmp_pack_hdr_echo(char **dstp, int *dlenp, int type, int code,
 #define IP_ADDR_MCAST_LOCAL	"\xe0\x00\x00\xff"	/* 224.0.0.225 */
 
 %cstring_chunk_output(char *ip_hdr, IP_HDR_LEN);
+%cstring_chunk_output(char *ip_addr, IP_ADDR_LEN);
 %inline %{ 
 void __ip_pack_hdr(char *ip_hdr,
 	int tos, int len, int id, int off, int ttl, int p,
@@ -325,6 +323,14 @@ void __ip_pack_hdr(char *ip_hdr,
 	if (slen == IP_ADDR_LEN && dlen == IP_ADDR_LEN)
 		ip_pack_hdr(ip_hdr, tos, len, id, off, ttl, p, 
 		    *(uint32_t *)src, *(uint32_t *)dst);
+}
+void __ip_aton(char *buf, char *ip_addr) {
+	ip_aton(buf, (ip_addr_t *)ip_addr);
+}
+char *__ip_ntoa(char *buf1, int len1) {
+	if (len1 != IP_ADDR_LEN)
+		return (NULL);
+	return (ip_ntoa((ip_addr_t *)buf1));
 }
 void __ip_checksum(char **dstp, int *dlenp, char *src, int slen) {
 	*dstp = malloc(slen); *dlenp = slen;
@@ -335,6 +341,8 @@ void __ip_checksum(char **dstp, int *dlenp, char *src, int slen) {
 %name(ip_pack_hdr) void __ip_pack_hdr(char *ip_hdr,
 	int tos, int len, int id, int off, int ttl, int p,
 	char *buf1, int len1, char *buf2, int len2);
+%name(ip_aton) void __ip_aton(char *buf, char *ip_addr);
+%name(ip_ntoa) char *__ip_ntoa(char *buf1, int len1);
 %name(ip_checksum) void __ip_checksum(char **dstp, int *dlenp,
 	char *buf1, int len1);
 
