@@ -15,6 +15,11 @@
 #define ARP_HDR_LEN	8	/* base ARP header length */
 #define ARP_ETHIP_LEN	20	/* base ARP message length */
 
+#ifndef __GNUC__
+# define __attribute__(x)
+# pragma pack(1)
+#endif
+
 /*
  * ARP header
  */
@@ -62,6 +67,10 @@ struct arp_entry {
 	struct addr	arp_pa;			/* protocol address */
 	struct addr	arp_ha;			/* hardware address */
 };
+
+#ifndef __GNUC__
+# pragma pack()
+#endif
 
 #define arp_pack_hdr_ethip(hdr, op, sha, spa, tha, tpa) do {	\
 	struct arp_hdr *pack_arp_p = (struct arp_hdr *)(hdr);	\
