@@ -7,7 +7,7 @@ dnl $Id$
 
 AC_INIT(include/dnet.h)
 
-AM_INIT_AUTOMAKE(libdnet, 0.6)
+AM_INIT_AUTOMAKE(libdnet, 0.7)
 AM_CONFIG_HEADER(include/config.h)
 
 dnl Check for system type.
