@@ -17,7 +17,6 @@
 #endif
 #include <net/if.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -115,7 +114,7 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 	struct ifreq ifr;
 	struct addr bcast;
 	struct intf_entry *orig;
-	u_char buf[4096];
+	u_char buf[1024];
 	int i;
 	
 	orig = (struct intf_entry *)buf;
@@ -327,7 +326,7 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	struct ifconf ifc;
 	struct ifreq *ifr, *lifr, iftmp;
 	struct addr *ap, *lap;
-	char *p, ebuf[4096], ibuf[8192];
+	char *p, ebuf[1024], ibuf[4192];
 	int ret;
 	
 	ifc.ifc_buf = ibuf;
@@ -458,8 +457,6 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 intf_t *
 intf_close(intf_t *intf)
 {
-	assert(intf != NULL);
-
 	if (intf->fd > 0)
 		close(intf->fd);
 	free(intf);
