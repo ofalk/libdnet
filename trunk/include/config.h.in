@@ -141,6 +141,9 @@
 /* Define if you have arp(7) ioctls. */
 #undef HAVE_IOCTL_ARP
 
+/* Define if raw IP sockets require host byte ordering for ip_off, ip_len. */
+#undef HAVE_RAWIP_HOST_OFFLEN
+
 /* Define if you have cooked raw IP sockets. */
 #undef HAVE_RAWIP_COOKED
 

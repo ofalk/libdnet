@@ -2477,8 +2477,31 @@ fi
 EOF
 
     fi
+echo $ac_n "checking for raw IP sockets ip_{len,off} host byte ordering""... $ac_c" 1>&6
+echo "configure:2482: checking for raw IP sockets ip_{len,off} host byte ordering" >&5
+    if eval "test \"`echo '$''{'ac_cv_dnet_rawip_host_offlen'+set}'`\" = set"; then
+  echo $ac_n "(cached) $ac_c" 1>&6
+else
+  
+	case "$host_os" in
+	*OpenBSD*)
+	    ac_cv_dnet_rawip_host_offlen=no ;;
+	*BSD*|*UnixWare*)
+	    ac_cv_dnet_rawip_host_offlen=yes ;;
+	*)
+	    ac_cv_dnet_rawip_host_offlen=no ;;
+	esac
+fi
+
+    echo "$ac_t""$ac_cv_dnet_rawip_host_offlen" 1>&6
+    if test $ac_cv_dnet_rawip_host_offlen = yes ; then
+        cat >> confdefs.h <<\EOF
+#define HAVE_RAWIP_HOST_OFFLEN 1
+EOF
+
+    fi
 echo $ac_n "checking for cooked raw IP sockets""... $ac_c" 1>&6
-echo "configure:2482: checking for cooked raw IP sockets" >&5
+echo "configure:2505: checking for cooked raw IP sockets" >&5
     if eval "test \"`echo '$''{'ac_cv_dnet_rawip_cooked'+set}'`\" = set"; then
   echo $ac_n "(cached) $ac_c" 1>&6
 else
