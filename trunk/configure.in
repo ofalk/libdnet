@@ -89,16 +89,16 @@ if test "$CYGWIN" = yes ; then
 	AC_ARG_WITH(wpdpack,
 	[  --with-wpdpack=DIR      use WinPcap developer's pack in DIR],
 	[ AC_MSG_RESULT($withval)
-	  if test -f $withval/include/packet32.h -a -f $withval/lib/packet.a; then
+	  if test -f $withval/include/packet32.h -a -f $withval/lib/packet.lib; then
 	     owd=`pwd`
 	     if cd $withval; then withval=`pwd`; cd $owd; fi
 	     CFLAGS="$CFLAGS -I$withval/include"
 	     LIBS="$LIBS -L$withval/lib -lpacket"
 	  else
-	     AC_MSG_ERROR(packet32.h or packet.a not found in $withval)
+	     AC_MSG_ERROR(packet32.h or packet.lib not found in $withval)
 	  fi ],
 	[ for dir in ${prefix} ${HOME}/WPdpack ; do
-	     if test -f ${dir}/include/packet32.h -a -f ${dir}/lib/packet.a; then
+	     if test -f ${dir}/include/packet32.h -a -f ${dir}/lib/packet.lib; then
 	        CFLAGS="$CFLAGS -I${dir}/include"
 		LIBS="$LIBS -L${dir}/lib -lpacket"
 		have_pcap=yes
@@ -164,8 +164,8 @@ else
 	    sys/ioctl.h sys/mib.h sys/ndd_var.h sys/socket.h sys/sockio.h \
 	    sys/sysctl.h sys/time.h)
 	AC_CHECK_HEADERS(net/bpf.h net/if.h net/if_var.h \
-	    net/if_arp.h net/if_dl.h \
-	    net/pfvar.h net/raw.h net/route.h netinet/in_var.h \
+	    net/if_arp.h net/if_dl.h net/pfilt.h \
+	    net/pfvar.h net/radix.h net/raw.h net/route.h netinet/in_var.h \
 	    net/if_tun.h linux/if_tun.h netinet/ip_fw.h linux/ip_fw.h \
 	    linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h)
 	AC_CHECK_HEADERS(ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h \
@@ -190,7 +190,7 @@ if test "$ac_cv_header_net_route_h" = yes ; then
 fi
 AC_PROG_GCC_TRADITIONAL
 if test "$GCC" = yes ; then
-	CFLAGS="$CFLAGS -Wall"
+   	CFLAGS="$CFLAGS -Wall"
 fi
 
 dnl Checks for library functions.
@@ -223,6 +223,8 @@ fi
 dnl Check for Ethernet interface.
 if test "$ac_cv_header_Iphlpapi_h" = yes ; then
 	AC_LIBOBJ([eth-win32])
+elif test "$ac_cv_header_net_pfilt_h" = yes ; then
+	AC_LIBOBJ([eth-pfilt])
 elif test "$ac_cv_dnet_bsd_bpf" = yes ; then
 	AC_LIBOBJ([eth-bsd])
 elif test "$ac_cv_dnet_linux_pf_packet" = yes ; then
