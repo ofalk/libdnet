@@ -1,6 +1,6 @@
 
-Unix (POSIX - *BSD, MacOS X, Linux, etc.)
------------------------------------------
+*BSD, MacOS X, Linux
+--------------------
 
 ./configure && make
 
@@ -29,11 +29,12 @@ extract their developer pack to a build directory:
 
 	http://winpcap.polito.it/install/default.htm
 
-For tunnel interface support, install the OpenVPN "TAP-Win32 Virtual
-Ethernet Adapter" component (their Windows installer will let you
-install it alone):
-
-	http://openvpn.sourceforge.net/
+# XXX - unsupported for now
+# For tunnel interface support, install the OpenVPN "TAP-Win32 Virtual
+# Ethernet Adapter" component (their Windows installer will let you
+# install it alone):
+#
+#	http://openvpn.sourceforge.net/
 
 For firewall support, install HSC's PktFilter service:
 
@@ -53,3 +54,5 @@ To build a Microsoft Visual C++ native library and Python module
 	./configure --with-python
 	cd python && C:/Python23/python.exe setup.py build
 
+
+# $Id$
