@@ -247,22 +247,21 @@ addr_ntos(struct addr *a, struct sockaddr *sa)
 	switch (a->addr_type) {
 	case ADDR_TYPE_ETH:
 	{
-#if defined(HAVE_NET_IF_DL_H) && defined(HAVE_SOCKADDR_SA_LEN)
+#ifdef HAVE_NET_IF_DL_H
 		struct sockaddr_dl *sdl = (struct sockaddr_dl *)sa;
 
 		memset(sa, 0, sizeof(*sa));
+#ifdef HAVE_SOCKADDR_SA_LEN
 		sdl->sdl_len = sizeof(*sdl);
+#endf
 		sdl->sdl_family = AF_LINK;
 		sdl->sdl_alen = ETH_ADDR_LEN;
 		memcpy(LLADDR(sdl), &a->addr_eth, ETH_ADDR_LEN);
 #else
 		memset(sa, 0, sizeof(*sa));
-		/* XXX - AF_UNSPEC for Solaris, IRIX */
-#ifdef __linux__
-		sa->sa_family = ARP_HRD_ETH;
-#endif
+		sa->sa_family = AF_UNSPEC;
 		memcpy(sa->sa_data, &a->addr_eth, ETH_ADDR_LEN);
-#endif /* HAVE_NET_IF_DL_H */
+#endif
 		break;
 	}
 	case ADDR_TYPE_IP:
@@ -294,31 +293,32 @@ addr_ston(struct sockaddr *sa, struct addr *a)
 	case AF_LINK:
 	{
 		struct sockaddr_dl *sdl = (struct sockaddr_dl *)sa;
-#ifdef HAVE_SOCKADDR_SA_LEN
+
 		if (sdl->sdl_alen != ETH_ADDR_LEN) {
 			errno = EINVAL;
 			return (-1);
 		}
-#endif
 		a->addr_type = ADDR_TYPE_ETH;
 		a->addr_bits = ETH_ADDR_BITS;
 		memcpy(&a->addr_eth, LLADDR(sdl), ETH_ADDR_LEN);
 		break;
 	}
 #endif
-
-#if defined(__linux__)
-	case ARP_HRD_ETH:	/* XXX - Linux */
-#elif defined(HAVE_NET_RAW_H)
-	case AF_RAW:		/* XXX - IRIX */
-#else
-	case AF_UNSPEC:		/* XXX - Solaris */
-#endif
+	case AF_UNSPEC:
+	case ARP_HRD_ETH:	/* XXX- Linux arp(7) */
 		a->addr_type = ADDR_TYPE_ETH;
 		a->addr_bits = ETH_ADDR_BITS;
 		memcpy(&a->addr_eth, sa->sa_data, ETH_ADDR_LEN);
 		break;
 		
+#ifdef AF_RAW
+	case AF_RAW:		/* XXX - IRIX raw(7f) */
+		a->addr_type = ADDR_TYPE_ETH;
+		a->addr_bits = ETH_ADDR_BITS;
+		memcpy(&a->addr_eth, ((struct sockaddr_raw *)sa)->sr_addr,
+		    ETH_ADDR_LEN);
+		break;
+#endif
 	case AF_INET:
 	{
 		struct sockaddr_in *sin = (struct sockaddr_in *)sa;
