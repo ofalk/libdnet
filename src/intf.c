@@ -20,6 +20,7 @@
 # define IP_MULTICAST
 #endif
 #include <net/if.h>
+#undef IP_MULTICAST
 
 #include <errno.h>
 #include <stdio.h>
