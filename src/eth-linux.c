@@ -105,7 +105,7 @@ eth_get(eth_t *e, eth_addr_t *ea)
 	if (addr_ston(&e->ifr.ifr_hwaddr, &ha) < 0)
 		return (-1);
 
-	memcpy(ea, &ha->addr_eth, sizeof(*ea));
+	memcpy(ea, &ha.addr_eth, sizeof(*ea));
 	return (0);
 }
 
