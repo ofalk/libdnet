@@ -21,6 +21,6 @@ struct mod {
 #define MOD_TYPE_DATA	0x01	/* generate data */
 #define MOD_TYPE_ENCAP	0x02	/* encapsulate data */
 #define MOD_TYPE_XMIT	0x04	/* send datagrams */
-#define MOD_TYPE_KERN	0x08	/* manipulate kernel networking information */
+#define MOD_TYPE_KERN	0x08	/* kernel network info */
 
 #endif /* MOD_H */
