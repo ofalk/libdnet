@@ -1,6 +1,6 @@
-have everything pickled in *_info structs?
+figure out why intf_set on Linux doesn't set netmask on first try
 
-make iterators prevent modification within iteration, or 
+make iterators prevent modification within loop, or 
 modify only post-iteration
 
 prefix everything with dnet_*
@@ -43,11 +43,11 @@ bsdi    |   X  |  X  |  X  |  - |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
 hp-ux   |   X  |  X  |  X  |  - |  X |   3  |   X   |
 --------+------+-----+-----+----+----+------+-------+
+win32   |   X  |  X  |  X  |  - |  X |   3  |   X   |
+--------+------+-----+-----+----+----+------+-------+
 osf1    |   X  |  1  |  2  |  - |  X |   X  |   -   |
 --------+------+-----+-----+----+----+------+-------+
 unixware|   X  |  -  |  2  |  - |  - |   X  |   4   |
---------+------+-----+-----+----+----+------+-------+
-win32   |   X  |  X  |  -  |  - |  X |   3  |   X   |
 --------+------+-----+-----+----+----+------+-------+
 aix     |   X  |  5  |  -  |  - |  - |   X  |   6   |
 --------+------+-----+-----+----+----+------+-------+
