@@ -50,6 +50,10 @@
 .Ss Ethernet
 .Ft eth_t *
 .Fn eth_open "char *device"
+.Ft int
+.Fn eth_set "eth_t *e" "eth_addr_t *ea"
+.Ft int
+.Fn eth_get "eth_t *e" "eth_addr_t *ea"
 .Ft ssize_t
 .Fn eth_send "eth_t *e" "const void *buf" "size_t len"
 .Ft int
@@ -57,12 +61,16 @@
 .Ss Internet Protocol
 .Ft ip_t *
 .Fn ip_open "void"
+.Ft size_t
+.Fn ip_add_opt "void *buf" "size_t len" "const void *optbuf" "size_t optlen"
+.Ft size_t
+.Fn tcp_add_opt "void *buf" "size_t len" "const void *optbuf" "size_t optlen"
+.Ft void
+.Fn ip_checksum "void *buf" "size_t len"
 .Ft ssize_t
 .Fn ip_send "ip_t *i" "const void *buf" "size_t len"
 .Ft int
 .Fn ip_close "ip_t *i"
-.Ft void
-.Fn ip_cksum "struct ip_hdr *ip"
 .Ss Firewalling
 .Ft fw_t *
 .Fn fw_open "void"
@@ -239,6 +247,13 @@ is used to obtain a handle to transmit raw Ethernet frames via the
 specified network
 .Fa device .
 .Pp
+.Fn eth_set
+configures the hardware MAC address for the interface specified by
+.Ar e .
+.Pp
+.Fn eth_get
+retrieves the hardware MAC address for the interface specified by
+.Ar e .
 .Fn eth_send
 transmits 
 .Fa len
@@ -253,6 +268,40 @@ closes the specified handle.
 is used to obtain a handle to transmit raw IP packets, routed by the
 kernel.
 .Pp
+.Fn ip_add_opt
+adds the IP option specified by
+.Fa optbuf
+of length
+.Fa optlen
+and appends it to the IP header of the IP packet contained in the
+specified buffer
+.Fa buf
+of size
+.Fa len ,
+shifting any existing IP payload, and adding NOPs to pad the option to
+a word boundary, if necessary.
+
+.Pp
+.Fn tcp_add_opt
+adds the TCP option specified by
+.Fa optbuf
+of length
+.Fa optlen
+and appends it to the TCP header of the IP packet contained in the
+specified buffer
+.Fa buf
+of size
+.Fa len ,
+shifting any existing TCP payload and adding NOPs to pad the option to
+a word boundary, if necessary.
+.Pp
+.Fn ip_checksum
+sets the IP checksum and any appropriate transport protocol checksum
+for the packet pointed to by
+.Fa buf 
+of length
+.Fa len .
+.Pp
 .Fn ip_send
 transmits
 .Fa len
@@ -261,11 +310,6 @@ bytes of the IP packet pointed to by
 .Pp
 .Fn ip_close
 closes the specified handle.
-.Pp
-.Fn ip_cksum
-sets the IP checksum and the appropriate transport protocol checksum
-for the packet pointed to by
-.Fa ip .
 .Pp
 .Ss Firewalling
 Firewall rules adhere to a general structure, described below.
@@ -411,6 +455,12 @@ return the status of their
 routines. Any non-zero return from a 
 .Fa callback
 will cause the loop to exit immediately.
+.Pp
+.Fn ip_add_opt
+and
+.Fn tcp_add_opt
+return the length of the inserted option, which may have been padded
+with NOPs to meet a word boundary, or -1 on failure.
 .Pp
 All other 
 .Nm
