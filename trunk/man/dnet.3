@@ -497,10 +497,8 @@ routines. Any non-zero return from a
 .Fa callback
 will cause the loop to exit immediately.
 .Pp
-.Fn ip_add_opt
-and
-.Fn tcp_add_opt
-return the length of the inserted option, which may have been padded
+.Fn ip_add_option
+returns the length of the inserted option, which may have been padded
 with NOPs to meet a word boundary, or -1 on failure.
 .Pp
 All other 
