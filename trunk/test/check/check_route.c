@@ -9,8 +9,12 @@
 
 #include <check.h>
 
-START_TEST(test_route_open)
+START_TEST(test_route_openclose)
 {
+	route_t *r;
+
+	fail_unless((r = route_open()) != NULL, "open failed");
+	fail_unless((r = route_close(r)) == NULL, "close failed");
 }
 END_TEST
 
@@ -34,11 +38,6 @@ START_TEST(test_route_loop)
 }
 END_TEST
 
-START_TEST(test_route_close)
-{
-}
-END_TEST
-
 Suite *
 route_suite(void)
 {
@@ -46,12 +45,11 @@ route_suite(void)
 	TCase *tc_core = tcase_create("core");
 
 	suite_add_tcase(s, tc_core);
-	tcase_add_test(tc_core, test_route_open);
+	tcase_add_test(tc_core, test_route_openclose);
 	tcase_add_test(tc_core, test_route_add);
 	tcase_add_test(tc_core, test_route_delete);
 	tcase_add_test(tc_core, test_route_get);
 	tcase_add_test(tc_core, test_route_loop);
-	tcase_add_test(tc_core, test_route_close);
 	
 	return (s);
 }

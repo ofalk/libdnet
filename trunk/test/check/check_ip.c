@@ -14,17 +14,16 @@ START_TEST(test_ip_fill)
 }
 END_TEST
 
-START_TEST(test_ip_open)
+START_TEST(test_ip_openclose)
 {
+	ip_t *i;
+
+	fail_unless((i = ip_open()) != NULL, "open failed");
+	fail_unless((i = ip_close(i)) == NULL, "close failed");
 }
 END_TEST
 
 START_TEST(test_ip_send)
-{
-}
-END_TEST
-
-START_TEST(test_ip_close)
 {
 }
 END_TEST
@@ -57,9 +56,8 @@ ip_suite(void)
 
 	suite_add_tcase(s, tc_core);
 	tcase_add_test(tc_core, test_ip_fill);
-	tcase_add_test(tc_core, test_ip_open);
+	tcase_add_test(tc_core, test_ip_openclose);
 	tcase_add_test(tc_core, test_ip_send);
-	tcase_add_test(tc_core, test_ip_close);
 	tcase_add_test(tc_core, test_ip_ntoa);
 	tcase_add_test(tc_core, test_ip_aton);
 	tcase_add_test(tc_core, test_ip_add_option);
