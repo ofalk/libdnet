@@ -194,7 +194,7 @@ AC_DEFUN(AC_DNET_IOCTL_ARP,
     fi])
 
 dnl
-dnl Check for cooked raw IP sockets
+dnl Check for raw IP sockets ip_{len,off} host byte ordering
 dnl
 dnl usage:      AC_DNET_RAWIP_HOST_OFFLEN
 dnl results:    HAVE_RAWIP_HOST_OFFLEN
@@ -238,64 +238,6 @@ AC_DEFUN(AC_DNET_RAWIP_COOKED,
     fi])
 
 dnl
-dnl Improved version of AC_CHECK_LIB
-dnl
-dnl Thanks to John Hawkinson (jhawk@mit.edu)
-dnl
-dnl usage:
-dnl
-dnl     AC_LBL_CHECK_LIB(LIBRARY, FUNCTION [, ACTION-IF-FOUND [,
-dnl         ACTION-IF-NOT-FOUND [, OTHER-LIBRARIES]]])
-dnl
-dnl results:
-dnl
-dnl     LIBS
-dnl
-
-define(AC_LBL_CHECK_LIB,
-[AC_MSG_CHECKING([for $2 in -l$1])
-dnl Use a cache variable name containing both the library and function name,
-dnl because the test really is for library $1 defining function $2, not
-dnl just for library $1.  Separate tests with the same $1 and different $2's
-dnl may have different results.
-ac_lib_var=`echo $1['_']$2['_']$5 | sed 'y%./+- %__p__%'`
-AC_CACHE_VAL(ac_cv_lbl_lib_$ac_lib_var,
-[ac_save_LIBS="$LIBS"
-LIBS="-l$1 $5 $LIBS"
-AC_TRY_LINK(dnl
-ifelse([$2], [main], , dnl Avoid conflicting decl of main.
-[/* Override any gcc2 internal prototype to avoid an error.  */
-]ifelse(AC_LANG, CPLUSPLUS, [#ifdef __cplusplus
-extern "C"
-#endif
-])dnl
-[/* We use char because int might match the return type of a gcc2
-    builtin and then its argument prototype would still apply.  */
-char $2();
-]),
-            [$2()],
-            eval "ac_cv_lbl_lib_$ac_lib_var=yes",
-            eval "ac_cv_lbl_lib_$ac_lib_var=no")
-LIBS="$ac_save_LIBS"
-])dnl
-if eval "test \"`echo '$ac_cv_lbl_lib_'$ac_lib_var`\" = yes"; then
-  AC_MSG_RESULT(yes)
-  ifelse([$3], ,
-[changequote(, )dnl
-  ac_tr_lib=HAVE_LIB`echo $1 | sed -e 's/[^a-zA-Z0-9_]/_/g' \
-    -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
-changequote([, ])dnl
-  AC_DEFINE_UNQUOTED($ac_tr_lib)
-  LIBS="-l$1 $LIBS"
-], [$3])
-else
-  AC_MSG_RESULT(no)
-ifelse([$4], , , [$4
-])dnl
-fi
-])
-
-dnl
 dnl AC_LBL_LIBRARY_NET
 dnl
 dnl This test is for network applications that need socket() and
@@ -335,18 +277,18 @@ AC_DEFUN(AC_LBL_LIBRARY_NET, [
     # libraries (i.e. libc):
     AC_CHECK_FUNC(gethostbyname, ,
         # Some OSes (eg. Solaris) place it in libnsl:
-        AC_LBL_CHECK_LIB(nsl, gethostbyname, , 
+        AC_CHECK_LIB(nsl, gethostbyname, , 
             # Some strange OSes (SINIX) have it in libsocket:
-            AC_LBL_CHECK_LIB(socket, gethostbyname, ,
+            AC_CHECK_LIB(socket, gethostbyname, ,
                 # Unfortunately libsocket sometimes depends on libnsl.
                 # AC_CHECK_LIB's API is essentially broken so the
                 # following ugliness is necessary:
-                AC_LBL_CHECK_LIB(socket, gethostbyname,
+                AC_CHECK_LIB(socket, gethostbyname,
                     LIBS="-lsocket -lnsl $LIBS",
                     AC_CHECK_LIB(resolv, gethostbyname),
                     -lnsl))))
     AC_CHECK_FUNC(socket, , AC_CHECK_LIB(socket, socket, ,
-        AC_LBL_CHECK_LIB(socket, socket, LIBS="-lsocket -lnsl $LIBS", ,
+        AC_CHECK_LIB(socket, socket, LIBS="-lsocket -lnsl $LIBS", ,
             -lnsl)))
     # DLPI needs putmsg under HPUX so test for -lstr while we're at it
     AC_CHECK_LIB(str, putmsg)
