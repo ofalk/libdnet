@@ -19292,7 +19292,7 @@ Xsed="sed -e s/^X//"
 LTLIBOBJS=`echo X"$LIBOBJS"|\
 	$Xsed -e "s,\.[^.]* ,.lo ,g;s,\.[^.]*$,.lo,"`
 
-ac_config_files="$ac_config_files Makefile dnet-config include/Makefile include/dnet/Makefile man/Makefile src/Makefile python/Makefile test/Makefile test/check/Makefile test/dnet/Makefile"
+ac_config_files="$ac_config_files Makefile dnet-config include/Makefile include/dnet/Makefile man/Makefile src/Makefile python/Makefile python/setup.py test/Makefile test/check/Makefile test/dnet/Makefile"
 ac_config_commands="$ac_config_commands default"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -19617,13 +19617,14 @@ do
   "man/Makefile" ) CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
   "python/Makefile" ) CONFIG_FILES="$CONFIG_FILES python/Makefile" ;;
+  "python/setup.py" ) CONFIG_FILES="$CONFIG_FILES python/setup.py" ;;
   "test/Makefile" ) CONFIG_FILES="$CONFIG_FILES test/Makefile" ;;
   "test/check/Makefile" ) CONFIG_FILES="$CONFIG_FILES test/check/Makefile" ;;
   "test/dnet/Makefile" ) CONFIG_FILES="$CONFIG_FILES test/dnet/Makefile" ;;
   "default-1" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default-1" ;;
   "default" ) CONFIG_COMMANDS="$CONFIG_COMMANDS default" ;;
   "include/config.h" ) CONFIG_HEADERS="$CONFIG_HEADERS include/config.h" ;;
-  *) { { echo "$as_me:19626: error: invalid argument: $ac_config_target" >&5
+  *) { { echo "$as_me:19627: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
   esac
@@ -19877,7 +19878,7 @@ done; }
   esac
 
   if test x"$ac_file" != x-; then
-    { echo "$as_me:19880: creating $ac_file" >&5
+    { echo "$as_me:19881: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
     rm -f "$ac_file"
   fi
@@ -19895,7 +19896,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:19898: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:19899: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -19908,7 +19909,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:19911: error: cannot find input file: $f" >&5
+           { { echo "$as_me:19912: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -19969,7 +19970,7 @@ for ac_file in : $CONFIG_HEADERS; do test "x$ac_file" = x: && continue
   * )   ac_file_in=$ac_file.in ;;
   esac
 
-  test x"$ac_file" != x- && { echo "$as_me:19972: creating $ac_file" >&5
+  test x"$ac_file" != x- && { echo "$as_me:19973: creating $ac_file" >&5
 echo "$as_me: creating $ac_file" >&6;}
 
   # First look for the input files in the build tree, otherwise in the
@@ -19980,7 +19981,7 @@ echo "$as_me: creating $ac_file" >&6;}
       -) echo $tmp/stdin ;;
       [\\/$]*)
          # Absolute (can't be DOS-style, as IFS=:)
-         test -f "$f" || { { echo "$as_me:19983: error: cannot find input file: $f" >&5
+         test -f "$f" || { { echo "$as_me:19984: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          echo $f;;
@@ -19993,7 +19994,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
            echo $srcdir/$f
          else
            # /dev/null tree
-           { { echo "$as_me:19996: error: cannot find input file: $f" >&5
+           { { echo "$as_me:19997: error: cannot find input file: $f" >&5
 echo "$as_me: error: cannot find input file: $f" >&2;}
    { (exit 1); exit 1; }; }
          fi;;
@@ -20110,7 +20111,7 @@ cat >>$CONFIG_STATUS <<\EOF
   rm -f $tmp/in
   if test x"$ac_file" != x-; then
     if cmp -s $ac_file $tmp/config.h 2>/dev/null; then
-      { echo "$as_me:20113: $ac_file is unchanged" >&5
+      { echo "$as_me:20114: $ac_file is unchanged" >&5
 echo "$as_me: $ac_file is unchanged" >&6;}
     else
       ac_dir=`$as_expr X"$ac_file" : 'X\(.*[^/]\)//*[^/][^/]*/*$' \| \

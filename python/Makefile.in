@@ -102,13 +102,13 @@ DISTCLEANFILES = *~
 
 @PYTHON_TRUE@TESTS = test.py
 
-EXTRA_DIST = dnet.pyx dnet.c setup.py test.py
+EXTRA_DIST = dnet.pyx dnet.c setup.py.in test.py
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = ../include/config.h
-CONFIG_CLEAN_FILES = 
+CONFIG_CLEAN_FILES =  setup.py
 SCRIPTS =  $(noinst_SCRIPTS)
 
-DIST_COMMON =  Makefile.am Makefile.in
+DIST_COMMON =  Makefile.am Makefile.in setup.py.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -124,6 +124,8 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
+setup.py: $(top_builddir)/config.status setup.py.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 tags: TAGS
 TAGS:
 
@@ -236,13 +238,15 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 @PYTHON_TRUE@	pyrexc $(srcdir)/dnet.pyx
 
 @PYTHON_TRUE@python-build: $(srcdir)/dnet.c
-@PYTHON_TRUE@	$(PYTHON) $(srcdir)/setup.py build --build-lib build
+@PYTHON_TRUE@	$(PYTHON) setup.py build --build-lib build
 @PYTHON_TRUE@	touch python-build
 
 @PYTHON_TRUE@python-clean:
 @PYTHON_TRUE@	rm -rf *build
 
 @PYTHON_TRUE@clean: python-clean
+
+@PYTHON_TRUE@distclean: clean
 
 @PYTHON_TRUE@install-exec-local:
 @PYTHON_TRUE@	python $(srcdir)/setup.py install --prefix=$(DESTDIR)$(prefix)
