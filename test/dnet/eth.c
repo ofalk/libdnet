@@ -29,7 +29,7 @@ eth_usage(int die)
 }
 
 static int
-type_aton(char *string, u_short *type)
+type_aton(char *string, uint16_t *type)
 {
 	long l;
 	char *p;

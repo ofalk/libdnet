@@ -29,7 +29,7 @@ tcp_usage(int die)
 }
 
 static int
-port_aton(char *string, u_short *port)
+port_aton(char *string, uint16_t *port)
 {
 	struct servent *sp;
 	long l;
@@ -47,7 +47,7 @@ port_aton(char *string, u_short *port)
 }
 
 static int
-seq_aton(char *string, u_int32_t *seq)
+seq_aton(char *string, uint32_t *seq)
 {
 	char *p;
 	
@@ -59,7 +59,7 @@ seq_aton(char *string, u_int32_t *seq)
 }
 
 static int
-flags_aton(char *string, u_char *flags)
+flags_aton(char *string, uint8_t *flags)
 {
 	char *p;
 

@@ -29,7 +29,7 @@ udp_usage(int die)
 }
 
 static int
-port_aton(char *string, u_short *port)
+port_aton(char *string, uint16_t *port)
 {
 	struct servent *sp;
 	long l;
