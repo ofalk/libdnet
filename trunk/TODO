@@ -9,10 +9,13 @@ documentation
 
 example code
 
+finish / test ADDR_TYPE_ETH intf_set()
+
 automated regression (automake 'check' target)
 
-fw-pf.c: fix loop for 'flush'
+ip-cooked.c: use RTM_RESOLVE for ip_lookup_mac()
 
+fw-pf.c: fix loop for 'flush'
 
 successfully built on:
 --------+------+-----+-----+----+----+------+-------+
@@ -30,10 +33,20 @@ solaris |   X  |  X  |  X  |  ? |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
 macosx  |   X  |     |     |    |    |      |       |
 --------+------+-----+-----+----+----+------+-------+
-irix    |   X  |  X  |  X  |  - |  X |   X  |   X   |
+irix    |   X  |  1  |  X  |  - |  X |   X  |   X   |
 --------+------+-----+-----+----+----+------+-------+
-hp-ux   |   X  |     |     |    |    |      |       |
+hp-ux   |   X  |  1  |  X  |  - |  X |   3  |   4   |
 --------+------+-----+-----+----+----+------+-------+
+osf1    |   X  |  1  |  2  |  - |  X |   X  |   -   |
+--------+------+-----+-----+----+----+------+-------+
+unixware|   X  |  -  |  2  |  - |  - |   X  |   5   |
+--------+------+-----+-----+----+----+------+-------+
+
+1. arp_loop doesn't work
+2. eth_send doesn't work
+3. intf_set doesn't work
+4. route_loop doesn't work
+5. route_loop only works
 
 never built on:
 --------+------+-----+-----+----+----+------+-------+
