@@ -94,10 +94,10 @@ eth_set(eth_t *e, eth_addr_t *ea)
 	return (ioctl(e->fd, SIOCSIFADDR, &e->ifr));
 }
 
-ssize_t
+size_t
 eth_send(eth_t *e, const void *buf, size_t len)
 {
-	return (write(e->fd, buf, len));
+	return ((ssize_t)write(e->fd, buf, len));
 }
 
 int

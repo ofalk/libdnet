@@ -71,14 +71,14 @@ eth_open(char *device)
 	return (e);
 }
 
-ssize_t
+size_t
 eth_send(eth_t *e, const void *buf, size_t len)
 {
 	struct eth_hdr *eth = (struct eth_hdr *)buf;
 	
 	e->sll.sll_protocol = eth->eth_type;
 
-	return (sendto(e->fd, buf, len, 0, (struct sockaddr *)&e->sll,
+	return ((ssize_t)sendto(e->fd, buf, len, 0, (struct sockaddr *)&e->sll,
 	    sizeof(e->sll)));
 }
 

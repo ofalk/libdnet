@@ -219,7 +219,7 @@ fw_delete(fw_t *fw, struct fw_rule *rule)
 }
 
 static int
-fw_kcopy(fw_t *fw, u_char *buf, off_t pos, ssize_t n)
+fw_kcopy(fw_t *fw, u_char *buf, off_t pos, size_t n)
 {
 	int i;
 	

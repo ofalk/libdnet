@@ -174,7 +174,7 @@ ip_lookup(ip_t *i, ip_addr_t dst)
 	return (0);
 }
 
-ssize_t
+size_t
 ip_send(ip_t *i, const void *buf, size_t len)
 {
 	struct ip_hdr *ip;
