@@ -26,6 +26,12 @@
 
 #include "dnet.h"
 
+/* XXX - Tru64 */
+#if defined(SIOCRIPMTU) && defined(SIOCSIPMTU)
+#define SIOCGIFMTU	SIOCRIPMTU
+#define SIOCSIFMTU	SIOCSIPMTU
+#endif
+
 struct intf_handle {
 	int	fd;
 };
