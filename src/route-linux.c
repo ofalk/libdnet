@@ -14,6 +14,7 @@
 #include <sys/uio.h>
 
 #include <asm/types.h>
+#include <netinet/in.h>
 #include <linux/netlink.h>
 #include <linux/rtnetlink.h>
 
