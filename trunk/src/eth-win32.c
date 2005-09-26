@@ -24,88 +24,59 @@ struct eth_handle {
 	LPPACKET	 pkt;
 };
 
-struct adapter {
-	char		 name[64];
-	char		*desc;
-};
-
-/* XXX */
-extern const char *intf_get_desc(intf_t *intf, const char *device);
-
 eth_t *
 eth_open(const char *device)
 {
 	eth_t *eth;
-	struct adapter alist[16];
-	WCHAR *name, wbuf[2048];
-	ULONG wlen;
-	char *desc, *namea;
-	int i, j, alen;
-	OSVERSIONINFO osvi;
 	intf_t *intf;
+	struct intf_entry ifent;
+	eth_addr_t ea;
+	char *p, *buf;
+	ULONG len;
 
-	if ((intf = intf_open()) == NULL)
+	/* Get interface entry. */
+	memset(&ifent, 0, sizeof(ifent));
+	if ((intf = intf_open()) != NULL) {
+		strlcpy(ifent.intf_name, device, sizeof(ifent.intf_name));
+		intf_get(intf, &ifent);
+		intf_close(intf);
+	}
+	if (ifent.intf_link_addr.addr_type != ADDR_TYPE_ETH)
 		return (NULL);
-	
-	device = intf_get_desc(intf, device);
-	intf_close(intf);
 
-	if (device == NULL)
-		return (NULL);
-	
-	alen = sizeof(alist) / sizeof(alist[0]);
-	wlen = sizeof(wbuf) / sizeof(wbuf[0]);
-	
-	PacketGetAdapterNames((char *)wbuf, &wlen);
-
-	/* Determine Windows version */
-	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	GetVersionEx(&osvi);
-
-	if ((osvi.dwPlatformId == VER_PLATFORM_WIN32_NT) &&
-	    (osvi.dwMajorVersion >= 4)) {
-		for (name = wbuf, i = 0; *name != '\0' && i < alen; i++) {
-			wcstombs(alist[i].name, name, sizeof(alist[0].name));
-			while (*name++ != '\0')
-				;
-		}
-		for (desc = (char *)name + 2, j = 0; *desc != '\0' && j < alen;
-		    j++) {
-			alist[j].desc = desc;
-			while (*desc++ != '\0')
-				;
-		}
-	} else {
-		for (namea = (char *)wbuf, i = 0; *namea != '\0' && i < alen;
-		    i++) {
-			strlcpy(alist[i].name, namea, sizeof(alist[0].name));
-			while (*namea++ != '\0')
-				;
-		}
-		for (desc = namea + 1, j = 0; *desc != '\0' && j < alen; j++) {
-			alist[j].desc = desc;
-			while (*desc++ != '\0')
-				;
+	/* Get Packet driver adapter name/desc lists. */
+	buf = NULL;
+	PacketGetAdapterNames(buf, &len);
+	if (len > 0 && (buf = malloc(len)) != NULL) {
+		if (!PacketGetAdapterNames(buf, &len)) {
+			free(buf);
+			buf = NULL;
 		}
 	}
-	for (i = 0; i < j; i++) {
-		if (strcmp(device, alist[i].desc) == 0)
-			break;
+	if (buf == NULL)
+		return (NULL);
+	
+	/* XXX - find adapter with matching interface MAC address. */
+	if ((eth = calloc(1, sizeof(*eth))) == NULL) {
+		free(buf);
+		return (NULL);
 	}
-	if (i == j)
-		return (NULL);
-	
-	if ((eth = calloc(1, sizeof(*eth))) == NULL)
-		return (NULL);
-	
-	if ((eth->lpa = PacketOpenAdapter(alist[i].name)) == NULL ||
-	    eth->lpa->hFile == INVALID_HANDLE_VALUE)
-		return (eth_close(eth));
-
-	PacketSetBuff(eth->lpa, 512000);
-	
-	if ((eth->pkt = PacketAllocatePacket()) == NULL)
-		return (eth_close(eth));
+	for (p = buf; *p != '\0'; p += strlen(p) + 1) {
+		if ((eth->lpa = PacketOpenAdapter(p)) != NULL) {
+			if (eth->lpa->hFile != INVALID_HANDLE_VALUE &&
+			    eth_get(eth, &ea) == 0 &&
+			    memcmp(&ea, &ifent.intf_link_addr.addr_eth,
+				ETH_ADDR_LEN) == 0) {
+				PacketSetBuff(eth->lpa, 512000);
+				eth->pkt = PacketAllocatePacket();
+				break;
+			}
+			PacketCloseAdapter(eth->lpa);
+		}
+	}
+	free(buf);
+	if (eth->pkt == NULL)
+		eth = eth_close(eth);
 	
 	return (eth);
 }
