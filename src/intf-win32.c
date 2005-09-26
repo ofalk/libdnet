@@ -233,26 +233,6 @@ intf_get(intf_t *intf, struct intf_entry *entry)
 	return (0);
 }
 
-/* XXX - gross hack required by eth-win32:eth_open() */
-const char *
-intf_get_desc(intf_t *intf, const char *name)
-{
-	static char desc[MAXLEN_IFDESCR + 1];
-	MIB_IFROW ifrow;
-	
-	if (_refresh_tables(intf) < 0)
-		return (NULL);
-	
-	ifrow.dwIndex = _find_ifindex(intf, name);
-	
-	if (GetIfEntry(&ifrow) != NO_ERROR)
-		return (NULL);
-
-	strlcpy(desc, ifrow.bDescr, sizeof(desc));
-	
-	return (desc);
-}
-
 int
 intf_get_src(intf_t *intf, struct intf_entry *entry, struct addr *src)
 {
