@@ -42,11 +42,23 @@ END_TEST
 START_TEST(test_blob_insertdelete)
 {
 	blob_t *b, bf;
+	char tmp[32];
 	
 	b = blob_new();
-	fail_unless(blob_insert(b, "foobar", 6) == 6, "insert failed");
+	fail_unless(blob_insert(b, "foo", 3) == 3, "insert1 failed");
+	blob_rewind(b);
+	fail_unless(blob_insert(b, "bar", 3) == 3, "insert2 failed");
+	blob_rewind(b);
+	blob_read(b, tmp, 6);
+	tmp[6] = 0;
+	fail_unless(strcmp(tmp,"barfoo") == 0, "read failed");
 	blob_rewind(b);
 	fail_unless(blob_delete(b, NULL, 3) == 3, "delete failed");
+	blob_rewind(b);
+	blob_read(b, tmp, 3);
+	tmp[3] = 0;
+	fail_unless(strcmp(tmp,"foo") == 0, "read failed");
+	
 	fail_unless(blob_delete(b, NULL, 4) < 0, "deleted more than size");
 	b = blob_free(b);
 
