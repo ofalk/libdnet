@@ -523,6 +523,30 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 #endif
 		ap++, entry->intf_alias_num++;
 	}
+#ifdef HAVE_LINUX_PROCFS
+#define PROC_INET6_FILE	"/proc/net/if_inet6"
+	{
+		FILE *f;
+		char buf[256], s[8][5], name[INTF_NAME_LEN];
+		u_int idx, bits, scope, flags;
+		
+		if ((f = fopen(PROC_INET6_FILE, "r")) != NULL) {
+			while (ap < lap &&
+			       fgets(buf, sizeof(buf), f) != NULL) {
+				sscanf(buf, "%04s%04s%04s%04s%04s%04s%04s%04s %02x %02x %02x %02x %32s\n",
+				    s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7],
+				    &idx, &bits, &scope, &flags, name);
+				if (strcmp(name, entry->intf_name) == 0) {
+					snprintf(buf, sizeof(buf), "%s:%s:%s:%s:%s:%s:%s:%s/%d",
+					    s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7], bits);
+					addr_aton(buf, ap);
+					ap++, entry->intf_alias_num++;
+				}
+			}
+			fclose(f);
+		}
+	}
+#endif
 	entry->intf_len = (u_char *)ap - (u_char *)entry;
 	
 	return (0);
