@@ -17,9 +17,3 @@ AUX_DIST =	$(ac_aux_dir)/acinclude.m4	\
 		$(ac_aux_dir)/ltmain.sh		\
 		$(ac_aux_dir)/missing		\
 		$(ac_aux_dir)/mkinstalldirs
-
-dist-hook:
-	(cd $(distdir) && mkdir $(ac_aux_dir))
-	for file in $(AUX_DIST); do \
-		cp $$file $(distdir)/$$file; \
-	done
