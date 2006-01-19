@@ -3,8 +3,8 @@
 import glob, os, sys
 from distutils.core import setup, Extension
 
-dnet_srcs = [ './dnet.c' ]
-dnet_incdirs = [ '../include' ]
+dnet_srcs = [ '@srcdir@/dnet.c' ]
+dnet_incdirs = [ '@top_srcdir@/include' ]
 dnet_libdirs = []
 dnet_libs = []
 dnet_extargs = []
@@ -20,15 +20,15 @@ else:
     # XXX - can't build on Cygwin+MinGW yet.
     #if sys.platform == 'cygwin':
     #    dnet_extargs.append('-mno-cygwin')
-    dnet_extobj.extend(glob.glob('../src/.libs/*.o'))
+    dnet_extobj.extend(glob.glob('@top_builddir@/src/.libs/*.o'))
 
 dnet = Extension('dnet',
-                 map(os.path.realpath, dnet_srcs),
-                 include_dirs=map(os.path.realpath, dnet_incdirs),
-                 library_dirs=map(os.path.realpath, dnet_libdirs),
+                 dnet_srcs,
+                 include_dirs=dnet_incdirs,
+                 library_dirs=dnet_libdirs,
                  libraries=dnet_libs,
                  extra_compile_args=dnet_extargs,
-                 extra_objects=map(os.path.realpath, dnet_extobj))
+                 extra_objects=dnet_extobj)
 
 setup(name='dnet',
       version='@VERSION@',
