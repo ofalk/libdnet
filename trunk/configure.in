@@ -19,6 +19,11 @@ dnl Check for system type.
 dnl XXX - we do this to qualify our later feature checks, since some
 dnl systems claim to support multiple features, but are quite b0rked.
 AC_CANONICAL_HOST
+dnl XXX - spoof AC_CYGWIN
+case "$host_os" in
+  *cygwin*) CYGWIN=yes;;
+         *) CYGWIN=no;;
+esac
 
 dnl Initialize prefix.
 if test "$prefix" = "NONE"; then
@@ -71,7 +76,6 @@ if test -r /usr/include/sgidefs.h ; then
 	CPPFLAGS="$CPPFLAGS -D__sgi"
 fi
 dnl XXX - we need MingW32 under Cygwin for win32
-dnl AC_CYGWIN
 if test "$CYGWIN" = yes ; then
 	if test -d /usr/include/mingw ; then
 		CPPFLAGS="$CPPFLAGS -mno-cygwin"
