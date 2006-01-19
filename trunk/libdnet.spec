@@ -7,7 +7,7 @@
 #						(see --with-gnu-ld in ./configure)
 #
 %define name libdnet
-%define version 1.10
+%define version 1.11
 %define release 1
 %define appname %{name}-%{version}
 %define rpmname %{name}-%{version}-%{release}
@@ -29,8 +29,8 @@ BuildRoot: %{_tmppath}/%{name}-root
 libdnet provides a simplified, portable interface to several low-level
 networking routines, including network address manipulation, kernel
 arp(4) cache and route(4) table lookup and manipulation, network
-firewalling, network interface lookup and manipulation, and raw IP
-packet and Ethernet frame transmission.
+firewalling, network interface lookup and manipulation, IP tunnelling, 
+and raw IP packet and Ethernet frame transmission.
 
 
 %package devel
