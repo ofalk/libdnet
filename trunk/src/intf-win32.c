@@ -24,7 +24,9 @@ struct ifcombo {
 	int		 max;
 };
 
-#define MIB_IF_TYPE_MAX	 32	/* XXX - ipifcons.h */
+/* XXX - ipifcons.h incomplete, use IANA ifTypes MIB */
+#define MIB_IF_TYPE_TUNNEL	131
+#define MIB_IF_TYPE_MAX		255
 
 struct intf_handle {
 	struct ifcombo	 ifcombo[MIB_IF_TYPE_MAX];
@@ -35,11 +37,9 @@ struct intf_handle {
 static char *
 _ifcombo_name(int type)
 {
-	char *name = "net";	/* XXX */
+	char *name = "eth";	/* XXX */
 	
-	if (type == MIB_IF_TYPE_ETHERNET) {
-		name = "eth";
-	} else if (type == MIB_IF_TYPE_TOKENRING) {
+	if (type == MIB_IF_TYPE_TOKENRING) {
 		name = "tr";
 	} else if (type == MIB_IF_TYPE_FDDI) {
 		name = "fddi";
@@ -49,6 +49,8 @@ _ifcombo_name(int type)
 		name = "lo";
 	} else if (type == MIB_IF_TYPE_SLIP) {
 		name = "sl";
+	} else if (type == MIB_IF_TYPE_TUNNEL) {
+		name = "tun";
 	}
 	return (name);
 }
@@ -70,6 +72,8 @@ _ifcombo_type(const char *device)
 		type = INTF_TYPE_LOOPBACK;
 	} else if (strncmp(device, "sl", 2) == 0) {
 		type = INTF_TYPE_SLIP;
+	} else if (strncmp(device, "tun", 3) == 0) {
+		type = INTF_TYPE_TUN;
 	}
 	return (type);
 }
@@ -81,10 +85,10 @@ _ifcombo_add(struct ifcombo *ifc, DWORD idx)
 		if (ifc->idx) {
 			ifc->max *= 2;
 			ifc->idx = realloc(ifc->idx,
-			    sizeof(ifc->idx[0] * ifc->max));
+			    sizeof(ifc->idx[0]) * ifc->max);
 		} else {
 			ifc->max = 8;
-			ifc->idx = malloc(sizeof(ifc->idx[0] * ifc->max));
+			ifc->idx = malloc(sizeof(ifc->idx[0]) * ifc->max);
 		}
 	}
 	ifc->idx[ifc->cnt++] = idx;
