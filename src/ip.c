@@ -219,7 +219,7 @@ ip_send(ip_t *i, const void *buf, size_t len)
 			ip->ip_off = htons(((p + fraglen < end) ? IP_MF : 0) |
 			    ((p - start) >> 3));
 			
-			ip_checksum(ip);
+			ip_checksum(ip, ip_hl + fraglen);
 			
 			if (eth_send(i->eth, frame,
 			    ETH_HDR_LEN + ip_hl + fraglen) < 0)
@@ -343,26 +343,24 @@ ip_checksum(void *buf, size_t len)
 	sum = ip_cksum_add(ip, hl, 0);
 	ip->ip_sum = ip_cksum_carry(sum);
 	
-	if (ip->ip_p == IP_PROTO_TCP) {
+	if (ip->ip_p == IP_PROTO_TCP && len >= TCP_HDR_LEN) {
 		struct tcp_hdr *tcp = (struct tcp_hdr *)((u_char *)ip + hl);
 		
-		assert(len >= TCP_HDR_LEN);
 		tcp->th_sum = 0;
 		sum = ip_cksum_add(tcp, len, 0) + htons(ip->ip_p + len);
 		sum = ip_cksum_add(&ip->ip_src, 8, sum);
 		tcp->th_sum = ip_cksum_carry(sum);
-	} else if (ip->ip_p == IP_PROTO_UDP) {
+	} else if (ip->ip_p == IP_PROTO_UDP && len >= UDP_HDR_LEN) {
 		struct udp_hdr *udp = (struct udp_hdr *)((u_char *)ip + hl);
 
-		assert(len >= UDP_HDR_LEN);
 		udp->uh_sum = 0;
 		sum = ip_cksum_add(udp, len, 0) + htons(ip->ip_p + len);
 		sum = ip_cksum_add(&ip->ip_src, 8, sum);
 		udp->uh_sum = ip_cksum_carry(sum);
-	} else if (ip->ip_p == IP_PROTO_ICMP || ip->ip_p == IP_PROTO_IGMP) {
+	} else if ((ip->ip_p == IP_PROTO_ICMP || ip->ip_p == IP_PROTO_IGMP) &&
+	    len >= ICMP_HDR_LEN) {
 		struct icmp_hdr *icmp = (struct icmp_hdr *)((u_char *)ip + hl);
 		
-		assert(len >= ICMP_HDR_LEN);
 		icmp->icmp_cksum = 0;
 		sum = ip_cksum_add(icmp, len, 0);
 		icmp->icmp_cksum = ip_cksum_carry(sum);
