@@ -1757,7 +1757,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=libdnet
- VERSION=1.11
+ VERSION=1.12
 
 
 cat >>confdefs.h <<_ACEOF
