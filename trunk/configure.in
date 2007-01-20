@@ -9,7 +9,7 @@ AC_INIT(include/dnet.h)
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
 
-AM_INIT_AUTOMAKE(libdnet, 1.11)
+AM_INIT_AUTOMAKE(libdnet, 1.12)
 AM_CONFIG_HEADER(include/config.h)
 
 dnl XXX - stop the insanity!@#$
