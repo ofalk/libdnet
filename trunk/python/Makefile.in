@@ -121,7 +121,7 @@ SCRIPTS = $(noinst_SCRIPTS)
 depcomp =
 am__depfiles_maybe =
 DIST_SOURCES =
-DIST_COMMON = README Makefile.am Makefile.in setup.py.in
+DIST_COMMON = Makefile.am Makefile.in setup.py.in
 all: all-am
 
 .SUFFIXES:
