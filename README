@@ -8,6 +8,6 @@ arp(4) cache and route(4) table lookup and manipulation, network
 firewalling, network interface lookup and manipulation, IP tunnelling,
 and raw IP packet and Ethernet frame transmission.
 
-WWW: http://libdnet.sourceforge.net/
+WWW: http://code.google.com/p/libdnet/
 
 $Id$
