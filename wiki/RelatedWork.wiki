@@ -1,0 +1,13 @@
+#summary Related projects
+
+  * [http://search.cpan.org/~vman/Net-Libdnet-0.01/ Net::Libdnet] - Perl interface to libdnet
+  * [http://www.shmoo.com/~bmc/software/ruby/ruby-dnet/ dnet.rb] - Ruby interface to libdnet
+  * [http://www.tcpdump.org/ libpcap] - portable packet capture library
+  * [http://winpcap.polito.it/ winpcap] - libpcap for Windows
+  * [http://monkey.org/~dugsong/pypcap/ pypcap] - libpcap Python module
+  * [http://monkey.org/~dugsong/dpkt/ dpkt] - fast, simple packet creation and parsing in Python
+  * [http://www.packetfactory.net/projects/libnet/ libnet] - packet construction library
+  * [http://www.hsc.fr/ressources/outils/pktfilter/index.html.en PktFilter] - win32 service to configure the IPv4 filtering driver in Windows 2000/XP/Server 2003
+  * [http://vtun.sourceforge.net/tun/ Universal TUN/TAP driver] - virtual point-to-point network tunnel device
+  * [http://www-user.rhrk.uni-kl.de/~nissler/tuntap/ TUN/TAP driver for MacOS X]
+  * [tun-1.1-sol80.sparc64.gz Tunnel driver for Solaris 8 (sparc64)]
