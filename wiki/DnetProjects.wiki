@@ -1,0 +1,27 @@
+#summary Projects that use libdnet
+
+= Projects that use libdnet =
+
+    * [http://www.honeyd.org/tools.php arpd] - ARP daemon
+    * [http://ish.cx/~jason/arpscan/ arpscan] - ARP scanner
+    * [http://www.whitefang.com/dhcp-agent/ dhcp-agent] - portable Unix DHCP client
+    * firewalk - determine firewall/router ACLs remotely
+    * fragroute - intercept, modify, and rewrite traffic to a target
+    * ganglia - real-time monitoring and execution environment for large-scale computer clusters
+    * gdnet - GTK+ interface demonstrating much of libdnet's functionality
+    * honeyd - virtual network honeypots
+    * ip6sic - IPv6 stack stress-testing tool
+    * labrea - simple worm tarpit
+    * lsrscan - loose source route scanner
+    * lsrtunnel - connection spoofing via loose source routing
+    * mplscan - send GRE-tunnelled MPLS packets
+    * nmap - the gold standard network scanner
+    * nttlscan - quick topology scanner / parallel traceroute
+    * Open1x - open-source implementation of IEEE 802.1x
+    * ring - OS fingerprinting through TCP rexmit timeouts
+    * scapy - interactive packet manipulation program
+    * synscan - scriptable TCP/IP test tool for network testing and active OS fingerprinting
+    * stegtunnel - IP ID / TCP ISN covert channels
+    * ttlscan - TCP SYN scanner with TTL printing
+    * unicornscan - distributed scanner
+    * vomit - sniff from, and inject into, Cisco IP phone conversations 
