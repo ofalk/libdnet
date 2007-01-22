@@ -10,4 +10,3 @@
   * [http://www.hsc.fr/ressources/outils/pktfilter/index.html.en PktFilter] - win32 service to configure the IPv4 filtering driver in Windows 2000/XP/Server 2003
   * [http://vtun.sourceforge.net/tun/ Universal TUN/TAP driver] - virtual point-to-point network tunnel device
   * [http://www-user.rhrk.uni-kl.de/~nissler/tuntap/ TUN/TAP driver for MacOS X]
-  * [tun-1.1-sol80.sparc64.gz Tunnel driver for Solaris 8 (sparc64)]
