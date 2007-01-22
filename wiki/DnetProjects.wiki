@@ -1,27 +1,25 @@
 #summary Projects that use libdnet
 
-= Projects that use libdnet =
-
-    * [http://www.honeyd.org/tools.php arpd] - ARP daemon
-    * [http://ish.cx/~jason/arpscan/ arpscan] - ARP scanner
-    * [http://www.whitefang.com/dhcp-agent/ dhcp-agent] - portable Unix DHCP client
-    * firewalk - determine firewall/router ACLs remotely
-    * fragroute - intercept, modify, and rewrite traffic to a target
-    * ganglia - real-time monitoring and execution environment for large-scale computer clusters
-    * gdnet - GTK+ interface demonstrating much of libdnet's functionality
-    * honeyd - virtual network honeypots
-    * ip6sic - IPv6 stack stress-testing tool
-    * labrea - simple worm tarpit
-    * lsrscan - loose source route scanner
-    * lsrtunnel - connection spoofing via loose source routing
-    * mplscan - send GRE-tunnelled MPLS packets
-    * nmap - the gold standard network scanner
-    * nttlscan - quick topology scanner / parallel traceroute
-    * Open1x - open-source implementation of IEEE 802.1x
-    * ring - OS fingerprinting through TCP rexmit timeouts
-    * scapy - interactive packet manipulation program
-    * synscan - scriptable TCP/IP test tool for network testing and active OS fingerprinting
-    * stegtunnel - IP ID / TCP ISN covert channels
-    * ttlscan - TCP SYN scanner with TTL printing
-    * unicornscan - distributed scanner
-    * vomit - sniff from, and inject into, Cisco IP phone conversations 
+  * [http://www.honeyd.org/tools.php arpd] - ARP daemon
+  * [http://ish.cx/~jason/arpscan/ arpscan] - ARP scanner
+  * [http://www.whitefang.com/dhcp-agent/ dhcp-agent] - portable Unix DHCP client
+  * [http://www.packetfactory.net/projects/firewalk/ firewalk] - determine firewall/router ACLs remotely
+  * [http://www.monkey.org/~dugsong/fragroute/ fragroute] - intercept, modify, and rewrite traffic to a target
+  * [http://ganglia.sourceforge.net/ ganglia] - real-time monitoring and execution environment for large-scale computer clusters
+  * [http://jon.oberheide.org/projects/gdnet/ gdnet] - GTK+ interface demonstrating much of libdnet's functionality
+  * [http://www.citi.umich.edu/u/provos/honeyd/ honeyd] - virtual network honeypots
+  * [http://ip6sic.sourceforge.net/ ip6sic] - IPv6 stack stress-testing tool
+  * [http://labrea.sourceforge.net/ labrea] - simple worm tarpit
+  * [http://gaia.synacklabs.net/projects/lsrscan/ lsrscan] - loose source route scanner
+  * [http://www.synacklabs.net/projects/lsrtunnel/ lsrtunnel] - connection spoofing via loose source routing
+  * [http://mazzoo.de/code.html mplscan] - send GRE-tunnelled MPLS packets
+  * [http://www.insecure.org/nmap/ nmap] - the gold standard network scanner
+  * [http://www.honeyd.org/tools.php nttlscan] - quick topology scanner / parallel traceroute
+  * [http://www.open1x.org/ Open1x] - open-source implementation of IEEE 802.1x
+  * [http://www.planb-security.net/wp/ring.html ring] - OS fingerprinting through TCP rexmit timeouts
+  * [http://www.secdev.org/projects/scapy/ scapy] - interactive packet manipulation program
+  * [http://synscan.sourceforge.net/ synscan] - scriptable TCP/IP test tool for network testing and active OS fingerprinting
+  * [http://www.synacklabs.net/projects/stegtunnel/ stegtunnel] - IP ID / TCP ISN covert channels
+  * [http://raisdorf.net/?page=projects&sub=ttlscan ttlscan] - TCP SYN scanner with TTL printing
+  * [http://www.unicornscan.org unicornscan] - distributed scanner
+  * [http://vomit.xtdnet.nl/ vomit] - sniff from, and inject into, Cisco IP phone conversations
