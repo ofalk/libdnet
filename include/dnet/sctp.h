@@ -149,5 +149,20 @@ struct sctp_chunkhdr_shutdown_ack {
 	sctp_pack_chunkhdr(sctp_pack_chip, type, flags, length);	\
 } while (0)
 
+/*
+ * COOKIE ECHO chunk
+ */
+struct sctp_chunkhdr_cookie_echo {
+	struct sctp_chunkhdr chunkhdr;
+
+	/* empty */
+};
+
+#define sctp_pack_chunkhdr_cookie_echo(hdr, type, flags, length) do {	\
+	struct sctp_chunkhdr_cookie_echo *sctp_pack_chip =		\
+			(struct sctp_chunkhdr_cookie_echo *)(hdr);	\
+	sctp_pack_chunkhdr(sctp_pack_chip, type, flags, length);	\
+} while (0)
+
 #endif /* DNET_SCTP_H */
 
