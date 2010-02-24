@@ -280,7 +280,9 @@ intf_set(intf_t *intf, const struct intf_entry *entry)
 	/* Set interface MTU. */
 	if (entry->intf_mtu != 0) {
 		ifr.ifr_mtu = entry->intf_mtu;
+#ifdef SIOCSIFMTU
 		if (ioctl(intf->fd, SIOCSIFMTU, &ifr) < 0)
+#endif
 			return (-1);
 	}
 	/* Set interface address. */
@@ -392,7 +394,9 @@ _intf_get_noalias(intf_t *intf, struct intf_entry *entry)
 	_intf_set_type(entry);
 	
 	/* Get interface MTU. */
+#ifdef SIOCGIFMTU
 	if (ioctl(intf->fd, SIOCGIFMTU, &ifr) < 0)
+#endif
 		return (-1);
 	entry->intf_mtu = ifr.ifr_mtu;
 
@@ -668,8 +672,10 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 	intf->ifc.ifc_buf = (caddr_t)intf->ifcbuf;
 	intf->ifc.ifc_len = sizeof(intf->ifcbuf);
 	
-	if (ioctl(intf->fd, SIOCGIFCONF, &intf->ifc) < 0)
+	if (ioctl(intf->fd, SIOCGIFCONF, &intf->ifc) < 0) {
+		fclose(fp);
 		return (-1);
+	}
 
 	ret = 0;
 	while (fgets(buf, sizeof(buf), fp) != NULL) {
