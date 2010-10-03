@@ -725,7 +725,8 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 		return (-1);
 
 	pifr = NULL;
-	lifr = (struct ifreq *)&intf->ifc.ifc_buf[intf->ifc.ifc_len];
+	lifr = (struct ifreq *)intf->ifc.ifc_buf +
+	    (intf->ifc.ifc_len / sizeof(*lifr));
 	
 	for (ifr = intf->ifc.ifc_req; ifr < lifr; ifr = NEXTIFR(ifr)) {
 		/* XXX - Linux, Solaris ifaliases */
