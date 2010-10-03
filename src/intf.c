@@ -57,8 +57,8 @@
 
 #ifdef HAVE_SOCKADDR_SA_LEN
 # define NEXTIFR(i)	((struct ifreq *)((u_char *)&i->ifr_addr + \
-				(i->ifr_addr.sa_len ? i->ifr_addr.sa_len : \
-				 sizeof(i->ifr_addr))))
+				(i->ifr_addr.sa_len > sizeof(i->ifr_ifru) ? \
+				 i->ifr_addr.sa_len : sizeof(i->ifr_ifru))))
 #else
 # define NEXTIFR(i)	(i + 1)
 #endif
