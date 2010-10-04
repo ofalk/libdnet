@@ -107,3 +107,6 @@ Christophe Ternat <christophe.ternat@rstpacket.org>
 xs <xs@nitric.net>
 	NetBSD testing
 
+Kris Katterjohn <katterjohn@gmail.com>
+	void dereferencing and ifloop NetBSD fixes
+
