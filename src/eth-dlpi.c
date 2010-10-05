@@ -125,7 +125,7 @@ dev_find_ppa(const char *dev)
 	if (*p == '\0')
 		return NULL;
 
-return p;
+	return p;
 }
 #endif
 
