@@ -110,3 +110,5 @@ xs <xs@nitric.net>
 Kris Katterjohn <katterjohn@gmail.com>
 	void dereferencing and ifloop NetBSD fixes
 
+David Fifield <david@bamsoftware.com>
+	Many fixes from Nmap developers
