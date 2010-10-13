@@ -547,7 +547,7 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 		u_int idx, bits, scope, flags;
 		
 		if ((f = fopen(PROC_INET6_FILE, "r")) != NULL) {
-			while (ap < lap &&
+			while ((ap +1) < lap &&
 			       fgets(buf, sizeof(buf), f) != NULL) {
 				sscanf(buf, "%04s%04s%04s%04s%04s%04s%04s%04s %02x %02x %02x %02x %32s\n",
 				    s[0], s[1], s[2], s[3], s[4], s[5], s[6], s[7],
