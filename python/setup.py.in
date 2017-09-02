@@ -20,7 +20,7 @@ else:
     # XXX - can't build on Cygwin+MinGW yet.
     #if sys.platform == 'cygwin':
     #    dnet_extargs.append('-mno-cygwin')
-    dnet_extobj.extend(glob.glob('@top_builddir@/src/.libs/*.o'))
+    dnet_extobj.extend(sorted(glob.glob('@top_builddir@/src/.libs/*.o')))
 
 dnet = Extension('dnet',
                  dnet_srcs,
