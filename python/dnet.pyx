@@ -1,7 +1,7 @@
+# cython: language_level=3, boundscheck=False
 #
 # dnet.pyx
 #
-# $Id$
 
 """dumb networking library
 
@@ -12,11 +12,11 @@ firewalling, network interface lookup and manipulation, IP tunnelling,
 and raw IP packet and Ethernet frame transmission.
 """
 
-__author__ = 'Dug Song <dugsong@monkey.org>'
-__copyright__ = 'Copyright (c) 2003 Dug Song'
+__author__ = 'Oliver Falk <oliver@linux-kernel.at>'
+__copyright__ = 'Copyright (c) 2019 Oliver Falk'
 __license__ = 'BSD'
-__url__ = 'http://libdnet.sourceforge.net/'
-__version__ = '1.12'
+__url__ = 'https://github.com/ofalk/libdnet'
+__version__ = '1.14'
 
 cdef extern from "dnet.h":
     pass
@@ -46,7 +46,7 @@ cdef __memcpy(char *dst, object src, int n):
     memcpy(dst, src, n)
 
 cdef __oserror():
-    cdef extern int errno
+    cdef extern int errno = 0
     return strerror(errno)
 
 def __iter_append(entry, l):
@@ -1421,7 +1421,7 @@ cdef class __rand_xrange:
         while self.max > (1 << bits):
             bits = bits + 1
         
-        self.left = bits / 2
+        self.left = int(bits / 2)
         self.right = bits - self.left
         self.mask = (1 << bits) - 1
 

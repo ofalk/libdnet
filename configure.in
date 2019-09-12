@@ -44,7 +44,7 @@ AC_ARG_WITH(python,
 [ case "$withval" in
   yes)
      AC_MSG_RESULT(yes)
-     PYTHON="python"
+     PYTHON="python3"
      ;;
   no)
      AC_MSG_RESULT(no)
@@ -52,10 +52,10 @@ AC_ARG_WITH(python,
   *)
      AC_MSG_RESULT($withval)
      for subdir in . bin; do
-        if test -x $withval/$subdir/python; then
+        if test -x $withval/$subdir/python3; then
 	   owd=`pwd`
 	   if cd $withval/$subdir; then withval=`pwd`; cd $owd; fi
-	   PYTHON="$withval/python"
+	   PYTHON="$withval/python3"
 	   break
 	fi
      done
