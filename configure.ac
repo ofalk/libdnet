@@ -5,13 +5,17 @@ dnl Copyright (c) 2000 Dug Song <dugsong@monkey.org>
 dnl
 dnl $Id$
 
-AC_INIT(include/dnet.h)
+AC_PREREQ([2.69])
+AC_INIT(libdnet, 1.14)
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
 
-AM_INIT_AUTOMAKE(libdnet, 1.14)
+AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(include/config.h)
+
+LT_PREREQ([2.2])
+LT_INIT
 
 dnl XXX - stop the insanity!@#$
 AM_MAINTAINER_MODE
