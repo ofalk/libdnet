@@ -9193,6 +9193,7 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb) {
                    "raising a string exception is deprecated"))
                 goto raise_error;
     }
+    //  FIXME
     // else if (PyType_Check(type) || PyClass_Check(type))
     //     ; /* PyErr_NormalizeException(&type, &value, &tb); */
     // else if (PyInstance_Check(type)) {
