@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys, unittest
-
+from interfacefinder import mac_addr,local_ip,loopback_intf
 sys.path.insert(0, './build')
 import dnet
 
@@ -24,7 +24,7 @@ class AddrTestCase(unittest.TestCase):
         for bits in d:
             a = dnet.addr('%s/%d' % (d[32], bits))
             b = a.bcast()
-            self.failUnless(b.__str__() == d[bits],
+            self.assertTrue(b.__repr__() == d[bits],
                             'wrong bcast for /%d' % bits)
             
     def test_addr_net(self):
@@ -36,49 +36,53 @@ class AddrTestCase(unittest.TestCase):
         for bits in d:
             a = dnet.addr('%s/%d' % (d[32], bits))
             b = a.net()
-            self.failUnless(b.__str__() == d[bits],
+            self.assertTrue(b.__repr__() == d[bits],
                             'wrong net for /%d' % bits)
 
     def test_addr_properties(self):
         atxt = '1.2.3.4/24'
         a = dnet.addr(atxt)
         assert a.type == dnet.ADDR_TYPE_IP and a.bits == 24
-        assert a.ip == '\x01\x02\x03\x04' and a.__str__() == atxt
-        try: self.failUnless(a.eth == 'xxx', 'invalid eth property')
+        assert a.ip == b'\x01\x02\x03\x04' and a.__repr__() == atxt
+        try: self.assertTrue(a.eth == 'xxx', 'invalid eth property')
         except ValueError: pass
         
         atxt = '00:0d:0e:0a:0d:00'
         a = dnet.addr(atxt)
         assert a == dnet.addr('0:d:E:a:D:0')
         assert a.type == dnet.ADDR_TYPE_ETH and a.bits == 48
-        assert a.eth == '\x00\x0d\x0e\x0a\x0d\x00' and a.__str__() == atxt
-        try: self.failUnless(a.ip6 == 'xxx', 'invalid ip6 property')
+        assert a.eth == b'\x00\x0d\x0e\x0a\x0d\x00' and a.__repr__() == atxt
+        try: self.assertTrue(a.ip6 == 'xxx', 'invalid ip6 property')
         except ValueError: pass
 
         atxt = 'fe80::dead:beef:feed:face/48'
         a = dnet.addr(atxt)
         assert a == dnet.addr('fe80:0:0::dead:beef:feed:face/48')
         assert a.type == dnet.ADDR_TYPE_IP6 and a.bits == 48
-        assert a.ip6 == '\xfe\x80\x00\x00\x00\x00\x00\x00\xde\xad\xbe\xef\xfe\xed\xfa\xce' and a.__str__() == atxt
-        try: self.failUnless(a.ip == 'xxx', 'invalid ip property')
+        assert a.ip6 == b'\xfe\x80\x00\x00\x00\x00\x00\x00\xde\xad\xbe\xef\xfe\xed\xfa\xce' and a.__repr__() == atxt
+        try: self.assertTrue(a.ip == 'xxx', 'invalid ip property')
         except ValueError: pass
 
 class ArpTestCase(unittest.TestCase):
     def setUp(self):
         self.arp = dnet.arp()
-        self.failUnless(self.arp, "couldn't open ARP handle")
+        self.assertTrue(self.arp, "couldn't open ARP handle")
     def tearDown(self):
         del self.arp
         
     def test_arp(self):
         # XXX - site-specific values here!
-        pa = dnet.addr('192.168.0.123')
-        ha = dnet.addr('0:d:e:a:d:0')
-        self.failUnless(self.arp.add(pa, ha) == None, "couldn't add ARP entry")
-        self.failUnless(self.arp.get(pa) == ha, "couldn't find ARP entry")
-        self.failUnless(self.arp.delete(pa) == None, "couldn't delete ARP entry")
+        pa = dnet.addr(local_ip)
+        ha = dnet.addr(mac_addr)
+        self.assertTrue(self.arp.add(pa, ha) == None, "couldn't add ARP entry")
+        self.assertTrue(self.arp.get(pa) == ha, "couldn't find ARP entry")
+        self.assertTrue(self.arp.delete(pa) == None, "couldn't delete ARP entry")
+        self.assertTrue(self.arp.get(pa) == None, "wrong ARP entry present")
+        self.assertTrue(self.arp.add(pa, ha) == None, "couldn't add ARP entry")
+        self.assertTrue(self.arp.get(pa) == ha, "couldn't find ARP entry")
+        
 
-    def __arp_cb(self, pa, ha, arg):
+    def __arp_cb(self, pa, arg):
         # XXX - do nothing
         return arg
     
@@ -87,39 +91,39 @@ class ArpTestCase(unittest.TestCase):
         assert self.arp.loop(self.__arp_cb, 123) == 123
 
     def test_arp_misc(self):
-        sha = '\x00\x0d\x0e\x0a\x0d\x00'
-        spa = '\x01\x02\x03\x04'
-        dha = '\x00\x0b\x0e\x0e\x0f\x00'
-        dpa = '\x05\x06\x07\x08'
+        sha = b'\x00\x0d\x0e\x0a\x0d\x00'
+        spa = b'\x01\x02\x03\x04'
+        dha = b'\x00\x0b\x0e\x0e\x0f\x00'
+        dpa = b'\x05\x06\x07\x08'
         msg = dnet.arp_pack_hdr_ethip(dnet.ARP_OP_REQUEST, sha, spa, dha, dpa)
-        assert msg == '\x00\x01\x08\x00\x06\x04\x00\x01\x00\r\x0e\n\r\x00\x01\x02\x03\x04\x00\x0b\x0e\x0e\x0f\x00\x05\x06\x07\x08'
+        assert msg == b'\x00\x01\x08\x00\x06\x04\x00\x01\x00\r\x0e\n\r\x00\x01\x02\x03\x04\x00\x0b\x0e\x0e\x0f\x00\x05\x06\x07\x08'
         
 class EthTestCase(unittest.TestCase):
     def setUp(self):
         self.dev = dnet.intf().get_dst(dnet.addr('1.2.3.4'))['name']
         self.eth = dnet.eth(self.dev)
-        self.failUnless(self.eth, "couldn't open Ethernet handle")
+        self.assertTrue(self.eth, "couldn't open Ethernet handle")
     def tearDown(self):
         del self.eth
 
     def test_eth_get(self):
         mac = self.eth.get()
-        self.failUnless(mac, "couldn't get Ethernet address for %s" % self.dev)
+        self.assertTrue(mac, "couldn't get Ethernet address for %s" % self.dev)
 
     def test_eth_misc(self):
-        n = "\x00\x0d\x0e\x0a\x0d\x00"
+        n = b'\x00\x0d\x0e\x0a\x0d\x00'
         a = '00:0d:0e:0a:0d:00'
-        self.failUnless(dnet.eth_ntoa(n) == a)
-        self.failUnless(dnet.eth_aton(a) == n)
-        dst = "\x00\x0d\x0e\x0a\x0d\x01"
-        self.failUnless(dnet.eth_pack_hdr(n, dst, dnet.ETH_TYPE_IP) ==
-                        '\x00\r\x0e\n\r\x00\x00\r\x0e\n\r\x01\x08\x00')
+        self.assertTrue(dnet.eth_ntoa(n) == a)
+        self.assertTrue(dnet.eth_aton(a) == n)
+        dst = b'\x00\x0d\x0e\x0a\x0d\x01'
+        self.assertTrue(dnet.eth_pack_hdr(n, dst, dnet.ETH_TYPE_IP) ==
+                        b'\x00\r\x0e\n\r\x00\x00\r\x0e\n\r\x01\x08\x00')
 
 class FwTestCase(unittest.TestCase):
     def setUp(self):
         self.dev = dnet.intf().get_dst(dnet.addr('1.2.3.4'))['name']
         self.fw = dnet.fw()
-        self.failUnless(self.fw, "couldn't open firewall handle")
+        self.assertTrue(self.fw, "couldn't open firewall handle")
     def tearDown(self):
         del self.fw
 
@@ -134,9 +138,9 @@ class FwTestCase(unittest.TestCase):
               'dst':dst,
               'dport':(660, 666)
               }
-        self.failUnless(self.fw.add(d) == None,
+        self.assertTrue(self.fw.add(d) == None,
                         "couldn't add firewall rule: %s" % d)
-        self.failUnless(self.fw.delete(d) == None,
+        self.assertTrue(self.fw.delete(d) == None,
                         "couldn't delete firewall rule: %s" % d)
 
     def __fw_cb(self, rule, arg):
@@ -151,25 +155,25 @@ class FwTestCase(unittest.TestCase):
 class IntfTestCase(unittest.TestCase):
     def setUp(self):
         self.intf = dnet.intf()
-        self.failUnless(self.intf, "couldn't open interface handle")
+        self.assertTrue(self.intf, "couldn't open interface handle")
     def tearDown(self):
         del self.intf
 
     def test_intf_get(self):
-        lo0 = self.intf.get('lo0')
-        self.failUnless(lo0['name'] == 'lo0', "couldn't get loopback config")
-        self.failUnless(self.intf.get_src(dnet.addr('127.0.0.1')) == lo0,
+        lo0 = self.intf.get(loopback_intf)
+        self.assertTrue(lo0['name'] == loopback_intf, "couldn't get loopback config")
+        self.assertTrue(self.intf.get_src(dnet.addr('127.0.0.1')) == lo0,
                         "couldn't get_src 127.0.0.1")
         gw = self.intf.get_dst(dnet.addr('1.2.3.4'))
-        self.failUnless(gw, "couldn't get outgoing interface")
+        self.assertTrue(gw, "couldn't get outgoing interface")
 
     def test_intf_set(self):
-        lo0 = self.intf.get('lo0')
+        lo0 = self.intf.get(loopback_intf)
         old_mtu = lo0['mtu']
         new_mtu = 1234
         lo0['mtu'] = new_mtu
         self.intf.set(lo0)
-        lo0 = self.intf.get('lo0')
+        lo0 = self.intf.get(loopback_intf)
         assert lo0['mtu'] == new_mtu
         lo0['mtu'] = old_mtu
         self.intf.set(lo0)
@@ -185,33 +189,32 @@ class IntfTestCase(unittest.TestCase):
 class IpTestCase(unittest.TestCase):
     def setUp(self):
         self.ip = dnet.ip()
-        self.failUnless(self.ip, "couldn't open raw IP handle")
+        self.assertTrue(self.ip, "couldn't open raw IP handle")
     def tearDown(self):
         del self.ip
 
     def test_ip_misc(self):
-        n = '\x01\x02\x03\x04'
+        n = b'\x01\x02\x03\x04'
         a = '1.2.3.4'
-        self.failUnless(dnet.ip_ntoa(n) == a)
-        self.failUnless(dnet.ip_aton(a) == n)
-        dst = '\x05\x06\x07\x08'
-        hdr = dnet.ip_pack_hdr(0, dnet.IP_HDR_LEN, 666, 0, 255,
-                               dnet.IP_PROTO_UDP, n, dst)
-        assert hdr == 'E\x00\x00\x14\x02\x9a\x00\x00\xff\x11\x00\x00\x01\x02\x03\x04\x05\x06\x07\x08'
+        self.assertTrue(dnet.ip_ntoa(n) == a)
+        self.assertTrue(dnet.ip_aton(a) == n)
+        dst = b'\x05\x06\x07\x08'
+        hdr = dnet.ip_pack_hdr(0, dnet.IP_HDR_LEN, 666, 0, 255,dnet.IP_PROTO_UDP, n, dst)
+        self.assertTrue(hdr == b'E\x00\x00\x14\x02\x9a\x00\x00\xff\x11\x00\x00\x01\x02\x03\x04\x05\x06\x07\x08')
         hdr = dnet.ip_checksum(hdr)
-        assert hdr == 'E\x00\x00\x14\x02\x9a\x00\x00\xff\x11\xa9+\x01\x02\x03\x04\x05\x06\x07\x08'
+        self.assertTrue(hdr == '\x00\x00\x14\x02\x9a\x00\x00\xff\x11\xa9\x01\x02\x03\x04\x05\x06\x07\x08')
 
 class RandTestCase(unittest.TestCase):
     def setUp(self):
         self.rand = dnet.rand()
-        self.failUnless(self.rand, "couldn't open random handle")
+        self.assertTrue(self.rand, "couldn't open random handle")
     def tearDown(self):
         del self.rand
 
 class RouteTestCase(unittest.TestCase):
     def setUp(self):
         self.route = dnet.route()
-        self.failUnless(self.route, "couldn't open route handle")
+        self.assertTrue(self.route, "couldn't open route handle")
     def tearDown(self):
         del self.route
 
@@ -219,10 +222,10 @@ class RouteTestCase(unittest.TestCase):
         dst = dnet.addr('1.2.3.4/24')
         gw = dnet.addr('127.0.0.1')
         self.route.add(dst, gw)
-        self.failUnless(self.route.get(dst) == gw)
+        self.assertTrue(self.route.get(dst) == gw)
         self.route.delete(dst)
 
-    def __route_cb(self, dst, gw, arg):
+    def __route_cb(self, dst, arg):
         # XXX - do nothing
         return arg
 
