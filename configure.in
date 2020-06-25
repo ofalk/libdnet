@@ -1,7 +1,7 @@
 dnl
 dnl configure.in
 dnl
-dnl Copyright (c) 2000 Dug Song <dugsong@monkey.org>
+dnl Copyright (c) 2019 Oliver Falk <oliver@linux-kernel.at>
 dnl
 dnl $Id$
 
