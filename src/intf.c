@@ -171,23 +171,25 @@ _intf_delete_addrs(intf_t *intf, struct intf_entry *entry)
 static int
 _intf_delete_aliases(intf_t *intf, struct intf_entry *entry)
 {
-	int i;
+	size_t i;
 #if defined(SIOCDIFADDR) && !defined(__linux__)	/* XXX - see Linux below */
 	struct dnet_ifaliasreq ifra;
 	
 	memset(&ifra, 0, sizeof(ifra));
 	strlcpy(ifra.ifra_name, entry->intf_name, sizeof(ifra.ifra_name));
 	
-	for (i = 0; i < (int)entry->intf_alias_num; i++) {
+	for (i = 0; i < entry->intf_alias_num; i++) {
 		addr_ntos(&entry->intf_alias_addrs[i], &ifra.ifra_addr);
 		ioctl(intf->fd, SIOCDIFADDR, &ifra);
 	}
 #else
+	unsigned char n;
 	struct ifreq ifr;
 	
 	for (i = 0; i < entry->intf_alias_num; i++) {
-		snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%s:%d",
-		    entry->intf_name, i + 1);
+		n = i + 1;
+		snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%.11s:%u",
+		    entry->intf_name, n);
 # ifdef SIOCLIFREMOVEIF
 		/* XXX - overloading Solaris lifreq with ifreq */
 		ioctl(intf->fd, SIOCLIFREMOVEIF, &ifr);
@@ -204,7 +206,7 @@ _intf_delete_aliases(intf_t *intf, struct intf_entry *entry)
 static int
 _intf_add_aliases(intf_t *intf, const struct intf_entry *entry)
 {
-	int i;
+	size_t i;
 #ifdef SIOCAIFADDR
 	struct dnet_ifaliasreq ifra;
 	struct addr bcast;
@@ -229,13 +231,13 @@ _intf_add_aliases(intf_t *intf, const struct intf_entry *entry)
 	}
 #else
 	struct ifreq ifr;
-	int n = 1;
+	unsigned char n = 1;
 	
 	for (i = 0; i < entry->intf_alias_num; i++) {
 		if (entry->intf_alias_addrs[i].addr_type != ADDR_TYPE_IP)
 			continue;
 		
-		snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%s:%d",
+		snprintf(ifr.ifr_name, sizeof(ifr.ifr_name), "%.11s:%u",
 		    entry->intf_name, n++);
 # ifdef SIOCLIFADDIF
 		if (ioctl(intf->fd, SIOCLIFADDIF, &ifr) < 0)
@@ -592,15 +594,16 @@ _match_intf_src(const struct intf_entry *entry, void *arg)
 	struct intf_entry *save = (struct intf_entry *)arg;
 	
 	if (entry->intf_addr.addr_type == ADDR_TYPE_IP &&
-		entry->intf_addr.addr_ip == save->intf_addr.addr_ip)
+		entry->intf_addr.addr_ip == save->intf_addr.addr_ip) {
 		matched = 1; 
-
+	} else {
 		for (cnt = 0; !matched && cnt < (int) entry->intf_alias_num; cnt++) {
 			if (entry->intf_alias_addrs[cnt].addr_type != ADDR_TYPE_IP)
 				continue;
 			if (entry->intf_alias_addrs[cnt].addr_ip == save->intf_addr.addr_ip)
 				matched = 1;
 		}
+	}
 
 	if (matched) {
 		/* XXX - truncated result if entry is too small. */
@@ -629,8 +632,8 @@ int
 intf_get_dst(intf_t *intf, struct intf_entry *entry, struct addr *dst)
 {
 	struct sockaddr_in sin;
-	int n;
-	
+	socklen_t n;
+
 	if (dst->addr_type != ADDR_TYPE_IP) {
 		errno = EINVAL;
 		return (-1);

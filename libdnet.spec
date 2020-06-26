@@ -84,11 +84,13 @@ rm -rf $RPM_BUILD_DIR/%{buildname}
 %{_libdir}/*.a
 %{_libdir}/*.so
 %{_mandir}/man3
-%doc	README
-%doc	TODO
+%doc README.md TODO
 
 
 %changelog
+* Thu Sep 12 2019 Oliver Falk <oliver@linux-kernel.at>
+- Update spec
+
 * Wed Jun  1 2004 nnposter at users,sourceforge,net
 - Created 1.8-1 RPM spec
 

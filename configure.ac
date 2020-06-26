@@ -5,12 +5,17 @@ dnl Copyright (c) 2019 Oliver Falk <oliver@linux-kernel.at>
 dnl
 dnl $Id$
 
-AC_INIT(include/dnet.h)
+AC_PREREQ([2.69])
+AC_INIT(libdnet, 1.14)
+AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
 
-AM_INIT_AUTOMAKE(libdnet, 1.14)
+AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(include/config.h)
+
+LT_PREREQ([2.2])
+LT_INIT
 
 dnl XXX - stop the insanity!@#$
 AM_MAINTAINER_MODE
@@ -44,7 +49,7 @@ AC_ARG_WITH(python,
 [ case "$withval" in
   yes)
      AC_MSG_RESULT(yes)
-     PYTHON="python"
+     PYTHON="python3"
      ;;
   no)
      AC_MSG_RESULT(no)
@@ -52,10 +57,10 @@ AC_ARG_WITH(python,
   *)
      AC_MSG_RESULT($withval)
      for subdir in . bin; do
-        if test -x $withval/$subdir/python; then
+        if test -x $withval/$subdir/python3; then
 	   owd=`pwd`
 	   if cd $withval/$subdir; then withval=`pwd`; cd $owd; fi
-	   PYTHON="$withval/python"
+	   PYTHON="$withval/python3"
 	   break
 	fi
      done

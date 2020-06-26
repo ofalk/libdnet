@@ -1,7 +1,7 @@
+# cython: language_level=3, boundscheck=False
 #
 # dnet.pyx
 #
-# $Id$
 
 """dumb networking library
 
@@ -12,22 +12,23 @@ firewalling, network interface lookup and manipulation, IP tunnelling,
 and raw IP packet and Ethernet frame transmission.
 """
 
-__author__ = 'Dug Song <dugsong@monkey.org>'
-__copyright__ = 'Copyright (c) 2003 Dug Song'
+__author__ = 'Oliver Falk <oliver@linux-kernel.at>'
+__copyright__ = 'Copyright (c) 2019 Oliver Falk'
 __license__ = 'BSD'
-__url__ = 'http://libdnet.sourceforge.net/'
-__version__ = '1.12'
+__url__ = 'https://github.com/ofalk/libdnet'
+__version__ = '1.14'
+
 
 cdef extern from "dnet.h":
     pass
 
 cdef extern from "Python.h":
-    object  PyString_FromStringAndSize(char *s, int len)
-    int     PyString_Size(object o)
+    object  PyBytes_FromStringAndSize(char *s, int len)
+    int     PyBytes_Size(object o)
     int     PyObject_AsReadBuffer(object o, char **pp, int *lenp)
-    int     PyInt_Check(object o)
     int     PyLong_Check(object o)
-    long    PyInt_AsLong(object o)
+    int     PyLong_Check(object o)
+    long    PyLong_AsLong(object o)
     unsigned long PyLong_AsUnsignedLong(object o)
 
 cdef extern from *:
@@ -41,12 +42,12 @@ cdef extern from *:
     unsigned long ntohl(unsigned long n)
 
 cdef __memcpy(char *dst, object src, int n):
-    if PyString_Size(src) != n:
+    if PyBytes_Size(src) != n:
         raise ValueError, "not a %d-byte binary string: %r" % (n, src)
     memcpy(dst, src, n)
 
 cdef __oserror():
-    cdef extern int errno
+    cdef extern int errno = 0
     return strerror(errno)
 
 def __iter_append(entry, l):
@@ -96,8 +97,8 @@ ETH_TYPE_PPPOEDISC =	0x8863	# /* PPP Over Ethernet Discovery Stage */
 ETH_TYPE_PPPOE =	0x8864	# /* PPP Over Ethernet Session Stage */
 ETH_TYPE_LOOPBACK =	0x9000	# /* used to test interfaces */
 
-ETH_ADDR_UNSPEC =	PyString_FromStringAndSize("\x00\x00\x00\x00\x00\x00", 6)
-ETH_ADDR_BROADCAST =	PyString_FromStringAndSize("\xff\xff\xff\xff\xff\xff", 6)
+ETH_ADDR_UNSPEC =	PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00", 6)
+ETH_ADDR_BROADCAST =	PyBytes_FromStringAndSize("\xff\xff\xff\xff\xff\xff", 6)
 
 cdef class eth:
     """eth(device) -> Ethernet device object
@@ -117,7 +118,7 @@ cdef class eth:
         cdef eth_addr_t ea
         if eth_get(self.eth, &ea) < 0:
             raise OSError, __oserror()
-        return PyString_FromStringAndSize(ea.data, 6)
+        return PyBytes_FromStringAndSize(ea.data, 6)
 
     def set(self, value):
         """Set the MAC address for the device, returning 0 on success,
@@ -138,7 +139,7 @@ cdef class eth:
         Arguments:
         frame -- binary string representing an Ethernet frame
         """
-        return eth_send(self.eth, frame, PyString_Size(frame))
+        return eth_send(self.eth, frame, PyBytes_Size(frame))
     
     def __dealloc__(self):
         if self.eth:
@@ -157,7 +158,7 @@ def eth_aton(buf):
     cdef eth_addr_t ea
     if __eth_aton(buf, &ea) < 0:
         raise ValueError, "invalid Ethernet address"
-    return PyString_FromStringAndSize(ea.data, 6)
+    return PyBytes_FromStringAndSize(ea.data, 6)
 
 def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,
                  type=ETH_TYPE_IP):
@@ -173,7 +174,7 @@ def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,
     __memcpy(s.data, src, 6)
     __memcpy(d.data, dst, 6)
     __eth_pack_hdr(hdr, d, s, type)
-    return PyString_FromStringAndSize(hdr, 14)
+    return PyBytes_FromStringAndSize(hdr, 14)
 
 #
 # ip.h
@@ -231,11 +232,11 @@ IP_PROTO_RAW =		255		# /* Raw IP packets */
 IP_PROTO_RESERVED =	IP_PROTO_RAW	# /* Reserved */
 IP_PROTO_MAX =		255
 
-IP_ADDR_ANY =		PyString_FromStringAndSize("\x00\x00\x00\x00", 4)
-IP_ADDR_BROADCAST =	PyString_FromStringAndSize("\xff\xff\xff\xff", 4)
-IP_ADDR_LOOPBACK =	PyString_FromStringAndSize("\x7f\x00\x00\x01", 4)
-IP_ADDR_MCAST_ALL =	PyString_FromStringAndSize("\xe0\x00\x00\x01", 4)
-IP_ADDR_MCAST_LOCAL =	PyString_FromStringAndSize("\xe0\x00\x00\xff", 4)
+IP_ADDR_ANY =		PyBytes_FromStringAndSize("\x00\x00\x00\x00", 4)
+IP_ADDR_BROADCAST =	PyBytes_FromStringAndSize("\xff\xff\xff\xff", 4)
+IP_ADDR_LOOPBACK =	PyBytes_FromStringAndSize("\x7f\x00\x00\x01", 4)
+IP_ADDR_MCAST_ALL =	PyBytes_FromStringAndSize("\xe0\x00\x00\x01", 4)
+IP_ADDR_MCAST_LOCAL =	PyBytes_FromStringAndSize("\xe0\x00\x00\xff", 4)
 
 cdef class ip:
     """ip() -> Raw IP object
@@ -256,7 +257,7 @@ cdef class ip:
         Arguments:
         pkt -- binary string representing an IP packet
         """
-        return ip_send(self.ip, pkt, PyString_Size(pkt))
+        return ip_send(self.ip, pkt, PyBytes_Size(pkt))
 
     def __dealloc__(self):
         if self.ip:
@@ -268,7 +269,7 @@ def ip_ntoa(buf):
     cdef ip_addr_t ia
     cdef unsigned int i
 
-    if PyInt_Check(buf) or PyLong_Check(buf):
+    if PyLong_Check(buf) or PyLong_Check(buf):
         i = ntohl(buf)
         memcpy(<char *>&ia, <char *>&i, 4)
     else:
@@ -281,7 +282,7 @@ def ip_aton(buf):
     cdef ip_addr_t ia
     if __ip_aton(buf, &ia) < 0:
         raise ValueError, "invalid IP address"
-    return PyString_FromStringAndSize(<char *>&ia, 4)
+    return PyBytes_FromStringAndSize(<char *>&ia, 4)
 
 def ip_checksum(pkt):
     """Return packed binary string representing an IP packet 
@@ -297,11 +298,11 @@ def ip_checksum(pkt):
         if n < 2048:
             memcpy(buf, p, n)
             __ip_checksum(buf, n)
-            return PyString_FromStringAndSize(buf, n)
+            return PyBytes_FromStringAndSize(buf, n)
         p = malloc(n)
         memcpy(p, pkt, n)
         __ip_checksum(p, n)
-        s = PyString_FromStringAndSize(p, n)
+        s = PyBytes_FromStringAndSize(p, n)
         free(p)
         return s
     raise TypeError
@@ -337,7 +338,7 @@ def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,
     __memcpy(<char *>&s, src, 4)
     __memcpy(<char *>&d, dst, 4)
     __ip_pack_hdr(hdr, tos, len, id, off, ttl, p, s, d)
-    return PyString_FromStringAndSize(hdr, 20)
+    return PyBytes_FromStringAndSize(hdr, 20)
 
 #
 # ip6.h
@@ -364,8 +365,8 @@ IP6_MTU_MIN =	1280		# /* minimum MTU (1024 + 256) */
 IP6_HLIM_DEFAULT=64
 IP6_HLIM_MAX =	255
 
-IP6_ADDR_UNSPEC	= PyString_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 16)
-IP6_ADDR_LOOPBACK = PyString_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", 16)
+IP6_ADDR_UNSPEC	= PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 16)
+IP6_ADDR_LOOPBACK = PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", 16)
 
 def ip6_ntoa(buf):
     """Convert an IPv6 address from a 16-byte packed binary string to a
@@ -380,7 +381,7 @@ def ip6_aton(buf):
     cdef ip6_addr_t ia
     if __ip6_aton(buf, &ia) < 0:
         raise ValueError, "invalid IPv6 address"
-    return PyString_FromStringAndSize(<char *>&ia, 16)
+    return PyBytes_FromStringAndSize(<char *>&ia, 16)
 
 def ip6_checksum(buf):
     """Return a packed binary string representing an IPv6 packet 
@@ -389,7 +390,7 @@ def ip6_checksum(buf):
     Arguments:
     pkt -- binary string representing an IPv6 packet
     """
-    __ip6_checksum(buf, PyString_Size(buf))
+    __ip6_checksum(buf, PyBytes_Size(buf))
     return buf
 
 def ip6_pack_hdr(fc=0, fl=0, plen=0, nxt=IP_PROTO_IPV6, hlim=IP6_HLIM_DEFAULT,
@@ -410,7 +411,7 @@ def ip6_pack_hdr(fc=0, fl=0, plen=0, nxt=IP_PROTO_IPV6, hlim=IP6_HLIM_DEFAULT,
     __memcpy(<char *>&s, src, 16)
     __memcpy(<char *>&d, dst, 16)
     __ip6_pack_hdr(hdr, fc, fl, plen, nxt, hlim, s, d)
-    return PyString_FromStringAndSize(hdr, 40)
+    return PyBytes_FromStringAndSize(hdr, 40)
 
 #
 # addr.h
@@ -443,7 +444,7 @@ cdef class addr:
     
     def __init__(self, addrtxt=None, type=ADDR_TYPE_NONE):
         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:
-            if PyString_Size(addrtxt) == 4:
+            if PyBytes_Size(addrtxt) == 4:
                 self._addr.addr_type = ADDR_TYPE_IP
                 self._addr.addr_bits = IP_ADDR_BITS
                 self.ip = addrtxt
@@ -483,10 +484,10 @@ cdef class addr:
         def __get__(self):
             if self._addr.addr_type != ADDR_TYPE_ETH:
                 raise ValueError, "non-Ethernet address"
-            return PyString_FromStringAndSize(self._addr.addr_data8, 6)
+            return PyBytes_FromStringAndSize(self._addr.addr_data8, 6)
         
         def __set__(self, value):
-            if PyString_Size(value) != ETH_ADDR_LEN:
+            if PyBytes_Size(value) != ETH_ADDR_LEN:
                 raise ValueError, "not a 6-byte string"
             __memcpy(self._addr.addr_data8, value, 6)
             self._addr.addr_type = ADDR_TYPE_ETH
@@ -497,15 +498,15 @@ cdef class addr:
         def __get__(self):
             if self._addr.addr_type != ADDR_TYPE_IP:
                 raise ValueError, "non-IP address"
-            return PyString_FromStringAndSize(self._addr.addr_data8, 4)
+            return PyBytes_FromStringAndSize(self._addr.addr_data8, 4)
         
         def __set__(self, value):
-            # XXX - handle < 2.3, or else we'd use PyInt_AsUnsignedLongMask()
-            if PyInt_Check(value):
-                self._addr.addr_ip = htonl(PyInt_AsLong(value))
+            # XXX - handle < 2.3, or else we'd use PyLong_AsUnsignedLongMask()
+            if PyLong_Check(value):
+                self._addr.addr_ip = htonl(PyLong_AsLong(value))
             elif PyLong_Check(value):
                 self._addr.addr_ip = htonl(PyLong_AsUnsignedLong(value))
-            elif PyString_Size(value) != IP_ADDR_LEN:
+            elif PyBytes_Size(value) != IP_ADDR_LEN:
                 raise ValueError, "not a 4-byte string"
             else:
                 __memcpy(self._addr.addr_data8, value, 4)
@@ -517,10 +518,10 @@ cdef class addr:
         def __get__(self):
             if self._addr.addr_type != ADDR_TYPE_IP6:
                 raise ValueError, "non-IPv6 address"
-            return PyString_FromStringAndSize(self._addr.addr_data8, 16)
+            return PyBytes_FromStringAndSize(self._addr.addr_data8, 16)
         
         def __set__(self, value):
-            if PyString_Size(value) != IP6_ADDR_LEN:
+            if PyBytes_Size(value) != IP6_ADDR_LEN:
                 raise ValueError, "not a 16-byte string"
             __memcpy(self._addr.addr_data8, value, 16)
             self._addr.addr_type = ADDR_TYPE_IP6
@@ -540,9 +541,9 @@ cdef class addr:
 
     def __add__(self, other):
         # XXX - only handle IP for now...
-        if PyInt_Check(self):
+        if PyLong_Check(self):
             x, y = other, self
-        elif PyInt_Check(other):
+        elif PyLong_Check(other):
             x, y = self, other
         else:
             raise NotImplementedError
@@ -554,16 +555,25 @@ cdef class addr:
         a = addr()
         (<addr>a)._addr = self._addr
         return a
+
+    def __eq__(addr x, addr y):
+        return addr_cmp(&x._addr, &y._addr) == 0
+
+    def __ne__(addr x, addr y):
+        return addr_cmp(&x._addr, &y._addr) == 0
     
-    def __cmp__(addr x, addr y):
-        cdef int i
-        i = addr_cmp(&x._addr, &y._addr)
-        if i < 0:
-            return -1
-        if i > 0:
-            return 1
-        return 0
+    def __lt__(addr x, addr y):
+        return addr_cmp(&x._addr, &y._addr) == -1
     
+    def __gt__(addr x, addr y):
+        return addr_cmp(&x._addr, &y._addr) == 1
+    
+    def __le__(addr x, addr y):
+        return addr_cmp(&x._addr, &y._addr) != 1
+    
+    def __ge__(addr x, addr y):
+        return addr_cmp(&x._addr, &y._addr) != -1
+
     def __contains__(self, addr other):
         cdef addr_t s1, s2, o1, o2
         if addr_net(&self._addr, &s1) != 0 or \
@@ -777,7 +787,7 @@ def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,
     __memcpy(<char *>&sp, spa, 4)
     __memcpy(<char *>&dp, dpa, 4)
     __arp_pack_hdr_ethip(buf, op, sh, sp, dh, dp)
-    return PyString_FromStringAndSize(buf, 28)
+    return PyBytes_FromStringAndSize(buf, 28)
 
 #
 # icmp.h
@@ -794,7 +804,7 @@ def icmp_pack_hdr(type, code):
     """
     cdef char buf[4]
     __icmp_pack_hdr(buf, type, code)
-    return PyString_FromStringAndSize(buf, sizeof(buf))
+    return PyBytes_FromStringAndSize(buf, sizeof(buf))
 
 #
 # tcp.h
@@ -860,7 +870,7 @@ def tcp_pack_hdr(sport, dport, seq=1, ack=0, flags=TH_SYN,
     """
     cdef char buf[20]
     __tcp_pack_hdr(buf, sport, dport, seq, ack, flags, win, urp)
-    return PyString_FromStringAndSize(buf, sizeof(buf))
+    return PyBytes_FromStringAndSize(buf, sizeof(buf))
 
 #
 # udp.h
@@ -881,7 +891,7 @@ def udp_pack_hdr(sport, dport, ulen=UDP_HDR_LEN):
     """
     cdef char buf[8]
     __udp_pack_hdr(buf, sport, dport, ulen)
-    return PyString_FromStringAndSize(buf, sizeof(buf))
+    return PyBytes_FromStringAndSize(buf, sizeof(buf))
 
 #
 # intf.h
@@ -1333,10 +1343,10 @@ cdef class rand:
         cdef char *p
         if len <= 1024:
             rand_get(self.rand, buf, len)
-            return PyString_FromStringAndSize(buf, len)
+            return PyBytes_FromStringAndSize(buf, len)
         p = malloc(len)
         rand_get(self.rand, p, len)
-        s = PyString_FromStringAndSize(p, len)
+        s = PyBytes_FromStringAndSize(p, len)
         free(p)
         return s
     
@@ -1346,7 +1356,7 @@ cdef class rand:
         Arguments:
         string -- binary string seed value
         """
-        rand_set(self.rand, buf, PyString_Size(buf))
+        rand_set(self.rand, buf, PyBytes_Size(buf))
         
     def add(self, buf):
         """Add additional entropy into the PRNG mix.
@@ -1354,7 +1364,7 @@ cdef class rand:
         Arguments:
         string -- binary string
         """
-        rand_add(self.rand, buf, PyString_Size(buf))
+        rand_add(self.rand, buf, PyBytes_Size(buf))
     
     def uint8(self):
         """Return a random 8-bit integer."""
@@ -1400,15 +1410,15 @@ cdef class __rand_xrange:
         cdef unsigned int bits
         
         self.rand = (<rand>r).rand
-        if PyInt_Check(start):
-            self.start = PyInt_AsLong(start)
+        if PyLong_Check(start):
+            self.start = PyLong_AsLong(start)
         elif PyLong_Check(start):
             self.start = PyLong_AsUnsignedLong(start)
         else:
             raise TypeError, 'start must be an integer'
         
-        if PyInt_Check(start):
-            self.max = PyInt_AsLong(stop) - self.start
+        if PyLong_Check(start):
+            self.max = PyLong_AsLong(stop) - self.start
         elif PyLong_Check(start):
             self.max = PyLong_AsUnsignedLong(stop) - self.start
         else:
@@ -1421,7 +1431,7 @@ cdef class __rand_xrange:
         while self.max > (1 << bits):
             bits = bits + 1
         
-        self.left = bits / 2
+        self.left = int(bits / 2)
         self.right = bits - self.left
         self.mask = (1 << bits) - 1
 
@@ -1515,7 +1525,7 @@ cdef class tun:
         Arguments:
         pkt -- binary string representing an IP packet
         """
-        return tun_send(self.tun, pkt, PyString_Size(pkt))
+        return tun_send(self.tun, pkt, PyBytes_Size(pkt))
 
     def recv(self):
         """Return the next packet delivered to the tunnel interface."""
@@ -1523,7 +1533,7 @@ cdef class tun:
         n = tun_recv(self.tun, self.buf, self.mtu)
         if n < 0:
             raise OSError, __oserror()
-        return PyString_FromStringAndSize(self.buf, n)
+        return PyBytes_FromStringAndSize(self.buf, n)
 
     def close(self):
         self.tun = tun_close(self.tun)
