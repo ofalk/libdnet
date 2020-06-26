@@ -2,8 +2,9 @@
 
 import glob, os, sys
 from distutils.core import setup, Extension
+from Cython.Build import cythonize
 
-dnet_srcs = [ '@srcdir@/dnet.c' ]
+dnet_srcs = [ '@srcdir@/dnet.pyx' ]
 dnet_incdirs = [ '@top_srcdir@/include' ]
 dnet_libdirs = []
 dnet_libs = []
@@ -36,4 +37,5 @@ setup(name='dnet',
       author='Dug Song',
       author_email='dugsong@monkey.org',
       url='http://libdnet.sourceforge.net/',
-      ext_modules = [ dnet ])
+      ext_modules =cythonize(dnet,compiler_directives = {"c_string_type": "str", 
+        "c_string_encoding":"ascii"}),)
