@@ -31,6 +31,6 @@ install-exec-local:
 
 endif
 
-EXTRA_DIST = dnet.pyx dnet.c setup.py.in test.py
+EXTRA_DIST = dnet.pyx dnet.c setup.py.in test.py interfacefinder.py
 
 DISTCLEANFILES = *~
