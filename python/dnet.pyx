@@ -560,7 +560,7 @@ cdef class addr:
         return addr_cmp(&x._addr, &y._addr) == 0
 
     def __ne__(addr x, addr y):
-        return addr_cmp(&x._addr, &y._addr) == 0
+        return addr_cmp(&x._addr, &y._addr) != 0
     
     def __lt__(addr x, addr y):
         return addr_cmp(&x._addr, &y._addr) == -1

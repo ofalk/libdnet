@@ -7,16 +7,13 @@ if PYTHON
 
 noinst_SCRIPTS = python-build
 
-$(srcdir)/dnet.c: $(srcdir)/dnet.pyx
-	pyrexc $(srcdir)/dnet.pyx
 
-python-build: $(srcdir)/dnet.c
+python-build: 
 	$(PYTHON) setup.py build
 	touch python-build
 
 python-clean:
-	rm -rf *build
-
+	rm -rf build dnet.c 
 clean: python-clean
 
 distclean: clean
@@ -34,6 +31,6 @@ install-exec-local:
 
 endif
 
-EXTRA_DIST = dnet.pyx dnet.c setup.py.in test.py
+EXTRA_DIST = dnet.pyx dnet.c setup.py.in test.py interfacefinder.py
 
 DISTCLEANFILES = *~
