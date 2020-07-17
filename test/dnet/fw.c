@@ -33,7 +33,7 @@ static int
 print_rule(const struct fw_rule *fr, void *arg)
 {
 	struct protoent *pr;
-	char proto[16], sport[16], dport[16], typecode[16];
+	char proto[16], sport[32], dport[32], typecode[16];
 
 	if (fr->fw_proto == 0)
 		proto[0] = '\0';
