@@ -22025,6 +22025,26 @@ esac
 
 fi
 
+if test "$ac_cv_dnet_linux_procfs" = yes ; then
+	case $LIBOBJS in
+    "ndisc-linux.$ac_objext"   | \
+  *" ndisc-linux.$ac_objext"   | \
+    "ndisc-linux.$ac_objext "* | \
+  *" ndisc-linux.$ac_objext "* ) ;;
+  *) LIBOBJS="$LIBOBJS ndisc-linux.$ac_objext" ;;
+esac
+
+else
+	case $LIBOBJS in
+    "ndisc-none.$ac_objext"   | \
+  *" ndisc-none.$ac_objext"   | \
+    "ndisc-none.$ac_objext "* | \
+  *" ndisc-none.$ac_objext "* ) ;;
+  *) LIBOBJS="$LIBOBJS ndisc-none.$ac_objext" ;;
+esac
+
+fi
+
 if test "$ac_cv_header_linux_if_tun_h" = yes ; then
 	case $LIBOBJS in
     "tun-linux.$ac_objext"   | \

@@ -179,6 +179,9 @@ int	 ip6_pton(const char *src, ip6_addr_t *dst);
 char	*ip6_ntoa(const ip6_addr_t *ip6);
 #define	 ip6_aton ip6_pton
 
+ssize_t	 ip6_add_option(void *buf, size_t len,
+           int proto, const void *optbuf, size_t optlen);
+
 void	 ip6_checksum(void *buf, size_t len);
 __END_DECLS
 

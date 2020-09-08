@@ -9,6 +9,8 @@
 #include "config.h"
 
 #include "dnet.h"
+#include <string.h>
+#include <errno.h>
 
 #define IP6_IS_EXT(n)	\
 	((n) == IP_PROTO_HOPOPTS || (n) == IP_PROTO_DSTOPTS || \
@@ -69,4 +71,58 @@ ip6_checksum(void *buf, size_t len)
 			icmp->icmp_cksum = ip_cksum_carry(sum);
 		}
 	}
+}
+
+ssize_t
+ip6_add_option(void *buf, size_t len, int proto,
+    const void *optbuf, size_t optlen)
+{
+	struct ip6_hdr *ip6;
+	struct tcp_hdr *tcp = NULL;
+	u_char *p;
+	int hl, datalen, padlen;
+
+	if (proto != IP_PROTO_TCP) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+	ip6 = (struct ip6_hdr *)buf;
+	p = (u_char *)buf + IP6_HDR_LEN;
+
+	tcp = (struct tcp_hdr *)p;
+	hl = tcp->th_off << 2;
+	p = (u_char *)tcp + hl;
+
+	datalen = ntohs(ip6->ip6_plen) + IP6_HDR_LEN - (p - (u_char *)buf);
+
+	/* Compute padding to next word boundary. */
+	if ((padlen = 4 - (optlen % 4)) == 4)
+		padlen = 0;
+
+	/* XXX - IP_HDR_LEN_MAX == TCP_HDR_LEN_MAX */
+	if (hl + optlen + padlen > IP_HDR_LEN_MAX ||
+	    ntohs(ip6->ip6_plen) + IP6_HDR_LEN + optlen + padlen > len) {
+		errno = EINVAL;
+		return (-1);
+	}
+
+	/* Shift any existing data. */
+	if (datalen) {
+		memmove(p + optlen + padlen, p, datalen);
+	}
+	/* XXX - IP_OPT_NOP == TCP_OPT_NOP */
+	if (padlen) {
+		memset(p, IP_OPT_NOP, padlen);
+		p += padlen;
+	}
+	memmove(p, optbuf, optlen);
+	p += optlen;
+	optlen += padlen;
+
+	tcp->th_off = (p - (u_char *)tcp) >> 2;
+
+	ip6->ip6_plen = htons(ntohs(ip6->ip6_plen) + optlen);
+
+	return (optlen);
 }

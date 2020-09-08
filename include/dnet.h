@@ -16,6 +16,7 @@
 #include <dnet/ip6.h>
 #include <dnet/addr.h>
 #include <dnet/arp.h>
+#include <dnet/ndisc.h>
 #include <dnet/icmp.h>
 #include <dnet/tcp.h>
 #include <dnet/udp.h>

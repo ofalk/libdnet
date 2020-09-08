@@ -20,6 +20,9 @@
 # define IP_MULTICAST
 #endif
 #include <net/if.h>
+#ifdef HAVE_NET_IF_DL_H
+# include <net/if_dl.h>
+#endif
 #ifdef HAVE_NET_IF_VAR_H
 # include <net/if_var.h>
 #endif
@@ -79,6 +82,21 @@ struct intf_handle {
 	u_char		ifcbuf[4192];
 };
 
+/* TODO: move to .h */
+union sockunion {
+#ifdef HAVE_NET_IF_DL_H
+       struct sockaddr_dl      sdl;
+#endif
+       struct sockaddr_in      sin;
+#ifdef HAVE_SOCKADDR_IN6
+       struct sockaddr_in6     sin6;
+#endif
+       struct sockaddr         sa;
+#ifdef AF_RAW
+       struct sockaddr_raw     sr;
+#endif
+};
+
 static int
 intf_flags_to_iff(u_short flags, int iff)
 {
@@ -129,14 +147,10 @@ intf_open(void)
 
 		setsockopt(intf->fd, SOL_SOCKET, SO_BROADCAST,
 						(const char *) &one, sizeof(one));
-#ifdef SIOCGIFNETMASK_IN6
 		if ((intf->fd6 = socket(AF_INET6, SOCK_DGRAM, 0)) < 0) {
-#  ifdef EPROTONOSUPPORT
 			if (errno != EPROTONOSUPPORT)
-#  endif
 				return (intf_close(intf));
 		}
-#endif
 	}
 	return (intf);
 }
@@ -587,33 +601,49 @@ intf_get(intf_t *intf, struct intf_entry *entry)
 }
 
 static int
+get_max_bits(const struct addr *a)
+{
+	if (a->addr_type == ADDR_TYPE_IP) {
+		return IP_ADDR_BITS;
+	} else if (a->addr_type == ADDR_TYPE_IP6) {
+		return IP6_ADDR_BITS;
+	} else {
+		return 0;
+	}
+}
+
+static int
 _match_intf_src(const struct intf_entry *entry, void *arg)
 {
-	int matched = 0;
-	int cnt;
 	struct intf_entry *save = (struct intf_entry *)arg;
-	
-	if (entry->intf_addr.addr_type == ADDR_TYPE_IP &&
-		entry->intf_addr.addr_ip == save->intf_addr.addr_ip) {
-		matched = 1; 
-	} else {
-		for (cnt = 0; !matched && cnt < (int) entry->intf_alias_num; cnt++) {
-			if (entry->intf_alias_addrs[cnt].addr_type != ADDR_TYPE_IP)
-				continue;
-			if (entry->intf_alias_addrs[cnt].addr_ip == save->intf_addr.addr_ip)
-				matched = 1;
+	int len = save->intf_len < entry->intf_len ? save->intf_len : entry->intf_len;
+	int i;
+
+	struct addr a, saved_addr;
+
+	saved_addr = save->intf_addr;
+	saved_addr.addr_bits = get_max_bits(&saved_addr);
+
+	a = entry->intf_addr;
+	a.addr_bits = get_max_bits(&a);
+
+	if (addr_cmp(&a, &saved_addr) == 0) {
+		memcpy(save, entry, len);
+		return 1;
+	}
+
+	for (i = 0; i < (int)entry->intf_alias_num; i++) {
+		a = entry->intf_alias_addrs[i];
+		a.addr_bits = get_max_bits(&a);
+
+		if (addr_cmp(&a, &saved_addr) == 0) {
+			memcpy(save, entry, len);
+			save->intf_addr = entry->intf_alias_addrs[i];
+			return 1;
 		}
 	}
 
-	if (matched) {
-		/* XXX - truncated result if entry is too small. */
-		if (save->intf_len < entry->intf_len)
-			memcpy(save, entry, save->intf_len);
-		else
-			memcpy(save, entry, entry->intf_len);
-		return (1);
-	}
-	return (0);
+	return 0;
 }
 
 int
@@ -631,24 +661,27 @@ intf_get_src(intf_t *intf, struct intf_entry *entry, struct addr *src)
 int
 intf_get_dst(intf_t *intf, struct intf_entry *entry, struct addr *dst)
 {
-	struct sockaddr_in sin;
+	union sockunion sun;
 	socklen_t n;
 
-	if (dst->addr_type != ADDR_TYPE_IP) {
+	int fd;
+
+	if (dst->addr_type != ADDR_TYPE_IP && dst->addr_type != ADDR_TYPE_IP6) {
 		errno = EINVAL;
 		return (-1);
 	}
-	addr_ntos(dst, (struct sockaddr *)&sin);
-	sin.sin_port = htons(666);
-	
-	if (connect(intf->fd, (struct sockaddr *)&sin, sizeof(sin)) < 0)
+	addr_ntos(dst, (struct sockaddr *)&sun);
+	sun.sin.sin_port = htons(666);
+
+	fd = dst->addr_type == ADDR_TYPE_IP6 ? intf->fd6 : intf->fd;
+	if (connect(fd, (struct sockaddr *)&sun, sizeof(sun)) < 0)
 		return (-1);
 	
-	n = sizeof(sin);
-	if (getsockname(intf->fd, (struct sockaddr *)&sin, &n) < 0)
+	n = sizeof(sun);
+	if (getsockname(fd, (struct sockaddr *)&sun, &n) < 0)
 		return (-1);
 	
-	addr_ston((struct sockaddr *)&sin, &entry->intf_addr);
+	addr_ston((struct sockaddr *)&sun, &entry->intf_addr);
 	
 	if (intf_loop(intf, _match_intf_src, entry) != 1)
 		return (-1);

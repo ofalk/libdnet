@@ -303,6 +303,13 @@ else
 	AC_LIBOBJ([route-none])
 fi
 
+dnl Check for ndisc interface.
+if test "$ac_cv_dnet_linux_procfs" = yes ; then
+    AC_LIBOBJ([ndisc-linux])
+else
+    AC_LIBOBJ([ndisc-none])
+fi
+
 dnl Check for tun interface.
 if test "$ac_cv_header_linux_if_tun_h" = yes ; then
 	AC_LIBOBJ([tun-linux])
