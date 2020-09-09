@@ -2,6 +2,7 @@
  * fw.c
  *
  * Copyright (c) 2001 Dug Song <dugsong@monkey.org>
+ * Copyright (c) 2020 Oliver Falk <oliver@linux-kernel.at>
  *
  * $Id$
  */
@@ -99,7 +100,7 @@ arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 	fr->fw_dir = strcmp(argv[1], "in") ? FW_DIR_OUT : FW_DIR_IN;
 
 	if (strcmp(argv[2], "any") != 0)
-		strlcpy(fr->fw_device, argv[2], sizeof(fr->fw_device));
+		strncpy(fr->fw_device, argv[2], sizeof(fr->fw_device)-1);
 	
 	if ((pr = getprotobyname(argv[3])) != NULL)
 		fr->fw_proto = pr->p_proto;
