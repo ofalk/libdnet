@@ -108,7 +108,7 @@ arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 
 	p = strtok(argv[4], ":");
 	
-	if (addr_aton(p, &fr->fw_src) < 0)
+	if (!p || addr_aton(p, &fr->fw_src) < 0)
 		return (-1);
 
 	if ((p = strtok(NULL, ":")) != NULL) {
