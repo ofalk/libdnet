@@ -34,7 +34,7 @@ static int
 print_rule(const struct fw_rule *fr, void *arg)
 {
 	struct protoent *pr;
-	char proto[16], sport[16], dport[16], typecode[16];
+	char proto[16], sport[32], dport[32], typecode[16];
 
 	if (fr->fw_proto == 0)
 		proto[0] = '\0';
@@ -109,7 +109,7 @@ arg_to_fr(int argc, char *argv[], struct fw_rule *fr)
 
 	p = strtok(argv[4], ":");
 	
-	if (addr_aton(p, &fr->fw_src) < 0)
+	if (!p || addr_aton(p, &fr->fw_src) < 0)
 		return (-1);
 
 	if ((p = strtok(NULL, ":")) != NULL) {
