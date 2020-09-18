@@ -28,7 +28,7 @@
 
 #include "dnet.h"
 
-struct ndisc_handle 
+struct ndisc_handle
 {
 	int nlfd;
 	int seq;
@@ -46,10 +46,10 @@ ndisc_open(void)
 		if ((n->nlfd = socket(AF_NETLINK, SOCK_RAW,
 			 NETLINK_ROUTE)) < 0)
 			return (ndisc_close(n));
-		
+
 		memset(&snl, 0, sizeof(snl));
 		snl.nl_family = AF_NETLINK;
-		
+
 		if (bind(n->nlfd, (struct sockaddr *)&snl, sizeof(snl)) < 0)
 			return (ndisc_close(n));
 	}
@@ -109,7 +109,7 @@ ndisc_modify(ndisc_t *n, const struct ndisc_entry *entry, int type, int flags)
 	ndm->ndm_family = af;
 	ndm->ndm_state = NUD_PERMANENT; 
 	ndm->ndm_ifindex = entry->intf_index;
-	
+
 	netlink_addattr(nmsg, NDA_DST, &entry->ndisc_pa.addr_data8[0],
 			alen);
 
@@ -123,19 +123,19 @@ ndisc_modify(ndisc_t *n, const struct ndisc_entry *entry, int type, int flags)
 
 	iov.iov_base = nmsg;
 	iov.iov_len = nmsg->nlmsg_len;
-	
+
 	memset(&msg, 0, sizeof(msg));
 	msg.msg_name = &snl;
 	msg.msg_namelen = sizeof(snl);
 	msg.msg_iov = &iov;
 	msg.msg_iovlen = 1;
-	
+
 	if (sendmsg(n->nlfd, &msg, 0) < 0)
 		return (-1);
 
 	iov.iov_base = buf;
 	iov.iov_len = sizeof(buf);
-	
+
 	if ((i = recvmsg(n->nlfd, &msg, 0)) <= 0)
 		return (-1);
 
