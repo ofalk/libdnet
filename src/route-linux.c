@@ -306,7 +306,7 @@ route_loop(route_t *r, route_handler callback, void *arg)
 	int ret = 0;
 
 	if ((fp = fopen(PROC_ROUTE_FILE, "r")) != NULL) {
-		char ifbuf[16];
+		char ifbuf[17];
 		int i, iflags, refcnt, use, metric, mss, win, irtt;
 		uint32_t mask;
 		

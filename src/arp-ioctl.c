@@ -210,7 +210,7 @@ arp_loop(arp_t *a, arp_handler callback, void *arg)
 {
 	FILE *fp;
 	struct arp_entry entry;
-	char buf[BUFSIZ], ipbuf[100], macbuf[100], maskbuf[100], devbuf[100];
+	char buf[BUFSIZ], ipbuf[101], macbuf[101], maskbuf[101], devbuf[101];
 	int i, type, flags, ret;
 
 	if ((fp = fopen(PROC_ARP_FILE, "r")) == NULL)
