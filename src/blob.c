@@ -190,17 +190,23 @@ blob_fmt(blob_t *b, int pack, const char *fmt, va_list *ap)
 int
 blob_pack(blob_t *b, const char *fmt, ...)
 {
+	int retval;
 	va_list ap;
 	va_start(ap, fmt);
-	return (blob_fmt(b, 1, fmt, &ap));
+	retval = blob_fmt(b, 1, fmt, &ap);
+	va_end(ap);
+	return retval;
 }
 
 int
 blob_unpack(blob_t *b, const char *fmt, ...)
 {
+	int retval;
 	va_list ap;
 	va_start(ap, fmt);
-	return (blob_fmt(b, 0, fmt, &ap));
+	retval = blob_fmt(b, 0, fmt, &ap);
+	va_end(ap);
+	return retval;
 }
 
 int
