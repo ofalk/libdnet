@@ -22,6 +22,7 @@
 #endif
 __PYX_EXTERN_C double pow(double, double);
 #include "dnet.h"
+#include "config.h"
 
 
 typedef struct {const char *s; const void **p;} __Pyx_CApiTabEntry; /*proto*/
