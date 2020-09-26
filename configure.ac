@@ -12,7 +12,7 @@ AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
 
 AM_INIT_AUTOMAKE
-AM_CONFIG_HEADER(include/config.h)
+AC_CONFIG_HEADERS(include/config.h)
 
 LT_PREREQ([2.2])
 LT_INIT
