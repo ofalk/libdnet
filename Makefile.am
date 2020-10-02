@@ -6,7 +6,7 @@ SUBDIRS =	include man src python test
 
 bin_SCRIPTS =	dnet-config
 
-EXTRA_DIST =	LICENSE Makefile.am.common acconfig.h
+EXTRA_DIST =	LICENSE Makefile.am.common acconfig.h src/crc32ct.h
 
 CLEANFILES =	dnet-config
 

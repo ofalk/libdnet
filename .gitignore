@@ -8,7 +8,7 @@
 
 # Local tarballs and Pyrex
 Pyrex-0*
-libdnet-*.tar.gz
+libdnet-*.tar*
 
 # Python Cache
 **/__pycache__/
@@ -40,3 +40,9 @@ test/dnet/Makefile
 src/.libs/
 test/dnet/.libs/
 test/dnet/dnet
+
+# Automake cache
+autom4te.cache
+
+# Dist dir
+libdnet-1.*/
