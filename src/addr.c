@@ -165,7 +165,6 @@ addr_ntop(const struct addr *src, char *dst, size_t size)
 int
 addr_pton(const char *src, struct addr *dst)
 {
-	struct hostent *hp;
 	char *ep, tmp[300];
 	long bits = -1;
 	int i;
@@ -203,10 +202,6 @@ addr_pton(const char *src, struct addr *dst)
 	} else if (ip6_pton(tmp, &dst->addr_ip6) == 0) {
 		dst->addr_type = ADDR_TYPE_IP6;
 		dst->addr_bits = IP6_ADDR_BITS;
-	} else if ((hp = gethostbyname(tmp)) != NULL) {
-		memcpy(&dst->addr_ip, hp->h_addr, IP_ADDR_LEN);
-		dst->addr_type = ADDR_TYPE_IP;
-		dst->addr_bits = IP_ADDR_BITS;
 	} else {
 		errno = EINVAL;
 		return (-1);
