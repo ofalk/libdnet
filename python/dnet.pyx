@@ -71,7 +71,7 @@ cdef extern from *:
     char  *__eth_ntoa "eth_ntoa" (eth_addr_t *buf)
     int    __eth_aton "eth_aton" (char *src, eth_addr_t *dst)
     void   __eth_pack_hdr "eth_pack_hdr" (char *h,
-               eth_addr_t dst, eth_addr_t src, int type)
+               eth_addr_t dst, eth_addr_t src, int etype)
 
 ETH_ADDR_LEN =	6
 ETH_ADDR_BITS =	48
@@ -161,19 +161,19 @@ def eth_aton(buf):
     return PyBytes_FromStringAndSize(ea.data, 6)
 
 def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,
-                 type=ETH_TYPE_IP):
+                 etype=ETH_TYPE_IP):
     """Return a packed binary string representing an Ethernet header.
 	
     Keyword arguments:
     dst  -- destination address			(6-byte binary string)
     src  -- source address			(6-byte binary string)
-    type -- Ethernet payload type (ETH_TYPE_*)	(16-bit integer)
+    etype -- Ethernet payload type (ETH_TYPE_*)	(16-bit integer)
     """
     cdef char hdr[14]
     cdef eth_addr_t s, d
     __memcpy(s.data, src, 6)
     __memcpy(d.data, dst, 6)
-    __eth_pack_hdr(hdr, d, s, type)
+    __eth_pack_hdr(hdr, d, s, etype)
     return PyBytes_FromStringAndSize(hdr, 14)
 
 #
@@ -435,14 +435,14 @@ ADDR_TYPE_IP =		2
 ADDR_TYPE_IP6 =		3
 
 cdef class addr:
-    """addr(addrtxt=None, type=ADDR_TYPE_NONE) -> network address object
+    """addr(addrtxt=None, addrtype=ADDR_TYPE_NONE) -> network address object
 
     Create a network address object, optionally initialized from a
     human-readable Ethernet, IP, or IPv6 address string.
     """
     cdef addr_t _addr
     
-    def __init__(self, addrtxt=None, type=ADDR_TYPE_NONE):
+    def __init__(self, addrtxt=None, addrtype=ADDR_TYPE_NONE):
         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:
             if PyBytes_Size(addrtxt) == 4:
                 self._addr.addr_type = ADDR_TYPE_IP
@@ -451,7 +451,7 @@ cdef class addr:
             else:
                 raise ValueError, "invalid network address"
     
-    property type:
+    property addrtype:
         """Address type (ADDR_TYPE_*) integer."""
         def __get__(self):
             return self._addr.addr_type
@@ -795,15 +795,15 @@ def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,
 cdef extern from *:
     void __icmp_pack_hdr "icmp_pack_hdr" (char *hdr, int type, int code)
     
-def icmp_pack_hdr(type, code):
+def icmp_pack_hdr(itype, code):
     """Return a packed binary string representing an ICMP header.
 
     Keyword arguments:
-    type -- ICMP type		(8-bit integer)
+    itype -- ICMP type		(8-bit integer)
     code -- ICMP code		(8-bit integer)
     """
     cdef char buf[4]
-    __icmp_pack_hdr(buf, type, code)
+    __icmp_pack_hdr(buf, itype, code)
     return PyBytes_FromStringAndSize(buf, sizeof(buf))
 
 #
