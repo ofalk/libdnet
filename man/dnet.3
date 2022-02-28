@@ -184,7 +184,7 @@
 provides a simplified, portable interface to several low-level
 networking routines, including network address manipulation, kernel
 .Xr arp 4
-cache and 
+cache and
 .Xr route 4
 table lookup and manipulation, network firewalling, network interface
 lookup and manipulation, and raw IP packet and Ethernet frame
@@ -192,7 +192,7 @@ transmission. It is intended to complement the functionality provided
 by
 .Xr pcap 3 .
 .Pp
-In addition, 
+In addition,
 .Nm
 also provides platform-independent definitions of various network
 protocol formats and values for portable low-level network
@@ -353,13 +353,13 @@ typedef struct blob {
 is used to allocate a new dynamic binary buffer, returning NULL on failure.
 .Pp
 .Fn blob_read
-reads 
+reads
 .Fa len
 bytes from the current offset in blob
-.Fa b 
+.Fa b
 into
 .Fa buf ,
-returning the total number of bytes read, or -1 on failure.
+returning the total number of bytes read, or \-1 on failure.
 .Pp
 .Fn blob_write
 writes
@@ -369,36 +369,36 @@ bytes from
 to blob
 .Fa b ,
 advancing the current offset. It returns the number of bytes written,
-or -1 on failure.
+or \-1 on failure.
 .Pp
 .Fn blob_seek
 repositions the offset within blob
 .Fa b
-to 
+to
 .Fa off ,
 according to the directive
 .Fa whence
 (see
 .Xr lseek 2
-for details), returning the new absolute offset, or -1 on failure.
+for details), returning the new absolute offset, or \-1 on failure.
 .Pp
 .Fn blob_index
-returns the offset of the first occurence in blob 
+returns the offset of the first occurrence in blob
 .Fa b
 of the specified
 .Fa buf
 of length
 .Fa len ,
-or -1 on failure.
+or \-1 on failure.
 .Pp
 .Fn blob_rindex
-returns the offset of the last occurence in blob 
+returns the offset of the last occurrence in blob
 .Fa b
 of the specified
 .Fa buf
 of length
 .Fa len ,
-or -1 on failure.
+or \-1 on failure.
 .Pp
 .Fn blob_pack
 converts and writes, and
@@ -407,7 +407,7 @@ reads and converts data in blob
 .Fa b
 according to the given format
 .Fa fmt
-as described below, returning 0 on success, and -1 on failure.
+as described below, returning 0 on success, and \-1 on failure.
 .Pp
 The format string is composed of zero or more directives: ordinary
 characters (not
@@ -452,19 +452,19 @@ Custom conversion routines and their specifiers may be registered via
 currently undocumented.
 .Pp
 .Fn blob_print
-prints 
+prints
 .Fa len
 bytes of the contents of blob
 .Fa b
 from the current offset in the specified
 .Fa style ;
 currently only
-.Dq hexl 
+.Dq hexl
 is available.
 .Pp
 .Fn blob_free
 deallocates the memory associated with blob
-.Fa b 
+.Fa b
 and returns NULL.
 .Pp
 .Ss Ethernet
@@ -482,7 +482,7 @@ configures the hardware MAC address for the interface specified by
 .Ar e .
 .Pp
 .Fn eth_send
-transmits 
+transmits
 .Fa len
 bytes of the Ethernet frame pointed to by
 .Fa buf .
@@ -505,7 +505,7 @@ struct fw_rule {
 };
 .Ed
 .Pp
-The following values are defined for 
+The following values are defined for
 .Ar fw_op :
 .Bd -literal
 #define FW_OP_ALLOW	1
@@ -533,18 +533,18 @@ deletes the specified firewall
 .Pp
 .Fn fw_loop
 iterates over the active firewall ruleset, invoking
-the specified 
+the specified
 .Fa callback
-with each 
+with each
 .Fa rule
 and the context
 .Fa arg
-passed to 
+passed to
 .Fn fw_loop .
 .Pp
 .Fn fw_close
 closes the specified handle.
-.Pp 
+.Pp
 .Ss Network interfaces
 Network interface information is described by the following structure:
 .Bd -literal
@@ -593,13 +593,13 @@ retrieves an interface configuration
 .Fa entry ,
 keyed on
 .Fa intf_name .
-For all 
+For all
 .Fn intf_get
-functions, 
+functions,
 .Fa intf_len
 should be set to the size of the buffer pointed to by
-.Fa entry 
-(usually sizeof(struct intf_entry), but should be larger to accomodate
+.Fa entry
+(usually sizeof(struct intf_entry), but should be larger to accommodate
 any interface alias addresses.
 .Pp
 .Fn intf_get_src
@@ -617,10 +617,10 @@ sets the interface configuration
 .Fa entry .
 .Pp
 .Fn intf_loop
-iterates over all network interfaces, invoking the specified 
+iterates over all network interfaces, invoking the specified
 .Fa callback
 with each interface configuration
-.Fa entry 
+.Fa entry
 and the context
 .Fa arg
 passed to
@@ -651,7 +651,7 @@ a word boundary if necessary.
 .Fn ip_checksum
 sets the IP checksum and any appropriate transport protocol checksum
 for the IP packet pointed to by
-.Fa buf 
+.Fa buf
 of length
 .Fa len .
 .Pp
@@ -680,12 +680,12 @@ system random data source device (if one exists), or from the current
 time and random stack contents.
 .Pp
 .Fn rand_set
-re-initializes the PRNG to start from a known 
+re-initializes the PRNG to start from a known
 .Fa seed
 value, useful in generating repeatable sequences.
 .Pp
 .Fn rand_get
-writes 
+writes
 .Fa len
 random bytes into
 .Fa buf .
@@ -706,7 +706,7 @@ return 8, 16, and 32-bit unsigned random values, respectively.
 .Fn rand_shuffle
 randomly shuffles an array of
 .Fa nmemb
-elements of 
+elements of
 .Fa size
 bytes, starting at
 .Fa base .
@@ -762,7 +762,7 @@ closes the specified handle.
 .Ss Tunnel interface
 .Fn tun_open
 is used to obtain a handle to a network tunnel interface, to which
-IP packets destined for 
+IP packets destined for
 .Fa dst
 are delivered (with source addresses rewritten to
 .Fa src
@@ -772,7 +772,7 @@ kernel networking subsystem.
 .Pp
 .Fn tun_fileno
 returns a file descriptor associated with the tunnel handle, suitable
-for 
+for
 .Xr select 2 .
 .Pp
 .Fn tun_name
@@ -820,7 +820,7 @@ always return NULL.
 .Fn eth_send
 and
 .Fn ip_send
-return the length of the datagram successfully sent, or -1 on failure.
+return the length of the datagram successfully sent, or \-1 on failure.
 .Pp
 .Fn arp_loop ,
 .Fn fw_loop ,
@@ -829,13 +829,13 @@ and
 .Fn route_loop
 return the status of their
 .Fa callback
-routines. Any non-zero return from a 
+routines. Any non-zero return from a
 .Fa callback
 will cause the loop to exit immediately.
 .Pp
 .Fn ip_add_option
 returns the length of the inserted option (which may have been padded
-with NOPs for memory alignment) or -1 on failure.
+with NOPs for memory alignment) or \-1 on failure.
 .Pp
 .Fn rand_uint8 ,
 .Fn rand_uint16 ,
@@ -843,11 +843,14 @@ and
 .Fn rand_uint32
 return 8, 16, and 32-bit unsigned random values, respectively.
 .Pp
-All other 
+All other
 .Nm
-routines return 0 on success, or -1 on failure.
+routines return 0 on success, or \-1 on failure.
 .Sh SEE ALSO
 .Xr pcap 3
 .Sh AUTHORS
 Dug Song
 .Aq dugsong@monkey.org
+
+Oliver Falk
+.Aq oliver@linux-kernel.at
