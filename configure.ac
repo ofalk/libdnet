@@ -257,7 +257,7 @@ elif test "$ac_cv_header_net_pfvar_h" = yes ; then
 elif test "$ac_cv_header_netinet_ip_fw_h" = yes ; then
      dnl XXX - ipfw2 support later...
      case "$host_os" in
-     *freebsd5*)
+     *freebsd5* | *kfreebsd*)
 	AC_LIBOBJ([fw-none]) ;;
      *)
 	AC_LIBOBJ([fw-ipfw]) ;;
