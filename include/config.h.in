@@ -1,4 +1,4 @@
-/* include/config.h.in.  Generated from configure.in by autoheader.  */
+/* include/config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define if arpreq struct has arp_dev. */
 #undef HAVE_ARPREQ_ARP_DEV
@@ -217,6 +217,9 @@
 /* Define to 1 if you have the <winsock2.h> header file. */
 #undef HAVE_WINSOCK2_H
 
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+#undef LT_OBJDIR
+
 /* Name of package */
 #undef PACKAGE
 
@@ -231,6 +234,9 @@
 
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
+
+/* Define to the home page for this package. */
+#undef PACKAGE_URL
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
@@ -256,7 +262,7 @@
 /* Define to `int' if <sys/types.h> does not define. */
 #undef pid_t
 
-/* Define to `unsigned' if <sys/types.h> does not define. */
+/* Define to `unsigned int' if <sys/types.h> does not define. */
 #undef size_t
 
 /* Use MingW32's internal snprintf */
@@ -270,25 +276,25 @@
 #endif
 
 #ifdef __svr4__
-# define BSD_COMP	1
+# define BSD_COMP   1
 #endif
 
 #if defined(__osf__) && !defined(_SOCKADDR_LEN)
-# define _SOCKADDR_LEN	1
+# define _SOCKADDR_LEN  1
 #endif
 
 #ifndef HAVE_INET_PTON
-int	inet_pton(int, const char *, void *);
+int inet_pton(int, const char *, void *);
 #endif
 
 #ifndef HAVE_STRLCAT
-int	strlcat(char *, const char *, int);
+int strlcat(char *, const char *, int);
 #endif
 
 #ifndef HAVE_STRLCPY
-int	strlcpy(char *, const char *, int);
+int strlcpy(char *, const char *, int);
 #endif
 
 #ifndef HAVE_STRSEP
-char	*strsep(char **, const char *);
+char    *strsep(char **, const char *);
 #endif
