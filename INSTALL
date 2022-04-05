@@ -1,6 +1,10 @@
 
 *BSD, MacOS X, Linux
 --------------------
+Make sure you have `pkg-config` installed.
+
+Install Check (https://libcheck.github.io/check/) for additional checks
+during build time.
 
 ./configure && make
 
