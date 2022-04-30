@@ -1,98 +1,94 @@
-#
-# Libdnet -- Simplified interface to low-level networking (RPM package spec)
-#
-#
-#	Options:
-#		--with gnuld    Assume the C compiler uses GNU ld
-#						(see --with-gnu-ld in ./configure)
-#
-%define name libdnet
-%define version 1.14
-%define release 1
-%define appname %{name}-%{version}
-%define rpmname %{name}-%{version}-%{release}
-%define buildname %{appname}
-Name: %{name}
-Version: %{version}
-Release: %{release}
-Summary: Simplified, portable interface to low-level networking routines
-Group: System Environment/Libraries
-Vendor: Dug Song <dugsong@monkey.org>
-URL: http://libdnet.sourceforge.net
-License: BSD
-Source: http://prdownloads.sourceforge.net/libdnet/%{appname}.tar.gz
-Prefix: %{_prefix}
-BuildRoot: %{_tmppath}/%{name}-root
+Summary:       Simple portable interface to lowlevel networking routines
+Name:          libdnet
+Version:       1.15
+Release:       1%{?dist}
+License:       BSD
+URL:           https://github.com/ofalk/%{name}
+Source:        https://github.com/ofalk/%{master}/archive/%{name}-%{version}.tar.gz
 
+BuildRequires: gcc-c++
+BuildRequires: make
+BuildRequires: autoconf
+BuildRequires: automake
+BuildRequires: libtool
+BuildRequires: python3-Cython
 
 %description
-libdnet provides a simplified, portable interface to several low-level
-networking routines, including network address manipulation, kernel
-arp(4) cache and route(4) table lookup and manipulation, network
-firewalling, network interface lookup and manipulation, IP tunnelling, 
-and raw IP packet and Ethernet frame transmission.
-
+libdnet provides a simplified, portable interface to several
+low-level networking routines, including network address
+manipulation, kernel arp(4) cache and route(4) table lookup and
+manipulation, network firewalling (IP filter, ipfw, ipchains,
+pf, ...), network interface lookup and manipulation, raw IP
+packet and Ethernet frame, and data transmission.
 
 %package devel
-Summary: Development files for %{name}
-Group: Development/Libraries
-Requires: %{name} = %{version}-%{release}
-
+Summary:       Header files for libdnet library
+Requires:      %{name}%{?_isa} = %{version}-%{release}
 
 %description devel
-Development files (Headers, libraries for static linking, etc) for %{name}.
+%{summary}.
 
+%package progs
+Summary:       Sample applications to use with libdnet
+Requires:      %{name}%{?_isa} = %{version}-%{release}
+
+%description progs
+%{summary}.
+
+%package -n python%{python3_pkgversion}-libdnet
+%{?python_provide:%python_provide python%{python3_pkgversion}-libdnet}
+# Remove before F30
+Provides:      %{name}-python = %{version}-%{release}
+Provides:      %{name}-python%{?_isa} = %{version}-%{release}
+Obsoletes:     %{name}-python < %{version}-%{release}
+Summary:       Python bindings for libdnet
+Requires:      %{name}%{?_isa} = %{version}-%{release}
+BuildRequires: python%{python3_pkgversion}-devel
+
+%description -n python%{python3_pkgversion}-libdnet
+%{summary}.
 
 %prep
-rm -rf $RPM_BUILD_DIR/%{buildname}
-%setup -n %{buildname}
-
+%setup -q -n %{name}-%{version}
 
 %build
-%configure %{?_with_gnuld:--with-gnu-ld}
-make
-
+autoreconf -i
+export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
+%configure --disable-static
+sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
+sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+%make_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make install DESTDIR=$RPM_BUILD_ROOT
-rm $RPM_BUILD_ROOT/.%{_libdir}/*.la
+%make_install
 
+pushd python
+%{__python3} setup.py install --skip-build --root $RPM_BUILD_ROOT
+popd
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-rm -rf $RPM_BUILD_DIR/%{buildname}
-
-
-%post -p /sbin/ldconfig
-
-
-%preun -p /sbin/ldconfign
-
+%ldconfig_scriptlets
 
 %files
-%defattr(-,root,root)
-%{_sbindir}
+%license LICENSE
+%doc THANKS TODO
 %{_libdir}/*.so.*
-%{_mandir}/man8
-
 
 %files devel
-%defattr(-,root,root)
-%{_bindir}
-%{_includedir}
-%{_libdir}/*.a
+%{_bindir}/*
 %{_libdir}/*.so
-%{_mandir}/man3
-%doc README.md TODO
+%exclude %{_libdir}/*.la
+%{_includedir}/*
+%{_mandir}/man3/*.3*
 
+%files progs
+%{_sbindir}/*
+%{_mandir}/man8/*.8*
+
+%files -n python%{python3_pkgversion}-libdnet
+%{python3_sitearch}/*
 
 %changelog
-* Thu Sep 12 2019 Oliver Falk <oliver@linux-kernel.at>
-- Update spec
-
-* Wed Jun  1 2004 nnposter at users,sourceforge,net
-- Created 1.8-1 RPM spec
-
+* Sat Apr 30 2022 Oliver Falk <oliver@linux-kernel.at> - 1.15-1
+- Update spec / sync with Fedora
 
 # vim:ts=4:
