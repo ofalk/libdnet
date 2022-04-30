@@ -86,7 +86,7 @@ off_aton(char *string, uint16_t *off)
 	} else {
 		i = strtol(string, &p, 10);
 		if (*string == '\0' || (*p != '\0' && *p != '+') ||
-		    i > IP_OFFMASK)
+		    i > (IP_OFFMASK << 3))
 			return (-1);
 		*off = htons(((*p == '+') ? IP_MF : 0) | (i >> 3));
 	}
