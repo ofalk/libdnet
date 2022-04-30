@@ -129,7 +129,7 @@ fi
 dnl Checks for Check.
 AC_MSG_CHECKING(for Check)
 AC_ARG_WITH(check,
-[  --with-check=DIR        use Check (http://check.sf.net) in DIR],
+[  --with-check=DIR        use Check (https://libcheck.github.io/check/) in DIR],
 [ case "$withval" in
   yes|no)
      AC_MSG_RESULT(no)
@@ -151,9 +151,10 @@ AC_ARG_WITH(check,
      fi
      ;;
   esac ],
-[ if test -f ${prefix}/include/check.h -a -f ${prefix}/lib/libcheck.a; then
+[ PKG_CHECK_MODULES([CHECK], [check])
+  if test -n "${CHECK_LIBS}"; then
      CHECKINC="-I${prefix}/include"
-     CHECKLIB="-L${prefix}/lib -lcheck"
+     CHECKLIB="${CHECK_LIBS}"
      AC_MSG_RESULT(yes)
   else
      AC_MSG_RESULT(no)
@@ -257,7 +258,7 @@ elif test "$ac_cv_header_net_pfvar_h" = yes ; then
 elif test "$ac_cv_header_netinet_ip_fw_h" = yes ; then
      dnl XXX - ipfw2 support later...
      case "$host_os" in
-     *freebsd5*)
+     *freebsd5* | *kfreebsd*)
 	AC_LIBOBJ([fw-none]) ;;
      *)
 	AC_LIBOBJ([fw-ipfw]) ;;

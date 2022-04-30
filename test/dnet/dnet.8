@@ -12,7 +12,7 @@
 .Nm dnet Ar command Ar args Op ...
 .Sh DESCRIPTION
 .Nm
-is a simple test program for the 
+is a simple test program for the
 .Xr dnet 3
 library. It can be used to compose and transmit network datagrams as a
 Unix-style filter (e.g. reading from or writing to files and pipes) or
@@ -22,14 +22,14 @@ cache, firewall ruleset, network interfaces, and routing table).
 .Ss Payload generation commands
 .Bl -tag -width "foo"
 .It Nm addr Ar address Op ...
-Convert the 
+Convert the
 .Ar address
 (specified as a hostname, IP address, or MAC address)
 into its binary representation on standard output.
 .It Nm hex Ar string Op ...
 Convert the C-style escaped
 .Ar string
-(shellcode, for instance) into its binary representation on standard output. 
+(shellcode, for instance) into its binary representation on standard output.
 .It Nm rand Ar len
 Write
 .Ar len
@@ -39,7 +39,7 @@ random bytes to standard output.
 .Bl -tag -width "foo"
 .It Xo
 .Nm eth
-.Op Nm type Ar type 
+.Op Nm type Ar type
 .Op Nm src Ar mac
 .Op Nm dst Ar mac
 .Xc
@@ -82,9 +82,9 @@ or as a hex, octal, or decimal number.
 Prepend the data read from standard input with an IP header on
 standard output. The fragmentation
 .Ar offset
-may be specified as a decimal number (optionally concatenated with 
+may be specified as a decimal number (optionally concatenated with
 .Ql +
-to indicate more fragments) or as a hex number. The 
+to indicate more fragments) or as a hex number. The
 .Ar protocol
 may be specified by name, or as a hex, octal, or decimal number.
 .It Xo
@@ -107,7 +107,7 @@ standard output.
 Prepend the data read from standard input with a TCP header on
 standard output. A
 .Ar port
-may be specified by name or hex, octal, or decimal number. The TCP 
+may be specified by name or hex, octal, or decimal number. The TCP
 .Ar flags
 may be specified as some combination of the characters in the set
 .Ql SAFRPU
@@ -151,8 +151,8 @@ Delete the ARP entry for
 Display the kernel firewall ruleset.
 .It Xo
 .Nm fw add Ns \&| Ns Nm delete
-.Ar action Ar direction Ar device 
-.Ar protocol 
+.Ar action Ar direction Ar device
+.Ar protocol
 .Ar src Ns Op \&: Ns Ar port[-max]
 .Ar dst Ns Op \&: Ns Ar port[-max]
 .Op Ar type Ns Op /code
@@ -167,14 +167,14 @@ The direction must be either
 .Ql in
 or
 .Ql out .
-The 
+The
 .Ar device
-may specify an interface name, or 
+may specify an interface name, or
 .Ql any .
-The 
+The
 .Ar protocol
 may be specified by name, or as a decimal number. For TCP and
-UDP protocols, a 
+UDP protocols, a
 .Ar port
 (or range, if specified with a
 .Ar max
@@ -244,7 +244,7 @@ dnet ip proto icmp src 1.2.3.4 dst 5.6.7.8 > ping.pkt
 dd if=ping.pkt of=ping.data bs=20 skip=1
 
 # Fragment IP payload
-split -b 24 ping.data p.
+split \-b 24 ping.data p.
 
 # Send fragments
 dnet ip id 1 off 0+ proto icmp src 1.2.3.4 dst 5.6.7.8 < p.aa | \\
@@ -257,3 +257,6 @@ dnet send
 .Sh AUTHORS
 Dug Song
 .Aq dugsong@monkey.org
+
+Oliver Falk
+.Aq oliver@linux-kernel.at
