@@ -203,13 +203,13 @@ CTAGS = ctags
 am__DIST_COMMON = $(srcdir)/Makefile.in \
 	$(top_srcdir)/Makefile.am.common \
 	$(top_srcdir)/config/mkinstalldirs arp-bsd.c arp-ioctl.c \
-	arp-none.c arp-win32.c err.c eth-bsd.c eth-dlpi.c eth-linux.c \
+	arp-none.c arp-win32.c eth-bsd.c eth-dlpi.c eth-linux.c \
 	eth-ndd.c eth-none.c eth-pfilt.c eth-snoop.c eth-win32.c \
 	fw-ipchains.c fw-ipf.c fw-ipfw.c fw-none.c fw-pf.c \
 	fw-pktfilter.c intf-win32.c intf.c ip-cooked.c ip-win32.c ip.c \
 	memcmp.c ndisc-linux.c ndisc-none.c route-bsd.c route-hpux.c \
-	route-linux.c route-none.c route-win32.c strlcat.c strlcpy.c \
-	strsep.c tun-bsd.c tun-linux.c tun-none.c tun-solaris.c
+	route-linux.c route-none.c route-win32.c tun-bsd.c tun-linux.c \
+	tun-none.c tun-solaris.c
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@

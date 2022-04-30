@@ -37,7 +37,7 @@ cdef extern from *:
     void   *memcpy(char *dst, char *src, int len)
     void   *memset(char *b, int c, int len)
     char   *strerror(int errnum)
-    int     strlcpy(char *dst, char *src, int size)
+    size_t  strlcpy(char *dst, char *src, int size)
     unsigned long htonl(unsigned long n)
     unsigned long ntohl(unsigned long n)
 

@@ -9,9 +9,6 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
-/* Define to 1 if you have the `err' function. */
-#undef HAVE_ERR
-
 /* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
 
@@ -35,6 +32,9 @@
 
 /* Define to 1 if you have the <ip_fil.h> header file. */
 #undef HAVE_IP_FIL_H
+
+/* Define to 1 if you have the `bsd' library (-lbsd). */
+#undef HAVE_LIBBSD
 
 /* Define to 1 if you have the `iphlpapi' library (-liphlpapi). */
 #undef HAVE_LIBIPHLPAPI
@@ -160,17 +160,8 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
-/* Define to 1 if you have the `strlcat' function. */
-#undef HAVE_STRLCAT
-
-/* Define to 1 if you have the `strlcpy' function. */
-#undef HAVE_STRLCPY
-
 /* Define to 1 if you have the <stropts.h> header file. */
 #undef HAVE_STROPTS_H
-
-/* Define to 1 if you have the `strsep' function. */
-#undef HAVE_STRSEP
 
 /* Define to 1 if you have the <sys/bufmod.h> header file. */
 #undef HAVE_SYS_BUFMOD_H
@@ -285,14 +276,6 @@
 
 #ifndef HAVE_INET_PTON
 int inet_pton(int, const char *, void *);
-#endif
-
-#ifndef HAVE_STRLCAT
-int strlcat(char *, const char *, int);
-#endif
-
-#ifndef HAVE_STRLCPY
-int strlcpy(char *, const char *, int);
 #endif
 
 #ifndef HAVE_STRSEP

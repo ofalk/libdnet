@@ -19,14 +19,6 @@
 int inet_pton(int, const char *, void *);
 #endif
 
-#ifndef HAVE_STRLCAT
-int strlcat(char *, const char *, int);
-#endif
-
-#ifndef HAVE_STRLCPY
-int strlcpy(char *, const char *, int);
-#endif
-
 #ifndef HAVE_STRSEP
 char    *strsep(char **, const char *);
 #endif

@@ -1,12 +1,12 @@
 dnl
 dnl configure.in
 dnl
-dnl Copyright (c) 2019 Oliver Falk <oliver@linux-kernel.at>
+dnl Copyright (c) 2022 Oliver Falk <oliver@linux-kernel.at>
 dnl
 dnl $Id$
 
 AC_PREREQ([2.69])
-AC_INIT(libdnet, 1.15)
+AC_INIT(libdnet, 1.16)
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
@@ -120,6 +120,9 @@ if test "$CYGWIN" = yes ; then
 	  AC_MSG_RESULT(yes) ])
 fi
 
+# Search for libbsd for strlcat function
+AC_CHECK_LIB([bsd], [strlcat])
+
 dnl Checks for libraries.
 if test "$CYGWIN" != yes ; then
 	AC_LBL_LIBRARY_NET
@@ -205,7 +208,6 @@ fi
 
 dnl Checks for library functions.
 AC_FUNC_MEMCMP
-AC_REPLACE_FUNCS(err strlcat strlcpy strsep)
 
 dnl Checks for other system-specific jonks.
 if test "$CYGWIN" != yes ; then
