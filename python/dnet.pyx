@@ -13,10 +13,10 @@ and raw IP packet and Ethernet frame transmission.
 """
 
 __author__ = 'Oliver Falk <oliver@linux-kernel.at>'
-__copyright__ = 'Copyright (c) 2019 Oliver Falk'
+__copyright__ = 'Copyright (c) 2022 Oliver Falk'
 __license__ = 'BSD'
 __url__ = 'https://github.com/ofalk/libdnet'
-__version__ = '1.14'
+__version__ = '1.16'
 
 
 cdef extern from "dnet.h":
@@ -37,9 +37,11 @@ cdef extern from *:
     void   *memcpy(char *dst, char *src, int len)
     void   *memset(char *b, int c, int len)
     char   *strerror(int errnum)
-    int     strlcpy(char *dst, char *src, int size)
     unsigned long htonl(unsigned long n)
     unsigned long ntohl(unsigned long n)
+
+cdef extern from "string.h":
+    int     strlcpy(char *dst, char *src, int size)
 
 cdef __memcpy(char *dst, object src, int n):
     if PyBytes_Size(src) != n:

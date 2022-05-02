@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
 import sys, unittest
+from os import listdir
 from interfacefinder import mac_addr,local_ip,loopback_intf
-sys.path.insert(0, './build')
+for dir in listdir('build'):
+    if dir.startswith('lib.'):
+        sys.path.insert(0, "build/" + dir)
 import dnet
 
 class AddrTestCase(unittest.TestCase):
