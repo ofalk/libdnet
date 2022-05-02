@@ -6,22 +6,6 @@
         "depends": [
             "../include/dnet.h"
         ],
-        "extra_objects": [
-            "../src/.libs/addr-util.o",
-            "../src/.libs/addr.o",
-            "../src/.libs/arp-ioctl.o",
-            "../src/.libs/blob.o",
-            "../src/.libs/eth-linux.o",
-            "../src/.libs/fw-none.o",
-            "../src/.libs/intf.o",
-            "../src/.libs/ip-util.o",
-            "../src/.libs/ip.o",
-            "../src/.libs/ip6.o",
-            "../src/.libs/ndisc-linux.o",
-            "../src/.libs/rand.o",
-            "../src/.libs/route-linux.o",
-            "../src/.libs/tun-linux.o"
-        ],
         "include_dirs": [
             "../include"
         ],

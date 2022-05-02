@@ -1,12 +1,12 @@
 dnl
 dnl configure.in
 dnl
-dnl Copyright (c) 2019 Oliver Falk <oliver@linux-kernel.at>
+dnl Copyright (c) 2022 Oliver Falk <oliver@linux-kernel.at>
 dnl
 dnl $Id$
 
 AC_PREREQ([2.69])
-AC_INIT(libdnet, 1.15)
+AC_INIT(libdnet, 1.16.1)
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
