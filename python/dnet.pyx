@@ -40,7 +40,7 @@ cdef extern from *:
     unsigned long htonl(unsigned long n)
     unsigned long ntohl(unsigned long n)
 
-cdef extern from "string.h":
+cdef extern from "bsd/string.h":
     int     strlcpy(char *dst, char *src, int size)
 
 cdef __memcpy(char *dst, object src, int n):
