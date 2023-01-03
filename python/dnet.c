@@ -1735,7 +1735,6 @@ static const char __pyx_k_tun[] = "tun";
 static const char __pyx_k_url[] = "__url__";
 static const char __pyx_k_urp[] = "urp";
 static const char __pyx_k_win[] = "win";
-static const char __pyx_k_1_16[] = "1.16";
 static const char __pyx_k_addr[] = "addr";
 static const char __pyx_k_code[] = "code";
 static const char __pyx_k_copy[] = "__copy__";
@@ -1765,6 +1764,7 @@ static const char __pyx_k_proto[] = "proto";
 static const char __pyx_k_route[] = "route";
 static const char __pyx_k_sport[] = "sport";
 static const char __pyx_k_start[] = "start";
+static const char __pyx_k_1_16_2[] = "1.16.2";
 static const char __pyx_k_TH_ACK[] = "TH_ACK";
 static const char __pyx_k_TH_CWR[] = "TH_CWR";
 static const char __pyx_k_TH_ECE[] = "TH_ECE";
@@ -1965,7 +1965,7 @@ static const char __pyx_k_stop_must_be_an_integer[] = "stop must be an integer";
 static const char __pyx_k_invalid_Ethernet_address[] = "invalid Ethernet address";
 static const char __pyx_k_start_must_be_an_integer[] = "start must be an integer";
 static const char __pyx_k_invalid_network_address_2[] = "<invalid network address>";
-static const char __pyx_k_Copyright_c_2022_Oliver_Falk[] = "Copyright (c) 2022 Oliver Falk";
+static const char __pyx_k_Copyright_c_2023_Oliver_Falk[] = "Copyright (c) 2023 Oliver Falk";
 static const char __pyx_k_pyx_unpickle___addr_ip4_iter[] = "__pyx_unpickle___addr_ip4_iter";
 static const char __pyx_k_https_github_com_ofalk_libdnet[] = "https://github.com/ofalk/libdnet";
 static const char __pyx_k_Oliver_Falk_oliver_linux_kernel[] = "Oliver Falk <oliver@linux-kernel.at>";
@@ -1980,7 +1980,7 @@ static const char __pyx_k_self_intf_cannot_be_converted_to[] = "self.intf cannot
 static const char __pyx_k_self_ip_cannot_be_converted_to_a[] = "self.ip cannot be converted to a Python object for pickling";
 static const char __pyx_k_self_rand_cannot_be_converted_to[] = "self.rand cannot be converted to a Python object for pickling";
 static const char __pyx_k_self_route_cannot_be_converted_t[] = "self.route cannot be converted to a Python object for pickling";
-static PyObject *__pyx_kp_u_1_16;
+static PyObject *__pyx_kp_u_1_16_2;
 static PyObject *__pyx_n_s_ADDR_TYPE_ETH;
 static PyObject *__pyx_n_s_ADDR_TYPE_IP;
 static PyObject *__pyx_n_s_ADDR_TYPE_IP6;
@@ -1995,7 +1995,7 @@ static PyObject *__pyx_n_s_ARP_OP_REVREPLY;
 static PyObject *__pyx_n_s_ARP_OP_REVREQUEST;
 static PyObject *__pyx_n_s_ARP_PRO_IP;
 static PyObject *__pyx_n_u_BSD;
-static PyObject *__pyx_kp_u_Copyright_c_2022_Oliver_Falk;
+static PyObject *__pyx_kp_u_Copyright_c_2023_Oliver_Falk;
 static PyObject *__pyx_n_s_ETH_ADDR_BITS;
 static PyObject *__pyx_n_s_ETH_ADDR_BROADCAST;
 static PyObject *__pyx_n_s_ETH_ADDR_LEN;
@@ -20448,7 +20448,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_u_1_16, __pyx_k_1_16, sizeof(__pyx_k_1_16), 0, 1, 0, 0},
+  {&__pyx_kp_u_1_16_2, __pyx_k_1_16_2, sizeof(__pyx_k_1_16_2), 0, 1, 0, 0},
   {&__pyx_n_s_ADDR_TYPE_ETH, __pyx_k_ADDR_TYPE_ETH, sizeof(__pyx_k_ADDR_TYPE_ETH), 0, 0, 1, 1},
   {&__pyx_n_s_ADDR_TYPE_IP, __pyx_k_ADDR_TYPE_IP, sizeof(__pyx_k_ADDR_TYPE_IP), 0, 0, 1, 1},
   {&__pyx_n_s_ADDR_TYPE_IP6, __pyx_k_ADDR_TYPE_IP6, sizeof(__pyx_k_ADDR_TYPE_IP6), 0, 0, 1, 1},
@@ -20463,7 +20463,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ARP_OP_REVREQUEST, __pyx_k_ARP_OP_REVREQUEST, sizeof(__pyx_k_ARP_OP_REVREQUEST), 0, 0, 1, 1},
   {&__pyx_n_s_ARP_PRO_IP, __pyx_k_ARP_PRO_IP, sizeof(__pyx_k_ARP_PRO_IP), 0, 0, 1, 1},
   {&__pyx_n_u_BSD, __pyx_k_BSD, sizeof(__pyx_k_BSD), 0, 1, 0, 1},
-  {&__pyx_kp_u_Copyright_c_2022_Oliver_Falk, __pyx_k_Copyright_c_2022_Oliver_Falk, sizeof(__pyx_k_Copyright_c_2022_Oliver_Falk), 0, 1, 0, 0},
+  {&__pyx_kp_u_Copyright_c_2023_Oliver_Falk, __pyx_k_Copyright_c_2023_Oliver_Falk, sizeof(__pyx_k_Copyright_c_2023_Oliver_Falk), 0, 1, 0, 0},
   {&__pyx_n_s_ETH_ADDR_BITS, __pyx_k_ETH_ADDR_BITS, sizeof(__pyx_k_ETH_ADDR_BITS), 0, 0, 1, 1},
   {&__pyx_n_s_ETH_ADDR_BROADCAST, __pyx_k_ETH_ADDR_BROADCAST, sizeof(__pyx_k_ETH_ADDR_BROADCAST), 0, 0, 1, 1},
   {&__pyx_n_s_ETH_ADDR_LEN, __pyx_k_ETH_ADDR_LEN, sizeof(__pyx_k_ETH_ADDR_LEN), 0, 0, 1, 1},
@@ -21654,7 +21654,7 @@ if (!__Pyx_RefNanny) {
  * """
  * 
  * __author__ = 'Oliver Falk <oliver@linux-kernel.at>'             # <<<<<<<<<<<<<<
- * __copyright__ = 'Copyright (c) 2022 Oliver Falk'
+ * __copyright__ = 'Copyright (c) 2023 Oliver Falk'
  * __license__ = 'BSD'
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_author, __pyx_kp_u_Oliver_Falk_oliver_linux_kernel) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
@@ -21662,26 +21662,26 @@ if (!__Pyx_RefNanny) {
   /* "dnet.pyx":16
  * 
  * __author__ = 'Oliver Falk <oliver@linux-kernel.at>'
- * __copyright__ = 'Copyright (c) 2022 Oliver Falk'             # <<<<<<<<<<<<<<
+ * __copyright__ = 'Copyright (c) 2023 Oliver Falk'             # <<<<<<<<<<<<<<
  * __license__ = 'BSD'
  * __url__ = 'https://github.com/ofalk/libdnet'
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_copyright, __pyx_kp_u_Copyright_c_2022_Oliver_Falk) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_copyright, __pyx_kp_u_Copyright_c_2023_Oliver_Falk) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
 
   /* "dnet.pyx":17
  * __author__ = 'Oliver Falk <oliver@linux-kernel.at>'
- * __copyright__ = 'Copyright (c) 2022 Oliver Falk'
+ * __copyright__ = 'Copyright (c) 2023 Oliver Falk'
  * __license__ = 'BSD'             # <<<<<<<<<<<<<<
  * __url__ = 'https://github.com/ofalk/libdnet'
- * __version__ = '1.16'
+ * __version__ = '1.16.2'
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_license, __pyx_n_u_BSD) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
 
   /* "dnet.pyx":18
- * __copyright__ = 'Copyright (c) 2022 Oliver Falk'
+ * __copyright__ = 'Copyright (c) 2023 Oliver Falk'
  * __license__ = 'BSD'
  * __url__ = 'https://github.com/ofalk/libdnet'             # <<<<<<<<<<<<<<
- * __version__ = '1.16'
+ * __version__ = '1.16.2'
  * 
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_url, __pyx_kp_u_https_github_com_ofalk_libdnet) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
@@ -21689,11 +21689,11 @@ if (!__Pyx_RefNanny) {
   /* "dnet.pyx":19
  * __license__ = 'BSD'
  * __url__ = 'https://github.com/ofalk/libdnet'
- * __version__ = '1.16'             # <<<<<<<<<<<<<<
+ * __version__ = '1.16.2'             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_u_1_16) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_u_1_16_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
 
   /* "dnet.pyx":55
  *     return strerror(errno)
