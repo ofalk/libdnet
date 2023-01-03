@@ -336,7 +336,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = foreign no-dependencies
-ACLOCAL_AMFLAGS = -Im4
+ACLOCAL_AMFLAGS = -I m4
 AM_CPPFLAGS = -I$(top_srcdir)/include
 dnet_SOURCES = addr.c arp.c aton.c aton.h dnet.c eth.c fw.c hex.c \
 	icmp.c intf.c ip.c mod.h rand.c route.c send.c tcp.c udp.c
