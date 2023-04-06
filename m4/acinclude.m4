@@ -196,12 +196,11 @@ dnl
 AC_DEFUN([AC_DNET_IOCTL_ARP],
     [AC_MSG_CHECKING(for arp(7) ioctls)
     AC_CACHE_VAL(ac_cv_dnet_ioctl_arp,
-    AC_EGREP_CPP(werd,[#include <sys/types.h>
-                       #define BSD_COMP
-                       #include <sys/ioctl.h>
-                       #ifdef SIOCGARP
-                 werd
-                       #endif],
+    AC_COMPILE_IFELSE(
+        [AC_LANG_PROGRAM([[#include <sys/types.h>
+                           #define BSD_COMP
+                           #include <sys/ioctl.h>]],
+                          [[int foo = SIOCGARP;]])],
     ac_cv_dnet_ioctl_arp=yes,
     ac_cv_dnet_ioctl_arp=no))
     case "$host_os" in
