@@ -158,7 +158,7 @@ AS_IF([test "${enable_check}" != "no"], [
     esac ],
   [ PKG_CHECK_MODULES([CHECK], [check])
     if test -n "${CHECK_LIBS}"; then
-      CHECKINC="-I${prefix}/include"
+      CHECKINC="${CHECK_CFLAGS}"
       CHECKLIB="${CHECK_LIBS}"
       AC_MSG_RESULT(yes)
       have_check="yes"
