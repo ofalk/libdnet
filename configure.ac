@@ -128,41 +128,49 @@ fi
 
 dnl Checks for Check.
 AC_MSG_CHECKING(for Check)
-AC_ARG_WITH(check,
-[  --with-check=DIR        use Check (https://libcheck.github.io/check/) in DIR],
-[ case "$withval" in
-  yes|no)
-     AC_MSG_RESULT(no)
-     ;;
-  *)
-     AC_MSG_RESULT($withval)
-     if test -f $withval/include/check.h -a -f $withval/lib/libcheck.a; then
-        owd=`pwd`
-        if cd $withval; then withval=`pwd`; cd $owd; fi
-        CHECKINC="-I$withval/include"
-        CHECKLIB="-L$withval/lib -lcheck"
-     elif test -f $withval/src/check.h -a -f $withval/src/libcheck.a; then
-        owd=`pwd`
-        if cd $withval; then withval=`pwd`; cd $owd; fi
-        CHECKINC="-I$withval/src"
-        CHECKLIB="-L$withval/src -lcheck"
-     else
-        AC_ERROR(check.h or libcheck.a not found in $withval)
-     fi
-     ;;
-  esac ],
-[ PKG_CHECK_MODULES([CHECK], [check])
-  if test -n "${CHECK_LIBS}"; then
-     CHECKINC="-I${prefix}/include"
-     CHECKLIB="${CHECK_LIBS}"
-     AC_MSG_RESULT(yes)
-  else
-     AC_MSG_RESULT(no)
-  fi
+AC_ARG_ENABLE([check],
+  AS_HELP_STRING([--enable-check],
+    [compile check support (default enabled)]))
+have_check="no"
+AS_IF([test "${enable_check}" != "no"], [
+  AC_ARG_WITH(check,
+  [  --with-check=DIR        use Check (https://libcheck.github.io/check/) in DIR],
+  [ case "$withval" in
+    yes|no)
+      AC_MSG_RESULT(no)
+      ;;
+    *)
+      AC_MSG_RESULT($withval)
+      if test -f $withval/include/check.h -a -f $withval/lib/libcheck.a; then
+          owd=`pwd`
+          if cd $withval; then withval=`pwd`; cd $owd; fi
+          CHECKINC="-I$withval/include"
+          CHECKLIB="-L$withval/lib -lcheck"
+      elif test -f $withval/src/check.h -a -f $withval/src/libcheck.a; then
+          owd=`pwd`
+          if cd $withval; then withval=`pwd`; cd $owd; fi
+          CHECKINC="-I$withval/src"
+          CHECKLIB="-L$withval/src -lcheck"
+      else
+          AC_ERROR(check.h or libcheck.a not found in $withval)
+      fi
+      ;;
+    esac ],
+  [ PKG_CHECK_MODULES([CHECK], [check])
+    if test -n "${CHECK_LIBS}"; then
+      CHECKINC="${CHECK_CFLAGS}"
+      CHECKLIB="${CHECK_LIBS}"
+      AC_MSG_RESULT(yes)
+      have_check="yes"
+    else
+      AC_MSG_RESULT(no)
+    fi
+  ])
+  AC_SUBST(CHECKINC)
+  AC_SUBST(CHECKLIB)
 ])
-AC_SUBST(CHECKINC)
-AC_SUBST(CHECKLIB)
-AM_CONDITIONAL(HAVE_CHECK, test "x$CHECKLIB" != "x")
+AM_CONDITIONAL([HAVE_CHECK], [test "${have_check}" = "yes"])
+
 
 dnl Checks for header files.
 AC_HEADER_STDC
