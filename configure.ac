@@ -1,12 +1,12 @@
 dnl
 dnl configure.in
 dnl
-dnl Copyright (c) 2022 Oliver Falk <oliver@linux-kernel.at>
+dnl Copyright (c) 2023 Oliver Falk <oliver@linux-kernel.at>
 dnl
 dnl $Id$
 
 AC_PREREQ([2.69])
-AC_INIT(libdnet, 1.16.2)
+AC_INIT(libdnet, 1.16.4)
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
@@ -158,7 +158,7 @@ AS_IF([test "${enable_check}" != "no"], [
     esac ],
   [ PKG_CHECK_MODULES([CHECK], [check])
     if test -n "${CHECK_LIBS}"; then
-      CHECKINC="-I${prefix}/include"
+      CHECKINC="${CHECK_CFLAGS}"
       CHECKLIB="${CHECK_LIBS}"
       AC_MSG_RESULT(yes)
       have_check="yes"

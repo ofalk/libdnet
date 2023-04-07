@@ -99,7 +99,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = setup.py
+CONFIG_CLEAN_FILES = setup.py dnet.pxd
 CONFIG_CLEAN_VPATH_FILES =
 SCRIPTS = $(noinst_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -329,8 +329,8 @@ TEST_LOGS = $(am__test_logs2:.test.log=.log)
 TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/config/test-driver
 TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
-am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/setup.py.in \
-	$(top_srcdir)/Makefile.am.common \
+am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/dnet.pxd.in \
+	$(srcdir)/setup.py.in $(top_srcdir)/Makefile.am.common \
 	$(top_srcdir)/config/mkinstalldirs \
 	$(top_srcdir)/config/test-driver
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -409,6 +409,7 @@ SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+STRLCPY_HEADER = @STRLCPY_HEADER@
 TCLINC = @TCLINC@
 TCLLIB = @TCLLIB@
 VERSION = @VERSION@
@@ -510,6 +511,8 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
 setup.py: $(top_builddir)/config.status $(srcdir)/setup.py.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+dnet.pxd: $(top_builddir)/config.status $(srcdir)/dnet.pxd.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 mostlyclean-libtool:

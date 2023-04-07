@@ -1,6 +1,6 @@
 Summary:       Simple portable interface to lowlevel networking routines
 Name:          libdnet
-Version:       1.16.2
+Version:       1.16.4
 Release:       1%{?dist}
 License:       BSD
 URL:           https://github.com/ofalk/%{name}
@@ -54,7 +54,7 @@ BuildRequires: python%{python3_pkgversion}-devel
 %build
 autoreconf -i
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
-%configure --disable-static
+%configure --disable-static --with-python
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %make_build
@@ -87,6 +87,12 @@ popd
 %{python3_sitearch}/*
 
 %changelog
+* Fri Apr 07 2023 Oliver Falk <oliver@linux-kernel.at> - 1.16.4-1
+- Release 1.16.4
+
+* Wed Jan 11 2023 Oliver Falk <oliver@linux-kernel.at> - 1.16.3-1
+- Release 1.16.3
+
 * Tue Jan 03 2023 Oliver Falk <oliver@linux-kernel.at> - 1.16.2-1
 - Release 1.16.2
 

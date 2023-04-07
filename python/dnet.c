@@ -777,8 +777,8 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE__dnet
 #define __PYX_HAVE_API__dnet
 /* Early includes */
-#include "dnet.h"
 #include "bsd/string.h"
+#include "dnet.h"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -1005,7 +1005,7 @@ struct __pyx_obj_4dnet_rand;
 struct __pyx_obj_4dnet___rand_xrange;
 struct __pyx_obj_4dnet_tun;
 
-/* "dnet.pyx":1399
+/* "dnet.pyx":1398
  * 
  * # Modified (variable block length) TEA by Niels Provos <provos@monkey.org>
  * cdef enum:             # <<<<<<<<<<<<<<
@@ -1019,7 +1019,7 @@ enum  {
   __pyx_e_4dnet_TEASBOXSHIFT = 7
 };
 
-/* "dnet.pyx":105
+/* "dnet.pyx":104
  * ETH_ADDR_BROADCAST =	PyBytes_FromStringAndSize("\xff\xff\xff\xff\xff\xff", 6)
  * 
  * cdef class eth:             # <<<<<<<<<<<<<<
@@ -1032,7 +1032,7 @@ struct __pyx_obj_4dnet_eth {
 };
 
 
-/* "dnet.pyx":243
+/* "dnet.pyx":242
  * IP_ADDR_MCAST_LOCAL =	PyBytes_FromStringAndSize("\xe0\x00\x00\xff", 4)
  * 
  * cdef class ip:             # <<<<<<<<<<<<<<
@@ -1045,7 +1045,7 @@ struct __pyx_obj_4dnet_ip {
 };
 
 
-/* "dnet.pyx":439
+/* "dnet.pyx":438
  * ADDR_TYPE_IP6 =		3
  * 
  * cdef class addr:             # <<<<<<<<<<<<<<
@@ -1058,7 +1058,7 @@ struct __pyx_obj_4dnet_addr {
 };
 
 
-/* "dnet.pyx":636
+/* "dnet.pyx":635
  *         return p
  * 
  * cdef class __addr_ip4_iter:             # <<<<<<<<<<<<<<
@@ -1072,7 +1072,7 @@ struct __pyx_obj_4dnet___addr_ip4_iter {
 };
 
 
-/* "dnet.pyx":701
+/* "dnet.pyx":700
  *     return ret
  * 
  * cdef class arp:             # <<<<<<<<<<<<<<
@@ -1085,7 +1085,7 @@ struct __pyx_obj_4dnet_arp {
 };
 
 
-/* "dnet.pyx":981
+/* "dnet.pyx":980
  *     return ret
  * 
  * cdef class intf:             # <<<<<<<<<<<<<<
@@ -1098,7 +1098,7 @@ struct __pyx_obj_4dnet_intf {
 };
 
 
-/* "dnet.pyx":1100
+/* "dnet.pyx":1099
  *     return ret
  * 
  * cdef class route:             # <<<<<<<<<<<<<<
@@ -1111,7 +1111,7 @@ struct __pyx_obj_4dnet_route {
 };
 
 
-/* "dnet.pyx":1246
+/* "dnet.pyx":1245
  *     return ret
  * 
  * cdef class fw:             # <<<<<<<<<<<<<<
@@ -1124,7 +1124,7 @@ struct __pyx_obj_4dnet_fw {
 };
 
 
-/* "dnet.pyx":1323
+/* "dnet.pyx":1322
  *     rand_t *rand_close(rand_t *rand)
  * 
  * cdef class rand:             # <<<<<<<<<<<<<<
@@ -1137,7 +1137,7 @@ struct __pyx_obj_4dnet_rand {
 };
 
 
-/* "dnet.pyx":1405
+/* "dnet.pyx":1404
  *     TEASBOXSHIFT = 7
  * 
  * cdef class __rand_xrange:             # <<<<<<<<<<<<<<
@@ -1160,7 +1160,7 @@ struct __pyx_obj_4dnet___rand_xrange {
 };
 
 
-/* "dnet.pyx":1489
+/* "dnet.pyx":1488
  *     tun_t *tun_close(tun_t *tun)
  * 
  * cdef class tun:             # <<<<<<<<<<<<<<
@@ -2574,8 +2574,8 @@ static PyObject *__pyx_codeobj__79;
 static PyObject *__pyx_codeobj__81;
 /* Late includes */
 
-/* "dnet.pyx":46
- *     int     strlcpy(char *dst, char *src, int size)
+/* "dnet.pyx":45
+ * from dnet cimport *
  * 
  * cdef __memcpy(char *dst, object src, int n):             # <<<<<<<<<<<<<<
  *     if PyBytes_Size(src) != n:
@@ -2596,7 +2596,7 @@ static PyObject *__pyx_f_4dnet___memcpy(char *__pyx_v_dst, PyObject *__pyx_v_src
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__memcpy", 0);
 
-  /* "dnet.pyx":47
+  /* "dnet.pyx":46
  * 
  * cdef __memcpy(char *dst, object src, int n):
  *     if PyBytes_Size(src) != n:             # <<<<<<<<<<<<<<
@@ -2606,14 +2606,14 @@ static PyObject *__pyx_f_4dnet___memcpy(char *__pyx_v_dst, PyObject *__pyx_v_src
   __pyx_t_1 = ((PyBytes_Size(__pyx_v_src) != __pyx_v_n) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":48
+    /* "dnet.pyx":47
  * cdef __memcpy(char *dst, object src, int n):
  *     if PyBytes_Size(src) != n:
  *         raise ValueError, "not a %d-byte binary string: %r" % (n, src)             # <<<<<<<<<<<<<<
  *     memcpy(dst, src, n)
  * 
  */
-    __pyx_t_2 = PyTuple_New(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = 0;
     __pyx_t_4 = 127;
@@ -2621,7 +2621,7 @@ static PyObject *__pyx_f_4dnet___memcpy(char *__pyx_v_dst, PyObject *__pyx_v_src
     __pyx_t_3 += 6;
     __Pyx_GIVEREF(__pyx_kp_u_not_a);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_kp_u_not_a);
-    __pyx_t_5 = __Pyx_PyUnicode_From_int(__pyx_v_n, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_From_int(__pyx_v_n, 0, ' ', 'd'); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_3 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_5);
@@ -2631,21 +2631,21 @@ static PyObject *__pyx_f_4dnet___memcpy(char *__pyx_v_dst, PyObject *__pyx_v_src
     __pyx_t_3 += 21;
     __Pyx_GIVEREF(__pyx_kp_u_byte_binary_string);
     PyTuple_SET_ITEM(__pyx_t_2, 2, __pyx_kp_u_byte_binary_string);
-    __pyx_t_5 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_v_src), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_FormatSimpleAndDecref(PyObject_Repr(__pyx_v_src), __pyx_empty_unicode); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_4 = (__Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) > __pyx_t_4) ? __Pyx_PyUnicode_MAX_CHAR_VALUE(__pyx_t_5) : __pyx_t_4;
     __pyx_t_3 += __Pyx_PyUnicode_GET_LENGTH(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_2, 3, __pyx_t_5);
     __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_2, 4, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 48, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyUnicode_Join(__pyx_t_2, 4, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_t_5, 0, 0);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __PYX_ERR(0, 48, __pyx_L1_error)
+    __PYX_ERR(0, 47, __pyx_L1_error)
 
-    /* "dnet.pyx":47
+    /* "dnet.pyx":46
  * 
  * cdef __memcpy(char *dst, object src, int n):
  *     if PyBytes_Size(src) != n:             # <<<<<<<<<<<<<<
@@ -2654,18 +2654,18 @@ static PyObject *__pyx_f_4dnet___memcpy(char *__pyx_v_dst, PyObject *__pyx_v_src
  */
   }
 
-  /* "dnet.pyx":49
+  /* "dnet.pyx":48
  *     if PyBytes_Size(src) != n:
  *         raise ValueError, "not a %d-byte binary string: %r" % (n, src)
  *     memcpy(dst, src, n)             # <<<<<<<<<<<<<<
  * 
  * cdef __oserror():
  */
-  __pyx_t_6 = __Pyx_PyObject_AsWritableString(__pyx_v_src); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_AsWritableString(__pyx_v_src); if (unlikely((!__pyx_t_6) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
   (void)(memcpy(__pyx_v_dst, __pyx_t_6, __pyx_v_n));
 
-  /* "dnet.pyx":46
- *     int     strlcpy(char *dst, char *src, int size)
+  /* "dnet.pyx":45
+ * from dnet cimport *
  * 
  * cdef __memcpy(char *dst, object src, int n):             # <<<<<<<<<<<<<<
  *     if PyBytes_Size(src) != n:
@@ -2686,7 +2686,7 @@ static PyObject *__pyx_f_4dnet___memcpy(char *__pyx_v_dst, PyObject *__pyx_v_src
   return __pyx_r;
 }
 
-/* "dnet.pyx":51
+/* "dnet.pyx":50
  *     memcpy(dst, src, n)
  * 
  * cdef __oserror():             # <<<<<<<<<<<<<<
@@ -2704,7 +2704,7 @@ static PyObject *__pyx_f_4dnet___oserror(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__oserror", 0);
 
-  /* "dnet.pyx":52
+  /* "dnet.pyx":51
  * 
  * cdef __oserror():
  *     cdef extern int errno = 0             # <<<<<<<<<<<<<<
@@ -2713,7 +2713,7 @@ static PyObject *__pyx_f_4dnet___oserror(void) {
  */
   errno = 0;
 
-  /* "dnet.pyx":53
+  /* "dnet.pyx":52
  * cdef __oserror():
  *     cdef extern int errno = 0
  *     return strerror(errno)             # <<<<<<<<<<<<<<
@@ -2721,13 +2721,13 @@ static PyObject *__pyx_f_4dnet___oserror(void) {
  * def __iter_append(entry, l):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyStr_FromString(strerror(errno)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyStr_FromString(strerror(errno)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":51
+  /* "dnet.pyx":50
  *     memcpy(dst, src, n)
  * 
  * cdef __oserror():             # <<<<<<<<<<<<<<
@@ -2746,7 +2746,7 @@ static PyObject *__pyx_f_4dnet___oserror(void) {
   return __pyx_r;
 }
 
-/* "dnet.pyx":55
+/* "dnet.pyx":54
  *     return strerror(errno)
  * 
  * def __iter_append(entry, l):             # <<<<<<<<<<<<<<
@@ -2789,11 +2789,11 @@ static PyObject *__pyx_pw_4dnet_1__iter_append(PyObject *__pyx_self, PyObject *_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_l)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__iter_append", 1, 2, 2, 1); __PYX_ERR(0, 55, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__iter_append", 1, 2, 2, 1); __PYX_ERR(0, 54, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__iter_append") < 0)) __PYX_ERR(0, 55, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__iter_append") < 0)) __PYX_ERR(0, 54, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2806,7 +2806,7 @@ static PyObject *__pyx_pw_4dnet_1__iter_append(PyObject *__pyx_self, PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__iter_append", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 55, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__iter_append", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 54, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.__iter_append", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2828,16 +2828,16 @@ static PyObject *__pyx_pf_4dnet___iter_append(CYTHON_UNUSED PyObject *__pyx_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__iter_append", 0);
 
-  /* "dnet.pyx":56
+  /* "dnet.pyx":55
  * 
  * def __iter_append(entry, l):
  *     l.append(entry)             # <<<<<<<<<<<<<<
  * 
  * #
  */
-  __pyx_t_1 = __Pyx_PyObject_Append(__pyx_v_l, __pyx_v_entry); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Append(__pyx_v_l, __pyx_v_entry); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 55, __pyx_L1_error)
 
-  /* "dnet.pyx":55
+  /* "dnet.pyx":54
  *     return strerror(errno)
  * 
  * def __iter_append(entry, l):             # <<<<<<<<<<<<<<
@@ -2857,7 +2857,7 @@ static PyObject *__pyx_pf_4dnet___iter_append(CYTHON_UNUSED PyObject *__pyx_self
   return __pyx_r;
 }
 
-/* "dnet.pyx":112
+/* "dnet.pyx":111
  *     cdef eth_t *eth
  * 
  *     def __init__(self, device):             # <<<<<<<<<<<<<<
@@ -2894,7 +2894,7 @@ static int __pyx_pw_4dnet_3eth_1__init__(PyObject *__pyx_v_self, PyObject *__pyx
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 112, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 111, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -2905,7 +2905,7 @@ static int __pyx_pw_4dnet_3eth_1__init__(PyObject *__pyx_v_self, PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 112, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 111, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.eth.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2929,17 +2929,17 @@ static int __pyx_pf_4dnet_3eth___init__(struct __pyx_obj_4dnet_eth *__pyx_v_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":113
+  /* "dnet.pyx":112
  * 
  *     def __init__(self, device):
  *         self.eth = eth_open(device)             # <<<<<<<<<<<<<<
  *         if not self.eth:
  *             raise OSError, __oserror()
  */
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_device); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_device); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 112, __pyx_L1_error)
   __pyx_v_self->eth = eth_open(__pyx_t_1);
 
-  /* "dnet.pyx":114
+  /* "dnet.pyx":113
  *     def __init__(self, device):
  *         self.eth = eth_open(device)
  *         if not self.eth:             # <<<<<<<<<<<<<<
@@ -2949,20 +2949,20 @@ static int __pyx_pf_4dnet_3eth___init__(struct __pyx_obj_4dnet_eth *__pyx_v_self
   __pyx_t_2 = ((!(__pyx_v_self->eth != 0)) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":115
+    /* "dnet.pyx":114
  *         self.eth = eth_open(device)
  *         if not self.eth:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def get(self):
  */
-    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_3, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 115, __pyx_L1_error)
+    __PYX_ERR(0, 114, __pyx_L1_error)
 
-    /* "dnet.pyx":114
+    /* "dnet.pyx":113
  *     def __init__(self, device):
  *         self.eth = eth_open(device)
  *         if not self.eth:             # <<<<<<<<<<<<<<
@@ -2971,7 +2971,7 @@ static int __pyx_pf_4dnet_3eth___init__(struct __pyx_obj_4dnet_eth *__pyx_v_self
  */
   }
 
-  /* "dnet.pyx":112
+  /* "dnet.pyx":111
  *     cdef eth_t *eth
  * 
  *     def __init__(self, device):             # <<<<<<<<<<<<<<
@@ -2991,7 +2991,7 @@ static int __pyx_pf_4dnet_3eth___init__(struct __pyx_obj_4dnet_eth *__pyx_v_self
   return __pyx_r;
 }
 
-/* "dnet.pyx":117
+/* "dnet.pyx":116
  *             raise OSError, __oserror()
  * 
  *     def get(self):             # <<<<<<<<<<<<<<
@@ -3024,7 +3024,7 @@ static PyObject *__pyx_pf_4dnet_3eth_2get(struct __pyx_obj_4dnet_eth *__pyx_v_se
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get", 0);
 
-  /* "dnet.pyx":121
+  /* "dnet.pyx":120
  *         binary string."""
  *         cdef eth_addr_t ea
  *         if eth_get(self.eth, &ea) < 0:             # <<<<<<<<<<<<<<
@@ -3034,20 +3034,20 @@ static PyObject *__pyx_pf_4dnet_3eth_2get(struct __pyx_obj_4dnet_eth *__pyx_v_se
   __pyx_t_1 = ((eth_get(__pyx_v_self->eth, (&__pyx_v_ea)) < 0) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":122
+    /* "dnet.pyx":121
  *         cdef eth_addr_t ea
  *         if eth_get(self.eth, &ea) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  *         return PyBytes_FromStringAndSize(ea.data, 6)
  * 
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 122, __pyx_L1_error)
+    __PYX_ERR(0, 121, __pyx_L1_error)
 
-    /* "dnet.pyx":121
+    /* "dnet.pyx":120
  *         binary string."""
  *         cdef eth_addr_t ea
  *         if eth_get(self.eth, &ea) < 0:             # <<<<<<<<<<<<<<
@@ -3056,7 +3056,7 @@ static PyObject *__pyx_pf_4dnet_3eth_2get(struct __pyx_obj_4dnet_eth *__pyx_v_se
  */
   }
 
-  /* "dnet.pyx":123
+  /* "dnet.pyx":122
  *         if eth_get(self.eth, &ea) < 0:
  *             raise OSError, __oserror()
  *         return PyBytes_FromStringAndSize(ea.data, 6)             # <<<<<<<<<<<<<<
@@ -3064,13 +3064,13 @@ static PyObject *__pyx_pf_4dnet_3eth_2get(struct __pyx_obj_4dnet_eth *__pyx_v_se
  *     def set(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyBytes_FromStringAndSize(__pyx_v_ea.data, 6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_t_2 = PyBytes_FromStringAndSize(__pyx_v_ea.data, 6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":117
+  /* "dnet.pyx":116
  *             raise OSError, __oserror()
  * 
  *     def get(self):             # <<<<<<<<<<<<<<
@@ -3089,7 +3089,7 @@ static PyObject *__pyx_pf_4dnet_3eth_2get(struct __pyx_obj_4dnet_eth *__pyx_v_se
   return __pyx_r;
 }
 
-/* "dnet.pyx":125
+/* "dnet.pyx":124
  *         return PyBytes_FromStringAndSize(ea.data, 6)
  * 
  *     def set(self, value):             # <<<<<<<<<<<<<<
@@ -3122,18 +3122,18 @@ static PyObject *__pyx_pf_4dnet_3eth_4set(struct __pyx_obj_4dnet_eth *__pyx_v_se
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set", 0);
 
-  /* "dnet.pyx":133
+  /* "dnet.pyx":132
  *         """
  *         cdef eth_addr_t ea
  *         __memcpy(ea.data, value, 6)             # <<<<<<<<<<<<<<
  *         if eth_set(self.eth, &ea) < 0:
  *             raise OSError, __oserror()
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_ea.data, __pyx_v_value, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_ea.data, __pyx_v_value, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":134
+  /* "dnet.pyx":133
  *         cdef eth_addr_t ea
  *         __memcpy(ea.data, value, 6)
  *         if eth_set(self.eth, &ea) < 0:             # <<<<<<<<<<<<<<
@@ -3143,20 +3143,20 @@ static PyObject *__pyx_pf_4dnet_3eth_4set(struct __pyx_obj_4dnet_eth *__pyx_v_se
   __pyx_t_2 = ((eth_set(__pyx_v_self->eth, (&__pyx_v_ea)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":135
+    /* "dnet.pyx":134
  *         __memcpy(ea.data, value, 6)
  *         if eth_set(self.eth, &ea) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def send(self, frame):
  */
-    __pyx_t_1 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_1, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 135, __pyx_L1_error)
+    __PYX_ERR(0, 134, __pyx_L1_error)
 
-    /* "dnet.pyx":134
+    /* "dnet.pyx":133
  *         cdef eth_addr_t ea
  *         __memcpy(ea.data, value, 6)
  *         if eth_set(self.eth, &ea) < 0:             # <<<<<<<<<<<<<<
@@ -3165,7 +3165,7 @@ static PyObject *__pyx_pf_4dnet_3eth_4set(struct __pyx_obj_4dnet_eth *__pyx_v_se
  */
   }
 
-  /* "dnet.pyx":125
+  /* "dnet.pyx":124
  *         return PyBytes_FromStringAndSize(ea.data, 6)
  * 
  *     def set(self, value):             # <<<<<<<<<<<<<<
@@ -3186,7 +3186,7 @@ static PyObject *__pyx_pf_4dnet_3eth_4set(struct __pyx_obj_4dnet_eth *__pyx_v_se
   return __pyx_r;
 }
 
-/* "dnet.pyx":137
+/* "dnet.pyx":136
  *             raise OSError, __oserror()
  * 
  *     def send(self, frame):             # <<<<<<<<<<<<<<
@@ -3218,7 +3218,7 @@ static PyObject *__pyx_pf_4dnet_3eth_6send(struct __pyx_obj_4dnet_eth *__pyx_v_s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("send", 0);
 
-  /* "dnet.pyx":144
+  /* "dnet.pyx":143
  *         frame -- binary string representing an Ethernet frame
  *         """
  *         return eth_send(self.eth, frame, PyBytes_Size(frame))             # <<<<<<<<<<<<<<
@@ -3226,14 +3226,14 @@ static PyObject *__pyx_pf_4dnet_3eth_6send(struct __pyx_obj_4dnet_eth *__pyx_v_s
  *     def __dealloc__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_frame); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_From_int(eth_send(__pyx_v_self->eth, __pyx_t_1, PyBytes_Size(__pyx_v_frame))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_frame); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(eth_send(__pyx_v_self->eth, __pyx_t_1, PyBytes_Size(__pyx_v_frame))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":137
+  /* "dnet.pyx":136
  *             raise OSError, __oserror()
  * 
  *     def send(self, frame):             # <<<<<<<<<<<<<<
@@ -3252,7 +3252,7 @@ static PyObject *__pyx_pf_4dnet_3eth_6send(struct __pyx_obj_4dnet_eth *__pyx_v_s
   return __pyx_r;
 }
 
-/* "dnet.pyx":146
+/* "dnet.pyx":145
  *         return eth_send(self.eth, frame, PyBytes_Size(frame))
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -3276,7 +3276,7 @@ static void __pyx_pf_4dnet_3eth_8__dealloc__(struct __pyx_obj_4dnet_eth *__pyx_v
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "dnet.pyx":147
+  /* "dnet.pyx":146
  * 
  *     def __dealloc__(self):
  *         if self.eth:             # <<<<<<<<<<<<<<
@@ -3286,7 +3286,7 @@ static void __pyx_pf_4dnet_3eth_8__dealloc__(struct __pyx_obj_4dnet_eth *__pyx_v
   __pyx_t_1 = (__pyx_v_self->eth != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":148
+    /* "dnet.pyx":147
  *     def __dealloc__(self):
  *         if self.eth:
  *             eth_close(self.eth)             # <<<<<<<<<<<<<<
@@ -3295,7 +3295,7 @@ static void __pyx_pf_4dnet_3eth_8__dealloc__(struct __pyx_obj_4dnet_eth *__pyx_v
  */
     (void)(eth_close(__pyx_v_self->eth));
 
-    /* "dnet.pyx":147
+    /* "dnet.pyx":146
  * 
  *     def __dealloc__(self):
  *         if self.eth:             # <<<<<<<<<<<<<<
@@ -3304,7 +3304,7 @@ static void __pyx_pf_4dnet_3eth_8__dealloc__(struct __pyx_obj_4dnet_eth *__pyx_v
  */
   }
 
-  /* "dnet.pyx":146
+  /* "dnet.pyx":145
  *         return eth_send(self.eth, frame, PyBytes_Size(frame))
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -3429,7 +3429,7 @@ static PyObject *__pyx_pf_4dnet_3eth_12__setstate_cython__(CYTHON_UNUSED struct 
   return __pyx_r;
 }
 
-/* "dnet.pyx":150
+/* "dnet.pyx":149
  *             eth_close(self.eth)
  * 
  * def eth_ntoa(buf):             # <<<<<<<<<<<<<<
@@ -3462,18 +3462,18 @@ static PyObject *__pyx_pf_4dnet_2eth_ntoa(CYTHON_UNUSED PyObject *__pyx_self, Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("eth_ntoa", 0);
 
-  /* "dnet.pyx":154
+  /* "dnet.pyx":153
  *     a printable string ('00:de:ad:be:ef:00')."""
  *     cdef eth_addr_t ea
  *     __memcpy(ea.data, buf, 6)             # <<<<<<<<<<<<<<
  *     return __eth_ntoa(&ea)
  * 
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_ea.data, __pyx_v_buf, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_ea.data, __pyx_v_buf, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":155
+  /* "dnet.pyx":154
  *     cdef eth_addr_t ea
  *     __memcpy(ea.data, buf, 6)
  *     return __eth_ntoa(&ea)             # <<<<<<<<<<<<<<
@@ -3481,13 +3481,13 @@ static PyObject *__pyx_pf_4dnet_2eth_ntoa(CYTHON_UNUSED PyObject *__pyx_self, Py
  * def eth_aton(buf):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyStr_FromString(eth_ntoa((&__pyx_v_ea))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyStr_FromString(eth_ntoa((&__pyx_v_ea))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":150
+  /* "dnet.pyx":149
  *             eth_close(self.eth)
  * 
  * def eth_ntoa(buf):             # <<<<<<<<<<<<<<
@@ -3506,7 +3506,7 @@ static PyObject *__pyx_pf_4dnet_2eth_ntoa(CYTHON_UNUSED PyObject *__pyx_self, Py
   return __pyx_r;
 }
 
-/* "dnet.pyx":157
+/* "dnet.pyx":156
  *     return __eth_ntoa(&ea)
  * 
  * def eth_aton(buf):             # <<<<<<<<<<<<<<
@@ -3541,18 +3541,18 @@ static PyObject *__pyx_pf_4dnet_4eth_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("eth_aton", 0);
 
-  /* "dnet.pyx":161
+  /* "dnet.pyx":160
  *     packed binary string ('\\x00\\xde\\xad\\xbe\\xef\\x00')."""
  *     cdef eth_addr_t ea
  *     if __eth_aton(buf, &ea) < 0:             # <<<<<<<<<<<<<<
  *         raise ValueError, "invalid Ethernet address"
  *     return PyBytes_FromStringAndSize(ea.data, 6)
  */
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 160, __pyx_L1_error)
   __pyx_t_2 = ((eth_aton(__pyx_t_1, (&__pyx_v_ea)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":162
+    /* "dnet.pyx":161
  *     cdef eth_addr_t ea
  *     if __eth_aton(buf, &ea) < 0:
  *         raise ValueError, "invalid Ethernet address"             # <<<<<<<<<<<<<<
@@ -3560,9 +3560,9 @@ static PyObject *__pyx_pf_4dnet_4eth_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
  * 
  */
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_invalid_Ethernet_address, 0, 0);
-    __PYX_ERR(0, 162, __pyx_L1_error)
+    __PYX_ERR(0, 161, __pyx_L1_error)
 
-    /* "dnet.pyx":161
+    /* "dnet.pyx":160
  *     packed binary string ('\\x00\\xde\\xad\\xbe\\xef\\x00')."""
  *     cdef eth_addr_t ea
  *     if __eth_aton(buf, &ea) < 0:             # <<<<<<<<<<<<<<
@@ -3571,7 +3571,7 @@ static PyObject *__pyx_pf_4dnet_4eth_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
  */
   }
 
-  /* "dnet.pyx":163
+  /* "dnet.pyx":162
  *     if __eth_aton(buf, &ea) < 0:
  *         raise ValueError, "invalid Ethernet address"
  *     return PyBytes_FromStringAndSize(ea.data, 6)             # <<<<<<<<<<<<<<
@@ -3579,13 +3579,13 @@ static PyObject *__pyx_pf_4dnet_4eth_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
  * def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_ea.data, 6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_ea.data, 6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":157
+  /* "dnet.pyx":156
  *     return __eth_ntoa(&ea)
  * 
  * def eth_aton(buf):             # <<<<<<<<<<<<<<
@@ -3604,7 +3604,7 @@ static PyObject *__pyx_pf_4dnet_4eth_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
   return __pyx_r;
 }
 
-/* "dnet.pyx":165
+/* "dnet.pyx":164
  *     return PyBytes_FromStringAndSize(ea.data, 6)
  * 
  * def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,             # <<<<<<<<<<<<<<
@@ -3666,7 +3666,7 @@ static PyObject *__pyx_pw_4dnet_7eth_pack_hdr(PyObject *__pyx_self, PyObject *__
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "eth_pack_hdr") < 0)) __PYX_ERR(0, 165, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "eth_pack_hdr") < 0)) __PYX_ERR(0, 164, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3686,7 +3686,7 @@ static PyObject *__pyx_pw_4dnet_7eth_pack_hdr(PyObject *__pyx_self, PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("eth_pack_hdr", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 165, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("eth_pack_hdr", 0, 0, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 164, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.eth_pack_hdr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3712,39 +3712,39 @@ static PyObject *__pyx_pf_4dnet_6eth_pack_hdr(CYTHON_UNUSED PyObject *__pyx_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("eth_pack_hdr", 0);
 
-  /* "dnet.pyx":176
+  /* "dnet.pyx":175
  *     cdef char hdr[14]
  *     cdef eth_addr_t s, d
  *     __memcpy(s.data, src, 6)             # <<<<<<<<<<<<<<
  *     __memcpy(d.data, dst, 6)
  *     __eth_pack_hdr(hdr, d, s, etype)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_s.data, __pyx_v_src, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_s.data, __pyx_v_src, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 175, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":177
+  /* "dnet.pyx":176
  *     cdef eth_addr_t s, d
  *     __memcpy(s.data, src, 6)
  *     __memcpy(d.data, dst, 6)             # <<<<<<<<<<<<<<
  *     __eth_pack_hdr(hdr, d, s, etype)
  *     return PyBytes_FromStringAndSize(hdr, 14)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_d.data, __pyx_v_dst, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_d.data, __pyx_v_dst, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":178
+  /* "dnet.pyx":177
  *     __memcpy(s.data, src, 6)
  *     __memcpy(d.data, dst, 6)
  *     __eth_pack_hdr(hdr, d, s, etype)             # <<<<<<<<<<<<<<
  *     return PyBytes_FromStringAndSize(hdr, 14)
  * 
  */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_etype); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_etype); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 177, __pyx_L1_error)
   eth_pack_hdr(__pyx_v_hdr, __pyx_v_d, __pyx_v_s, __pyx_t_2);
 
-  /* "dnet.pyx":179
+  /* "dnet.pyx":178
  *     __memcpy(d.data, dst, 6)
  *     __eth_pack_hdr(hdr, d, s, etype)
  *     return PyBytes_FromStringAndSize(hdr, 14)             # <<<<<<<<<<<<<<
@@ -3752,13 +3752,13 @@ static PyObject *__pyx_pf_4dnet_6eth_pack_hdr(CYTHON_UNUSED PyObject *__pyx_self
  * #
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_hdr, 14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_hdr, 14); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 178, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":165
+  /* "dnet.pyx":164
  *     return PyBytes_FromStringAndSize(ea.data, 6)
  * 
  * def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,             # <<<<<<<<<<<<<<
@@ -3777,7 +3777,7 @@ static PyObject *__pyx_pf_4dnet_6eth_pack_hdr(CYTHON_UNUSED PyObject *__pyx_self
   return __pyx_r;
 }
 
-/* "dnet.pyx":250
+/* "dnet.pyx":249
  *     cdef ip_t *ip
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -3811,7 +3811,7 @@ static int __pyx_pf_4dnet_2ip___init__(struct __pyx_obj_4dnet_ip *__pyx_v_self) 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":251
+  /* "dnet.pyx":250
  * 
  *     def __init__(self):
  *         self.ip = ip_open()             # <<<<<<<<<<<<<<
@@ -3820,7 +3820,7 @@ static int __pyx_pf_4dnet_2ip___init__(struct __pyx_obj_4dnet_ip *__pyx_v_self) 
  */
   __pyx_v_self->ip = ip_open();
 
-  /* "dnet.pyx":252
+  /* "dnet.pyx":251
  *     def __init__(self):
  *         self.ip = ip_open()
  *         if not self.ip:             # <<<<<<<<<<<<<<
@@ -3830,20 +3830,20 @@ static int __pyx_pf_4dnet_2ip___init__(struct __pyx_obj_4dnet_ip *__pyx_v_self) 
   __pyx_t_1 = ((!(__pyx_v_self->ip != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":253
+    /* "dnet.pyx":252
  *         self.ip = ip_open()
  *         if not self.ip:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def send(self, pkt):
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 252, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 253, __pyx_L1_error)
+    __PYX_ERR(0, 252, __pyx_L1_error)
 
-    /* "dnet.pyx":252
+    /* "dnet.pyx":251
  *     def __init__(self):
  *         self.ip = ip_open()
  *         if not self.ip:             # <<<<<<<<<<<<<<
@@ -3852,7 +3852,7 @@ static int __pyx_pf_4dnet_2ip___init__(struct __pyx_obj_4dnet_ip *__pyx_v_self) 
  */
   }
 
-  /* "dnet.pyx":250
+  /* "dnet.pyx":249
  *     cdef ip_t *ip
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -3872,7 +3872,7 @@ static int __pyx_pf_4dnet_2ip___init__(struct __pyx_obj_4dnet_ip *__pyx_v_self) 
   return __pyx_r;
 }
 
-/* "dnet.pyx":255
+/* "dnet.pyx":254
  *             raise OSError, __oserror()
  * 
  *     def send(self, pkt):             # <<<<<<<<<<<<<<
@@ -3904,7 +3904,7 @@ static PyObject *__pyx_pf_4dnet_2ip_2send(struct __pyx_obj_4dnet_ip *__pyx_v_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("send", 0);
 
-  /* "dnet.pyx":262
+  /* "dnet.pyx":261
  *         pkt -- binary string representing an IP packet
  *         """
  *         return ip_send(self.ip, pkt, PyBytes_Size(pkt))             # <<<<<<<<<<<<<<
@@ -3912,14 +3912,14 @@ static PyObject *__pyx_pf_4dnet_2ip_2send(struct __pyx_obj_4dnet_ip *__pyx_v_sel
  *     def __dealloc__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_pkt); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 262, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_From_int(ip_send(__pyx_v_self->ip, __pyx_t_1, PyBytes_Size(__pyx_v_pkt))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_pkt); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(ip_send(__pyx_v_self->ip, __pyx_t_1, PyBytes_Size(__pyx_v_pkt))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":255
+  /* "dnet.pyx":254
  *             raise OSError, __oserror()
  * 
  *     def send(self, pkt):             # <<<<<<<<<<<<<<
@@ -3938,7 +3938,7 @@ static PyObject *__pyx_pf_4dnet_2ip_2send(struct __pyx_obj_4dnet_ip *__pyx_v_sel
   return __pyx_r;
 }
 
-/* "dnet.pyx":264
+/* "dnet.pyx":263
  *         return ip_send(self.ip, pkt, PyBytes_Size(pkt))
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -3962,7 +3962,7 @@ static void __pyx_pf_4dnet_2ip_4__dealloc__(struct __pyx_obj_4dnet_ip *__pyx_v_s
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "dnet.pyx":265
+  /* "dnet.pyx":264
  * 
  *     def __dealloc__(self):
  *         if self.ip:             # <<<<<<<<<<<<<<
@@ -3972,7 +3972,7 @@ static void __pyx_pf_4dnet_2ip_4__dealloc__(struct __pyx_obj_4dnet_ip *__pyx_v_s
   __pyx_t_1 = (__pyx_v_self->ip != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":266
+    /* "dnet.pyx":265
  *     def __dealloc__(self):
  *         if self.ip:
  *             ip_close(self.ip)             # <<<<<<<<<<<<<<
@@ -3981,7 +3981,7 @@ static void __pyx_pf_4dnet_2ip_4__dealloc__(struct __pyx_obj_4dnet_ip *__pyx_v_s
  */
     (void)(ip_close(__pyx_v_self->ip));
 
-    /* "dnet.pyx":265
+    /* "dnet.pyx":264
  * 
  *     def __dealloc__(self):
  *         if self.ip:             # <<<<<<<<<<<<<<
@@ -3990,7 +3990,7 @@ static void __pyx_pf_4dnet_2ip_4__dealloc__(struct __pyx_obj_4dnet_ip *__pyx_v_s
  */
   }
 
-  /* "dnet.pyx":264
+  /* "dnet.pyx":263
  *         return ip_send(self.ip, pkt, PyBytes_Size(pkt))
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -4115,7 +4115,7 @@ static PyObject *__pyx_pf_4dnet_2ip_8__setstate_cython__(CYTHON_UNUSED struct __
   return __pyx_r;
 }
 
-/* "dnet.pyx":268
+/* "dnet.pyx":267
  *             ip_close(self.ip)
  * 
  * def ip_ntoa(buf):             # <<<<<<<<<<<<<<
@@ -4152,7 +4152,7 @@ static PyObject *__pyx_pf_4dnet_8ip_ntoa(CYTHON_UNUSED PyObject *__pyx_self, PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip_ntoa", 0);
 
-  /* "dnet.pyx":274
+  /* "dnet.pyx":273
  *     cdef unsigned int i
  * 
  *     if PyLong_Check(buf) or PyLong_Check(buf):             # <<<<<<<<<<<<<<
@@ -4170,17 +4170,17 @@ static PyObject *__pyx_pf_4dnet_8ip_ntoa(CYTHON_UNUSED PyObject *__pyx_self, PyO
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":275
+    /* "dnet.pyx":274
  * 
  *     if PyLong_Check(buf) or PyLong_Check(buf):
  *         i = ntohl(buf)             # <<<<<<<<<<<<<<
  *         memcpy(<char *>&ia, <char *>&i, 4)
  *     else:
  */
-    __pyx_t_3 = __Pyx_PyInt_As_unsigned_long(__pyx_v_buf); if (unlikely((__pyx_t_3 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_unsigned_long(__pyx_v_buf); if (unlikely((__pyx_t_3 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 274, __pyx_L1_error)
     __pyx_v_i = ntohl(__pyx_t_3);
 
-    /* "dnet.pyx":276
+    /* "dnet.pyx":275
  *     if PyLong_Check(buf) or PyLong_Check(buf):
  *         i = ntohl(buf)
  *         memcpy(<char *>&ia, <char *>&i, 4)             # <<<<<<<<<<<<<<
@@ -4189,7 +4189,7 @@ static PyObject *__pyx_pf_4dnet_8ip_ntoa(CYTHON_UNUSED PyObject *__pyx_self, PyO
  */
     (void)(memcpy(((char *)(&__pyx_v_ia)), ((char *)(&__pyx_v_i)), 4));
 
-    /* "dnet.pyx":274
+    /* "dnet.pyx":273
  *     cdef unsigned int i
  * 
  *     if PyLong_Check(buf) or PyLong_Check(buf):             # <<<<<<<<<<<<<<
@@ -4199,7 +4199,7 @@ static PyObject *__pyx_pf_4dnet_8ip_ntoa(CYTHON_UNUSED PyObject *__pyx_self, PyO
     goto __pyx_L3;
   }
 
-  /* "dnet.pyx":278
+  /* "dnet.pyx":277
  *         memcpy(<char *>&ia, <char *>&i, 4)
  *     else:
  *         __memcpy(<char *>&ia, buf, 4)             # <<<<<<<<<<<<<<
@@ -4207,13 +4207,13 @@ static PyObject *__pyx_pf_4dnet_8ip_ntoa(CYTHON_UNUSED PyObject *__pyx_self, PyO
  * 
  */
   /*else*/ {
-    __pyx_t_4 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_ia)), __pyx_v_buf, 4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 278, __pyx_L1_error)
+    __pyx_t_4 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_ia)), __pyx_v_buf, 4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 277, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __pyx_L3:;
 
-  /* "dnet.pyx":279
+  /* "dnet.pyx":278
  *     else:
  *         __memcpy(<char *>&ia, buf, 4)
  *     return __ip_ntoa(&ia)             # <<<<<<<<<<<<<<
@@ -4221,13 +4221,13 @@ static PyObject *__pyx_pf_4dnet_8ip_ntoa(CYTHON_UNUSED PyObject *__pyx_self, PyO
  * def ip_aton(buf):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyStr_FromString(ip_ntoa((&__pyx_v_ia))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyStr_FromString(ip_ntoa((&__pyx_v_ia))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 278, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":268
+  /* "dnet.pyx":267
  *             ip_close(self.ip)
  * 
  * def ip_ntoa(buf):             # <<<<<<<<<<<<<<
@@ -4246,7 +4246,7 @@ static PyObject *__pyx_pf_4dnet_8ip_ntoa(CYTHON_UNUSED PyObject *__pyx_self, PyO
   return __pyx_r;
 }
 
-/* "dnet.pyx":281
+/* "dnet.pyx":280
  *     return __ip_ntoa(&ia)
  * 
  * def ip_aton(buf):             # <<<<<<<<<<<<<<
@@ -4281,18 +4281,18 @@ static PyObject *__pyx_pf_4dnet_10ip_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip_aton", 0);
 
-  /* "dnet.pyx":285
+  /* "dnet.pyx":284
  *     packed binary string ('\\x0a\\x00\\x00\\x01')."""
  *     cdef ip_addr_t ia
  *     if __ip_aton(buf, &ia) < 0:             # <<<<<<<<<<<<<<
  *         raise ValueError, "invalid IP address"
  *     return PyBytes_FromStringAndSize(<char *>&ia, 4)
  */
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 285, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 284, __pyx_L1_error)
   __pyx_t_2 = ((ip_aton(__pyx_t_1, (&__pyx_v_ia)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":286
+    /* "dnet.pyx":285
  *     cdef ip_addr_t ia
  *     if __ip_aton(buf, &ia) < 0:
  *         raise ValueError, "invalid IP address"             # <<<<<<<<<<<<<<
@@ -4300,9 +4300,9 @@ static PyObject *__pyx_pf_4dnet_10ip_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
  * 
  */
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_invalid_IP_address, 0, 0);
-    __PYX_ERR(0, 286, __pyx_L1_error)
+    __PYX_ERR(0, 285, __pyx_L1_error)
 
-    /* "dnet.pyx":285
+    /* "dnet.pyx":284
  *     packed binary string ('\\x0a\\x00\\x00\\x01')."""
  *     cdef ip_addr_t ia
  *     if __ip_aton(buf, &ia) < 0:             # <<<<<<<<<<<<<<
@@ -4311,7 +4311,7 @@ static PyObject *__pyx_pf_4dnet_10ip_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
  */
   }
 
-  /* "dnet.pyx":287
+  /* "dnet.pyx":286
  *     if __ip_aton(buf, &ia) < 0:
  *         raise ValueError, "invalid IP address"
  *     return PyBytes_FromStringAndSize(<char *>&ia, 4)             # <<<<<<<<<<<<<<
@@ -4319,13 +4319,13 @@ static PyObject *__pyx_pf_4dnet_10ip_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
  * def ip_checksum(pkt):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)(&__pyx_v_ia)), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 287, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)(&__pyx_v_ia)), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":281
+  /* "dnet.pyx":280
  *     return __ip_ntoa(&ia)
  * 
  * def ip_aton(buf):             # <<<<<<<<<<<<<<
@@ -4344,7 +4344,7 @@ static PyObject *__pyx_pf_4dnet_10ip_aton(CYTHON_UNUSED PyObject *__pyx_self, Py
   return __pyx_r;
 }
 
-/* "dnet.pyx":289
+/* "dnet.pyx":288
  *     return PyBytes_FromStringAndSize(<char *>&ia, 4)
  * 
  * def ip_checksum(pkt):             # <<<<<<<<<<<<<<
@@ -4382,7 +4382,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip_checksum", 0);
 
-  /* "dnet.pyx":299
+  /* "dnet.pyx":298
  *     cdef char *p
  *     cdef int n
  *     if PyObject_AsReadBuffer(pkt, &p, &n) == 0:             # <<<<<<<<<<<<<<
@@ -4392,7 +4392,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
   __pyx_t_1 = ((PyObject_AsReadBuffer(__pyx_v_pkt, (&__pyx_v_p), (&__pyx_v_n)) == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":300
+    /* "dnet.pyx":299
  *     cdef int n
  *     if PyObject_AsReadBuffer(pkt, &p, &n) == 0:
  *         if n < 2048:             # <<<<<<<<<<<<<<
@@ -4402,7 +4402,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
     __pyx_t_1 = ((__pyx_v_n < 0x800) != 0);
     if (__pyx_t_1) {
 
-      /* "dnet.pyx":301
+      /* "dnet.pyx":300
  *     if PyObject_AsReadBuffer(pkt, &p, &n) == 0:
  *         if n < 2048:
  *             memcpy(buf, p, n)             # <<<<<<<<<<<<<<
@@ -4411,7 +4411,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
  */
       (void)(memcpy(__pyx_v_buf, __pyx_v_p, __pyx_v_n));
 
-      /* "dnet.pyx":302
+      /* "dnet.pyx":301
  *         if n < 2048:
  *             memcpy(buf, p, n)
  *             __ip_checksum(buf, n)             # <<<<<<<<<<<<<<
@@ -4420,7 +4420,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
  */
       ip_checksum(__pyx_v_buf, __pyx_v_n);
 
-      /* "dnet.pyx":303
+      /* "dnet.pyx":302
  *             memcpy(buf, p, n)
  *             __ip_checksum(buf, n)
  *             return PyBytes_FromStringAndSize(buf, n)             # <<<<<<<<<<<<<<
@@ -4428,13 +4428,13 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
  *         memcpy(p, pkt, n)
  */
       __Pyx_XDECREF(__pyx_r);
-      __pyx_t_2 = PyBytes_FromStringAndSize(__pyx_v_buf, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 303, __pyx_L1_error)
+      __pyx_t_2 = PyBytes_FromStringAndSize(__pyx_v_buf, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 302, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_r = __pyx_t_2;
       __pyx_t_2 = 0;
       goto __pyx_L0;
 
-      /* "dnet.pyx":300
+      /* "dnet.pyx":299
  *     cdef int n
  *     if PyObject_AsReadBuffer(pkt, &p, &n) == 0:
  *         if n < 2048:             # <<<<<<<<<<<<<<
@@ -4443,7 +4443,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
  */
     }
 
-    /* "dnet.pyx":304
+    /* "dnet.pyx":303
  *             __ip_checksum(buf, n)
  *             return PyBytes_FromStringAndSize(buf, n)
  *         p = malloc(n)             # <<<<<<<<<<<<<<
@@ -4452,17 +4452,17 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
  */
     __pyx_v_p = malloc(__pyx_v_n);
 
-    /* "dnet.pyx":305
+    /* "dnet.pyx":304
  *             return PyBytes_FromStringAndSize(buf, n)
  *         p = malloc(n)
  *         memcpy(p, pkt, n)             # <<<<<<<<<<<<<<
  *         __ip_checksum(p, n)
  *         s = PyBytes_FromStringAndSize(p, n)
  */
-    __pyx_t_3 = __Pyx_PyObject_AsWritableString(__pyx_v_pkt); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) __PYX_ERR(0, 305, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_AsWritableString(__pyx_v_pkt); if (unlikely((!__pyx_t_3) && PyErr_Occurred())) __PYX_ERR(0, 304, __pyx_L1_error)
     (void)(memcpy(__pyx_v_p, __pyx_t_3, __pyx_v_n));
 
-    /* "dnet.pyx":306
+    /* "dnet.pyx":305
  *         p = malloc(n)
  *         memcpy(p, pkt, n)
  *         __ip_checksum(p, n)             # <<<<<<<<<<<<<<
@@ -4471,19 +4471,19 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
  */
     ip_checksum(__pyx_v_p, __pyx_v_n);
 
-    /* "dnet.pyx":307
+    /* "dnet.pyx":306
  *         memcpy(p, pkt, n)
  *         __ip_checksum(p, n)
  *         s = PyBytes_FromStringAndSize(p, n)             # <<<<<<<<<<<<<<
  *         free(p)
  *         return s
  */
-    __pyx_t_2 = PyBytes_FromStringAndSize(__pyx_v_p, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 307, __pyx_L1_error)
+    __pyx_t_2 = PyBytes_FromStringAndSize(__pyx_v_p, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 306, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_s = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "dnet.pyx":308
+    /* "dnet.pyx":307
  *         __ip_checksum(p, n)
  *         s = PyBytes_FromStringAndSize(p, n)
  *         free(p)             # <<<<<<<<<<<<<<
@@ -4492,7 +4492,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
  */
     free(__pyx_v_p);
 
-    /* "dnet.pyx":309
+    /* "dnet.pyx":308
  *         s = PyBytes_FromStringAndSize(p, n)
  *         free(p)
  *         return s             # <<<<<<<<<<<<<<
@@ -4504,7 +4504,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
     __pyx_r = __pyx_v_s;
     goto __pyx_L0;
 
-    /* "dnet.pyx":299
+    /* "dnet.pyx":298
  *     cdef char *p
  *     cdef int n
  *     if PyObject_AsReadBuffer(pkt, &p, &n) == 0:             # <<<<<<<<<<<<<<
@@ -4513,7 +4513,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
  */
   }
 
-  /* "dnet.pyx":310
+  /* "dnet.pyx":309
  *         free(p)
  *         return s
  *     raise TypeError             # <<<<<<<<<<<<<<
@@ -4521,9 +4521,9 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
  * def ip_cksum_add(buf, int sum):
  */
   __Pyx_Raise(__pyx_builtin_TypeError, 0, 0, 0);
-  __PYX_ERR(0, 310, __pyx_L1_error)
+  __PYX_ERR(0, 309, __pyx_L1_error)
 
-  /* "dnet.pyx":289
+  /* "dnet.pyx":288
  *     return PyBytes_FromStringAndSize(<char *>&ia, 4)
  * 
  * def ip_checksum(pkt):             # <<<<<<<<<<<<<<
@@ -4543,7 +4543,7 @@ static PyObject *__pyx_pf_4dnet_12ip_checksum(CYTHON_UNUSED PyObject *__pyx_self
   return __pyx_r;
 }
 
-/* "dnet.pyx":312
+/* "dnet.pyx":311
  *     raise TypeError
  * 
  * def ip_cksum_add(buf, int sum):             # <<<<<<<<<<<<<<
@@ -4586,11 +4586,11 @@ static PyObject *__pyx_pw_4dnet_15ip_cksum_add(PyObject *__pyx_self, PyObject *_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_sum)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("ip_cksum_add", 1, 2, 2, 1); __PYX_ERR(0, 312, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("ip_cksum_add", 1, 2, 2, 1); __PYX_ERR(0, 311, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ip_cksum_add") < 0)) __PYX_ERR(0, 312, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ip_cksum_add") < 0)) __PYX_ERR(0, 311, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4599,11 +4599,11 @@ static PyObject *__pyx_pw_4dnet_15ip_cksum_add(PyObject *__pyx_self, PyObject *_
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_buf = values[0];
-    __pyx_v_sum = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_sum == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 312, __pyx_L3_error)
+    __pyx_v_sum = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_sum == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 311, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ip_cksum_add", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 312, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("ip_cksum_add", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 311, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.ip_cksum_add", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4628,7 +4628,7 @@ static PyObject *__pyx_pf_4dnet_14ip_cksum_add(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip_cksum_add", 0);
 
-  /* "dnet.pyx":315
+  /* "dnet.pyx":314
  *     cdef char *p
  *     cdef int n
  *     if PyObject_AsReadBuffer(buf, &p, &n) == 0:             # <<<<<<<<<<<<<<
@@ -4638,7 +4638,7 @@ static PyObject *__pyx_pf_4dnet_14ip_cksum_add(CYTHON_UNUSED PyObject *__pyx_sel
   __pyx_t_1 = ((PyObject_AsReadBuffer(__pyx_v_buf, (&__pyx_v_p), (&__pyx_v_n)) == 0) != 0);
   if (likely(__pyx_t_1)) {
 
-    /* "dnet.pyx":316
+    /* "dnet.pyx":315
  *     cdef int n
  *     if PyObject_AsReadBuffer(buf, &p, &n) == 0:
  *         return __ip_cksum_add(p, n, sum)             # <<<<<<<<<<<<<<
@@ -4646,13 +4646,13 @@ static PyObject *__pyx_pf_4dnet_14ip_cksum_add(CYTHON_UNUSED PyObject *__pyx_sel
  *         raise TypeError
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_2 = __Pyx_PyInt_From_int(ip_cksum_add(__pyx_v_p, __pyx_v_n, __pyx_v_sum)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int(ip_cksum_add(__pyx_v_p, __pyx_v_n, __pyx_v_sum)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 315, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_r = __pyx_t_2;
     __pyx_t_2 = 0;
     goto __pyx_L0;
 
-    /* "dnet.pyx":315
+    /* "dnet.pyx":314
  *     cdef char *p
  *     cdef int n
  *     if PyObject_AsReadBuffer(buf, &p, &n) == 0:             # <<<<<<<<<<<<<<
@@ -4661,7 +4661,7 @@ static PyObject *__pyx_pf_4dnet_14ip_cksum_add(CYTHON_UNUSED PyObject *__pyx_sel
  */
   }
 
-  /* "dnet.pyx":318
+  /* "dnet.pyx":317
  *         return __ip_cksum_add(p, n, sum)
  *     else:
  *         raise TypeError             # <<<<<<<<<<<<<<
@@ -4670,10 +4670,10 @@ static PyObject *__pyx_pf_4dnet_14ip_cksum_add(CYTHON_UNUSED PyObject *__pyx_sel
  */
   /*else*/ {
     __Pyx_Raise(__pyx_builtin_TypeError, 0, 0, 0);
-    __PYX_ERR(0, 318, __pyx_L1_error)
+    __PYX_ERR(0, 317, __pyx_L1_error)
   }
 
-  /* "dnet.pyx":312
+  /* "dnet.pyx":311
  *     raise TypeError
  * 
  * def ip_cksum_add(buf, int sum):             # <<<<<<<<<<<<<<
@@ -4692,7 +4692,7 @@ static PyObject *__pyx_pf_4dnet_14ip_cksum_add(CYTHON_UNUSED PyObject *__pyx_sel
   return __pyx_r;
 }
 
-/* "dnet.pyx":320
+/* "dnet.pyx":319
  *         raise TypeError
  * 
  * def ip_cksum_carry(int sum):             # <<<<<<<<<<<<<<
@@ -4712,7 +4712,7 @@ static PyObject *__pyx_pw_4dnet_17ip_cksum_carry(PyObject *__pyx_self, PyObject 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("ip_cksum_carry (wrapper)", 0);
   assert(__pyx_arg_sum); {
-    __pyx_v_sum = __Pyx_PyInt_As_int(__pyx_arg_sum); if (unlikely((__pyx_v_sum == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 320, __pyx_L3_error)
+    __pyx_v_sum = __Pyx_PyInt_As_int(__pyx_arg_sum); if (unlikely((__pyx_v_sum == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 319, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -4736,7 +4736,7 @@ static PyObject *__pyx_pf_4dnet_16ip_cksum_carry(CYTHON_UNUSED PyObject *__pyx_s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip_cksum_carry", 0);
 
-  /* "dnet.pyx":321
+  /* "dnet.pyx":320
  * 
  * def ip_cksum_carry(int sum):
  *     return __ip_cksum_carry(sum)             # <<<<<<<<<<<<<<
@@ -4744,13 +4744,13 @@ static PyObject *__pyx_pf_4dnet_16ip_cksum_carry(CYTHON_UNUSED PyObject *__pyx_s
  * def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(ip_cksum_carry(__pyx_v_sum)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 321, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(ip_cksum_carry(__pyx_v_sum)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 320, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":320
+  /* "dnet.pyx":319
  *         raise TypeError
  * 
  * def ip_cksum_carry(int sum):             # <<<<<<<<<<<<<<
@@ -4769,7 +4769,7 @@ static PyObject *__pyx_pf_4dnet_16ip_cksum_carry(CYTHON_UNUSED PyObject *__pyx_s
   return __pyx_r;
 }
 
-/* "dnet.pyx":323
+/* "dnet.pyx":322
  *     return __ip_cksum_carry(sum)
  * 
  * def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,             # <<<<<<<<<<<<<<
@@ -4881,7 +4881,7 @@ static PyObject *__pyx_pw_4dnet_19ip_pack_hdr(PyObject *__pyx_self, PyObject *__
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ip_pack_hdr") < 0)) __PYX_ERR(0, 323, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ip_pack_hdr") < 0)) __PYX_ERR(0, 322, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4916,7 +4916,7 @@ static PyObject *__pyx_pw_4dnet_19ip_pack_hdr(PyObject *__pyx_self, PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ip_pack_hdr", 0, 0, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 323, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("ip_pack_hdr", 0, 0, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 322, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.ip_pack_hdr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4947,44 +4947,44 @@ static PyObject *__pyx_pf_4dnet_18ip_pack_hdr(CYTHON_UNUSED PyObject *__pyx_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip_pack_hdr", 0);
 
-  /* "dnet.pyx":340
+  /* "dnet.pyx":339
  *     cdef char hdr[20]
  *     cdef ip_addr_t s, d
  *     __memcpy(<char *>&s, src, 4)             # <<<<<<<<<<<<<<
  *     __memcpy(<char *>&d, dst, 4)
  *     __ip_pack_hdr(hdr, tos, len, id, off, ttl, p, s, d)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_s)), __pyx_v_src, 4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_s)), __pyx_v_src, 4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":341
+  /* "dnet.pyx":340
  *     cdef ip_addr_t s, d
  *     __memcpy(<char *>&s, src, 4)
  *     __memcpy(<char *>&d, dst, 4)             # <<<<<<<<<<<<<<
  *     __ip_pack_hdr(hdr, tos, len, id, off, ttl, p, s, d)
  *     return PyBytes_FromStringAndSize(hdr, 20)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_d)), __pyx_v_dst, 4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_d)), __pyx_v_dst, 4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":342
+  /* "dnet.pyx":341
  *     __memcpy(<char *>&s, src, 4)
  *     __memcpy(<char *>&d, dst, 4)
  *     __ip_pack_hdr(hdr, tos, len, id, off, ttl, p, s, d)             # <<<<<<<<<<<<<<
  *     return PyBytes_FromStringAndSize(hdr, 20)
  * 
  */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_tos); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_id); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_off); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_ttl); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_p); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_tos); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_id); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_off); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_ttl); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 341, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_p); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 341, __pyx_L1_error)
   ip_pack_hdr(__pyx_v_hdr, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_t_7, __pyx_v_s, __pyx_v_d);
 
-  /* "dnet.pyx":343
+  /* "dnet.pyx":342
  *     __memcpy(<char *>&d, dst, 4)
  *     __ip_pack_hdr(hdr, tos, len, id, off, ttl, p, s, d)
  *     return PyBytes_FromStringAndSize(hdr, 20)             # <<<<<<<<<<<<<<
@@ -4992,13 +4992,13 @@ static PyObject *__pyx_pf_4dnet_18ip_pack_hdr(CYTHON_UNUSED PyObject *__pyx_self
  * #
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_hdr, 20); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 343, __pyx_L1_error)
+  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_hdr, 20); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":323
+  /* "dnet.pyx":322
  *     return __ip_cksum_carry(sum)
  * 
  * def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,             # <<<<<<<<<<<<<<
@@ -5017,7 +5017,7 @@ static PyObject *__pyx_pf_4dnet_18ip_pack_hdr(CYTHON_UNUSED PyObject *__pyx_self
   return __pyx_r;
 }
 
-/* "dnet.pyx":373
+/* "dnet.pyx":372
  * IP6_ADDR_LOOPBACK = PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", 16)
  * 
  * def ip6_ntoa(buf):             # <<<<<<<<<<<<<<
@@ -5050,18 +5050,18 @@ static PyObject *__pyx_pf_4dnet_20ip6_ntoa(CYTHON_UNUSED PyObject *__pyx_self, P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip6_ntoa", 0);
 
-  /* "dnet.pyx":377
+  /* "dnet.pyx":376
  *     printable string ('10.0.0.1')."""
  *     cdef ip6_addr_t ia
  *     __memcpy(<char *>&ia, buf, 16)             # <<<<<<<<<<<<<<
  *     return __ip6_ntoa(&ia)
  * 
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_ia)), __pyx_v_buf, 16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 377, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_ia)), __pyx_v_buf, 16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":378
+  /* "dnet.pyx":377
  *     cdef ip6_addr_t ia
  *     __memcpy(<char *>&ia, buf, 16)
  *     return __ip6_ntoa(&ia)             # <<<<<<<<<<<<<<
@@ -5069,13 +5069,13 @@ static PyObject *__pyx_pf_4dnet_20ip6_ntoa(CYTHON_UNUSED PyObject *__pyx_self, P
  * def ip6_aton(buf):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyStr_FromString(ip6_ntoa((&__pyx_v_ia))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyStr_FromString(ip6_ntoa((&__pyx_v_ia))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 377, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":373
+  /* "dnet.pyx":372
  * IP6_ADDR_LOOPBACK = PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", 16)
  * 
  * def ip6_ntoa(buf):             # <<<<<<<<<<<<<<
@@ -5094,7 +5094,7 @@ static PyObject *__pyx_pf_4dnet_20ip6_ntoa(CYTHON_UNUSED PyObject *__pyx_self, P
   return __pyx_r;
 }
 
-/* "dnet.pyx":380
+/* "dnet.pyx":379
  *     return __ip6_ntoa(&ia)
  * 
  * def ip6_aton(buf):             # <<<<<<<<<<<<<<
@@ -5129,18 +5129,18 @@ static PyObject *__pyx_pf_4dnet_22ip6_aton(CYTHON_UNUSED PyObject *__pyx_self, P
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip6_aton", 0);
 
-  /* "dnet.pyx":384
+  /* "dnet.pyx":383
  *     packed binary string ('\\x0a\\x00\\x00\\x01')."""
  *     cdef ip6_addr_t ia
  *     if __ip6_aton(buf, &ia) < 0:             # <<<<<<<<<<<<<<
  *         raise ValueError, "invalid IPv6 address"
  *     return PyBytes_FromStringAndSize(<char *>&ia, 16)
  */
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 384, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 383, __pyx_L1_error)
   __pyx_t_2 = ((ip6_aton(__pyx_t_1, (&__pyx_v_ia)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":385
+    /* "dnet.pyx":384
  *     cdef ip6_addr_t ia
  *     if __ip6_aton(buf, &ia) < 0:
  *         raise ValueError, "invalid IPv6 address"             # <<<<<<<<<<<<<<
@@ -5148,9 +5148,9 @@ static PyObject *__pyx_pf_4dnet_22ip6_aton(CYTHON_UNUSED PyObject *__pyx_self, P
  * 
  */
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_invalid_IPv6_address, 0, 0);
-    __PYX_ERR(0, 385, __pyx_L1_error)
+    __PYX_ERR(0, 384, __pyx_L1_error)
 
-    /* "dnet.pyx":384
+    /* "dnet.pyx":383
  *     packed binary string ('\\x0a\\x00\\x00\\x01')."""
  *     cdef ip6_addr_t ia
  *     if __ip6_aton(buf, &ia) < 0:             # <<<<<<<<<<<<<<
@@ -5159,7 +5159,7 @@ static PyObject *__pyx_pf_4dnet_22ip6_aton(CYTHON_UNUSED PyObject *__pyx_self, P
  */
   }
 
-  /* "dnet.pyx":386
+  /* "dnet.pyx":385
  *     if __ip6_aton(buf, &ia) < 0:
  *         raise ValueError, "invalid IPv6 address"
  *     return PyBytes_FromStringAndSize(<char *>&ia, 16)             # <<<<<<<<<<<<<<
@@ -5167,13 +5167,13 @@ static PyObject *__pyx_pf_4dnet_22ip6_aton(CYTHON_UNUSED PyObject *__pyx_self, P
  * def ip6_checksum(buf):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)(&__pyx_v_ia)), 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 386, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)(&__pyx_v_ia)), 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 385, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":380
+  /* "dnet.pyx":379
  *     return __ip6_ntoa(&ia)
  * 
  * def ip6_aton(buf):             # <<<<<<<<<<<<<<
@@ -5192,7 +5192,7 @@ static PyObject *__pyx_pf_4dnet_22ip6_aton(CYTHON_UNUSED PyObject *__pyx_self, P
   return __pyx_r;
 }
 
-/* "dnet.pyx":388
+/* "dnet.pyx":387
  *     return PyBytes_FromStringAndSize(<char *>&ia, 16)
  * 
  * def ip6_checksum(buf):             # <<<<<<<<<<<<<<
@@ -5224,17 +5224,17 @@ static PyObject *__pyx_pf_4dnet_24ip6_checksum(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip6_checksum", 0);
 
-  /* "dnet.pyx":395
+  /* "dnet.pyx":394
  *     pkt -- binary string representing an IPv6 packet
  *     """
  *     __ip6_checksum(buf, PyBytes_Size(buf))             # <<<<<<<<<<<<<<
  *     return buf
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 394, __pyx_L1_error)
   ip6_checksum(__pyx_t_1, PyBytes_Size(__pyx_v_buf));
 
-  /* "dnet.pyx":396
+  /* "dnet.pyx":395
  *     """
  *     __ip6_checksum(buf, PyBytes_Size(buf))
  *     return buf             # <<<<<<<<<<<<<<
@@ -5246,7 +5246,7 @@ static PyObject *__pyx_pf_4dnet_24ip6_checksum(CYTHON_UNUSED PyObject *__pyx_sel
   __pyx_r = __pyx_v_buf;
   goto __pyx_L0;
 
-  /* "dnet.pyx":388
+  /* "dnet.pyx":387
  *     return PyBytes_FromStringAndSize(<char *>&ia, 16)
  * 
  * def ip6_checksum(buf):             # <<<<<<<<<<<<<<
@@ -5264,7 +5264,7 @@ static PyObject *__pyx_pf_4dnet_24ip6_checksum(CYTHON_UNUSED PyObject *__pyx_sel
   return __pyx_r;
 }
 
-/* "dnet.pyx":398
+/* "dnet.pyx":397
  *     return buf
  * 
  * def ip6_pack_hdr(fc=0, fl=0, plen=0, nxt=IP_PROTO_IPV6, hlim=IP6_HLIM_DEFAULT,             # <<<<<<<<<<<<<<
@@ -5366,7 +5366,7 @@ static PyObject *__pyx_pw_4dnet_27ip6_pack_hdr(PyObject *__pyx_self, PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ip6_pack_hdr") < 0)) __PYX_ERR(0, 398, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ip6_pack_hdr") < 0)) __PYX_ERR(0, 397, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5398,7 +5398,7 @@ static PyObject *__pyx_pw_4dnet_27ip6_pack_hdr(PyObject *__pyx_self, PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ip6_pack_hdr", 0, 0, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 398, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("ip6_pack_hdr", 0, 0, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 397, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.ip6_pack_hdr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5428,43 +5428,43 @@ static PyObject *__pyx_pf_4dnet_26ip6_pack_hdr(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ip6_pack_hdr", 0);
 
-  /* "dnet.pyx":413
+  /* "dnet.pyx":412
  *     cdef char hdr[40]
  *     cdef ip6_addr_t s, d
  *     __memcpy(<char *>&s, src, 16)             # <<<<<<<<<<<<<<
  *     __memcpy(<char *>&d, dst, 16)
  *     __ip6_pack_hdr(hdr, fc, fl, plen, nxt, hlim, s, d)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_s)), __pyx_v_src, 16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 413, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_s)), __pyx_v_src, 16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 412, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":414
+  /* "dnet.pyx":413
  *     cdef ip6_addr_t s, d
  *     __memcpy(<char *>&s, src, 16)
  *     __memcpy(<char *>&d, dst, 16)             # <<<<<<<<<<<<<<
  *     __ip6_pack_hdr(hdr, fc, fl, plen, nxt, hlim, s, d)
  *     return PyBytes_FromStringAndSize(hdr, 40)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_d)), __pyx_v_dst, 16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 414, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_d)), __pyx_v_dst, 16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 413, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":415
+  /* "dnet.pyx":414
  *     __memcpy(<char *>&s, src, 16)
  *     __memcpy(<char *>&d, dst, 16)
  *     __ip6_pack_hdr(hdr, fc, fl, plen, nxt, hlim, s, d)             # <<<<<<<<<<<<<<
  *     return PyBytes_FromStringAndSize(hdr, 40)
  * 
  */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_fc); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 415, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_fl); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 415, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_plen); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 415, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_nxt); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 415, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_hlim); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 415, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_fc); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 414, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_fl); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 414, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_v_plen); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 414, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_nxt); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 414, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_hlim); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 414, __pyx_L1_error)
   ip6_pack_hdr(__pyx_v_hdr, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_v_s, __pyx_v_d);
 
-  /* "dnet.pyx":416
+  /* "dnet.pyx":415
  *     __memcpy(<char *>&d, dst, 16)
  *     __ip6_pack_hdr(hdr, fc, fl, plen, nxt, hlim, s, d)
  *     return PyBytes_FromStringAndSize(hdr, 40)             # <<<<<<<<<<<<<<
@@ -5472,13 +5472,13 @@ static PyObject *__pyx_pf_4dnet_26ip6_pack_hdr(CYTHON_UNUSED PyObject *__pyx_sel
  * #
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_hdr, 40); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 416, __pyx_L1_error)
+  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_hdr, 40); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 415, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":398
+  /* "dnet.pyx":397
  *     return buf
  * 
  * def ip6_pack_hdr(fc=0, fl=0, plen=0, nxt=IP_PROTO_IPV6, hlim=IP6_HLIM_DEFAULT,             # <<<<<<<<<<<<<<
@@ -5497,7 +5497,7 @@ static PyObject *__pyx_pf_4dnet_26ip6_pack_hdr(CYTHON_UNUSED PyObject *__pyx_sel
   return __pyx_r;
 }
 
-/* "dnet.pyx":447
+/* "dnet.pyx":446
  *     cdef addr_t _addr
  * 
  *     def __init__(self, addrtxt=None, addrtype=ADDR_TYPE_NONE):             # <<<<<<<<<<<<<<
@@ -5547,7 +5547,7 @@ static int __pyx_pw_4dnet_4addr_1__init__(PyObject *__pyx_v_self, PyObject *__py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 447, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 446, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5564,7 +5564,7 @@ static int __pyx_pw_4dnet_4addr_1__init__(PyObject *__pyx_v_self, PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 447, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 446, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.addr.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5590,28 +5590,28 @@ static int __pyx_pf_4dnet_4addr___init__(struct __pyx_obj_4dnet_addr *__pyx_v_se
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":448
+  /* "dnet.pyx":447
  * 
  *     def __init__(self, addrtxt=None, addrtype=ADDR_TYPE_NONE):
  *         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:             # <<<<<<<<<<<<<<
  *             if PyBytes_Size(addrtxt) == 4:
  *                 self._addr.addr_type = ADDR_TYPE_IP
  */
-  __pyx_t_2 = PyObject_RichCompare(__pyx_v_addrtxt, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 448, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 448, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_v_addrtxt, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 447, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 447, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_4 = __Pyx_PyObject_AsWritableString(__pyx_v_addrtxt); if (unlikely((!__pyx_t_4) && PyErr_Occurred())) __PYX_ERR(0, 448, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_AsWritableString(__pyx_v_addrtxt); if (unlikely((!__pyx_t_4) && PyErr_Occurred())) __PYX_ERR(0, 447, __pyx_L1_error)
   __pyx_t_3 = ((addr_aton(__pyx_t_4, (&__pyx_v_self->_addr)) < 0) != 0);
   __pyx_t_1 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":449
+    /* "dnet.pyx":448
  *     def __init__(self, addrtxt=None, addrtype=ADDR_TYPE_NONE):
  *         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:
  *             if PyBytes_Size(addrtxt) == 4:             # <<<<<<<<<<<<<<
@@ -5621,42 +5621,42 @@ static int __pyx_pf_4dnet_4addr___init__(struct __pyx_obj_4dnet_addr *__pyx_v_se
     __pyx_t_1 = ((PyBytes_Size(__pyx_v_addrtxt) == 4) != 0);
     if (likely(__pyx_t_1)) {
 
-      /* "dnet.pyx":450
+      /* "dnet.pyx":449
  *         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:
  *             if PyBytes_Size(addrtxt) == 4:
  *                 self._addr.addr_type = ADDR_TYPE_IP             # <<<<<<<<<<<<<<
  *                 self._addr.addr_bits = IP_ADDR_BITS
  *                 self.ip = addrtxt
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 449, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 450, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 449, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_v_self->_addr.addr_type = __pyx_t_5;
 
-      /* "dnet.pyx":451
+      /* "dnet.pyx":450
  *             if PyBytes_Size(addrtxt) == 4:
  *                 self._addr.addr_type = ADDR_TYPE_IP
  *                 self._addr.addr_bits = IP_ADDR_BITS             # <<<<<<<<<<<<<<
  *                 self.ip = addrtxt
  *             else:
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_IP_ADDR_BITS); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 451, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_IP_ADDR_BITS); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 451, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 450, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_v_self->_addr.addr_bits = __pyx_t_5;
 
-      /* "dnet.pyx":452
+      /* "dnet.pyx":451
  *                 self._addr.addr_type = ADDR_TYPE_IP
  *                 self._addr.addr_bits = IP_ADDR_BITS
  *                 self.ip = addrtxt             # <<<<<<<<<<<<<<
  *             else:
  *                 raise ValueError, "invalid network address"
  */
-      if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ip, __pyx_v_addrtxt) < 0) __PYX_ERR(0, 452, __pyx_L1_error)
+      if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ip, __pyx_v_addrtxt) < 0) __PYX_ERR(0, 451, __pyx_L1_error)
 
-      /* "dnet.pyx":449
+      /* "dnet.pyx":448
  *     def __init__(self, addrtxt=None, addrtype=ADDR_TYPE_NONE):
  *         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:
  *             if PyBytes_Size(addrtxt) == 4:             # <<<<<<<<<<<<<<
@@ -5666,7 +5666,7 @@ static int __pyx_pf_4dnet_4addr___init__(struct __pyx_obj_4dnet_addr *__pyx_v_se
       goto __pyx_L6;
     }
 
-    /* "dnet.pyx":454
+    /* "dnet.pyx":453
  *                 self.ip = addrtxt
  *             else:
  *                 raise ValueError, "invalid network address"             # <<<<<<<<<<<<<<
@@ -5675,11 +5675,11 @@ static int __pyx_pf_4dnet_4addr___init__(struct __pyx_obj_4dnet_addr *__pyx_v_se
  */
     /*else*/ {
       __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_invalid_network_address, 0, 0);
-      __PYX_ERR(0, 454, __pyx_L1_error)
+      __PYX_ERR(0, 453, __pyx_L1_error)
     }
     __pyx_L6:;
 
-    /* "dnet.pyx":448
+    /* "dnet.pyx":447
  * 
  *     def __init__(self, addrtxt=None, addrtype=ADDR_TYPE_NONE):
  *         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:             # <<<<<<<<<<<<<<
@@ -5688,7 +5688,7 @@ static int __pyx_pf_4dnet_4addr___init__(struct __pyx_obj_4dnet_addr *__pyx_v_se
  */
   }
 
-  /* "dnet.pyx":447
+  /* "dnet.pyx":446
  *     cdef addr_t _addr
  * 
  *     def __init__(self, addrtxt=None, addrtype=ADDR_TYPE_NONE):             # <<<<<<<<<<<<<<
@@ -5708,7 +5708,7 @@ static int __pyx_pf_4dnet_4addr___init__(struct __pyx_obj_4dnet_addr *__pyx_v_se
   return __pyx_r;
 }
 
-/* "dnet.pyx":458
+/* "dnet.pyx":457
  *     property addrtype:
  *         """Address type (ADDR_TYPE_*) integer."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -5738,7 +5738,7 @@ static PyObject *__pyx_pf_4dnet_4addr_8addrtype___get__(struct __pyx_obj_4dnet_a
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dnet.pyx":459
+  /* "dnet.pyx":458
  *         """Address type (ADDR_TYPE_*) integer."""
  *         def __get__(self):
  *             return self._addr.addr_type             # <<<<<<<<<<<<<<
@@ -5746,13 +5746,13 @@ static PyObject *__pyx_pf_4dnet_4addr_8addrtype___get__(struct __pyx_obj_4dnet_a
  *             if value > 0xffff: raise OverflowError
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 459, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 458, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":458
+  /* "dnet.pyx":457
  *     property addrtype:
  *         """Address type (ADDR_TYPE_*) integer."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -5771,7 +5771,7 @@ static PyObject *__pyx_pf_4dnet_4addr_8addrtype___get__(struct __pyx_obj_4dnet_a
   return __pyx_r;
 }
 
-/* "dnet.pyx":460
+/* "dnet.pyx":459
  *         def __get__(self):
  *             return self._addr.addr_type
  *         def __set__(self, unsigned int value):             # <<<<<<<<<<<<<<
@@ -5790,7 +5790,7 @@ static int __pyx_pw_4dnet_4addr_8addrtype_3__set__(PyObject *__pyx_v_self, PyObj
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_value); {
-    __pyx_v_value = __Pyx_PyInt_As_unsigned_int(__pyx_arg_value); if (unlikely((__pyx_v_value == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 460, __pyx_L3_error)
+    __pyx_v_value = __Pyx_PyInt_As_unsigned_int(__pyx_arg_value); if (unlikely((__pyx_v_value == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 459, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5814,7 +5814,7 @@ static int __pyx_pf_4dnet_4addr_8addrtype_2__set__(struct __pyx_obj_4dnet_addr *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "dnet.pyx":461
+  /* "dnet.pyx":460
  *             return self._addr.addr_type
  *         def __set__(self, unsigned int value):
  *             if value > 0xffff: raise OverflowError             # <<<<<<<<<<<<<<
@@ -5824,10 +5824,10 @@ static int __pyx_pf_4dnet_4addr_8addrtype_2__set__(struct __pyx_obj_4dnet_addr *
   __pyx_t_1 = ((__pyx_v_value > 0xffff) != 0);
   if (unlikely(__pyx_t_1)) {
     __Pyx_Raise(__pyx_builtin_OverflowError, 0, 0, 0);
-    __PYX_ERR(0, 461, __pyx_L1_error)
+    __PYX_ERR(0, 460, __pyx_L1_error)
   }
 
-  /* "dnet.pyx":462
+  /* "dnet.pyx":461
  *         def __set__(self, unsigned int value):
  *             if value > 0xffff: raise OverflowError
  *             self._addr.addr_type = value             # <<<<<<<<<<<<<<
@@ -5836,7 +5836,7 @@ static int __pyx_pf_4dnet_4addr_8addrtype_2__set__(struct __pyx_obj_4dnet_addr *
  */
   __pyx_v_self->_addr.addr_type = __pyx_v_value;
 
-  /* "dnet.pyx":460
+  /* "dnet.pyx":459
  *         def __get__(self):
  *             return self._addr.addr_type
  *         def __set__(self, unsigned int value):             # <<<<<<<<<<<<<<
@@ -5855,7 +5855,7 @@ static int __pyx_pf_4dnet_4addr_8addrtype_2__set__(struct __pyx_obj_4dnet_addr *
   return __pyx_r;
 }
 
-/* "dnet.pyx":466
+/* "dnet.pyx":465
  *     property bits:
  *         """Address bitlength integer."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -5885,7 +5885,7 @@ static PyObject *__pyx_pf_4dnet_4addr_4bits___get__(struct __pyx_obj_4dnet_addr 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dnet.pyx":467
+  /* "dnet.pyx":466
  *         """Address bitlength integer."""
  *         def __get__(self):
  *             return self._addr.addr_bits             # <<<<<<<<<<<<<<
@@ -5893,13 +5893,13 @@ static PyObject *__pyx_pf_4dnet_4addr_4bits___get__(struct __pyx_obj_4dnet_addr 
  *             if value > 0xffff: raise OverflowError
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_bits); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_bits); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 466, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":466
+  /* "dnet.pyx":465
  *     property bits:
  *         """Address bitlength integer."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -5918,7 +5918,7 @@ static PyObject *__pyx_pf_4dnet_4addr_4bits___get__(struct __pyx_obj_4dnet_addr 
   return __pyx_r;
 }
 
-/* "dnet.pyx":468
+/* "dnet.pyx":467
  *         def __get__(self):
  *             return self._addr.addr_bits
  *         def __set__(self, unsigned int value):             # <<<<<<<<<<<<<<
@@ -5937,7 +5937,7 @@ static int __pyx_pw_4dnet_4addr_4bits_3__set__(PyObject *__pyx_v_self, PyObject 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_value); {
-    __pyx_v_value = __Pyx_PyInt_As_unsigned_int(__pyx_arg_value); if (unlikely((__pyx_v_value == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 468, __pyx_L3_error)
+    __pyx_v_value = __Pyx_PyInt_As_unsigned_int(__pyx_arg_value); if (unlikely((__pyx_v_value == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 467, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -5961,7 +5961,7 @@ static int __pyx_pf_4dnet_4addr_4bits_2__set__(struct __pyx_obj_4dnet_addr *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "dnet.pyx":469
+  /* "dnet.pyx":468
  *             return self._addr.addr_bits
  *         def __set__(self, unsigned int value):
  *             if value > 0xffff: raise OverflowError             # <<<<<<<<<<<<<<
@@ -5971,10 +5971,10 @@ static int __pyx_pf_4dnet_4addr_4bits_2__set__(struct __pyx_obj_4dnet_addr *__py
   __pyx_t_1 = ((__pyx_v_value > 0xffff) != 0);
   if (unlikely(__pyx_t_1)) {
     __Pyx_Raise(__pyx_builtin_OverflowError, 0, 0, 0);
-    __PYX_ERR(0, 469, __pyx_L1_error)
+    __PYX_ERR(0, 468, __pyx_L1_error)
   }
 
-  /* "dnet.pyx":470
+  /* "dnet.pyx":469
  *         def __set__(self, unsigned int value):
  *             if value > 0xffff: raise OverflowError
  *             self._addr.addr_bits = value             # <<<<<<<<<<<<<<
@@ -5983,7 +5983,7 @@ static int __pyx_pf_4dnet_4addr_4bits_2__set__(struct __pyx_obj_4dnet_addr *__py
  */
   __pyx_v_self->_addr.addr_bits = __pyx_v_value;
 
-  /* "dnet.pyx":468
+  /* "dnet.pyx":467
  *         def __get__(self):
  *             return self._addr.addr_bits
  *         def __set__(self, unsigned int value):             # <<<<<<<<<<<<<<
@@ -6002,7 +6002,7 @@ static int __pyx_pf_4dnet_4addr_4bits_2__set__(struct __pyx_obj_4dnet_addr *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":474
+/* "dnet.pyx":473
  *     property data:
  *         """Raw address string."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6035,25 +6035,25 @@ static PyObject *__pyx_pf_4dnet_4addr_4data___get__(struct __pyx_obj_4dnet_addr 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dnet.pyx":475
+  /* "dnet.pyx":474
  *         """Raw address string."""
  *         def __get__(self):
  *             if self._addr.addr_type == ADDR_TYPE_ETH:             # <<<<<<<<<<<<<<
  *                 return self.eth
  *             elif self._addr.addr_type == ADDR_TYPE_IP:
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_ETH); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_ETH); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 475, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 474, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":476
+    /* "dnet.pyx":475
  *         def __get__(self):
  *             if self._addr.addr_type == ADDR_TYPE_ETH:
  *                 return self.eth             # <<<<<<<<<<<<<<
@@ -6061,13 +6061,13 @@ static PyObject *__pyx_pf_4dnet_4addr_4data___get__(struct __pyx_obj_4dnet_addr 
  *                 return self.ip
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_eth); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 476, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_eth); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 475, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "dnet.pyx":475
+    /* "dnet.pyx":474
  *         """Raw address string."""
  *         def __get__(self):
  *             if self._addr.addr_type == ADDR_TYPE_ETH:             # <<<<<<<<<<<<<<
@@ -6076,25 +6076,25 @@ static PyObject *__pyx_pf_4dnet_4addr_4data___get__(struct __pyx_obj_4dnet_addr 
  */
   }
 
-  /* "dnet.pyx":477
+  /* "dnet.pyx":476
  *             if self._addr.addr_type == ADDR_TYPE_ETH:
  *                 return self.eth
  *             elif self._addr.addr_type == ADDR_TYPE_IP:             # <<<<<<<<<<<<<<
  *                 return self.ip
  *             elif self._addr.addr_type == ADDR_TYPE_IP6:
  */
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 477, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 477, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 477, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 477, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 476, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":478
+    /* "dnet.pyx":477
  *                 return self.eth
  *             elif self._addr.addr_type == ADDR_TYPE_IP:
  *                 return self.ip             # <<<<<<<<<<<<<<
@@ -6102,13 +6102,13 @@ static PyObject *__pyx_pf_4dnet_4addr_4data___get__(struct __pyx_obj_4dnet_addr 
  *                 return self.ip6
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 478, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ip); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 477, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "dnet.pyx":477
+    /* "dnet.pyx":476
  *             if self._addr.addr_type == ADDR_TYPE_ETH:
  *                 return self.eth
  *             elif self._addr.addr_type == ADDR_TYPE_IP:             # <<<<<<<<<<<<<<
@@ -6117,25 +6117,25 @@ static PyObject *__pyx_pf_4dnet_4addr_4data___get__(struct __pyx_obj_4dnet_addr 
  */
   }
 
-  /* "dnet.pyx":479
+  /* "dnet.pyx":478
  *             elif self._addr.addr_type == ADDR_TYPE_IP:
  *                 return self.ip
  *             elif self._addr.addr_type == ADDR_TYPE_IP6:             # <<<<<<<<<<<<<<
  *                 return self.ip6
  *             else:
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 478, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 478, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 478, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 479, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 478, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (likely(__pyx_t_4)) {
 
-    /* "dnet.pyx":480
+    /* "dnet.pyx":479
  *                 return self.ip
  *             elif self._addr.addr_type == ADDR_TYPE_IP6:
  *                 return self.ip6             # <<<<<<<<<<<<<<
@@ -6143,13 +6143,13 @@ static PyObject *__pyx_pf_4dnet_4addr_4data___get__(struct __pyx_obj_4dnet_addr 
  *                 raise ValueError, "invalid network address"
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ip6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 480, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_ip6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 479, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "dnet.pyx":479
+    /* "dnet.pyx":478
  *             elif self._addr.addr_type == ADDR_TYPE_IP:
  *                 return self.ip
  *             elif self._addr.addr_type == ADDR_TYPE_IP6:             # <<<<<<<<<<<<<<
@@ -6158,7 +6158,7 @@ static PyObject *__pyx_pf_4dnet_4addr_4data___get__(struct __pyx_obj_4dnet_addr 
  */
   }
 
-  /* "dnet.pyx":482
+  /* "dnet.pyx":481
  *                 return self.ip6
  *             else:
  *                 raise ValueError, "invalid network address"             # <<<<<<<<<<<<<<
@@ -6167,10 +6167,10 @@ static PyObject *__pyx_pf_4dnet_4addr_4data___get__(struct __pyx_obj_4dnet_addr 
  */
   /*else*/ {
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_invalid_network_address, 0, 0);
-    __PYX_ERR(0, 482, __pyx_L1_error)
+    __PYX_ERR(0, 481, __pyx_L1_error)
   }
 
-  /* "dnet.pyx":474
+  /* "dnet.pyx":473
  *     property data:
  *         """Raw address string."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6191,7 +6191,7 @@ static PyObject *__pyx_pf_4dnet_4addr_4data___get__(struct __pyx_obj_4dnet_addr 
   return __pyx_r;
 }
 
-/* "dnet.pyx":486
+/* "dnet.pyx":485
  *     property eth:
  *         """Ethernet MAC address as binary string."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6224,25 +6224,25 @@ static PyObject *__pyx_pf_4dnet_4addr_3eth___get__(struct __pyx_obj_4dnet_addr *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dnet.pyx":487
+  /* "dnet.pyx":486
  *         """Ethernet MAC address as binary string."""
  *         def __get__(self):
  *             if self._addr.addr_type != ADDR_TYPE_ETH:             # <<<<<<<<<<<<<<
  *                 raise ValueError, "non-Ethernet address"
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 6)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 487, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 486, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_ETH); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 487, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_ETH); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 486, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 487, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 486, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 487, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 486, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(__pyx_t_4)) {
 
-    /* "dnet.pyx":488
+    /* "dnet.pyx":487
  *         def __get__(self):
  *             if self._addr.addr_type != ADDR_TYPE_ETH:
  *                 raise ValueError, "non-Ethernet address"             # <<<<<<<<<<<<<<
@@ -6250,9 +6250,9 @@ static PyObject *__pyx_pf_4dnet_4addr_3eth___get__(struct __pyx_obj_4dnet_addr *
  * 
  */
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_non_Ethernet_address, 0, 0);
-    __PYX_ERR(0, 488, __pyx_L1_error)
+    __PYX_ERR(0, 487, __pyx_L1_error)
 
-    /* "dnet.pyx":487
+    /* "dnet.pyx":486
  *         """Ethernet MAC address as binary string."""
  *         def __get__(self):
  *             if self._addr.addr_type != ADDR_TYPE_ETH:             # <<<<<<<<<<<<<<
@@ -6261,7 +6261,7 @@ static PyObject *__pyx_pf_4dnet_4addr_3eth___get__(struct __pyx_obj_4dnet_addr *
  */
   }
 
-  /* "dnet.pyx":489
+  /* "dnet.pyx":488
  *             if self._addr.addr_type != ADDR_TYPE_ETH:
  *                 raise ValueError, "non-Ethernet address"
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 6)             # <<<<<<<<<<<<<<
@@ -6269,13 +6269,13 @@ static PyObject *__pyx_pf_4dnet_4addr_3eth___get__(struct __pyx_obj_4dnet_addr *
  *         def __set__(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_self->_addr.addr_data8, 6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 489, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_self->_addr.addr_data8, 6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 488, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":486
+  /* "dnet.pyx":485
  *     property eth:
  *         """Ethernet MAC address as binary string."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6296,7 +6296,7 @@ static PyObject *__pyx_pf_4dnet_4addr_3eth___get__(struct __pyx_obj_4dnet_addr *
   return __pyx_r;
 }
 
-/* "dnet.pyx":491
+/* "dnet.pyx":490
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 6)
  * 
  *         def __set__(self, value):             # <<<<<<<<<<<<<<
@@ -6330,25 +6330,25 @@ static int __pyx_pf_4dnet_4addr_3eth_2__set__(struct __pyx_obj_4dnet_addr *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "dnet.pyx":492
+  /* "dnet.pyx":491
  * 
  *         def __set__(self, value):
  *             if PyBytes_Size(value) != ETH_ADDR_LEN:             # <<<<<<<<<<<<<<
  *                 raise ValueError, "not a 6-byte string"
  *             __memcpy(self._addr.addr_data8, value, 6)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(PyBytes_Size(__pyx_v_value)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 492, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(PyBytes_Size(__pyx_v_value)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 491, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ETH_ADDR_LEN); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 492, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ETH_ADDR_LEN); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 491, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 492, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 491, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 492, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 491, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(__pyx_t_4)) {
 
-    /* "dnet.pyx":493
+    /* "dnet.pyx":492
  *         def __set__(self, value):
  *             if PyBytes_Size(value) != ETH_ADDR_LEN:
  *                 raise ValueError, "not a 6-byte string"             # <<<<<<<<<<<<<<
@@ -6356,9 +6356,9 @@ static int __pyx_pf_4dnet_4addr_3eth_2__set__(struct __pyx_obj_4dnet_addr *__pyx
  *             self._addr.addr_type = ADDR_TYPE_ETH
  */
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_not_a_6_byte_string, 0, 0);
-    __PYX_ERR(0, 493, __pyx_L1_error)
+    __PYX_ERR(0, 492, __pyx_L1_error)
 
-    /* "dnet.pyx":492
+    /* "dnet.pyx":491
  * 
  *         def __set__(self, value):
  *             if PyBytes_Size(value) != ETH_ADDR_LEN:             # <<<<<<<<<<<<<<
@@ -6367,44 +6367,44 @@ static int __pyx_pf_4dnet_4addr_3eth_2__set__(struct __pyx_obj_4dnet_addr *__pyx
  */
   }
 
-  /* "dnet.pyx":494
+  /* "dnet.pyx":493
  *             if PyBytes_Size(value) != ETH_ADDR_LEN:
  *                 raise ValueError, "not a 6-byte string"
  *             __memcpy(self._addr.addr_data8, value, 6)             # <<<<<<<<<<<<<<
  *             self._addr.addr_type = ADDR_TYPE_ETH
  *             self._addr.addr_bits = ETH_ADDR_BITS
  */
-  __pyx_t_3 = __pyx_f_4dnet___memcpy(__pyx_v_self->_addr.addr_data8, __pyx_v_value, 6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 494, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_4dnet___memcpy(__pyx_v_self->_addr.addr_data8, __pyx_v_value, 6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 493, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":495
+  /* "dnet.pyx":494
  *                 raise ValueError, "not a 6-byte string"
  *             __memcpy(self._addr.addr_data8, value, 6)
  *             self._addr.addr_type = ADDR_TYPE_ETH             # <<<<<<<<<<<<<<
  *             self._addr.addr_bits = ETH_ADDR_BITS
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_ETH); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 495, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_ETH); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 495, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_self->_addr.addr_type = __pyx_t_5;
 
-  /* "dnet.pyx":496
+  /* "dnet.pyx":495
  *             __memcpy(self._addr.addr_data8, value, 6)
  *             self._addr.addr_type = ADDR_TYPE_ETH
  *             self._addr.addr_bits = ETH_ADDR_BITS             # <<<<<<<<<<<<<<
  * 
  *     property ip:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ETH_ADDR_BITS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 496, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ETH_ADDR_BITS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 495, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 496, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 495, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_self->_addr.addr_bits = __pyx_t_5;
 
-  /* "dnet.pyx":491
+  /* "dnet.pyx":490
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 6)
  * 
  *         def __set__(self, value):             # <<<<<<<<<<<<<<
@@ -6426,7 +6426,7 @@ static int __pyx_pf_4dnet_4addr_3eth_2__set__(struct __pyx_obj_4dnet_addr *__pyx
   return __pyx_r;
 }
 
-/* "dnet.pyx":500
+/* "dnet.pyx":499
  *     property ip:
  *         """IPv4 address as binary string."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6459,25 +6459,25 @@ static PyObject *__pyx_pf_4dnet_4addr_2ip___get__(struct __pyx_obj_4dnet_addr *_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dnet.pyx":501
+  /* "dnet.pyx":500
  *         """IPv4 address as binary string."""
  *         def __get__(self):
  *             if self._addr.addr_type != ADDR_TYPE_IP:             # <<<<<<<<<<<<<<
  *                 raise ValueError, "non-IP address"
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 4)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 501, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 500, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 501, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 500, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 501, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 500, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 501, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 500, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(__pyx_t_4)) {
 
-    /* "dnet.pyx":502
+    /* "dnet.pyx":501
  *         def __get__(self):
  *             if self._addr.addr_type != ADDR_TYPE_IP:
  *                 raise ValueError, "non-IP address"             # <<<<<<<<<<<<<<
@@ -6485,9 +6485,9 @@ static PyObject *__pyx_pf_4dnet_4addr_2ip___get__(struct __pyx_obj_4dnet_addr *_
  * 
  */
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_non_IP_address, 0, 0);
-    __PYX_ERR(0, 502, __pyx_L1_error)
+    __PYX_ERR(0, 501, __pyx_L1_error)
 
-    /* "dnet.pyx":501
+    /* "dnet.pyx":500
  *         """IPv4 address as binary string."""
  *         def __get__(self):
  *             if self._addr.addr_type != ADDR_TYPE_IP:             # <<<<<<<<<<<<<<
@@ -6496,7 +6496,7 @@ static PyObject *__pyx_pf_4dnet_4addr_2ip___get__(struct __pyx_obj_4dnet_addr *_
  */
   }
 
-  /* "dnet.pyx":503
+  /* "dnet.pyx":502
  *             if self._addr.addr_type != ADDR_TYPE_IP:
  *                 raise ValueError, "non-IP address"
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 4)             # <<<<<<<<<<<<<<
@@ -6504,13 +6504,13 @@ static PyObject *__pyx_pf_4dnet_4addr_2ip___get__(struct __pyx_obj_4dnet_addr *_
  *         def __set__(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_self->_addr.addr_data8, 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 503, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_self->_addr.addr_data8, 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 502, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":500
+  /* "dnet.pyx":499
  *     property ip:
  *         """IPv4 address as binary string."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6531,7 +6531,7 @@ static PyObject *__pyx_pf_4dnet_4addr_2ip___get__(struct __pyx_obj_4dnet_addr *_
   return __pyx_r;
 }
 
-/* "dnet.pyx":505
+/* "dnet.pyx":504
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 4)
  * 
  *         def __set__(self, value):             # <<<<<<<<<<<<<<
@@ -6565,7 +6565,7 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "dnet.pyx":507
+  /* "dnet.pyx":506
  *         def __set__(self, value):
  *             # XXX - handle < 2.3, or else we'd use PyLong_AsUnsignedLongMask()
  *             if PyLong_Check(value):             # <<<<<<<<<<<<<<
@@ -6575,7 +6575,7 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
   __pyx_t_1 = (PyLong_Check(__pyx_v_value) != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":508
+    /* "dnet.pyx":507
  *             # XXX - handle < 2.3, or else we'd use PyLong_AsUnsignedLongMask()
  *             if PyLong_Check(value):
  *                 self._addr.addr_ip = htonl(PyLong_AsLong(value))             # <<<<<<<<<<<<<<
@@ -6584,7 +6584,7 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
  */
     __pyx_v_self->_addr.addr_ip = htonl(PyLong_AsLong(__pyx_v_value));
 
-    /* "dnet.pyx":507
+    /* "dnet.pyx":506
  *         def __set__(self, value):
  *             # XXX - handle < 2.3, or else we'd use PyLong_AsUnsignedLongMask()
  *             if PyLong_Check(value):             # <<<<<<<<<<<<<<
@@ -6594,7 +6594,7 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
     goto __pyx_L3;
   }
 
-  /* "dnet.pyx":509
+  /* "dnet.pyx":508
  *             if PyLong_Check(value):
  *                 self._addr.addr_ip = htonl(PyLong_AsLong(value))
  *             elif PyLong_Check(value):             # <<<<<<<<<<<<<<
@@ -6604,7 +6604,7 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
   __pyx_t_1 = (PyLong_Check(__pyx_v_value) != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":510
+    /* "dnet.pyx":509
  *                 self._addr.addr_ip = htonl(PyLong_AsLong(value))
  *             elif PyLong_Check(value):
  *                 self._addr.addr_ip = htonl(PyLong_AsUnsignedLong(value))             # <<<<<<<<<<<<<<
@@ -6613,7 +6613,7 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
  */
     __pyx_v_self->_addr.addr_ip = htonl(PyLong_AsUnsignedLong(__pyx_v_value));
 
-    /* "dnet.pyx":509
+    /* "dnet.pyx":508
  *             if PyLong_Check(value):
  *                 self._addr.addr_ip = htonl(PyLong_AsLong(value))
  *             elif PyLong_Check(value):             # <<<<<<<<<<<<<<
@@ -6623,25 +6623,25 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
     goto __pyx_L3;
   }
 
-  /* "dnet.pyx":511
+  /* "dnet.pyx":510
  *             elif PyLong_Check(value):
  *                 self._addr.addr_ip = htonl(PyLong_AsUnsignedLong(value))
  *             elif PyBytes_Size(value) != IP_ADDR_LEN:             # <<<<<<<<<<<<<<
  *                 raise ValueError, "not a 4-byte string"
  *             else:
  */
-  __pyx_t_2 = __Pyx_PyInt_From_int(PyBytes_Size(__pyx_v_value)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 511, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(PyBytes_Size(__pyx_v_value)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 511, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 511, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 511, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":512
+    /* "dnet.pyx":511
  *                 self._addr.addr_ip = htonl(PyLong_AsUnsignedLong(value))
  *             elif PyBytes_Size(value) != IP_ADDR_LEN:
  *                 raise ValueError, "not a 4-byte string"             # <<<<<<<<<<<<<<
@@ -6649,9 +6649,9 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
  *                 __memcpy(self._addr.addr_data8, value, 4)
  */
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_not_a_4_byte_string, 0, 0);
-    __PYX_ERR(0, 512, __pyx_L1_error)
+    __PYX_ERR(0, 511, __pyx_L1_error)
 
-    /* "dnet.pyx":511
+    /* "dnet.pyx":510
  *             elif PyLong_Check(value):
  *                 self._addr.addr_ip = htonl(PyLong_AsUnsignedLong(value))
  *             elif PyBytes_Size(value) != IP_ADDR_LEN:             # <<<<<<<<<<<<<<
@@ -6660,7 +6660,7 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
  */
   }
 
-  /* "dnet.pyx":514
+  /* "dnet.pyx":513
  *                 raise ValueError, "not a 4-byte string"
  *             else:
  *                 __memcpy(self._addr.addr_data8, value, 4)             # <<<<<<<<<<<<<<
@@ -6668,39 +6668,39 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
  *             self._addr.addr_bits = IP_ADDR_BITS
  */
   /*else*/ {
-    __pyx_t_4 = __pyx_f_4dnet___memcpy(__pyx_v_self->_addr.addr_data8, __pyx_v_value, 4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L1_error)
+    __pyx_t_4 = __pyx_f_4dnet___memcpy(__pyx_v_self->_addr.addr_data8, __pyx_v_value, 4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 513, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __pyx_L3:;
 
-  /* "dnet.pyx":515
+  /* "dnet.pyx":514
  *             else:
  *                 __memcpy(self._addr.addr_data8, value, 4)
  *             self._addr.addr_type = ADDR_TYPE_IP             # <<<<<<<<<<<<<<
  *             self._addr.addr_bits = IP_ADDR_BITS
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 515, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_4); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 515, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_4); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 514, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_self->_addr.addr_type = __pyx_t_5;
 
-  /* "dnet.pyx":516
+  /* "dnet.pyx":515
  *                 __memcpy(self._addr.addr_data8, value, 4)
  *             self._addr.addr_type = ADDR_TYPE_IP
  *             self._addr.addr_bits = IP_ADDR_BITS             # <<<<<<<<<<<<<<
  * 
  *     property ip6:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_IP_ADDR_BITS); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 516, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_IP_ADDR_BITS); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 515, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_4); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 516, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_4); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 515, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_self->_addr.addr_bits = __pyx_t_5;
 
-  /* "dnet.pyx":505
+  /* "dnet.pyx":504
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 4)
  * 
  *         def __set__(self, value):             # <<<<<<<<<<<<<<
@@ -6722,7 +6722,7 @@ static int __pyx_pf_4dnet_4addr_2ip_2__set__(struct __pyx_obj_4dnet_addr *__pyx_
   return __pyx_r;
 }
 
-/* "dnet.pyx":520
+/* "dnet.pyx":519
  *     property ip6:
  *         """IPv6 address as binary string."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6755,25 +6755,25 @@ static PyObject *__pyx_pf_4dnet_4addr_3ip6___get__(struct __pyx_obj_4dnet_addr *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dnet.pyx":521
+  /* "dnet.pyx":520
  *         """IPv6 address as binary string."""
  *         def __get__(self):
  *             if self._addr.addr_type != ADDR_TYPE_IP6:             # <<<<<<<<<<<<<<
  *                 raise ValueError, "non-IPv6 address"
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 16)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 521, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 521, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 521, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 521, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 520, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(__pyx_t_4)) {
 
-    /* "dnet.pyx":522
+    /* "dnet.pyx":521
  *         def __get__(self):
  *             if self._addr.addr_type != ADDR_TYPE_IP6:
  *                 raise ValueError, "non-IPv6 address"             # <<<<<<<<<<<<<<
@@ -6781,9 +6781,9 @@ static PyObject *__pyx_pf_4dnet_4addr_3ip6___get__(struct __pyx_obj_4dnet_addr *
  * 
  */
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_non_IPv6_address, 0, 0);
-    __PYX_ERR(0, 522, __pyx_L1_error)
+    __PYX_ERR(0, 521, __pyx_L1_error)
 
-    /* "dnet.pyx":521
+    /* "dnet.pyx":520
  *         """IPv6 address as binary string."""
  *         def __get__(self):
  *             if self._addr.addr_type != ADDR_TYPE_IP6:             # <<<<<<<<<<<<<<
@@ -6792,7 +6792,7 @@ static PyObject *__pyx_pf_4dnet_4addr_3ip6___get__(struct __pyx_obj_4dnet_addr *
  */
   }
 
-  /* "dnet.pyx":523
+  /* "dnet.pyx":522
  *             if self._addr.addr_type != ADDR_TYPE_IP6:
  *                 raise ValueError, "non-IPv6 address"
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 16)             # <<<<<<<<<<<<<<
@@ -6800,13 +6800,13 @@ static PyObject *__pyx_pf_4dnet_4addr_3ip6___get__(struct __pyx_obj_4dnet_addr *
  *         def __set__(self, value):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_self->_addr.addr_data8, 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 523, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_self->_addr.addr_data8, 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 522, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":520
+  /* "dnet.pyx":519
  *     property ip6:
  *         """IPv6 address as binary string."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6827,7 +6827,7 @@ static PyObject *__pyx_pf_4dnet_4addr_3ip6___get__(struct __pyx_obj_4dnet_addr *
   return __pyx_r;
 }
 
-/* "dnet.pyx":525
+/* "dnet.pyx":524
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 16)
  * 
  *         def __set__(self, value):             # <<<<<<<<<<<<<<
@@ -6861,25 +6861,25 @@ static int __pyx_pf_4dnet_4addr_3ip6_2__set__(struct __pyx_obj_4dnet_addr *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "dnet.pyx":526
+  /* "dnet.pyx":525
  * 
  *         def __set__(self, value):
  *             if PyBytes_Size(value) != IP6_ADDR_LEN:             # <<<<<<<<<<<<<<
  *                 raise ValueError, "not a 16-byte string"
  *             __memcpy(self._addr.addr_data8, value, 16)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(PyBytes_Size(__pyx_v_value)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(PyBytes_Size(__pyx_v_value)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_IP6_ADDR_LEN); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_IP6_ADDR_LEN); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 526, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(__pyx_t_4)) {
 
-    /* "dnet.pyx":527
+    /* "dnet.pyx":526
  *         def __set__(self, value):
  *             if PyBytes_Size(value) != IP6_ADDR_LEN:
  *                 raise ValueError, "not a 16-byte string"             # <<<<<<<<<<<<<<
@@ -6887,9 +6887,9 @@ static int __pyx_pf_4dnet_4addr_3ip6_2__set__(struct __pyx_obj_4dnet_addr *__pyx
  *             self._addr.addr_type = ADDR_TYPE_IP6
  */
     __Pyx_Raise(__pyx_builtin_ValueError, __pyx_kp_u_not_a_16_byte_string, 0, 0);
-    __PYX_ERR(0, 527, __pyx_L1_error)
+    __PYX_ERR(0, 526, __pyx_L1_error)
 
-    /* "dnet.pyx":526
+    /* "dnet.pyx":525
  * 
  *         def __set__(self, value):
  *             if PyBytes_Size(value) != IP6_ADDR_LEN:             # <<<<<<<<<<<<<<
@@ -6898,44 +6898,44 @@ static int __pyx_pf_4dnet_4addr_3ip6_2__set__(struct __pyx_obj_4dnet_addr *__pyx
  */
   }
 
-  /* "dnet.pyx":528
+  /* "dnet.pyx":527
  *             if PyBytes_Size(value) != IP6_ADDR_LEN:
  *                 raise ValueError, "not a 16-byte string"
  *             __memcpy(self._addr.addr_data8, value, 16)             # <<<<<<<<<<<<<<
  *             self._addr.addr_type = ADDR_TYPE_IP6
  *             self._addr.addr_bits = IP6_ADDR_BITS
  */
-  __pyx_t_3 = __pyx_f_4dnet___memcpy(__pyx_v_self->_addr.addr_data8, __pyx_v_value, 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 528, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_4dnet___memcpy(__pyx_v_self->_addr.addr_data8, __pyx_v_value, 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 527, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":529
+  /* "dnet.pyx":528
  *                 raise ValueError, "not a 16-byte string"
  *             __memcpy(self._addr.addr_data8, value, 16)
  *             self._addr.addr_type = ADDR_TYPE_IP6             # <<<<<<<<<<<<<<
  *             self._addr.addr_bits = IP6_ADDR_BITS
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_IP6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 529, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_IP6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 528, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 529, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 528, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_self->_addr.addr_type = __pyx_t_5;
 
-  /* "dnet.pyx":530
+  /* "dnet.pyx":529
  *             __memcpy(self._addr.addr_data8, value, 16)
  *             self._addr.addr_type = ADDR_TYPE_IP6
  *             self._addr.addr_bits = IP6_ADDR_BITS             # <<<<<<<<<<<<<<
  * 
  *     def bcast(self):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_ADDR_BITS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 530, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_ADDR_BITS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 529, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 530, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 529, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_self->_addr.addr_bits = __pyx_t_5;
 
-  /* "dnet.pyx":525
+  /* "dnet.pyx":524
  *             return PyBytes_FromStringAndSize(self._addr.addr_data8, 16)
  * 
  *         def __set__(self, value):             # <<<<<<<<<<<<<<
@@ -6957,7 +6957,7 @@ static int __pyx_pf_4dnet_4addr_3ip6_2__set__(struct __pyx_obj_4dnet_addr *__pyx
   return __pyx_r;
 }
 
-/* "dnet.pyx":532
+/* "dnet.pyx":531
  *             self._addr.addr_bits = IP6_ADDR_BITS
  * 
  *     def bcast(self):             # <<<<<<<<<<<<<<
@@ -6989,19 +6989,19 @@ static PyObject *__pyx_pf_4dnet_4addr_2bcast(struct __pyx_obj_4dnet_addr *__pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("bcast", 0);
 
-  /* "dnet.pyx":534
+  /* "dnet.pyx":533
  *     def bcast(self):
  *         """Return an addr object for our broadcast address."""
  *         bcast = addr()             # <<<<<<<<<<<<<<
  *         addr_bcast(&self._addr, &(<addr>bcast)._addr)
  *         return bcast
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 534, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_bcast = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":535
+  /* "dnet.pyx":534
  *         """Return an addr object for our broadcast address."""
  *         bcast = addr()
  *         addr_bcast(&self._addr, &(<addr>bcast)._addr)             # <<<<<<<<<<<<<<
@@ -7010,7 +7010,7 @@ static PyObject *__pyx_pf_4dnet_4addr_2bcast(struct __pyx_obj_4dnet_addr *__pyx_
  */
   (void)(addr_bcast((&__pyx_v_self->_addr), (&__pyx_v_bcast->_addr)));
 
-  /* "dnet.pyx":536
+  /* "dnet.pyx":535
  *         bcast = addr()
  *         addr_bcast(&self._addr, &(<addr>bcast)._addr)
  *         return bcast             # <<<<<<<<<<<<<<
@@ -7022,7 +7022,7 @@ static PyObject *__pyx_pf_4dnet_4addr_2bcast(struct __pyx_obj_4dnet_addr *__pyx_
   __pyx_r = ((PyObject *)__pyx_v_bcast);
   goto __pyx_L0;
 
-  /* "dnet.pyx":532
+  /* "dnet.pyx":531
  *             self._addr.addr_bits = IP6_ADDR_BITS
  * 
  *     def bcast(self):             # <<<<<<<<<<<<<<
@@ -7042,7 +7042,7 @@ static PyObject *__pyx_pf_4dnet_4addr_2bcast(struct __pyx_obj_4dnet_addr *__pyx_
   return __pyx_r;
 }
 
-/* "dnet.pyx":538
+/* "dnet.pyx":537
  *         return bcast
  * 
  *     def net(self):             # <<<<<<<<<<<<<<
@@ -7074,19 +7074,19 @@ static PyObject *__pyx_pf_4dnet_4addr_4net(struct __pyx_obj_4dnet_addr *__pyx_v_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("net", 0);
 
-  /* "dnet.pyx":540
+  /* "dnet.pyx":539
  *     def net(self):
  *         """Return an addr object for our network address."""
  *         net = addr()             # <<<<<<<<<<<<<<
  *         addr_net(&self._addr, &(<addr>net)._addr)
  *         return net
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 540, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 539, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_net = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":541
+  /* "dnet.pyx":540
  *         """Return an addr object for our network address."""
  *         net = addr()
  *         addr_net(&self._addr, &(<addr>net)._addr)             # <<<<<<<<<<<<<<
@@ -7095,7 +7095,7 @@ static PyObject *__pyx_pf_4dnet_4addr_4net(struct __pyx_obj_4dnet_addr *__pyx_v_
  */
   (void)(addr_net((&__pyx_v_self->_addr), (&__pyx_v_net->_addr)));
 
-  /* "dnet.pyx":542
+  /* "dnet.pyx":541
  *         net = addr()
  *         addr_net(&self._addr, &(<addr>net)._addr)
  *         return net             # <<<<<<<<<<<<<<
@@ -7107,7 +7107,7 @@ static PyObject *__pyx_pf_4dnet_4addr_4net(struct __pyx_obj_4dnet_addr *__pyx_v_
   __pyx_r = ((PyObject *)__pyx_v_net);
   goto __pyx_L0;
 
-  /* "dnet.pyx":538
+  /* "dnet.pyx":537
  *         return bcast
  * 
  *     def net(self):             # <<<<<<<<<<<<<<
@@ -7127,7 +7127,7 @@ static PyObject *__pyx_pf_4dnet_4addr_4net(struct __pyx_obj_4dnet_addr *__pyx_v_
   return __pyx_r;
 }
 
-/* "dnet.pyx":544
+/* "dnet.pyx":543
  *         return net
  * 
  *     def __add__(self, other):             # <<<<<<<<<<<<<<
@@ -7164,7 +7164,7 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__add__", 0);
 
-  /* "dnet.pyx":546
+  /* "dnet.pyx":545
  *     def __add__(self, other):
  *         # XXX - only handle IP for now...
  *         if PyLong_Check(self):             # <<<<<<<<<<<<<<
@@ -7174,7 +7174,7 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
   __pyx_t_1 = (PyLong_Check(__pyx_v_self) != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":547
+    /* "dnet.pyx":546
  *         # XXX - only handle IP for now...
  *         if PyLong_Check(self):
  *             x, y = other, self             # <<<<<<<<<<<<<<
@@ -7190,7 +7190,7 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
     __pyx_v_y = __pyx_t_3;
     __pyx_t_3 = 0;
 
-    /* "dnet.pyx":546
+    /* "dnet.pyx":545
  *     def __add__(self, other):
  *         # XXX - only handle IP for now...
  *         if PyLong_Check(self):             # <<<<<<<<<<<<<<
@@ -7200,7 +7200,7 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
     goto __pyx_L3;
   }
 
-  /* "dnet.pyx":548
+  /* "dnet.pyx":547
  *         if PyLong_Check(self):
  *             x, y = other, self
  *         elif PyLong_Check(other):             # <<<<<<<<<<<<<<
@@ -7210,7 +7210,7 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
   __pyx_t_1 = (PyLong_Check(__pyx_v_other) != 0);
   if (likely(__pyx_t_1)) {
 
-    /* "dnet.pyx":549
+    /* "dnet.pyx":548
  *             x, y = other, self
  *         elif PyLong_Check(other):
  *             x, y = self, other             # <<<<<<<<<<<<<<
@@ -7226,7 +7226,7 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
     __pyx_v_y = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "dnet.pyx":548
+    /* "dnet.pyx":547
  *         if PyLong_Check(self):
  *             x, y = other, self
  *         elif PyLong_Check(other):             # <<<<<<<<<<<<<<
@@ -7236,7 +7236,7 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
     goto __pyx_L3;
   }
 
-  /* "dnet.pyx":551
+  /* "dnet.pyx":550
  *             x, y = self, other
  *         else:
  *             raise NotImplementedError             # <<<<<<<<<<<<<<
@@ -7245,18 +7245,18 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
  */
   /*else*/ {
     __Pyx_Raise(__pyx_builtin_NotImplementedError, 0, 0, 0);
-    __PYX_ERR(0, 551, __pyx_L1_error)
+    __PYX_ERR(0, 550, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "dnet.pyx":552
+  /* "dnet.pyx":551
  *         else:
  *             raise NotImplementedError
  *         z = x.__copy__()             # <<<<<<<<<<<<<<
  *         (<addr>z)._addr.addr_ip = htonl(ntohl((<addr>x)._addr.addr_ip) + y)
  *         return z
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_x, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 552, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_x, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 551, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -7270,29 +7270,29 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 552, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 551, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_z = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "dnet.pyx":553
+  /* "dnet.pyx":552
  *             raise NotImplementedError
  *         z = x.__copy__()
  *         (<addr>z)._addr.addr_ip = htonl(ntohl((<addr>x)._addr.addr_ip) + y)             # <<<<<<<<<<<<<<
  *         return z
  * 
  */
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_long(ntohl(((struct __pyx_obj_4dnet_addr *)__pyx_v_x)->_addr.addr_ip)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 553, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_long(ntohl(((struct __pyx_obj_4dnet_addr *)__pyx_v_x)->_addr.addr_ip)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 552, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_v_y); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 553, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_v_y); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 552, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_5 = __Pyx_PyInt_As_unsigned_long(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 553, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_unsigned_long(__pyx_t_3); if (unlikely((__pyx_t_5 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 552, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   ((struct __pyx_obj_4dnet_addr *)__pyx_v_z)->_addr.addr_ip = htonl(__pyx_t_5);
 
-  /* "dnet.pyx":554
+  /* "dnet.pyx":553
  *         z = x.__copy__()
  *         (<addr>z)._addr.addr_ip = htonl(ntohl((<addr>x)._addr.addr_ip) + y)
  *         return z             # <<<<<<<<<<<<<<
@@ -7304,7 +7304,7 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
   __pyx_r = __pyx_v_z;
   goto __pyx_L0;
 
-  /* "dnet.pyx":544
+  /* "dnet.pyx":543
  *         return net
  * 
  *     def __add__(self, other):             # <<<<<<<<<<<<<<
@@ -7328,7 +7328,7 @@ static PyObject *__pyx_pf_4dnet_4addr_6__add__(PyObject *__pyx_v_self, PyObject 
   return __pyx_r;
 }
 
-/* "dnet.pyx":556
+/* "dnet.pyx":555
  *         return z
  * 
  *     def __copy__(self):             # <<<<<<<<<<<<<<
@@ -7360,19 +7360,19 @@ static PyObject *__pyx_pf_4dnet_4addr_8__copy__(struct __pyx_obj_4dnet_addr *__p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__copy__", 0);
 
-  /* "dnet.pyx":557
+  /* "dnet.pyx":556
  * 
  *     def __copy__(self):
  *         a = addr()             # <<<<<<<<<<<<<<
  *         (<addr>a)._addr = self._addr
  *         return a
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 557, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 556, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_a = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":558
+  /* "dnet.pyx":557
  *     def __copy__(self):
  *         a = addr()
  *         (<addr>a)._addr = self._addr             # <<<<<<<<<<<<<<
@@ -7382,7 +7382,7 @@ static PyObject *__pyx_pf_4dnet_4addr_8__copy__(struct __pyx_obj_4dnet_addr *__p
   __pyx_t_2 = __pyx_v_self->_addr;
   __pyx_v_a->_addr = __pyx_t_2;
 
-  /* "dnet.pyx":559
+  /* "dnet.pyx":558
  *         a = addr()
  *         (<addr>a)._addr = self._addr
  *         return a             # <<<<<<<<<<<<<<
@@ -7394,7 +7394,7 @@ static PyObject *__pyx_pf_4dnet_4addr_8__copy__(struct __pyx_obj_4dnet_addr *__p
   __pyx_r = ((PyObject *)__pyx_v_a);
   goto __pyx_L0;
 
-  /* "dnet.pyx":556
+  /* "dnet.pyx":555
  *         return z
  * 
  *     def __copy__(self):             # <<<<<<<<<<<<<<
@@ -7414,7 +7414,7 @@ static PyObject *__pyx_pf_4dnet_4addr_8__copy__(struct __pyx_obj_4dnet_addr *__p
   return __pyx_r;
 }
 
-/* "dnet.pyx":561
+/* "dnet.pyx":560
  *         return a
  * 
  *     def __eq__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7431,7 +7431,7 @@ static PyObject *__pyx_pw_4dnet_4addr_11__eq__(PyObject *__pyx_v_x, PyObject *__
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__eq__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 561, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 560, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_4addr_10__eq__(((struct __pyx_obj_4dnet_addr *)__pyx_v_x), ((struct __pyx_obj_4dnet_addr *)__pyx_v_y));
 
   /* function exit code */
@@ -7452,7 +7452,7 @@ static PyObject *__pyx_pf_4dnet_4addr_10__eq__(struct __pyx_obj_4dnet_addr *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__eq__", 0);
 
-  /* "dnet.pyx":562
+  /* "dnet.pyx":561
  * 
  *     def __eq__(addr x, addr y):
  *         return addr_cmp(&x._addr, &y._addr) == 0             # <<<<<<<<<<<<<<
@@ -7460,13 +7460,13 @@ static PyObject *__pyx_pf_4dnet_4addr_10__eq__(struct __pyx_obj_4dnet_addr *__py
  *     def __ne__(addr x, addr y):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) == 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 562, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) == 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 561, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":561
+  /* "dnet.pyx":560
  *         return a
  * 
  *     def __eq__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7485,7 +7485,7 @@ static PyObject *__pyx_pf_4dnet_4addr_10__eq__(struct __pyx_obj_4dnet_addr *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":564
+/* "dnet.pyx":563
  *         return addr_cmp(&x._addr, &y._addr) == 0
  * 
  *     def __ne__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7502,7 +7502,7 @@ static PyObject *__pyx_pw_4dnet_4addr_13__ne__(PyObject *__pyx_v_x, PyObject *__
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__ne__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 564, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 563, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_4addr_12__ne__(((struct __pyx_obj_4dnet_addr *)__pyx_v_x), ((struct __pyx_obj_4dnet_addr *)__pyx_v_y));
 
   /* function exit code */
@@ -7523,7 +7523,7 @@ static PyObject *__pyx_pf_4dnet_4addr_12__ne__(struct __pyx_obj_4dnet_addr *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__ne__", 0);
 
-  /* "dnet.pyx":565
+  /* "dnet.pyx":564
  * 
  *     def __ne__(addr x, addr y):
  *         return addr_cmp(&x._addr, &y._addr) != 0             # <<<<<<<<<<<<<<
@@ -7531,13 +7531,13 @@ static PyObject *__pyx_pf_4dnet_4addr_12__ne__(struct __pyx_obj_4dnet_addr *__py
  *     def __lt__(addr x, addr y):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) != 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 565, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) != 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 564, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":564
+  /* "dnet.pyx":563
  *         return addr_cmp(&x._addr, &y._addr) == 0
  * 
  *     def __ne__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7556,7 +7556,7 @@ static PyObject *__pyx_pf_4dnet_4addr_12__ne__(struct __pyx_obj_4dnet_addr *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":567
+/* "dnet.pyx":566
  *         return addr_cmp(&x._addr, &y._addr) != 0
  * 
  *     def __lt__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7573,7 +7573,7 @@ static PyObject *__pyx_pw_4dnet_4addr_15__lt__(PyObject *__pyx_v_x, PyObject *__
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__lt__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 567, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 566, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_4addr_14__lt__(((struct __pyx_obj_4dnet_addr *)__pyx_v_x), ((struct __pyx_obj_4dnet_addr *)__pyx_v_y));
 
   /* function exit code */
@@ -7594,7 +7594,7 @@ static PyObject *__pyx_pf_4dnet_4addr_14__lt__(struct __pyx_obj_4dnet_addr *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__lt__", 0);
 
-  /* "dnet.pyx":568
+  /* "dnet.pyx":567
  * 
  *     def __lt__(addr x, addr y):
  *         return addr_cmp(&x._addr, &y._addr) == -1             # <<<<<<<<<<<<<<
@@ -7602,13 +7602,13 @@ static PyObject *__pyx_pf_4dnet_4addr_14__lt__(struct __pyx_obj_4dnet_addr *__py
  *     def __gt__(addr x, addr y):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) == -1L)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 568, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) == -1L)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 567, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":567
+  /* "dnet.pyx":566
  *         return addr_cmp(&x._addr, &y._addr) != 0
  * 
  *     def __lt__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7627,7 +7627,7 @@ static PyObject *__pyx_pf_4dnet_4addr_14__lt__(struct __pyx_obj_4dnet_addr *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":570
+/* "dnet.pyx":569
  *         return addr_cmp(&x._addr, &y._addr) == -1
  * 
  *     def __gt__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7644,7 +7644,7 @@ static PyObject *__pyx_pw_4dnet_4addr_17__gt__(PyObject *__pyx_v_x, PyObject *__
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__gt__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 570, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 569, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_4addr_16__gt__(((struct __pyx_obj_4dnet_addr *)__pyx_v_x), ((struct __pyx_obj_4dnet_addr *)__pyx_v_y));
 
   /* function exit code */
@@ -7665,7 +7665,7 @@ static PyObject *__pyx_pf_4dnet_4addr_16__gt__(struct __pyx_obj_4dnet_addr *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__gt__", 0);
 
-  /* "dnet.pyx":571
+  /* "dnet.pyx":570
  * 
  *     def __gt__(addr x, addr y):
  *         return addr_cmp(&x._addr, &y._addr) == 1             # <<<<<<<<<<<<<<
@@ -7673,13 +7673,13 @@ static PyObject *__pyx_pf_4dnet_4addr_16__gt__(struct __pyx_obj_4dnet_addr *__py
  *     def __le__(addr x, addr y):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) == 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 571, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) == 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 570, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":570
+  /* "dnet.pyx":569
  *         return addr_cmp(&x._addr, &y._addr) == -1
  * 
  *     def __gt__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7698,7 +7698,7 @@ static PyObject *__pyx_pf_4dnet_4addr_16__gt__(struct __pyx_obj_4dnet_addr *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":573
+/* "dnet.pyx":572
  *         return addr_cmp(&x._addr, &y._addr) == 1
  * 
  *     def __le__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7715,7 +7715,7 @@ static PyObject *__pyx_pw_4dnet_4addr_19__le__(PyObject *__pyx_v_x, PyObject *__
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__le__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 573, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 572, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_4addr_18__le__(((struct __pyx_obj_4dnet_addr *)__pyx_v_x), ((struct __pyx_obj_4dnet_addr *)__pyx_v_y));
 
   /* function exit code */
@@ -7736,7 +7736,7 @@ static PyObject *__pyx_pf_4dnet_4addr_18__le__(struct __pyx_obj_4dnet_addr *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__le__", 0);
 
-  /* "dnet.pyx":574
+  /* "dnet.pyx":573
  * 
  *     def __le__(addr x, addr y):
  *         return addr_cmp(&x._addr, &y._addr) != 1             # <<<<<<<<<<<<<<
@@ -7744,13 +7744,13 @@ static PyObject *__pyx_pf_4dnet_4addr_18__le__(struct __pyx_obj_4dnet_addr *__py
  *     def __ge__(addr x, addr y):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) != 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 574, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) != 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 573, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":573
+  /* "dnet.pyx":572
  *         return addr_cmp(&x._addr, &y._addr) == 1
  * 
  *     def __le__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7769,7 +7769,7 @@ static PyObject *__pyx_pf_4dnet_4addr_18__le__(struct __pyx_obj_4dnet_addr *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":576
+/* "dnet.pyx":575
  *         return addr_cmp(&x._addr, &y._addr) != 1
  * 
  *     def __ge__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7786,7 +7786,7 @@ static PyObject *__pyx_pw_4dnet_4addr_21__ge__(PyObject *__pyx_v_x, PyObject *__
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__ge__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 576, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_y), __pyx_ptype_4dnet_addr, 1, "y", 0))) __PYX_ERR(0, 575, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_4addr_20__ge__(((struct __pyx_obj_4dnet_addr *)__pyx_v_x), ((struct __pyx_obj_4dnet_addr *)__pyx_v_y));
 
   /* function exit code */
@@ -7807,7 +7807,7 @@ static PyObject *__pyx_pf_4dnet_4addr_20__ge__(struct __pyx_obj_4dnet_addr *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__ge__", 0);
 
-  /* "dnet.pyx":577
+  /* "dnet.pyx":576
  * 
  *     def __ge__(addr x, addr y):
  *         return addr_cmp(&x._addr, &y._addr) != -1             # <<<<<<<<<<<<<<
@@ -7815,13 +7815,13 @@ static PyObject *__pyx_pf_4dnet_4addr_20__ge__(struct __pyx_obj_4dnet_addr *__py
  *     def __contains__(self, addr other):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) != -1L)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 577, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((addr_cmp((&__pyx_v_x->_addr), (&__pyx_v_y->_addr)) != -1L)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 576, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":576
+  /* "dnet.pyx":575
  *         return addr_cmp(&x._addr, &y._addr) != 1
  * 
  *     def __ge__(addr x, addr y):             # <<<<<<<<<<<<<<
@@ -7840,7 +7840,7 @@ static PyObject *__pyx_pf_4dnet_4addr_20__ge__(struct __pyx_obj_4dnet_addr *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":579
+/* "dnet.pyx":578
  *         return addr_cmp(&x._addr, &y._addr) != -1
  * 
  *     def __contains__(self, addr other):             # <<<<<<<<<<<<<<
@@ -7857,7 +7857,7 @@ static int __pyx_pw_4dnet_4addr_23__contains__(PyObject *__pyx_v_self, PyObject 
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__contains__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_other), __pyx_ptype_4dnet_addr, 1, "other", 0))) __PYX_ERR(0, 579, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_other), __pyx_ptype_4dnet_addr, 1, "other", 0))) __PYX_ERR(0, 578, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_4addr_22__contains__(((struct __pyx_obj_4dnet_addr *)__pyx_v_self), ((struct __pyx_obj_4dnet_addr *)__pyx_v_other));
 
   /* function exit code */
@@ -7881,7 +7881,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
   int __pyx_t_3;
   __Pyx_RefNannySetupContext("__contains__", 0);
 
-  /* "dnet.pyx":581
+  /* "dnet.pyx":580
  *     def __contains__(self, addr other):
  *         cdef addr_t s1, s2, o1, o2
  *         if addr_net(&self._addr, &s1) != 0 or \             # <<<<<<<<<<<<<<
@@ -7895,7 +7895,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "dnet.pyx":582
+  /* "dnet.pyx":581
  *         cdef addr_t s1, s2, o1, o2
  *         if addr_net(&self._addr, &s1) != 0 or \
  *            addr_bcast(&self._addr, &s2) != 0 or \             # <<<<<<<<<<<<<<
@@ -7909,7 +7909,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "dnet.pyx":583
+  /* "dnet.pyx":582
  *         if addr_net(&self._addr, &s1) != 0 or \
  *            addr_bcast(&self._addr, &s2) != 0 or \
  *            addr_net(&other._addr, &o1) != 0 or \             # <<<<<<<<<<<<<<
@@ -7923,7 +7923,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "dnet.pyx":584
+  /* "dnet.pyx":583
  *            addr_bcast(&self._addr, &s2) != 0 or \
  *            addr_net(&other._addr, &o1) != 0 or \
  *            addr_bcast(&other._addr, &o2) != 0:             # <<<<<<<<<<<<<<
@@ -7934,7 +7934,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
 
-  /* "dnet.pyx":581
+  /* "dnet.pyx":580
  *     def __contains__(self, addr other):
  *         cdef addr_t s1, s2, o1, o2
  *         if addr_net(&self._addr, &s1) != 0 or \             # <<<<<<<<<<<<<<
@@ -7943,7 +7943,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
  */
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":585
+    /* "dnet.pyx":584
  *            addr_net(&other._addr, &o1) != 0 or \
  *            addr_bcast(&other._addr, &o2) != 0:
  *             return 0             # <<<<<<<<<<<<<<
@@ -7953,7 +7953,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
     __pyx_r = 0;
     goto __pyx_L0;
 
-    /* "dnet.pyx":581
+    /* "dnet.pyx":580
  *     def __contains__(self, addr other):
  *         cdef addr_t s1, s2, o1, o2
  *         if addr_net(&self._addr, &s1) != 0 or \             # <<<<<<<<<<<<<<
@@ -7962,7 +7962,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
  */
   }
 
-  /* "dnet.pyx":586
+  /* "dnet.pyx":585
  *            addr_bcast(&other._addr, &o2) != 0:
  *             return 0
  *         return addr_cmp(&o1, &s1) >= 0 and addr_cmp(&o2, &s2) <= 0             # <<<<<<<<<<<<<<
@@ -7981,7 +7981,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
   __pyx_r = __pyx_t_3;
   goto __pyx_L0;
 
-  /* "dnet.pyx":579
+  /* "dnet.pyx":578
  *         return addr_cmp(&x._addr, &y._addr) != -1
  * 
  *     def __contains__(self, addr other):             # <<<<<<<<<<<<<<
@@ -7995,7 +7995,7 @@ static int __pyx_pf_4dnet_4addr_22__contains__(struct __pyx_obj_4dnet_addr *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":588
+/* "dnet.pyx":587
  *         return addr_cmp(&o1, &s1) >= 0 and addr_cmp(&o2, &s2) <= 0
  * 
  *     def __hash__(self):             # <<<<<<<<<<<<<<
@@ -8033,70 +8033,70 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__hash__", 0);
 
-  /* "dnet.pyx":590
+  /* "dnet.pyx":589
  *     def __hash__(self):
  *         cdef long x, y, size
  *         if self._addr.addr_type == ADDR_TYPE_ETH: size = 6             # <<<<<<<<<<<<<<
  *         elif self._addr.addr_type == ADDR_TYPE_IP: size = 4
  *         elif self._addr.addr_type == ADDR_TYPE_IP6: size = 16
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 590, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 589, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_ETH); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 590, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_ETH); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 589, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 590, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 589, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 590, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 589, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
     __pyx_v_size = 6;
     goto __pyx_L3;
   }
 
-  /* "dnet.pyx":591
+  /* "dnet.pyx":590
  *         cdef long x, y, size
  *         if self._addr.addr_type == ADDR_TYPE_ETH: size = 6
  *         elif self._addr.addr_type == ADDR_TYPE_IP: size = 4             # <<<<<<<<<<<<<<
  *         elif self._addr.addr_type == ADDR_TYPE_IP6: size = 16
  *         x = 0x345678
  */
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 591, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 590, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 591, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 590, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 591, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 590, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 591, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 590, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
     __pyx_v_size = 4;
     goto __pyx_L3;
   }
 
-  /* "dnet.pyx":592
+  /* "dnet.pyx":591
  *         if self._addr.addr_type == ADDR_TYPE_ETH: size = 6
  *         elif self._addr.addr_type == ADDR_TYPE_IP: size = 4
  *         elif self._addr.addr_type == ADDR_TYPE_IP6: size = 16             # <<<<<<<<<<<<<<
  *         x = 0x345678
  *         x = x ^ self._addr.addr_type
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 592, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 592, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 592, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 592, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 591, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
     __pyx_v_size = 16;
   }
   __pyx_L3:;
 
-  /* "dnet.pyx":593
+  /* "dnet.pyx":592
  *         elif self._addr.addr_type == ADDR_TYPE_IP: size = 4
  *         elif self._addr.addr_type == ADDR_TYPE_IP6: size = 16
  *         x = 0x345678             # <<<<<<<<<<<<<<
@@ -8105,7 +8105,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
  */
   __pyx_v_x = 0x345678;
 
-  /* "dnet.pyx":594
+  /* "dnet.pyx":593
  *         elif self._addr.addr_type == ADDR_TYPE_IP6: size = 16
  *         x = 0x345678
  *         x = x ^ self._addr.addr_type             # <<<<<<<<<<<<<<
@@ -8114,7 +8114,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
  */
   __pyx_v_x = (__pyx_v_x ^ __pyx_v_self->_addr.addr_type);
 
-  /* "dnet.pyx":595
+  /* "dnet.pyx":594
  *         x = 0x345678
  *         x = x ^ self._addr.addr_type
  *         x = x ^ self._addr.addr_bits             # <<<<<<<<<<<<<<
@@ -8123,7 +8123,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
  */
   __pyx_v_x = (__pyx_v_x ^ __pyx_v_self->_addr.addr_bits);
 
-  /* "dnet.pyx":596
+  /* "dnet.pyx":595
  *         x = x ^ self._addr.addr_type
  *         x = x ^ self._addr.addr_bits
  *         y = self._addr.addr_data8[0] << 7             # <<<<<<<<<<<<<<
@@ -8132,7 +8132,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
  */
   __pyx_v_y = ((__pyx_v_self->_addr.addr_data8[0]) << 7);
 
-  /* "dnet.pyx":597
+  /* "dnet.pyx":596
  *         x = x ^ self._addr.addr_bits
  *         y = self._addr.addr_data8[0] << 7
  *         for i from 0 < i < size:             # <<<<<<<<<<<<<<
@@ -8142,7 +8142,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
   __pyx_t_5 = __pyx_v_size;
   for (__pyx_v_i = 0+1; __pyx_v_i < __pyx_t_5; __pyx_v_i++) {
 
-    /* "dnet.pyx":598
+    /* "dnet.pyx":597
  *         y = self._addr.addr_data8[0] << 7
  *         for i from 0 < i < size:
  *             y = (1000003 * y) ^ self._addr.addr_data8[i]             # <<<<<<<<<<<<<<
@@ -8152,7 +8152,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
     __pyx_v_y = ((0xF4243 * __pyx_v_y) ^ (__pyx_v_self->_addr.addr_data8[__pyx_v_i]));
   }
 
-  /* "dnet.pyx":599
+  /* "dnet.pyx":598
  *         for i from 0 < i < size:
  *             y = (1000003 * y) ^ self._addr.addr_data8[i]
  *         y = y ^ size             # <<<<<<<<<<<<<<
@@ -8161,7 +8161,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
  */
   __pyx_v_y = (__pyx_v_y ^ __pyx_v_size);
 
-  /* "dnet.pyx":600
+  /* "dnet.pyx":599
  *             y = (1000003 * y) ^ self._addr.addr_data8[i]
  *         y = y ^ size
  *         if y == -1: y = -2             # <<<<<<<<<<<<<<
@@ -8173,7 +8173,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
     __pyx_v_y = -2L;
   }
 
-  /* "dnet.pyx":601
+  /* "dnet.pyx":600
  *         y = y ^ size
  *         if y == -1: y = -2
  *         x = x ^ y             # <<<<<<<<<<<<<<
@@ -8182,7 +8182,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
  */
   __pyx_v_x = (__pyx_v_x ^ __pyx_v_y);
 
-  /* "dnet.pyx":602
+  /* "dnet.pyx":601
  *         if y == -1: y = -2
  *         x = x ^ y
  *         if x == -1: x = -2             # <<<<<<<<<<<<<<
@@ -8194,7 +8194,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
     __pyx_v_x = -2L;
   }
 
-  /* "dnet.pyx":603
+  /* "dnet.pyx":602
  *         x = x ^ y
  *         if x == -1: x = -2
  *         return x             # <<<<<<<<<<<<<<
@@ -8204,7 +8204,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
   __pyx_r = __pyx_v_x;
   goto __pyx_L0;
 
-  /* "dnet.pyx":588
+  /* "dnet.pyx":587
  *         return addr_cmp(&o1, &s1) >= 0 and addr_cmp(&o2, &s2) <= 0
  * 
  *     def __hash__(self):             # <<<<<<<<<<<<<<
@@ -8225,7 +8225,7 @@ static Py_hash_t __pyx_pf_4dnet_4addr_24__hash__(struct __pyx_obj_4dnet_addr *__
   return __pyx_r;
 }
 
-/* "dnet.pyx":605
+/* "dnet.pyx":604
  *         return x
  * 
  *     def __int__(self):             # <<<<<<<<<<<<<<
@@ -8258,25 +8258,25 @@ static PyObject *__pyx_pf_4dnet_4addr_26__int__(struct __pyx_obj_4dnet_addr *__p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__int__", 0);
 
-  /* "dnet.pyx":606
+  /* "dnet.pyx":605
  * 
  *     def __int__(self):
  *         if self._addr.addr_type != ADDR_TYPE_IP:             # <<<<<<<<<<<<<<
  *             raise NotImplementedError
  *         return ntohl(self._addr.addr_ip)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 606, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 606, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 606, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 605, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 606, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 605, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (unlikely(__pyx_t_4)) {
 
-    /* "dnet.pyx":607
+    /* "dnet.pyx":606
  *     def __int__(self):
  *         if self._addr.addr_type != ADDR_TYPE_IP:
  *             raise NotImplementedError             # <<<<<<<<<<<<<<
@@ -8284,9 +8284,9 @@ static PyObject *__pyx_pf_4dnet_4addr_26__int__(struct __pyx_obj_4dnet_addr *__p
  * 
  */
     __Pyx_Raise(__pyx_builtin_NotImplementedError, 0, 0, 0);
-    __PYX_ERR(0, 607, __pyx_L1_error)
+    __PYX_ERR(0, 606, __pyx_L1_error)
 
-    /* "dnet.pyx":606
+    /* "dnet.pyx":605
  * 
  *     def __int__(self):
  *         if self._addr.addr_type != ADDR_TYPE_IP:             # <<<<<<<<<<<<<<
@@ -8295,7 +8295,7 @@ static PyObject *__pyx_pf_4dnet_4addr_26__int__(struct __pyx_obj_4dnet_addr *__p
  */
   }
 
-  /* "dnet.pyx":608
+  /* "dnet.pyx":607
  *         if self._addr.addr_type != ADDR_TYPE_IP:
  *             raise NotImplementedError
  *         return ntohl(self._addr.addr_ip)             # <<<<<<<<<<<<<<
@@ -8303,13 +8303,13 @@ static PyObject *__pyx_pf_4dnet_4addr_26__int__(struct __pyx_obj_4dnet_addr *__p
  *     def __long__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_long(ntohl(__pyx_v_self->_addr.addr_ip)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 608, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_long(ntohl(__pyx_v_self->_addr.addr_ip)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 607, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":605
+  /* "dnet.pyx":604
  *         return x
  * 
  *     def __int__(self):             # <<<<<<<<<<<<<<
@@ -8330,7 +8330,7 @@ static PyObject *__pyx_pf_4dnet_4addr_26__int__(struct __pyx_obj_4dnet_addr *__p
   return __pyx_r;
 }
 
-/* "dnet.pyx":610
+/* "dnet.pyx":609
  *         return ntohl(self._addr.addr_ip)
  * 
  *     def __long__(self):             # <<<<<<<<<<<<<<
@@ -8365,7 +8365,7 @@ static PyObject *__pyx_pf_4dnet_4addr_28__long__(struct __pyx_obj_4dnet_addr *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__long__", 0);
 
-  /* "dnet.pyx":611
+  /* "dnet.pyx":610
  * 
  *     def __long__(self):
  *         return self.__int__()             # <<<<<<<<<<<<<<
@@ -8373,7 +8373,7 @@ static PyObject *__pyx_pf_4dnet_4addr_28__long__(struct __pyx_obj_4dnet_addr *__
  *     def __iter__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_int); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 611, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_int); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 610, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8387,14 +8387,14 @@ static PyObject *__pyx_pf_4dnet_4addr_28__long__(struct __pyx_obj_4dnet_addr *__
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 611, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 610, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":610
+  /* "dnet.pyx":609
  *         return ntohl(self._addr.addr_ip)
  * 
  *     def __long__(self):             # <<<<<<<<<<<<<<
@@ -8416,7 +8416,7 @@ static PyObject *__pyx_pf_4dnet_4addr_28__long__(struct __pyx_obj_4dnet_addr *__
 }
 #endif /*!(#if PY_MAJOR_VERSION < 3)*/
 
-/* "dnet.pyx":613
+/* "dnet.pyx":612
  *         return self.__int__()
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -8452,21 +8452,21 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__iter__", 0);
 
-  /* "dnet.pyx":615
+  /* "dnet.pyx":614
  *     def __iter__(self):
  *         cdef addr_t a, b
  *         if self._addr.addr_type != ADDR_TYPE_IP or \             # <<<<<<<<<<<<<<
  *            addr_net(&self._addr, &a) != 0 or \
  *            addr_bcast(&self._addr, &b) != 0:
  */
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 615, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_short(__pyx_v_self->_addr.addr_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 614, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 615, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 614, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 615, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 614, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 615, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 614, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (!__pyx_t_5) {
   } else {
@@ -8474,7 +8474,7 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "dnet.pyx":616
+  /* "dnet.pyx":615
  *         cdef addr_t a, b
  *         if self._addr.addr_type != ADDR_TYPE_IP or \
  *            addr_net(&self._addr, &a) != 0 or \             # <<<<<<<<<<<<<<
@@ -8488,7 +8488,7 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "dnet.pyx":617
+  /* "dnet.pyx":616
  *         if self._addr.addr_type != ADDR_TYPE_IP or \
  *            addr_net(&self._addr, &a) != 0 or \
  *            addr_bcast(&self._addr, &b) != 0:             # <<<<<<<<<<<<<<
@@ -8499,7 +8499,7 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
   __pyx_t_1 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
 
-  /* "dnet.pyx":615
+  /* "dnet.pyx":614
  *     def __iter__(self):
  *         cdef addr_t a, b
  *         if self._addr.addr_type != ADDR_TYPE_IP or \             # <<<<<<<<<<<<<<
@@ -8508,7 +8508,7 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
  */
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":618
+    /* "dnet.pyx":617
  *            addr_net(&self._addr, &a) != 0 or \
  *            addr_bcast(&self._addr, &b) != 0:
  *             raise ValueError             # <<<<<<<<<<<<<<
@@ -8516,9 +8516,9 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
  *         for i in ntohl(a.addr_ip) <= i <= ntohl(b.addr_ip):
  */
     __Pyx_Raise(__pyx_builtin_ValueError, 0, 0, 0);
-    __PYX_ERR(0, 618, __pyx_L1_error)
+    __PYX_ERR(0, 617, __pyx_L1_error)
 
-    /* "dnet.pyx":615
+    /* "dnet.pyx":614
  *     def __iter__(self):
  *         cdef addr_t a, b
  *         if self._addr.addr_type != ADDR_TYPE_IP or \             # <<<<<<<<<<<<<<
@@ -8527,7 +8527,7 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
  */
   }
 
-  /* "dnet.pyx":627
+  /* "dnet.pyx":626
  *             yield next
  *         """
  *         return __addr_ip4_iter(a.addr_ip, b.addr_ip)             # <<<<<<<<<<<<<<
@@ -8535,11 +8535,11 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
  *     def __repr__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_long(__pyx_v_a.addr_ip); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 627, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_long(__pyx_v_a.addr_ip); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 626, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_long(__pyx_v_b.addr_ip); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 627, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_long(__pyx_v_b.addr_ip); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 626, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 627, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 626, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4);
@@ -8547,14 +8547,14 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3);
   __pyx_t_4 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_4dnet___addr_ip4_iter), __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 627, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_4dnet___addr_ip4_iter), __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 626, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":613
+  /* "dnet.pyx":612
  *         return self.__int__()
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -8575,7 +8575,7 @@ static PyObject *__pyx_pf_4dnet_4addr_30__iter__(struct __pyx_obj_4dnet_addr *__
   return __pyx_r;
 }
 
-/* "dnet.pyx":629
+/* "dnet.pyx":628
  *         return __addr_ip4_iter(a.addr_ip, b.addr_ip)
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -8607,7 +8607,7 @@ static PyObject *__pyx_pf_4dnet_4addr_32__repr__(struct __pyx_obj_4dnet_addr *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "dnet.pyx":631
+  /* "dnet.pyx":630
  *     def __repr__(self):
  *         cdef char *p
  *         p = addr_ntoa(&self._addr)             # <<<<<<<<<<<<<<
@@ -8616,7 +8616,7 @@ static PyObject *__pyx_pf_4dnet_4addr_32__repr__(struct __pyx_obj_4dnet_addr *__
  */
   __pyx_v_p = addr_ntoa((&__pyx_v_self->_addr));
 
-  /* "dnet.pyx":632
+  /* "dnet.pyx":631
  *         cdef char *p
  *         p = addr_ntoa(&self._addr)
  *         if not p:             # <<<<<<<<<<<<<<
@@ -8626,7 +8626,7 @@ static PyObject *__pyx_pf_4dnet_4addr_32__repr__(struct __pyx_obj_4dnet_addr *__
   __pyx_t_1 = ((!(__pyx_v_p != 0)) != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":633
+    /* "dnet.pyx":632
  *         p = addr_ntoa(&self._addr)
  *         if not p:
  *             return '<invalid network address>'             # <<<<<<<<<<<<<<
@@ -8638,7 +8638,7 @@ static PyObject *__pyx_pf_4dnet_4addr_32__repr__(struct __pyx_obj_4dnet_addr *__
     __pyx_r = __pyx_kp_u_invalid_network_address_2;
     goto __pyx_L0;
 
-    /* "dnet.pyx":632
+    /* "dnet.pyx":631
  *         cdef char *p
  *         p = addr_ntoa(&self._addr)
  *         if not p:             # <<<<<<<<<<<<<<
@@ -8647,7 +8647,7 @@ static PyObject *__pyx_pf_4dnet_4addr_32__repr__(struct __pyx_obj_4dnet_addr *__
  */
   }
 
-  /* "dnet.pyx":634
+  /* "dnet.pyx":633
  *         if not p:
  *             return '<invalid network address>'
  *         return p             # <<<<<<<<<<<<<<
@@ -8655,13 +8655,13 @@ static PyObject *__pyx_pf_4dnet_4addr_32__repr__(struct __pyx_obj_4dnet_addr *__
  * cdef class __addr_ip4_iter:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyStr_FromString(__pyx_v_p); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 634, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyStr_FromString(__pyx_v_p); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 633, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":629
+  /* "dnet.pyx":628
  *         return __addr_ip4_iter(a.addr_ip, b.addr_ip)
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -8793,7 +8793,7 @@ static PyObject *__pyx_pf_4dnet_4addr_36__setstate_cython__(CYTHON_UNUSED struct
   return __pyx_r;
 }
 
-/* "dnet.pyx":640
+/* "dnet.pyx":639
  *     cdef unsigned long max	# XXX - HBO
  * 
  *     def __init__(self, cur, max):             # <<<<<<<<<<<<<<
@@ -8835,11 +8835,11 @@ static int __pyx_pw_4dnet_15__addr_ip4_iter_1__init__(PyObject *__pyx_v_self, Py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_max)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 640, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 639, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 640, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 639, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -8852,7 +8852,7 @@ static int __pyx_pw_4dnet_15__addr_ip4_iter_1__init__(PyObject *__pyx_v_self, Py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 640, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 639, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.__addr_ip4_iter.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8874,27 +8874,27 @@ static int __pyx_pf_4dnet_15__addr_ip4_iter___init__(struct __pyx_obj_4dnet___ad
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":641
+  /* "dnet.pyx":640
  * 
  *     def __init__(self, cur, max):
  *         self.cur = ntohl(cur)             # <<<<<<<<<<<<<<
  *         self.max = ntohl(max)
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_As_unsigned_long(__pyx_v_cur); if (unlikely((__pyx_t_1 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 641, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_unsigned_long(__pyx_v_cur); if (unlikely((__pyx_t_1 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 640, __pyx_L1_error)
   __pyx_v_self->cur = ntohl(__pyx_t_1);
 
-  /* "dnet.pyx":642
+  /* "dnet.pyx":641
  *     def __init__(self, cur, max):
  *         self.cur = ntohl(cur)
  *         self.max = ntohl(max)             # <<<<<<<<<<<<<<
  * 
  *     def __next__(self):
  */
-  __pyx_t_1 = __Pyx_PyInt_As_unsigned_long(__pyx_v_max); if (unlikely((__pyx_t_1 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 642, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_unsigned_long(__pyx_v_max); if (unlikely((__pyx_t_1 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 641, __pyx_L1_error)
   __pyx_v_self->max = ntohl(__pyx_t_1);
 
-  /* "dnet.pyx":640
+  /* "dnet.pyx":639
  *     cdef unsigned long max	# XXX - HBO
  * 
  *     def __init__(self, cur, max):             # <<<<<<<<<<<<<<
@@ -8913,7 +8913,7 @@ static int __pyx_pf_4dnet_15__addr_ip4_iter___init__(struct __pyx_obj_4dnet___ad
   return __pyx_r;
 }
 
-/* "dnet.pyx":644
+/* "dnet.pyx":643
  *         self.max = ntohl(max)
  * 
  *     def __next__(self):             # <<<<<<<<<<<<<<
@@ -8946,7 +8946,7 @@ static PyObject *__pyx_pf_4dnet_15__addr_ip4_iter_2__next__(struct __pyx_obj_4dn
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__next__", 0);
 
-  /* "dnet.pyx":646
+  /* "dnet.pyx":645
  *     def __next__(self):
  *         cdef addr next
  *         if (self.cur <= self.max):             # <<<<<<<<<<<<<<
@@ -8956,45 +8956,45 @@ static PyObject *__pyx_pf_4dnet_15__addr_ip4_iter_2__next__(struct __pyx_obj_4dn
   __pyx_t_1 = ((__pyx_v_self->cur <= __pyx_v_self->max) != 0);
   if (likely(__pyx_t_1)) {
 
-    /* "dnet.pyx":647
+    /* "dnet.pyx":646
  *         cdef addr next
  *         if (self.cur <= self.max):
  *             next = addr()             # <<<<<<<<<<<<<<
  *             next._addr.addr_type = ADDR_TYPE_IP
  *             next._addr.addr_bits = IP_ADDR_BITS
  */
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 647, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 646, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_v_next = ((struct __pyx_obj_4dnet_addr *)__pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "dnet.pyx":648
+    /* "dnet.pyx":647
  *         if (self.cur <= self.max):
  *             next = addr()
  *             next._addr.addr_type = ADDR_TYPE_IP             # <<<<<<<<<<<<<<
  *             next._addr.addr_bits = IP_ADDR_BITS
  *             next._addr.addr_ip = htonl(self.cur)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 648, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_IP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 647, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_3 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 648, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_3 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 647, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_next->_addr.addr_type = __pyx_t_3;
 
-    /* "dnet.pyx":649
+    /* "dnet.pyx":648
  *             next = addr()
  *             next._addr.addr_type = ADDR_TYPE_IP
  *             next._addr.addr_bits = IP_ADDR_BITS             # <<<<<<<<<<<<<<
  *             next._addr.addr_ip = htonl(self.cur)
  *             self.cur = self.cur + 1
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_IP_ADDR_BITS); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 649, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_IP_ADDR_BITS); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 648, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_3 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 649, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_unsigned_short(__pyx_t_2); if (unlikely((__pyx_t_3 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 648, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_next->_addr.addr_bits = __pyx_t_3;
 
-    /* "dnet.pyx":650
+    /* "dnet.pyx":649
  *             next._addr.addr_type = ADDR_TYPE_IP
  *             next._addr.addr_bits = IP_ADDR_BITS
  *             next._addr.addr_ip = htonl(self.cur)             # <<<<<<<<<<<<<<
@@ -9003,7 +9003,7 @@ static PyObject *__pyx_pf_4dnet_15__addr_ip4_iter_2__next__(struct __pyx_obj_4dn
  */
     __pyx_v_next->_addr.addr_ip = htonl(__pyx_v_self->cur);
 
-    /* "dnet.pyx":651
+    /* "dnet.pyx":650
  *             next._addr.addr_bits = IP_ADDR_BITS
  *             next._addr.addr_ip = htonl(self.cur)
  *             self.cur = self.cur + 1             # <<<<<<<<<<<<<<
@@ -9012,7 +9012,7 @@ static PyObject *__pyx_pf_4dnet_15__addr_ip4_iter_2__next__(struct __pyx_obj_4dn
  */
     __pyx_v_self->cur = (__pyx_v_self->cur + 1);
 
-    /* "dnet.pyx":652
+    /* "dnet.pyx":651
  *             next._addr.addr_ip = htonl(self.cur)
  *             self.cur = self.cur + 1
  *             return next             # <<<<<<<<<<<<<<
@@ -9024,7 +9024,7 @@ static PyObject *__pyx_pf_4dnet_15__addr_ip4_iter_2__next__(struct __pyx_obj_4dn
     __pyx_r = ((PyObject *)__pyx_v_next);
     goto __pyx_L0;
 
-    /* "dnet.pyx":646
+    /* "dnet.pyx":645
  *     def __next__(self):
  *         cdef addr next
  *         if (self.cur <= self.max):             # <<<<<<<<<<<<<<
@@ -9033,7 +9033,7 @@ static PyObject *__pyx_pf_4dnet_15__addr_ip4_iter_2__next__(struct __pyx_obj_4dn
  */
   }
 
-  /* "dnet.pyx":654
+  /* "dnet.pyx":653
  *             return next
  *         else:
  *             raise StopIteration             # <<<<<<<<<<<<<<
@@ -9042,10 +9042,10 @@ static PyObject *__pyx_pf_4dnet_15__addr_ip4_iter_2__next__(struct __pyx_obj_4dn
  */
   /*else*/ {
     __Pyx_Raise(__pyx_builtin_StopIteration, 0, 0, 0);
-    __PYX_ERR(0, 654, __pyx_L1_error)
+    __PYX_ERR(0, 653, __pyx_L1_error)
   }
 
-  /* "dnet.pyx":644
+  /* "dnet.pyx":643
  *         self.max = ntohl(max)
  * 
  *     def __next__(self):             # <<<<<<<<<<<<<<
@@ -9364,7 +9364,7 @@ static PyObject *__pyx_pf_4dnet_15__addr_ip4_iter_6__setstate_cython__(struct __
   return __pyx_r;
 }
 
-/* "dnet.pyx":691
+/* "dnet.pyx":690
  * ARP_OP_REVREPLY =	4	# /[inserted by cython to avoid comment start]* response giving protocol address *[inserted by cython to avoid comment closer]/
  * 
  * cdef int __arp_callback(arp_entry *entry, void *arg) except -1:             # <<<<<<<<<<<<<<
@@ -9395,7 +9395,7 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__arp_callback", 0);
 
-  /* "dnet.pyx":692
+  /* "dnet.pyx":691
  * 
  * cdef int __arp_callback(arp_entry *entry, void *arg) except -1:
  *     f, a = <object>arg             # <<<<<<<<<<<<<<
@@ -9410,7 +9410,7 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 692, __pyx_L1_error)
+      __PYX_ERR(0, 691, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -9423,15 +9423,15 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 692, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 691, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 692, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 691, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 692, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 691, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -9439,7 +9439,7 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
     __Pyx_GOTREF(__pyx_t_2);
     index = 1; __pyx_t_3 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L3_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 692, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 691, __pyx_L1_error)
     __pyx_t_5 = NULL;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     goto __pyx_L4_unpacking_done;
@@ -9447,7 +9447,7 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 692, __pyx_L1_error)
+    __PYX_ERR(0, 691, __pyx_L1_error)
     __pyx_L4_unpacking_done:;
   }
   __pyx_v_f = __pyx_t_2;
@@ -9455,23 +9455,23 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
   __pyx_v_a = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":693
+  /* "dnet.pyx":692
  * cdef int __arp_callback(arp_entry *entry, void *arg) except -1:
  *     f, a = <object>arg
  *     pa, ha = addr(), addr()             # <<<<<<<<<<<<<<
  *     (<addr>pa)._addr = entry.arp_pa
  *     (<addr>ha)._addr = entry.arp_ha
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 693, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 692, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 693, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 692, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_pa = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1);
   __pyx_t_1 = 0;
   __pyx_v_ha = ((struct __pyx_obj_4dnet_addr *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":694
+  /* "dnet.pyx":693
  *     f, a = <object>arg
  *     pa, ha = addr(), addr()
  *     (<addr>pa)._addr = entry.arp_pa             # <<<<<<<<<<<<<<
@@ -9481,7 +9481,7 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
   __pyx_t_6 = __pyx_v_entry->arp_pa;
   __pyx_v_pa->_addr = __pyx_t_6;
 
-  /* "dnet.pyx":695
+  /* "dnet.pyx":694
  *     pa, ha = addr(), addr()
  *     (<addr>pa)._addr = entry.arp_pa
  *     (<addr>ha)._addr = entry.arp_ha             # <<<<<<<<<<<<<<
@@ -9491,14 +9491,14 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
   __pyx_t_6 = __pyx_v_entry->arp_ha;
   __pyx_v_ha->_addr = __pyx_t_6;
 
-  /* "dnet.pyx":696
+  /* "dnet.pyx":695
  *     (<addr>pa)._addr = entry.arp_pa
  *     (<addr>ha)._addr = entry.arp_ha
  *     ret = f((pa, ha), a)             # <<<<<<<<<<<<<<
  *     if not ret:
  *         ret = 0
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 696, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 695, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_v_pa));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_pa));
@@ -9522,7 +9522,7 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_1, __pyx_v_a};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 696, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 695, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -9531,14 +9531,14 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_1, __pyx_v_a};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 696, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 695, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 696, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 695, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -9549,7 +9549,7 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
     __Pyx_GIVEREF(__pyx_v_a);
     PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_v_a);
     __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 696, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 695, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
@@ -9557,18 +9557,18 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
   __pyx_v_ret = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":697
+  /* "dnet.pyx":696
  *     (<addr>ha)._addr = entry.arp_ha
  *     ret = f((pa, ha), a)
  *     if not ret:             # <<<<<<<<<<<<<<
  *         ret = 0
  *     return ret
  */
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 697, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 696, __pyx_L1_error)
   __pyx_t_10 = ((!__pyx_t_9) != 0);
   if (__pyx_t_10) {
 
-    /* "dnet.pyx":698
+    /* "dnet.pyx":697
  *     ret = f((pa, ha), a)
  *     if not ret:
  *         ret = 0             # <<<<<<<<<<<<<<
@@ -9578,7 +9578,7 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_DECREF_SET(__pyx_v_ret, __pyx_int_0);
 
-    /* "dnet.pyx":697
+    /* "dnet.pyx":696
  *     (<addr>ha)._addr = entry.arp_ha
  *     ret = f((pa, ha), a)
  *     if not ret:             # <<<<<<<<<<<<<<
@@ -9587,18 +9587,18 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
  */
   }
 
-  /* "dnet.pyx":699
+  /* "dnet.pyx":698
  *     if not ret:
  *         ret = 0
  *     return ret             # <<<<<<<<<<<<<<
  * 
  * cdef class arp:
  */
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_ret); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 699, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_ret); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 698, __pyx_L1_error)
   __pyx_r = __pyx_t_7;
   goto __pyx_L0;
 
-  /* "dnet.pyx":691
+  /* "dnet.pyx":690
  * ARP_OP_REVREPLY =	4	# /[inserted by cython to avoid comment start]* response giving protocol address *[inserted by cython to avoid comment closer]/
  * 
  * cdef int __arp_callback(arp_entry *entry, void *arg) except -1:             # <<<<<<<<<<<<<<
@@ -9625,7 +9625,7 @@ static int __pyx_f_4dnet___arp_callback(struct arp_entry *__pyx_v_entry, void *_
   return __pyx_r;
 }
 
-/* "dnet.pyx":708
+/* "dnet.pyx":707
  *     cdef arp_t *arp
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -9659,7 +9659,7 @@ static int __pyx_pf_4dnet_3arp___init__(struct __pyx_obj_4dnet_arp *__pyx_v_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":709
+  /* "dnet.pyx":708
  * 
  *     def __init__(self):
  *         self.arp = arp_open()             # <<<<<<<<<<<<<<
@@ -9668,7 +9668,7 @@ static int __pyx_pf_4dnet_3arp___init__(struct __pyx_obj_4dnet_arp *__pyx_v_self
  */
   __pyx_v_self->arp = arp_open();
 
-  /* "dnet.pyx":710
+  /* "dnet.pyx":709
  *     def __init__(self):
  *         self.arp = arp_open()
  *         if not self.arp:             # <<<<<<<<<<<<<<
@@ -9678,20 +9678,20 @@ static int __pyx_pf_4dnet_3arp___init__(struct __pyx_obj_4dnet_arp *__pyx_v_self
   __pyx_t_1 = ((!(__pyx_v_self->arp != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":711
+    /* "dnet.pyx":710
  *         self.arp = arp_open()
  *         if not self.arp:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def add(self, addr pa, addr ha):
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 711, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 710, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 711, __pyx_L1_error)
+    __PYX_ERR(0, 710, __pyx_L1_error)
 
-    /* "dnet.pyx":710
+    /* "dnet.pyx":709
  *     def __init__(self):
  *         self.arp = arp_open()
  *         if not self.arp:             # <<<<<<<<<<<<<<
@@ -9700,7 +9700,7 @@ static int __pyx_pf_4dnet_3arp___init__(struct __pyx_obj_4dnet_arp *__pyx_v_self
  */
   }
 
-  /* "dnet.pyx":708
+  /* "dnet.pyx":707
  *     cdef arp_t *arp
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -9720,7 +9720,7 @@ static int __pyx_pf_4dnet_3arp___init__(struct __pyx_obj_4dnet_arp *__pyx_v_self
   return __pyx_r;
 }
 
-/* "dnet.pyx":713
+/* "dnet.pyx":712
  *             raise OSError, __oserror()
  * 
  *     def add(self, addr pa, addr ha):             # <<<<<<<<<<<<<<
@@ -9763,11 +9763,11 @@ static PyObject *__pyx_pw_4dnet_3arp_3add(PyObject *__pyx_v_self, PyObject *__py
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_ha)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add", 1, 2, 2, 1); __PYX_ERR(0, 713, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add", 1, 2, 2, 1); __PYX_ERR(0, 712, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add") < 0)) __PYX_ERR(0, 713, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add") < 0)) __PYX_ERR(0, 712, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -9780,14 +9780,14 @@ static PyObject *__pyx_pw_4dnet_3arp_3add(PyObject *__pyx_v_self, PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 713, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 712, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.arp.add", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pa), __pyx_ptype_4dnet_addr, 1, "pa", 0))) __PYX_ERR(0, 713, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ha), __pyx_ptype_4dnet_addr, 1, "ha", 0))) __PYX_ERR(0, 713, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pa), __pyx_ptype_4dnet_addr, 1, "pa", 0))) __PYX_ERR(0, 712, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ha), __pyx_ptype_4dnet_addr, 1, "ha", 0))) __PYX_ERR(0, 712, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_3arp_2add(((struct __pyx_obj_4dnet_arp *)__pyx_v_self), __pyx_v_pa, __pyx_v_ha);
 
   /* function exit code */
@@ -9811,7 +9811,7 @@ static PyObject *__pyx_pf_4dnet_3arp_2add(struct __pyx_obj_4dnet_arp *__pyx_v_se
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add", 0);
 
-  /* "dnet.pyx":721
+  /* "dnet.pyx":720
  *         """
  *         cdef arp_entry entry
  *         entry.arp_pa = pa._addr             # <<<<<<<<<<<<<<
@@ -9821,7 +9821,7 @@ static PyObject *__pyx_pf_4dnet_3arp_2add(struct __pyx_obj_4dnet_arp *__pyx_v_se
   __pyx_t_1 = __pyx_v_pa->_addr;
   __pyx_v_entry.arp_pa = __pyx_t_1;
 
-  /* "dnet.pyx":722
+  /* "dnet.pyx":721
  *         cdef arp_entry entry
  *         entry.arp_pa = pa._addr
  *         entry.arp_ha = ha._addr             # <<<<<<<<<<<<<<
@@ -9831,7 +9831,7 @@ static PyObject *__pyx_pf_4dnet_3arp_2add(struct __pyx_obj_4dnet_arp *__pyx_v_se
   __pyx_t_1 = __pyx_v_ha->_addr;
   __pyx_v_entry.arp_ha = __pyx_t_1;
 
-  /* "dnet.pyx":723
+  /* "dnet.pyx":722
  *         entry.arp_pa = pa._addr
  *         entry.arp_ha = ha._addr
  *         if arp_add(self.arp, &entry) < 0:             # <<<<<<<<<<<<<<
@@ -9841,20 +9841,20 @@ static PyObject *__pyx_pf_4dnet_3arp_2add(struct __pyx_obj_4dnet_arp *__pyx_v_se
   __pyx_t_2 = ((arp_add(__pyx_v_self->arp, (&__pyx_v_entry)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":724
+    /* "dnet.pyx":723
  *         entry.arp_ha = ha._addr
  *         if arp_add(self.arp, &entry) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def delete(self, addr pa):
  */
-    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 724, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 723, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_3, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 724, __pyx_L1_error)
+    __PYX_ERR(0, 723, __pyx_L1_error)
 
-    /* "dnet.pyx":723
+    /* "dnet.pyx":722
  *         entry.arp_pa = pa._addr
  *         entry.arp_ha = ha._addr
  *         if arp_add(self.arp, &entry) < 0:             # <<<<<<<<<<<<<<
@@ -9863,7 +9863,7 @@ static PyObject *__pyx_pf_4dnet_3arp_2add(struct __pyx_obj_4dnet_arp *__pyx_v_se
  */
   }
 
-  /* "dnet.pyx":713
+  /* "dnet.pyx":712
  *             raise OSError, __oserror()
  * 
  *     def add(self, addr pa, addr ha):             # <<<<<<<<<<<<<<
@@ -9884,7 +9884,7 @@ static PyObject *__pyx_pf_4dnet_3arp_2add(struct __pyx_obj_4dnet_arp *__pyx_v_se
   return __pyx_r;
 }
 
-/* "dnet.pyx":726
+/* "dnet.pyx":725
  *             raise OSError, __oserror()
  * 
  *     def delete(self, addr pa):             # <<<<<<<<<<<<<<
@@ -9902,7 +9902,7 @@ static PyObject *__pyx_pw_4dnet_3arp_5delete(PyObject *__pyx_v_self, PyObject *_
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("delete (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pa), __pyx_ptype_4dnet_addr, 1, "pa", 0))) __PYX_ERR(0, 726, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pa), __pyx_ptype_4dnet_addr, 1, "pa", 0))) __PYX_ERR(0, 725, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_3arp_4delete(((struct __pyx_obj_4dnet_arp *)__pyx_v_self), ((struct __pyx_obj_4dnet_addr *)__pyx_v_pa));
 
   /* function exit code */
@@ -9926,7 +9926,7 @@ static PyObject *__pyx_pf_4dnet_3arp_4delete(struct __pyx_obj_4dnet_arp *__pyx_v
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("delete", 0);
 
-  /* "dnet.pyx":733
+  /* "dnet.pyx":732
  *         """
  *         cdef arp_entry entry
  *         entry.arp_pa = pa._addr             # <<<<<<<<<<<<<<
@@ -9936,7 +9936,7 @@ static PyObject *__pyx_pf_4dnet_3arp_4delete(struct __pyx_obj_4dnet_arp *__pyx_v
   __pyx_t_1 = __pyx_v_pa->_addr;
   __pyx_v_entry.arp_pa = __pyx_t_1;
 
-  /* "dnet.pyx":734
+  /* "dnet.pyx":733
  *         cdef arp_entry entry
  *         entry.arp_pa = pa._addr
  *         if arp_delete(self.arp, &entry) < 0:             # <<<<<<<<<<<<<<
@@ -9946,20 +9946,20 @@ static PyObject *__pyx_pf_4dnet_3arp_4delete(struct __pyx_obj_4dnet_arp *__pyx_v
   __pyx_t_2 = ((arp_delete(__pyx_v_self->arp, (&__pyx_v_entry)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":735
+    /* "dnet.pyx":734
  *         entry.arp_pa = pa._addr
  *         if arp_delete(self.arp, &entry) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def get(self, addr pa):
  */
-    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 735, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 734, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_3, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 735, __pyx_L1_error)
+    __PYX_ERR(0, 734, __pyx_L1_error)
 
-    /* "dnet.pyx":734
+    /* "dnet.pyx":733
  *         cdef arp_entry entry
  *         entry.arp_pa = pa._addr
  *         if arp_delete(self.arp, &entry) < 0:             # <<<<<<<<<<<<<<
@@ -9968,7 +9968,7 @@ static PyObject *__pyx_pf_4dnet_3arp_4delete(struct __pyx_obj_4dnet_arp *__pyx_v
  */
   }
 
-  /* "dnet.pyx":726
+  /* "dnet.pyx":725
  *             raise OSError, __oserror()
  * 
  *     def delete(self, addr pa):             # <<<<<<<<<<<<<<
@@ -9989,7 +9989,7 @@ static PyObject *__pyx_pf_4dnet_3arp_4delete(struct __pyx_obj_4dnet_arp *__pyx_v
   return __pyx_r;
 }
 
-/* "dnet.pyx":737
+/* "dnet.pyx":736
  *             raise OSError, __oserror()
  * 
  *     def get(self, addr pa):             # <<<<<<<<<<<<<<
@@ -10007,7 +10007,7 @@ static PyObject *__pyx_pw_4dnet_3arp_7get(PyObject *__pyx_v_self, PyObject *__py
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pa), __pyx_ptype_4dnet_addr, 1, "pa", 0))) __PYX_ERR(0, 737, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_pa), __pyx_ptype_4dnet_addr, 1, "pa", 0))) __PYX_ERR(0, 736, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_3arp_6get(((struct __pyx_obj_4dnet_arp *)__pyx_v_self), ((struct __pyx_obj_4dnet_addr *)__pyx_v_pa));
 
   /* function exit code */
@@ -10032,7 +10032,7 @@ static PyObject *__pyx_pf_4dnet_3arp_6get(struct __pyx_obj_4dnet_arp *__pyx_v_se
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get", 0);
 
-  /* "dnet.pyx":745
+  /* "dnet.pyx":744
  *         """
  *         cdef arp_entry entry
  *         entry.arp_pa = pa._addr             # <<<<<<<<<<<<<<
@@ -10042,7 +10042,7 @@ static PyObject *__pyx_pf_4dnet_3arp_6get(struct __pyx_obj_4dnet_arp *__pyx_v_se
   __pyx_t_1 = __pyx_v_pa->_addr;
   __pyx_v_entry.arp_pa = __pyx_t_1;
 
-  /* "dnet.pyx":746
+  /* "dnet.pyx":745
  *         cdef arp_entry entry
  *         entry.arp_pa = pa._addr
  *         if arp_get(self.arp, &entry) == 0:             # <<<<<<<<<<<<<<
@@ -10052,7 +10052,7 @@ static PyObject *__pyx_pf_4dnet_3arp_6get(struct __pyx_obj_4dnet_arp *__pyx_v_se
   __pyx_t_2 = ((arp_get(__pyx_v_self->arp, (&__pyx_v_entry)) == 0) != 0);
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":747
+    /* "dnet.pyx":746
  *         entry.arp_pa = pa._addr
  *         if arp_get(self.arp, &entry) == 0:
  *             return addr(addr_ntoa(&entry.arp_ha))             # <<<<<<<<<<<<<<
@@ -10060,16 +10060,16 @@ static PyObject *__pyx_pf_4dnet_3arp_6get(struct __pyx_obj_4dnet_arp *__pyx_v_se
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry.arp_ha))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 747, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry.arp_ha))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 746, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 747, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 746, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_4;
     __pyx_t_4 = 0;
     goto __pyx_L0;
 
-    /* "dnet.pyx":746
+    /* "dnet.pyx":745
  *         cdef arp_entry entry
  *         entry.arp_pa = pa._addr
  *         if arp_get(self.arp, &entry) == 0:             # <<<<<<<<<<<<<<
@@ -10078,7 +10078,7 @@ static PyObject *__pyx_pf_4dnet_3arp_6get(struct __pyx_obj_4dnet_arp *__pyx_v_se
  */
   }
 
-  /* "dnet.pyx":748
+  /* "dnet.pyx":747
  *         if arp_get(self.arp, &entry) == 0:
  *             return addr(addr_ntoa(&entry.arp_ha))
  *         return None             # <<<<<<<<<<<<<<
@@ -10089,7 +10089,7 @@ static PyObject *__pyx_pf_4dnet_3arp_6get(struct __pyx_obj_4dnet_arp *__pyx_v_se
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "dnet.pyx":737
+  /* "dnet.pyx":736
  *             raise OSError, __oserror()
  * 
  *     def get(self, addr pa):             # <<<<<<<<<<<<<<
@@ -10109,7 +10109,7 @@ static PyObject *__pyx_pf_4dnet_3arp_6get(struct __pyx_obj_4dnet_arp *__pyx_v_se
   return __pyx_r;
 }
 
-/* "dnet.pyx":750
+/* "dnet.pyx":749
  *         return None
  * 
  *     def loop(self, callback, arg=None):             # <<<<<<<<<<<<<<
@@ -10157,7 +10157,7 @@ static PyObject *__pyx_pw_4dnet_3arp_9loop(PyObject *__pyx_v_self, PyObject *__p
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "loop") < 0)) __PYX_ERR(0, 750, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "loop") < 0)) __PYX_ERR(0, 749, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -10173,7 +10173,7 @@ static PyObject *__pyx_pw_4dnet_3arp_9loop(PyObject *__pyx_v_self, PyObject *__p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("loop", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 750, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("loop", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 749, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.arp.loop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -10196,14 +10196,14 @@ static PyObject *__pyx_pf_4dnet_3arp_8loop(struct __pyx_obj_4dnet_arp *__pyx_v_s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("loop", 0);
 
-  /* "dnet.pyx":760
+  /* "dnet.pyx":759
  *         arg      -- optional callback argument
  *         """
  *         _arg = (callback, arg)             # <<<<<<<<<<<<<<
  *         return arp_loop(self.arp, __arp_callback, <void *>_arg)
  * 
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 760, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 759, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_callback);
   __Pyx_GIVEREF(__pyx_v_callback);
@@ -10214,7 +10214,7 @@ static PyObject *__pyx_pf_4dnet_3arp_8loop(struct __pyx_obj_4dnet_arp *__pyx_v_s
   __pyx_v__arg = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":761
+  /* "dnet.pyx":760
  *         """
  *         _arg = (callback, arg)
  *         return arp_loop(self.arp, __arp_callback, <void *>_arg)             # <<<<<<<<<<<<<<
@@ -10222,13 +10222,13 @@ static PyObject *__pyx_pf_4dnet_3arp_8loop(struct __pyx_obj_4dnet_arp *__pyx_v_s
  *     def __iter__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(arp_loop(__pyx_v_self->arp, __pyx_f_4dnet___arp_callback, ((void *)__pyx_v__arg))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 761, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(arp_loop(__pyx_v_self->arp, __pyx_f_4dnet___arp_callback, ((void *)__pyx_v__arg))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 760, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":750
+  /* "dnet.pyx":749
  *         return None
  * 
  *     def loop(self, callback, arg=None):             # <<<<<<<<<<<<<<
@@ -10248,7 +10248,7 @@ static PyObject *__pyx_pf_4dnet_3arp_8loop(struct __pyx_obj_4dnet_arp *__pyx_v_s
   return __pyx_r;
 }
 
-/* "dnet.pyx":763
+/* "dnet.pyx":762
  *         return arp_loop(self.arp, __arp_callback, <void *>_arg)
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -10284,28 +10284,28 @@ static PyObject *__pyx_pf_4dnet_3arp_10__iter__(struct __pyx_obj_4dnet_arp *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__iter__", 0);
 
-  /* "dnet.pyx":764
+  /* "dnet.pyx":763
  * 
  *     def __iter__(self):
  *         l = []             # <<<<<<<<<<<<<<
  *         self.loop(__iter_append, l)
  *         return iter(l)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 764, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 763, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_l = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":765
+  /* "dnet.pyx":764
  *     def __iter__(self):
  *         l = []
  *         self.loop(__iter_append, l)             # <<<<<<<<<<<<<<
  *         return iter(l)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_loop); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 765, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_loop); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 764, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_iter_append); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 765, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_iter_append); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 764, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -10322,7 +10322,7 @@ static PyObject *__pyx_pf_4dnet_3arp_10__iter__(struct __pyx_obj_4dnet_arp *__py
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_l};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 764, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -10331,14 +10331,14 @@ static PyObject *__pyx_pf_4dnet_3arp_10__iter__(struct __pyx_obj_4dnet_arp *__py
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_l};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 764, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 764, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -10349,14 +10349,14 @@ static PyObject *__pyx_pf_4dnet_3arp_10__iter__(struct __pyx_obj_4dnet_arp *__py
     __Pyx_GIVEREF(__pyx_v_l);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_l);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 764, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":766
+  /* "dnet.pyx":765
  *         l = []
  *         self.loop(__iter_append, l)
  *         return iter(l)             # <<<<<<<<<<<<<<
@@ -10364,13 +10364,13 @@ static PyObject *__pyx_pf_4dnet_3arp_10__iter__(struct __pyx_obj_4dnet_arp *__py
  *     def __dealloc__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_GetIter(__pyx_v_l); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 766, __pyx_L1_error)
+  __pyx_t_1 = PyObject_GetIter(__pyx_v_l); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":763
+  /* "dnet.pyx":762
  *         return arp_loop(self.arp, __arp_callback, <void *>_arg)
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -10394,7 +10394,7 @@ static PyObject *__pyx_pf_4dnet_3arp_10__iter__(struct __pyx_obj_4dnet_arp *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":768
+/* "dnet.pyx":767
  *         return iter(l)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -10418,7 +10418,7 @@ static void __pyx_pf_4dnet_3arp_12__dealloc__(struct __pyx_obj_4dnet_arp *__pyx_
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "dnet.pyx":769
+  /* "dnet.pyx":768
  * 
  *     def __dealloc__(self):
  *         if self.arp:             # <<<<<<<<<<<<<<
@@ -10428,7 +10428,7 @@ static void __pyx_pf_4dnet_3arp_12__dealloc__(struct __pyx_obj_4dnet_arp *__pyx_
   __pyx_t_1 = (__pyx_v_self->arp != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":770
+    /* "dnet.pyx":769
  *     def __dealloc__(self):
  *         if self.arp:
  *             arp_close(self.arp)             # <<<<<<<<<<<<<<
@@ -10437,7 +10437,7 @@ static void __pyx_pf_4dnet_3arp_12__dealloc__(struct __pyx_obj_4dnet_arp *__pyx_
  */
     (void)(arp_close(__pyx_v_self->arp));
 
-    /* "dnet.pyx":769
+    /* "dnet.pyx":768
  * 
  *     def __dealloc__(self):
  *         if self.arp:             # <<<<<<<<<<<<<<
@@ -10446,7 +10446,7 @@ static void __pyx_pf_4dnet_3arp_12__dealloc__(struct __pyx_obj_4dnet_arp *__pyx_
  */
   }
 
-  /* "dnet.pyx":768
+  /* "dnet.pyx":767
  *         return iter(l)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -10571,7 +10571,7 @@ static PyObject *__pyx_pf_4dnet_3arp_16__setstate_cython__(CYTHON_UNUSED struct 
   return __pyx_r;
 }
 
-/* "dnet.pyx":772
+/* "dnet.pyx":771
  *             arp_close(self.arp)
  * 
  * def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,             # <<<<<<<<<<<<<<
@@ -10653,7 +10653,7 @@ static PyObject *__pyx_pw_4dnet_29arp_pack_hdr_ethip(PyObject *__pyx_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "arp_pack_hdr_ethip") < 0)) __PYX_ERR(0, 772, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "arp_pack_hdr_ethip") < 0)) __PYX_ERR(0, 771, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -10679,7 +10679,7 @@ static PyObject *__pyx_pw_4dnet_29arp_pack_hdr_ethip(PyObject *__pyx_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("arp_pack_hdr_ethip", 0, 0, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 772, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("arp_pack_hdr_ethip", 0, 0, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 771, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.arp_pack_hdr_ethip", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -10707,61 +10707,61 @@ static PyObject *__pyx_pf_4dnet_28arp_pack_hdr_ethip(CYTHON_UNUSED PyObject *__p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("arp_pack_hdr_ethip", 0);
 
-  /* "dnet.pyx":787
+  /* "dnet.pyx":786
  *     cdef eth_addr_t sh, dh
  *     cdef ip_addr_t sp, dp
  *     __memcpy(sh.data, sha, 6)             # <<<<<<<<<<<<<<
  *     __memcpy(dh.data, dha, 6)
  *     __memcpy(<char *>&sp, spa, 4)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_sh.data, __pyx_v_sha, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 787, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_sh.data, __pyx_v_sha, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 786, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":788
+  /* "dnet.pyx":787
  *     cdef ip_addr_t sp, dp
  *     __memcpy(sh.data, sha, 6)
  *     __memcpy(dh.data, dha, 6)             # <<<<<<<<<<<<<<
  *     __memcpy(<char *>&sp, spa, 4)
  *     __memcpy(<char *>&dp, dpa, 4)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_dh.data, __pyx_v_dha, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 788, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(__pyx_v_dh.data, __pyx_v_dha, 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 787, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":789
+  /* "dnet.pyx":788
  *     __memcpy(sh.data, sha, 6)
  *     __memcpy(dh.data, dha, 6)
  *     __memcpy(<char *>&sp, spa, 4)             # <<<<<<<<<<<<<<
  *     __memcpy(<char *>&dp, dpa, 4)
  *     __arp_pack_hdr_ethip(buf, op, sh, sp, dh, dp)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_sp)), __pyx_v_spa, 4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 789, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_sp)), __pyx_v_spa, 4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 788, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":790
+  /* "dnet.pyx":789
  *     __memcpy(dh.data, dha, 6)
  *     __memcpy(<char *>&sp, spa, 4)
  *     __memcpy(<char *>&dp, dpa, 4)             # <<<<<<<<<<<<<<
  *     __arp_pack_hdr_ethip(buf, op, sh, sp, dh, dp)
  *     return PyBytes_FromStringAndSize(buf, 28)
  */
-  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_dp)), __pyx_v_dpa, 4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 790, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet___memcpy(((char *)(&__pyx_v_dp)), __pyx_v_dpa, 4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 789, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":791
+  /* "dnet.pyx":790
  *     __memcpy(<char *>&sp, spa, 4)
  *     __memcpy(<char *>&dp, dpa, 4)
  *     __arp_pack_hdr_ethip(buf, op, sh, sp, dh, dp)             # <<<<<<<<<<<<<<
  *     return PyBytes_FromStringAndSize(buf, 28)
  * 
  */
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_op); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 791, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_op); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 790, __pyx_L1_error)
   arp_pack_hdr_ethip(__pyx_v_buf, __pyx_t_2, __pyx_v_sh, __pyx_v_sp, __pyx_v_dh, __pyx_v_dp);
 
-  /* "dnet.pyx":792
+  /* "dnet.pyx":791
  *     __memcpy(<char *>&dp, dpa, 4)
  *     __arp_pack_hdr_ethip(buf, op, sh, sp, dh, dp)
  *     return PyBytes_FromStringAndSize(buf, 28)             # <<<<<<<<<<<<<<
@@ -10769,13 +10769,13 @@ static PyObject *__pyx_pf_4dnet_28arp_pack_hdr_ethip(CYTHON_UNUSED PyObject *__p
  * #
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_buf, 28); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 792, __pyx_L1_error)
+  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_buf, 28); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 791, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":772
+  /* "dnet.pyx":771
  *             arp_close(self.arp)
  * 
  * def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,             # <<<<<<<<<<<<<<
@@ -10794,7 +10794,7 @@ static PyObject *__pyx_pf_4dnet_28arp_pack_hdr_ethip(CYTHON_UNUSED PyObject *__p
   return __pyx_r;
 }
 
-/* "dnet.pyx":800
+/* "dnet.pyx":799
  *     void __icmp_pack_hdr "icmp_pack_hdr" (char *hdr, int type, int code)
  * 
  * def icmp_pack_hdr(itype, code):             # <<<<<<<<<<<<<<
@@ -10838,11 +10838,11 @@ static PyObject *__pyx_pw_4dnet_31icmp_pack_hdr(PyObject *__pyx_self, PyObject *
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_code)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("icmp_pack_hdr", 1, 2, 2, 1); __PYX_ERR(0, 800, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("icmp_pack_hdr", 1, 2, 2, 1); __PYX_ERR(0, 799, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "icmp_pack_hdr") < 0)) __PYX_ERR(0, 800, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "icmp_pack_hdr") < 0)) __PYX_ERR(0, 799, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -10855,7 +10855,7 @@ static PyObject *__pyx_pw_4dnet_31icmp_pack_hdr(PyObject *__pyx_self, PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("icmp_pack_hdr", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 800, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("icmp_pack_hdr", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 799, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.icmp_pack_hdr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -10880,18 +10880,18 @@ static PyObject *__pyx_pf_4dnet_30icmp_pack_hdr(CYTHON_UNUSED PyObject *__pyx_se
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("icmp_pack_hdr", 0);
 
-  /* "dnet.pyx":808
+  /* "dnet.pyx":807
  *     """
  *     cdef char buf[4]
  *     __icmp_pack_hdr(buf, itype, code)             # <<<<<<<<<<<<<<
  *     return PyBytes_FromStringAndSize(buf, sizeof(buf))
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_itype); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 808, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_code); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 808, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_itype); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 807, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_code); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 807, __pyx_L1_error)
   icmp_pack_hdr(__pyx_v_buf, __pyx_t_1, __pyx_t_2);
 
-  /* "dnet.pyx":809
+  /* "dnet.pyx":808
  *     cdef char buf[4]
  *     __icmp_pack_hdr(buf, itype, code)
  *     return PyBytes_FromStringAndSize(buf, sizeof(buf))             # <<<<<<<<<<<<<<
@@ -10899,13 +10899,13 @@ static PyObject *__pyx_pf_4dnet_30icmp_pack_hdr(CYTHON_UNUSED PyObject *__pyx_se
  * #
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_buf, (sizeof(__pyx_v_buf))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 809, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(__pyx_v_buf, (sizeof(__pyx_v_buf))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 808, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":800
+  /* "dnet.pyx":799
  *     void __icmp_pack_hdr "icmp_pack_hdr" (char *hdr, int type, int code)
  * 
  * def icmp_pack_hdr(itype, code):             # <<<<<<<<<<<<<<
@@ -10924,7 +10924,7 @@ static PyObject *__pyx_pf_4dnet_30icmp_pack_hdr(CYTHON_UNUSED PyObject *__pyx_se
   return __pyx_r;
 }
 
-/* "dnet.pyx":860
+/* "dnet.pyx":859
  * TCP_OPT_MAX =		27
  * 
  * def tcp_pack_hdr(sport, dport, seq=1, ack=0, flags=TH_SYN,             # <<<<<<<<<<<<<<
@@ -10988,7 +10988,7 @@ static PyObject *__pyx_pw_4dnet_33tcp_pack_hdr(PyObject *__pyx_self, PyObject *_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dport)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("tcp_pack_hdr", 0, 2, 7, 1); __PYX_ERR(0, 860, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("tcp_pack_hdr", 0, 2, 7, 1); __PYX_ERR(0, 859, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -11022,7 +11022,7 @@ static PyObject *__pyx_pw_4dnet_33tcp_pack_hdr(PyObject *__pyx_self, PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "tcp_pack_hdr") < 0)) __PYX_ERR(0, 860, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "tcp_pack_hdr") < 0)) __PYX_ERR(0, 859, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -11052,7 +11052,7 @@ static PyObject *__pyx_pw_4dnet_33tcp_pack_hdr(PyObject *__pyx_self, PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("tcp_pack_hdr", 0, 2, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 860, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("tcp_pack_hdr", 0, 2, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 859, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.tcp_pack_hdr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -11082,23 +11082,23 @@ static PyObject *__pyx_pf_4dnet_32tcp_pack_hdr(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("tcp_pack_hdr", 0);
 
-  /* "dnet.pyx":874
+  /* "dnet.pyx":873
  *     """
  *     cdef char buf[20]
  *     __tcp_pack_hdr(buf, sport, dport, seq, ack, flags, win, urp)             # <<<<<<<<<<<<<<
  *     return PyBytes_FromStringAndSize(buf, sizeof(buf))
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_sport); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 874, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_dport); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 874, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyInt_As_unsigned_long(__pyx_v_seq); if (unlikely((__pyx_t_3 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 874, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_unsigned_long(__pyx_v_ack); if (unlikely((__pyx_t_4 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 874, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_flags); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 874, __pyx_L1_error)
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_win); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 874, __pyx_L1_error)
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_urp); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 874, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_sport); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 873, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_dport); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 873, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_unsigned_long(__pyx_v_seq); if (unlikely((__pyx_t_3 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 873, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_unsigned_long(__pyx_v_ack); if (unlikely((__pyx_t_4 == (unsigned long)-1) && PyErr_Occurred())) __PYX_ERR(0, 873, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_flags); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 873, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_win); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 873, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_urp); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 873, __pyx_L1_error)
   tcp_pack_hdr(__pyx_v_buf, __pyx_t_1, __pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5, __pyx_t_6, __pyx_t_7);
 
-  /* "dnet.pyx":875
+  /* "dnet.pyx":874
  *     cdef char buf[20]
  *     __tcp_pack_hdr(buf, sport, dport, seq, ack, flags, win, urp)
  *     return PyBytes_FromStringAndSize(buf, sizeof(buf))             # <<<<<<<<<<<<<<
@@ -11106,13 +11106,13 @@ static PyObject *__pyx_pf_4dnet_32tcp_pack_hdr(CYTHON_UNUSED PyObject *__pyx_sel
  * #
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_8 = PyBytes_FromStringAndSize(__pyx_v_buf, (sizeof(__pyx_v_buf))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 875, __pyx_L1_error)
+  __pyx_t_8 = PyBytes_FromStringAndSize(__pyx_v_buf, (sizeof(__pyx_v_buf))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 874, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_r = __pyx_t_8;
   __pyx_t_8 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":860
+  /* "dnet.pyx":859
  * TCP_OPT_MAX =		27
  * 
  * def tcp_pack_hdr(sport, dport, seq=1, ack=0, flags=TH_SYN,             # <<<<<<<<<<<<<<
@@ -11131,7 +11131,7 @@ static PyObject *__pyx_pf_4dnet_32tcp_pack_hdr(CYTHON_UNUSED PyObject *__pyx_sel
   return __pyx_r;
 }
 
-/* "dnet.pyx":886
+/* "dnet.pyx":885
  * UDP_PORT_MAX =	65535
  * 
  * def udp_pack_hdr(sport, dport, ulen=UDP_HDR_LEN):             # <<<<<<<<<<<<<<
@@ -11179,7 +11179,7 @@ static PyObject *__pyx_pw_4dnet_35udp_pack_hdr(PyObject *__pyx_self, PyObject *_
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dport)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("udp_pack_hdr", 0, 2, 3, 1); __PYX_ERR(0, 886, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("udp_pack_hdr", 0, 2, 3, 1); __PYX_ERR(0, 885, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -11189,7 +11189,7 @@ static PyObject *__pyx_pw_4dnet_35udp_pack_hdr(PyObject *__pyx_self, PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "udp_pack_hdr") < 0)) __PYX_ERR(0, 886, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "udp_pack_hdr") < 0)) __PYX_ERR(0, 885, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -11207,7 +11207,7 @@ static PyObject *__pyx_pw_4dnet_35udp_pack_hdr(PyObject *__pyx_self, PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("udp_pack_hdr", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 886, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("udp_pack_hdr", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 885, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.udp_pack_hdr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -11233,19 +11233,19 @@ static PyObject *__pyx_pf_4dnet_34udp_pack_hdr(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("udp_pack_hdr", 0);
 
-  /* "dnet.pyx":895
+  /* "dnet.pyx":894
  *     """
  *     cdef char buf[8]
  *     __udp_pack_hdr(buf, sport, dport, ulen)             # <<<<<<<<<<<<<<
  *     return PyBytes_FromStringAndSize(buf, sizeof(buf))
  * 
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_sport); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 895, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_dport); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 895, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_ulen); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 895, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_sport); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 894, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_As_int(__pyx_v_dport); if (unlikely((__pyx_t_2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 894, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_ulen); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 894, __pyx_L1_error)
   udp_pack_hdr(__pyx_v_buf, __pyx_t_1, __pyx_t_2, __pyx_t_3);
 
-  /* "dnet.pyx":896
+  /* "dnet.pyx":895
  *     cdef char buf[8]
  *     __udp_pack_hdr(buf, sport, dport, ulen)
  *     return PyBytes_FromStringAndSize(buf, sizeof(buf))             # <<<<<<<<<<<<<<
@@ -11253,13 +11253,13 @@ static PyObject *__pyx_pf_4dnet_34udp_pack_hdr(CYTHON_UNUSED PyObject *__pyx_sel
  * #
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = PyBytes_FromStringAndSize(__pyx_v_buf, (sizeof(__pyx_v_buf))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 896, __pyx_L1_error)
+  __pyx_t_4 = PyBytes_FromStringAndSize(__pyx_v_buf, (sizeof(__pyx_v_buf))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 895, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":886
+  /* "dnet.pyx":885
  * UDP_PORT_MAX =	65535
  * 
  * def udp_pack_hdr(sport, dport, ulen=UDP_HDR_LEN):             # <<<<<<<<<<<<<<
@@ -11278,7 +11278,7 @@ static PyObject *__pyx_pf_4dnet_34udp_pack_hdr(CYTHON_UNUSED PyObject *__pyx_sel
   return __pyx_r;
 }
 
-/* "dnet.pyx":937
+/* "dnet.pyx":936
  * INTF_FLAG_MULTICAST =	0x20	# /[inserted by cython to avoid comment start]* supports multicast (r/o) *[inserted by cython to avoid comment closer]/
  * 
  * cdef object ifent_to_dict(intf_entry *entry):             # <<<<<<<<<<<<<<
@@ -11303,100 +11303,100 @@ static PyObject *__pyx_f_4dnet_ifent_to_dict(struct intf_entry *__pyx_v_entry) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ifent_to_dict", 0);
 
-  /* "dnet.pyx":938
+  /* "dnet.pyx":937
  * 
  * cdef object ifent_to_dict(intf_entry *entry):
  *     d = {}             # <<<<<<<<<<<<<<
  *     d['name'] = entry.intf_name
  *     d['type'] = entry.intf_type
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 938, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 937, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_d = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":939
+  /* "dnet.pyx":938
  * cdef object ifent_to_dict(intf_entry *entry):
  *     d = {}
  *     d['name'] = entry.intf_name             # <<<<<<<<<<<<<<
  *     d['type'] = entry.intf_type
  *     d['flags'] = entry.intf_flags
  */
-  __pyx_t_1 = __Pyx_PyObject_FromString(__pyx_v_entry->intf_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 939, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_FromString(__pyx_v_entry->intf_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 938, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_name, __pyx_t_1) < 0)) __PYX_ERR(0, 939, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_name, __pyx_t_1) < 0)) __PYX_ERR(0, 938, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":940
+  /* "dnet.pyx":939
  *     d = {}
  *     d['name'] = entry.intf_name
  *     d['type'] = entry.intf_type             # <<<<<<<<<<<<<<
  *     d['flags'] = entry.intf_flags
  *     d['mtu'] = entry.intf_mtu
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 940, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 939, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_type, __pyx_t_1) < 0)) __PYX_ERR(0, 940, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_type, __pyx_t_1) < 0)) __PYX_ERR(0, 939, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":941
+  /* "dnet.pyx":940
  *     d['name'] = entry.intf_name
  *     d['type'] = entry.intf_type
  *     d['flags'] = entry.intf_flags             # <<<<<<<<<<<<<<
  *     d['mtu'] = entry.intf_mtu
  *     if entry.intf_addr.addr_type != ADDR_TYPE_NONE:
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_flags); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 941, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_flags); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 940, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_flags, __pyx_t_1) < 0)) __PYX_ERR(0, 941, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_flags, __pyx_t_1) < 0)) __PYX_ERR(0, 940, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":942
+  /* "dnet.pyx":941
  *     d['type'] = entry.intf_type
  *     d['flags'] = entry.intf_flags
  *     d['mtu'] = entry.intf_mtu             # <<<<<<<<<<<<<<
  *     if entry.intf_addr.addr_type != ADDR_TYPE_NONE:
  *         d['addr'] = addr(addr_ntoa(&entry.intf_addr))
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_entry->intf_mtu); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 942, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_entry->intf_mtu); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 941, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_mtu, __pyx_t_1) < 0)) __PYX_ERR(0, 942, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_mtu, __pyx_t_1) < 0)) __PYX_ERR(0, 941, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":943
+  /* "dnet.pyx":942
  *     d['flags'] = entry.intf_flags
  *     d['mtu'] = entry.intf_mtu
  *     if entry.intf_addr.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
  *         d['addr'] = addr(addr_ntoa(&entry.intf_addr))
  *     if entry.intf_dst_addr.addr_type != ADDR_TYPE_NONE:
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 943, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_addr.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 942, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 943, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 942, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 943, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 942, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 943, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 942, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":944
+    /* "dnet.pyx":943
  *     d['mtu'] = entry.intf_mtu
  *     if entry.intf_addr.addr_type != ADDR_TYPE_NONE:
  *         d['addr'] = addr(addr_ntoa(&entry.intf_addr))             # <<<<<<<<<<<<<<
  *     if entry.intf_dst_addr.addr_type != ADDR_TYPE_NONE:
  *         d['dst_addr'] = addr(addr_ntoa(&entry.intf_dst_addr))
  */
-    __pyx_t_3 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry->intf_addr))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 944, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry->intf_addr))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 943, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 944, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 943, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_addr, __pyx_t_2) < 0)) __PYX_ERR(0, 944, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_addr, __pyx_t_2) < 0)) __PYX_ERR(0, 943, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "dnet.pyx":943
+    /* "dnet.pyx":942
  *     d['flags'] = entry.intf_flags
  *     d['mtu'] = entry.intf_mtu
  *     if entry.intf_addr.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
@@ -11405,40 +11405,40 @@ static PyObject *__pyx_f_4dnet_ifent_to_dict(struct intf_entry *__pyx_v_entry) {
  */
   }
 
-  /* "dnet.pyx":945
+  /* "dnet.pyx":944
  *     if entry.intf_addr.addr_type != ADDR_TYPE_NONE:
  *         d['addr'] = addr(addr_ntoa(&entry.intf_addr))
  *     if entry.intf_dst_addr.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
  *         d['dst_addr'] = addr(addr_ntoa(&entry.intf_dst_addr))
  *     if entry.intf_link_addr.addr_type != ADDR_TYPE_NONE:
  */
-  __pyx_t_2 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_dst_addr.addr_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 945, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_dst_addr.addr_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 944, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 945, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 944, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 945, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 944, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 945, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 944, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":946
+    /* "dnet.pyx":945
  *         d['addr'] = addr(addr_ntoa(&entry.intf_addr))
  *     if entry.intf_dst_addr.addr_type != ADDR_TYPE_NONE:
  *         d['dst_addr'] = addr(addr_ntoa(&entry.intf_dst_addr))             # <<<<<<<<<<<<<<
  *     if entry.intf_link_addr.addr_type != ADDR_TYPE_NONE:
  *         d['link_addr'] = addr(addr_ntoa(&entry.intf_link_addr))
  */
-    __pyx_t_1 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry->intf_dst_addr))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry->intf_dst_addr))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 945, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 946, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 945, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_dst_addr, __pyx_t_3) < 0)) __PYX_ERR(0, 946, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_dst_addr, __pyx_t_3) < 0)) __PYX_ERR(0, 945, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "dnet.pyx":945
+    /* "dnet.pyx":944
  *     if entry.intf_addr.addr_type != ADDR_TYPE_NONE:
  *         d['addr'] = addr(addr_ntoa(&entry.intf_addr))
  *     if entry.intf_dst_addr.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
@@ -11447,40 +11447,40 @@ static PyObject *__pyx_f_4dnet_ifent_to_dict(struct intf_entry *__pyx_v_entry) {
  */
   }
 
-  /* "dnet.pyx":947
+  /* "dnet.pyx":946
  *     if entry.intf_dst_addr.addr_type != ADDR_TYPE_NONE:
  *         d['dst_addr'] = addr(addr_ntoa(&entry.intf_dst_addr))
  *     if entry.intf_link_addr.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
  *         d['link_addr'] = addr(addr_ntoa(&entry.intf_link_addr))
  *     if entry.intf_alias_num > 0:
  */
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_link_addr.addr_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 947, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_short(__pyx_v_entry->intf_link_addr.addr_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 946, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 947, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 946, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_3, __pyx_t_1, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 947, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_t_3, __pyx_t_1, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 946, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 947, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 946, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":948
+    /* "dnet.pyx":947
  *         d['dst_addr'] = addr(addr_ntoa(&entry.intf_dst_addr))
  *     if entry.intf_link_addr.addr_type != ADDR_TYPE_NONE:
  *         d['link_addr'] = addr(addr_ntoa(&entry.intf_link_addr))             # <<<<<<<<<<<<<<
  *     if entry.intf_alias_num > 0:
  *         l = []
  */
-    __pyx_t_2 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry->intf_link_addr))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 948, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry->intf_link_addr))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 947, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 948, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 947, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_link_addr, __pyx_t_1) < 0)) __PYX_ERR(0, 948, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_link_addr, __pyx_t_1) < 0)) __PYX_ERR(0, 947, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "dnet.pyx":947
+    /* "dnet.pyx":946
  *     if entry.intf_dst_addr.addr_type != ADDR_TYPE_NONE:
  *         d['dst_addr'] = addr(addr_ntoa(&entry.intf_dst_addr))
  *     if entry.intf_link_addr.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
@@ -11489,7 +11489,7 @@ static PyObject *__pyx_f_4dnet_ifent_to_dict(struct intf_entry *__pyx_v_entry) {
  */
   }
 
-  /* "dnet.pyx":949
+  /* "dnet.pyx":948
  *     if entry.intf_link_addr.addr_type != ADDR_TYPE_NONE:
  *         d['link_addr'] = addr(addr_ntoa(&entry.intf_link_addr))
  *     if entry.intf_alias_num > 0:             # <<<<<<<<<<<<<<
@@ -11499,19 +11499,19 @@ static PyObject *__pyx_f_4dnet_ifent_to_dict(struct intf_entry *__pyx_v_entry) {
   __pyx_t_4 = ((__pyx_v_entry->intf_alias_num > 0) != 0);
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":950
+    /* "dnet.pyx":949
  *         d['link_addr'] = addr(addr_ntoa(&entry.intf_link_addr))
  *     if entry.intf_alias_num > 0:
  *         l = []             # <<<<<<<<<<<<<<
  *         for i from 0 <= i < entry.intf_alias_num:
  *             l.append(addr(addr_ntoa(&entry.intf_alias_addrs[i])))
  */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 950, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 949, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_v_l = ((PyObject*)__pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dnet.pyx":951
+    /* "dnet.pyx":950
  *     if entry.intf_alias_num > 0:
  *         l = []
  *         for i from 0 <= i < entry.intf_alias_num:             # <<<<<<<<<<<<<<
@@ -11521,32 +11521,32 @@ static PyObject *__pyx_f_4dnet_ifent_to_dict(struct intf_entry *__pyx_v_entry) {
     __pyx_t_5 = __pyx_v_entry->intf_alias_num;
     for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_5; __pyx_v_i++) {
 
-      /* "dnet.pyx":952
+      /* "dnet.pyx":951
  *         l = []
  *         for i from 0 <= i < entry.intf_alias_num:
  *             l.append(addr(addr_ntoa(&entry.intf_alias_addrs[i])))             # <<<<<<<<<<<<<<
  *         d['alias_addrs'] = l
  *     return d
  */
-      __pyx_t_1 = __Pyx_PyStr_FromString(addr_ntoa((&(__pyx_v_entry->intf_alias_addrs[__pyx_v_i])))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 952, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyStr_FromString(addr_ntoa((&(__pyx_v_entry->intf_alias_addrs[__pyx_v_i])))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 951, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 952, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 951, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_l, __pyx_t_2); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 952, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_l, __pyx_t_2); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 951, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
 
-    /* "dnet.pyx":953
+    /* "dnet.pyx":952
  *         for i from 0 <= i < entry.intf_alias_num:
  *             l.append(addr(addr_ntoa(&entry.intf_alias_addrs[i])))
  *         d['alias_addrs'] = l             # <<<<<<<<<<<<<<
  *     return d
  * 
  */
-    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_alias_addrs, __pyx_v_l) < 0)) __PYX_ERR(0, 953, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_alias_addrs, __pyx_v_l) < 0)) __PYX_ERR(0, 952, __pyx_L1_error)
 
-    /* "dnet.pyx":949
+    /* "dnet.pyx":948
  *     if entry.intf_link_addr.addr_type != ADDR_TYPE_NONE:
  *         d['link_addr'] = addr(addr_ntoa(&entry.intf_link_addr))
  *     if entry.intf_alias_num > 0:             # <<<<<<<<<<<<<<
@@ -11555,7 +11555,7 @@ static PyObject *__pyx_f_4dnet_ifent_to_dict(struct intf_entry *__pyx_v_entry) {
  */
   }
 
-  /* "dnet.pyx":954
+  /* "dnet.pyx":953
  *             l.append(addr(addr_ntoa(&entry.intf_alias_addrs[i])))
  *         d['alias_addrs'] = l
  *     return d             # <<<<<<<<<<<<<<
@@ -11567,7 +11567,7 @@ static PyObject *__pyx_f_4dnet_ifent_to_dict(struct intf_entry *__pyx_v_entry) {
   __pyx_r = __pyx_v_d;
   goto __pyx_L0;
 
-  /* "dnet.pyx":937
+  /* "dnet.pyx":936
  * INTF_FLAG_MULTICAST =	0x20	# /[inserted by cython to avoid comment start]* supports multicast (r/o) *[inserted by cython to avoid comment closer]/
  * 
  * cdef object ifent_to_dict(intf_entry *entry):             # <<<<<<<<<<<<<<
@@ -11590,7 +11590,7 @@ static PyObject *__pyx_f_4dnet_ifent_to_dict(struct intf_entry *__pyx_v_entry) {
   return __pyx_r;
 }
 
-/* "dnet.pyx":956
+/* "dnet.pyx":955
  *     return d
  * 
  * cdef dict_to_ifent(object d, intf_entry *entry):             # <<<<<<<<<<<<<<
@@ -11617,53 +11617,53 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("dict_to_ifent", 0);
 
-  /* "dnet.pyx":957
+  /* "dnet.pyx":956
  * 
  * cdef dict_to_ifent(object d, intf_entry *entry):
  *     s = d['name']             # <<<<<<<<<<<<<<
  *     strlcpy(entry.intf_name, s, 16)
  *     if 'flags' in d:
  */
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 957, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 956, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_s = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":958
+  /* "dnet.pyx":957
  * cdef dict_to_ifent(object d, intf_entry *entry):
  *     s = d['name']
  *     strlcpy(entry.intf_name, s, 16)             # <<<<<<<<<<<<<<
  *     if 'flags' in d:
  *         entry.intf_flags = d['flags']
  */
-  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_v_s); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 958, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_v_s); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 957, __pyx_L1_error)
   (void)(strlcpy(__pyx_v_entry->intf_name, __pyx_t_2, 16));
 
-  /* "dnet.pyx":959
+  /* "dnet.pyx":958
  *     s = d['name']
  *     strlcpy(entry.intf_name, s, 16)
  *     if 'flags' in d:             # <<<<<<<<<<<<<<
  *         entry.intf_flags = d['flags']
  *     if 'mtu' in d:
  */
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_flags, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 959, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_flags, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 958, __pyx_L1_error)
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":960
+    /* "dnet.pyx":959
  *     strlcpy(entry.intf_name, s, 16)
  *     if 'flags' in d:
  *         entry.intf_flags = d['flags']             # <<<<<<<<<<<<<<
  *     if 'mtu' in d:
  *         entry.intf_mtu = d['mtu']
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_flags); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 960, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_flags); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 959, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_1); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 960, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_As_unsigned_short(__pyx_t_1); if (unlikely((__pyx_t_5 == (unsigned short)-1) && PyErr_Occurred())) __PYX_ERR(0, 959, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_entry->intf_flags = __pyx_t_5;
 
-    /* "dnet.pyx":959
+    /* "dnet.pyx":958
  *     s = d['name']
  *     strlcpy(entry.intf_name, s, 16)
  *     if 'flags' in d:             # <<<<<<<<<<<<<<
@@ -11672,31 +11672,31 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
  */
   }
 
-  /* "dnet.pyx":961
+  /* "dnet.pyx":960
  *     if 'flags' in d:
  *         entry.intf_flags = d['flags']
  *     if 'mtu' in d:             # <<<<<<<<<<<<<<
  *         entry.intf_mtu = d['mtu']
  *     if 'addr' in d:
  */
-  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_mtu, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 961, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_mtu, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 960, __pyx_L1_error)
   __pyx_t_3 = (__pyx_t_4 != 0);
   if (__pyx_t_3) {
 
-    /* "dnet.pyx":962
+    /* "dnet.pyx":961
  *         entry.intf_flags = d['flags']
  *     if 'mtu' in d:
  *         entry.intf_mtu = d['mtu']             # <<<<<<<<<<<<<<
  *     if 'addr' in d:
  *         entry.intf_addr = (<addr>d['addr'])._addr
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_mtu); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 962, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_mtu); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_1); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 962, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyInt_As_unsigned_int(__pyx_t_1); if (unlikely((__pyx_t_6 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 961, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_entry->intf_mtu = __pyx_t_6;
 
-    /* "dnet.pyx":961
+    /* "dnet.pyx":960
  *     if 'flags' in d:
  *         entry.intf_flags = d['flags']
  *     if 'mtu' in d:             # <<<<<<<<<<<<<<
@@ -11705,31 +11705,31 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
  */
   }
 
-  /* "dnet.pyx":963
+  /* "dnet.pyx":962
  *     if 'mtu' in d:
  *         entry.intf_mtu = d['mtu']
  *     if 'addr' in d:             # <<<<<<<<<<<<<<
  *         entry.intf_addr = (<addr>d['addr'])._addr
  *     if 'dst_addr' in d:
  */
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_addr, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 963, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_addr, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 962, __pyx_L1_error)
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":964
+    /* "dnet.pyx":963
  *         entry.intf_mtu = d['mtu']
  *     if 'addr' in d:
  *         entry.intf_addr = (<addr>d['addr'])._addr             # <<<<<<<<<<<<<<
  *     if 'dst_addr' in d:
  *         entry.intf_dst_addr = (<addr>d['dst_addr'])._addr
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_addr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 964, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_addr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 963, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_7 = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1)->_addr;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_entry->intf_addr = __pyx_t_7;
 
-    /* "dnet.pyx":963
+    /* "dnet.pyx":962
  *     if 'mtu' in d:
  *         entry.intf_mtu = d['mtu']
  *     if 'addr' in d:             # <<<<<<<<<<<<<<
@@ -11738,31 +11738,31 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
  */
   }
 
-  /* "dnet.pyx":965
+  /* "dnet.pyx":964
  *     if 'addr' in d:
  *         entry.intf_addr = (<addr>d['addr'])._addr
  *     if 'dst_addr' in d:             # <<<<<<<<<<<<<<
  *         entry.intf_dst_addr = (<addr>d['dst_addr'])._addr
  *     if 'link_addr' in d:
  */
-  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_dst_addr, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 965, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_dst_addr, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 964, __pyx_L1_error)
   __pyx_t_3 = (__pyx_t_4 != 0);
   if (__pyx_t_3) {
 
-    /* "dnet.pyx":966
+    /* "dnet.pyx":965
  *         entry.intf_addr = (<addr>d['addr'])._addr
  *     if 'dst_addr' in d:
  *         entry.intf_dst_addr = (<addr>d['dst_addr'])._addr             # <<<<<<<<<<<<<<
  *     if 'link_addr' in d:
  *         entry.intf_link_addr = (<addr>d['link_addr'])._addr
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dst_addr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 966, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dst_addr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 965, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_7 = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1)->_addr;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_entry->intf_dst_addr = __pyx_t_7;
 
-    /* "dnet.pyx":965
+    /* "dnet.pyx":964
  *     if 'addr' in d:
  *         entry.intf_addr = (<addr>d['addr'])._addr
  *     if 'dst_addr' in d:             # <<<<<<<<<<<<<<
@@ -11771,31 +11771,31 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
  */
   }
 
-  /* "dnet.pyx":967
+  /* "dnet.pyx":966
  *     if 'dst_addr' in d:
  *         entry.intf_dst_addr = (<addr>d['dst_addr'])._addr
  *     if 'link_addr' in d:             # <<<<<<<<<<<<<<
  *         entry.intf_link_addr = (<addr>d['link_addr'])._addr
  *     if 'alias_addrs' in d:
  */
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_link_addr, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 967, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_link_addr, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 966, __pyx_L1_error)
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":968
+    /* "dnet.pyx":967
  *         entry.intf_dst_addr = (<addr>d['dst_addr'])._addr
  *     if 'link_addr' in d:
  *         entry.intf_link_addr = (<addr>d['link_addr'])._addr             # <<<<<<<<<<<<<<
  *     if 'alias_addrs' in d:
  *         entry.intf_alias_num = len(d['alias_addrs'])
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_link_addr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 968, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_link_addr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 967, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_7 = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1)->_addr;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_entry->intf_link_addr = __pyx_t_7;
 
-    /* "dnet.pyx":967
+    /* "dnet.pyx":966
  *     if 'dst_addr' in d:
  *         entry.intf_dst_addr = (<addr>d['dst_addr'])._addr
  *     if 'link_addr' in d:             # <<<<<<<<<<<<<<
@@ -11804,31 +11804,31 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
  */
   }
 
-  /* "dnet.pyx":969
+  /* "dnet.pyx":968
  *     if 'link_addr' in d:
  *         entry.intf_link_addr = (<addr>d['link_addr'])._addr
  *     if 'alias_addrs' in d:             # <<<<<<<<<<<<<<
  *         entry.intf_alias_num = len(d['alias_addrs'])
  *         for i from 0 <= i < entry.intf_alias_num:
  */
-  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_alias_addrs, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 969, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_alias_addrs, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 968, __pyx_L1_error)
   __pyx_t_3 = (__pyx_t_4 != 0);
   if (__pyx_t_3) {
 
-    /* "dnet.pyx":970
+    /* "dnet.pyx":969
  *         entry.intf_link_addr = (<addr>d['link_addr'])._addr
  *     if 'alias_addrs' in d:
  *         entry.intf_alias_num = len(d['alias_addrs'])             # <<<<<<<<<<<<<<
  *         for i from 0 <= i < entry.intf_alias_num:
  *             entry.intf_alias_addrs[i] = (<addr>d['alias_addrs'][i])._addr
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_alias_addrs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 970, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_alias_addrs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 969, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 970, __pyx_L1_error)
+    __pyx_t_8 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 969, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_entry->intf_alias_num = __pyx_t_8;
 
-    /* "dnet.pyx":971
+    /* "dnet.pyx":970
  *     if 'alias_addrs' in d:
  *         entry.intf_alias_num = len(d['alias_addrs'])
  *         for i from 0 <= i < entry.intf_alias_num:             # <<<<<<<<<<<<<<
@@ -11838,16 +11838,16 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
     __pyx_t_6 = __pyx_v_entry->intf_alias_num;
     for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_6; __pyx_v_i++) {
 
-      /* "dnet.pyx":972
+      /* "dnet.pyx":971
  *         entry.intf_alias_num = len(d['alias_addrs'])
  *         for i from 0 <= i < entry.intf_alias_num:
  *             entry.intf_alias_addrs[i] = (<addr>d['alias_addrs'][i])._addr             # <<<<<<<<<<<<<<
  * 
  * cdef int __intf_callback(intf_entry *entry, void *arg) except -1:
  */
-      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_alias_addrs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 972, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_alias_addrs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 971, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 1, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 972, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, long, 1, __Pyx_PyInt_From_long, 0, 1, 0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 971, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_7 = ((struct __pyx_obj_4dnet_addr *)__pyx_t_9)->_addr;
@@ -11855,7 +11855,7 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
       (__pyx_v_entry->intf_alias_addrs[__pyx_v_i]) = __pyx_t_7;
     }
 
-    /* "dnet.pyx":969
+    /* "dnet.pyx":968
  *     if 'link_addr' in d:
  *         entry.intf_link_addr = (<addr>d['link_addr'])._addr
  *     if 'alias_addrs' in d:             # <<<<<<<<<<<<<<
@@ -11864,7 +11864,7 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
  */
   }
 
-  /* "dnet.pyx":956
+  /* "dnet.pyx":955
  *     return d
  * 
  * cdef dict_to_ifent(object d, intf_entry *entry):             # <<<<<<<<<<<<<<
@@ -11887,7 +11887,7 @@ static PyObject *__pyx_f_4dnet_dict_to_ifent(PyObject *__pyx_v_d, struct intf_en
   return __pyx_r;
 }
 
-/* "dnet.pyx":974
+/* "dnet.pyx":973
  *             entry.intf_alias_addrs[i] = (<addr>d['alias_addrs'][i])._addr
  * 
  * cdef int __intf_callback(intf_entry *entry, void *arg) except -1:             # <<<<<<<<<<<<<<
@@ -11915,7 +11915,7 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__intf_callback", 0);
 
-  /* "dnet.pyx":975
+  /* "dnet.pyx":974
  * 
  * cdef int __intf_callback(intf_entry *entry, void *arg) except -1:
  *     f, a = <object>arg             # <<<<<<<<<<<<<<
@@ -11930,7 +11930,7 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 975, __pyx_L1_error)
+      __PYX_ERR(0, 974, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -11943,15 +11943,15 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 975, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 974, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 975, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 974, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 975, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 974, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -11959,7 +11959,7 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
     __Pyx_GOTREF(__pyx_t_2);
     index = 1; __pyx_t_3 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L3_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 975, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 974, __pyx_L1_error)
     __pyx_t_5 = NULL;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     goto __pyx_L4_unpacking_done;
@@ -11967,7 +11967,7 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 975, __pyx_L1_error)
+    __PYX_ERR(0, 974, __pyx_L1_error)
     __pyx_L4_unpacking_done:;
   }
   __pyx_v_f = __pyx_t_2;
@@ -11975,14 +11975,14 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
   __pyx_v_a = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":976
+  /* "dnet.pyx":975
  * cdef int __intf_callback(intf_entry *entry, void *arg) except -1:
  *     f, a = <object>arg
  *     ret = f(ifent_to_dict(entry), a)             # <<<<<<<<<<<<<<
  *     if not ret:
  *         ret = 0
  */
-  __pyx_t_3 = __pyx_f_4dnet_ifent_to_dict(__pyx_v_entry); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 976, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_4dnet_ifent_to_dict(__pyx_v_entry); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 975, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_f);
   __pyx_t_2 = __pyx_v_f; __pyx_t_4 = NULL;
@@ -12000,7 +12000,7 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_a};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 976, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 975, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -12009,14 +12009,14 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_a};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 976, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 975, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 976, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 975, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -12027,7 +12027,7 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
     __Pyx_GIVEREF(__pyx_v_a);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_a);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 976, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 975, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -12035,18 +12035,18 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
   __pyx_v_ret = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":977
+  /* "dnet.pyx":976
  *     f, a = <object>arg
  *     ret = f(ifent_to_dict(entry), a)
  *     if not ret:             # <<<<<<<<<<<<<<
  *         ret = 0
  *     return ret
  */
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 977, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 976, __pyx_L1_error)
   __pyx_t_9 = ((!__pyx_t_8) != 0);
   if (__pyx_t_9) {
 
-    /* "dnet.pyx":978
+    /* "dnet.pyx":977
  *     ret = f(ifent_to_dict(entry), a)
  *     if not ret:
  *         ret = 0             # <<<<<<<<<<<<<<
@@ -12056,7 +12056,7 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_DECREF_SET(__pyx_v_ret, __pyx_int_0);
 
-    /* "dnet.pyx":977
+    /* "dnet.pyx":976
  *     f, a = <object>arg
  *     ret = f(ifent_to_dict(entry), a)
  *     if not ret:             # <<<<<<<<<<<<<<
@@ -12065,18 +12065,18 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
  */
   }
 
-  /* "dnet.pyx":979
+  /* "dnet.pyx":978
  *     if not ret:
  *         ret = 0
  *     return ret             # <<<<<<<<<<<<<<
  * 
  * cdef class intf:
  */
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_ret); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 979, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_ret); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 978, __pyx_L1_error)
   __pyx_r = __pyx_t_6;
   goto __pyx_L0;
 
-  /* "dnet.pyx":974
+  /* "dnet.pyx":973
  *             entry.intf_alias_addrs[i] = (<addr>d['alias_addrs'][i])._addr
  * 
  * cdef int __intf_callback(intf_entry *entry, void *arg) except -1:             # <<<<<<<<<<<<<<
@@ -12101,7 +12101,7 @@ static int __pyx_f_4dnet___intf_callback(struct intf_entry *__pyx_v_entry, void 
   return __pyx_r;
 }
 
-/* "dnet.pyx":988
+/* "dnet.pyx":987
  *     cdef intf_t *intf
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -12135,7 +12135,7 @@ static int __pyx_pf_4dnet_4intf___init__(struct __pyx_obj_4dnet_intf *__pyx_v_se
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":989
+  /* "dnet.pyx":988
  * 
  *     def __init__(self):
  *         self.intf = intf_open()             # <<<<<<<<<<<<<<
@@ -12144,7 +12144,7 @@ static int __pyx_pf_4dnet_4intf___init__(struct __pyx_obj_4dnet_intf *__pyx_v_se
  */
   __pyx_v_self->intf = intf_open();
 
-  /* "dnet.pyx":990
+  /* "dnet.pyx":989
  *     def __init__(self):
  *         self.intf = intf_open()
  *         if not self.intf:             # <<<<<<<<<<<<<<
@@ -12154,20 +12154,20 @@ static int __pyx_pf_4dnet_4intf___init__(struct __pyx_obj_4dnet_intf *__pyx_v_se
   __pyx_t_1 = ((!(__pyx_v_self->intf != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":991
+    /* "dnet.pyx":990
  *         self.intf = intf_open()
  *         if not self.intf:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def get(self, name):
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 991, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 990, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 991, __pyx_L1_error)
+    __PYX_ERR(0, 990, __pyx_L1_error)
 
-    /* "dnet.pyx":990
+    /* "dnet.pyx":989
  *     def __init__(self):
  *         self.intf = intf_open()
  *         if not self.intf:             # <<<<<<<<<<<<<<
@@ -12176,7 +12176,7 @@ static int __pyx_pf_4dnet_4intf___init__(struct __pyx_obj_4dnet_intf *__pyx_v_se
  */
   }
 
-  /* "dnet.pyx":988
+  /* "dnet.pyx":987
  *     cdef intf_t *intf
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -12196,7 +12196,7 @@ static int __pyx_pf_4dnet_4intf___init__(struct __pyx_obj_4dnet_intf *__pyx_v_se
   return __pyx_r;
 }
 
-/* "dnet.pyx":993
+/* "dnet.pyx":992
  *             raise OSError, __oserror()
  * 
  *     def get(self, name):             # <<<<<<<<<<<<<<
@@ -12231,7 +12231,7 @@ static PyObject *__pyx_pf_4dnet_4intf_2get(struct __pyx_obj_4dnet_intf *__pyx_v_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get", 0);
 
-  /* "dnet.pyx":998
+  /* "dnet.pyx":997
  *         cdef intf_entry *ifent
  *         cdef char buf[1024]
  *         ifent = <intf_entry *>buf             # <<<<<<<<<<<<<<
@@ -12240,7 +12240,7 @@ static PyObject *__pyx_pf_4dnet_4intf_2get(struct __pyx_obj_4dnet_intf *__pyx_v_
  */
   __pyx_v_ifent = ((struct intf_entry *)__pyx_v_buf);
 
-  /* "dnet.pyx":999
+  /* "dnet.pyx":998
  *         cdef char buf[1024]
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024             # <<<<<<<<<<<<<<
@@ -12249,17 +12249,17 @@ static PyObject *__pyx_pf_4dnet_4intf_2get(struct __pyx_obj_4dnet_intf *__pyx_v_
  */
   __pyx_v_ifent->intf_len = 0x400;
 
-  /* "dnet.pyx":1000
+  /* "dnet.pyx":999
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024
  *         strlcpy(ifent.intf_name, name, 16)             # <<<<<<<<<<<<<<
  *         if intf_get(self.intf, ifent) < 0:
  *             raise OSError, __oserror()
  */
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_name); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 1000, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_name); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 999, __pyx_L1_error)
   (void)(strlcpy(__pyx_v_ifent->intf_name, __pyx_t_1, 16));
 
-  /* "dnet.pyx":1001
+  /* "dnet.pyx":1000
  *         ifent.intf_len = 1024
  *         strlcpy(ifent.intf_name, name, 16)
  *         if intf_get(self.intf, ifent) < 0:             # <<<<<<<<<<<<<<
@@ -12269,20 +12269,20 @@ static PyObject *__pyx_pf_4dnet_4intf_2get(struct __pyx_obj_4dnet_intf *__pyx_v_
   __pyx_t_2 = ((intf_get(__pyx_v_self->intf, __pyx_v_ifent) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":1002
+    /* "dnet.pyx":1001
  *         strlcpy(ifent.intf_name, name, 16)
  *         if intf_get(self.intf, ifent) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  *         return ifent_to_dict(ifent)
  * 
  */
-    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1002, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1001, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_3, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 1002, __pyx_L1_error)
+    __PYX_ERR(0, 1001, __pyx_L1_error)
 
-    /* "dnet.pyx":1001
+    /* "dnet.pyx":1000
  *         ifent.intf_len = 1024
  *         strlcpy(ifent.intf_name, name, 16)
  *         if intf_get(self.intf, ifent) < 0:             # <<<<<<<<<<<<<<
@@ -12291,7 +12291,7 @@ static PyObject *__pyx_pf_4dnet_4intf_2get(struct __pyx_obj_4dnet_intf *__pyx_v_
  */
   }
 
-  /* "dnet.pyx":1003
+  /* "dnet.pyx":1002
  *         if intf_get(self.intf, ifent) < 0:
  *             raise OSError, __oserror()
  *         return ifent_to_dict(ifent)             # <<<<<<<<<<<<<<
@@ -12299,13 +12299,13 @@ static PyObject *__pyx_pf_4dnet_4intf_2get(struct __pyx_obj_4dnet_intf *__pyx_v_
  *     def get_src(self, addr src):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __pyx_f_4dnet_ifent_to_dict(__pyx_v_ifent); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1003, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_4dnet_ifent_to_dict(__pyx_v_ifent); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1002, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":993
+  /* "dnet.pyx":992
  *             raise OSError, __oserror()
  * 
  *     def get(self, name):             # <<<<<<<<<<<<<<
@@ -12324,7 +12324,7 @@ static PyObject *__pyx_pf_4dnet_4intf_2get(struct __pyx_obj_4dnet_intf *__pyx_v_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1005
+/* "dnet.pyx":1004
  *         return ifent_to_dict(ifent)
  * 
  *     def get_src(self, addr src):             # <<<<<<<<<<<<<<
@@ -12342,7 +12342,7 @@ static PyObject *__pyx_pw_4dnet_4intf_5get_src(PyObject *__pyx_v_self, PyObject 
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_src (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_src), __pyx_ptype_4dnet_addr, 1, "src", 0))) __PYX_ERR(0, 1005, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_src), __pyx_ptype_4dnet_addr, 1, "src", 0))) __PYX_ERR(0, 1004, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_4intf_4get_src(((struct __pyx_obj_4dnet_intf *)__pyx_v_self), ((struct __pyx_obj_4dnet_addr *)__pyx_v_src));
 
   /* function exit code */
@@ -12366,7 +12366,7 @@ static PyObject *__pyx_pf_4dnet_4intf_4get_src(struct __pyx_obj_4dnet_intf *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_src", 0);
 
-  /* "dnet.pyx":1011
+  /* "dnet.pyx":1010
  *         cdef intf_entry *ifent
  *         cdef char buf[1024]
  *         ifent = <intf_entry *>buf             # <<<<<<<<<<<<<<
@@ -12375,7 +12375,7 @@ static PyObject *__pyx_pf_4dnet_4intf_4get_src(struct __pyx_obj_4dnet_intf *__py
  */
   __pyx_v_ifent = ((struct intf_entry *)__pyx_v_buf);
 
-  /* "dnet.pyx":1012
+  /* "dnet.pyx":1011
  *         cdef char buf[1024]
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024             # <<<<<<<<<<<<<<
@@ -12384,7 +12384,7 @@ static PyObject *__pyx_pf_4dnet_4intf_4get_src(struct __pyx_obj_4dnet_intf *__py
  */
   __pyx_v_ifent->intf_len = 0x400;
 
-  /* "dnet.pyx":1013
+  /* "dnet.pyx":1012
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024
  *         if intf_get_src(self.intf, ifent, &src._addr) < 0:             # <<<<<<<<<<<<<<
@@ -12394,20 +12394,20 @@ static PyObject *__pyx_pf_4dnet_4intf_4get_src(struct __pyx_obj_4dnet_intf *__py
   __pyx_t_1 = ((intf_get_src(__pyx_v_self->intf, __pyx_v_ifent, (&__pyx_v_src->_addr)) < 0) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":1014
+    /* "dnet.pyx":1013
  *         ifent.intf_len = 1024
  *         if intf_get_src(self.intf, ifent, &src._addr) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  *         return ifent_to_dict(ifent)
  * 
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1014, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1013, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 1014, __pyx_L1_error)
+    __PYX_ERR(0, 1013, __pyx_L1_error)
 
-    /* "dnet.pyx":1013
+    /* "dnet.pyx":1012
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024
  *         if intf_get_src(self.intf, ifent, &src._addr) < 0:             # <<<<<<<<<<<<<<
@@ -12416,7 +12416,7 @@ static PyObject *__pyx_pf_4dnet_4intf_4get_src(struct __pyx_obj_4dnet_intf *__py
  */
   }
 
-  /* "dnet.pyx":1015
+  /* "dnet.pyx":1014
  *         if intf_get_src(self.intf, ifent, &src._addr) < 0:
  *             raise OSError, __oserror()
  *         return ifent_to_dict(ifent)             # <<<<<<<<<<<<<<
@@ -12424,13 +12424,13 @@ static PyObject *__pyx_pf_4dnet_4intf_4get_src(struct __pyx_obj_4dnet_intf *__py
  *     def get_dst(self, addr dst):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __pyx_f_4dnet_ifent_to_dict(__pyx_v_ifent); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1015, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_4dnet_ifent_to_dict(__pyx_v_ifent); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1014, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1005
+  /* "dnet.pyx":1004
  *         return ifent_to_dict(ifent)
  * 
  *     def get_src(self, addr src):             # <<<<<<<<<<<<<<
@@ -12449,7 +12449,7 @@ static PyObject *__pyx_pf_4dnet_4intf_4get_src(struct __pyx_obj_4dnet_intf *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":1017
+/* "dnet.pyx":1016
  *         return ifent_to_dict(ifent)
  * 
  *     def get_dst(self, addr dst):             # <<<<<<<<<<<<<<
@@ -12467,7 +12467,7 @@ static PyObject *__pyx_pw_4dnet_4intf_7get_dst(PyObject *__pyx_v_self, PyObject 
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_dst (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1017, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1016, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_4intf_6get_dst(((struct __pyx_obj_4dnet_intf *)__pyx_v_self), ((struct __pyx_obj_4dnet_addr *)__pyx_v_dst));
 
   /* function exit code */
@@ -12491,7 +12491,7 @@ static PyObject *__pyx_pf_4dnet_4intf_6get_dst(struct __pyx_obj_4dnet_intf *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_dst", 0);
 
-  /* "dnet.pyx":1023
+  /* "dnet.pyx":1022
  *         cdef intf_entry *ifent
  *         cdef char buf[1024]
  *         ifent = <intf_entry *>buf             # <<<<<<<<<<<<<<
@@ -12500,7 +12500,7 @@ static PyObject *__pyx_pf_4dnet_4intf_6get_dst(struct __pyx_obj_4dnet_intf *__py
  */
   __pyx_v_ifent = ((struct intf_entry *)__pyx_v_buf);
 
-  /* "dnet.pyx":1024
+  /* "dnet.pyx":1023
  *         cdef char buf[1024]
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024             # <<<<<<<<<<<<<<
@@ -12509,7 +12509,7 @@ static PyObject *__pyx_pf_4dnet_4intf_6get_dst(struct __pyx_obj_4dnet_intf *__py
  */
   __pyx_v_ifent->intf_len = 0x400;
 
-  /* "dnet.pyx":1025
+  /* "dnet.pyx":1024
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024
  *         if intf_get_dst(self.intf, ifent, &dst._addr) < 0:             # <<<<<<<<<<<<<<
@@ -12519,20 +12519,20 @@ static PyObject *__pyx_pf_4dnet_4intf_6get_dst(struct __pyx_obj_4dnet_intf *__py
   __pyx_t_1 = ((intf_get_dst(__pyx_v_self->intf, __pyx_v_ifent, (&__pyx_v_dst->_addr)) < 0) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":1026
+    /* "dnet.pyx":1025
  *         ifent.intf_len = 1024
  *         if intf_get_dst(self.intf, ifent, &dst._addr) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  *         return ifent_to_dict(ifent)
  * 
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1026, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1025, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 1026, __pyx_L1_error)
+    __PYX_ERR(0, 1025, __pyx_L1_error)
 
-    /* "dnet.pyx":1025
+    /* "dnet.pyx":1024
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024
  *         if intf_get_dst(self.intf, ifent, &dst._addr) < 0:             # <<<<<<<<<<<<<<
@@ -12541,7 +12541,7 @@ static PyObject *__pyx_pf_4dnet_4intf_6get_dst(struct __pyx_obj_4dnet_intf *__py
  */
   }
 
-  /* "dnet.pyx":1027
+  /* "dnet.pyx":1026
  *         if intf_get_dst(self.intf, ifent, &dst._addr) < 0:
  *             raise OSError, __oserror()
  *         return ifent_to_dict(ifent)             # <<<<<<<<<<<<<<
@@ -12549,13 +12549,13 @@ static PyObject *__pyx_pf_4dnet_4intf_6get_dst(struct __pyx_obj_4dnet_intf *__py
  *     def set(self, d):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __pyx_f_4dnet_ifent_to_dict(__pyx_v_ifent); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1027, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_4dnet_ifent_to_dict(__pyx_v_ifent); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1026, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1017
+  /* "dnet.pyx":1016
  *         return ifent_to_dict(ifent)
  * 
  *     def get_dst(self, addr dst):             # <<<<<<<<<<<<<<
@@ -12574,7 +12574,7 @@ static PyObject *__pyx_pf_4dnet_4intf_6get_dst(struct __pyx_obj_4dnet_intf *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":1029
+/* "dnet.pyx":1028
  *         return ifent_to_dict(ifent)
  * 
  *     def set(self, d):             # <<<<<<<<<<<<<<
@@ -12608,7 +12608,7 @@ static PyObject *__pyx_pf_4dnet_4intf_8set(struct __pyx_obj_4dnet_intf *__pyx_v_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set", 0);
 
-  /* "dnet.pyx":1043
+  /* "dnet.pyx":1042
  *         cdef intf_entry *ifent
  *         cdef char buf[1024]
  *         memset(buf, 0, sizeof(buf))             # <<<<<<<<<<<<<<
@@ -12617,7 +12617,7 @@ static PyObject *__pyx_pf_4dnet_4intf_8set(struct __pyx_obj_4dnet_intf *__pyx_v_
  */
   (void)(memset(__pyx_v_buf, 0, (sizeof(__pyx_v_buf))));
 
-  /* "dnet.pyx":1044
+  /* "dnet.pyx":1043
  *         cdef char buf[1024]
  *         memset(buf, 0, sizeof(buf))
  *         ifent = <intf_entry *>buf             # <<<<<<<<<<<<<<
@@ -12626,7 +12626,7 @@ static PyObject *__pyx_pf_4dnet_4intf_8set(struct __pyx_obj_4dnet_intf *__pyx_v_
  */
   __pyx_v_ifent = ((struct intf_entry *)__pyx_v_buf);
 
-  /* "dnet.pyx":1045
+  /* "dnet.pyx":1044
  *         memset(buf, 0, sizeof(buf))
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024             # <<<<<<<<<<<<<<
@@ -12635,18 +12635,18 @@ static PyObject *__pyx_pf_4dnet_4intf_8set(struct __pyx_obj_4dnet_intf *__pyx_v_
  */
   __pyx_v_ifent->intf_len = 0x400;
 
-  /* "dnet.pyx":1046
+  /* "dnet.pyx":1045
  *         ifent = <intf_entry *>buf
  *         ifent.intf_len = 1024
  *         dict_to_ifent(d, ifent)             # <<<<<<<<<<<<<<
  *         if intf_set(self.intf, ifent) < 0:
  *             raise OSError, __oserror()
  */
-  __pyx_t_1 = __pyx_f_4dnet_dict_to_ifent(__pyx_v_d, __pyx_v_ifent); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1046, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet_dict_to_ifent(__pyx_v_d, __pyx_v_ifent); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1045, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1047
+  /* "dnet.pyx":1046
  *         ifent.intf_len = 1024
  *         dict_to_ifent(d, ifent)
  *         if intf_set(self.intf, ifent) < 0:             # <<<<<<<<<<<<<<
@@ -12656,20 +12656,20 @@ static PyObject *__pyx_pf_4dnet_4intf_8set(struct __pyx_obj_4dnet_intf *__pyx_v_
   __pyx_t_2 = ((intf_set(__pyx_v_self->intf, __pyx_v_ifent) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":1048
+    /* "dnet.pyx":1047
  *         dict_to_ifent(d, ifent)
  *         if intf_set(self.intf, ifent) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def loop(self, callback, arg=None):
  */
-    __pyx_t_1 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1048, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1047, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_1, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 1048, __pyx_L1_error)
+    __PYX_ERR(0, 1047, __pyx_L1_error)
 
-    /* "dnet.pyx":1047
+    /* "dnet.pyx":1046
  *         ifent.intf_len = 1024
  *         dict_to_ifent(d, ifent)
  *         if intf_set(self.intf, ifent) < 0:             # <<<<<<<<<<<<<<
@@ -12678,7 +12678,7 @@ static PyObject *__pyx_pf_4dnet_4intf_8set(struct __pyx_obj_4dnet_intf *__pyx_v_
  */
   }
 
-  /* "dnet.pyx":1029
+  /* "dnet.pyx":1028
  *         return ifent_to_dict(ifent)
  * 
  *     def set(self, d):             # <<<<<<<<<<<<<<
@@ -12699,7 +12699,7 @@ static PyObject *__pyx_pf_4dnet_4intf_8set(struct __pyx_obj_4dnet_intf *__pyx_v_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1050
+/* "dnet.pyx":1049
  *             raise OSError, __oserror()
  * 
  *     def loop(self, callback, arg=None):             # <<<<<<<<<<<<<<
@@ -12747,7 +12747,7 @@ static PyObject *__pyx_pw_4dnet_4intf_11loop(PyObject *__pyx_v_self, PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "loop") < 0)) __PYX_ERR(0, 1050, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "loop") < 0)) __PYX_ERR(0, 1049, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -12763,7 +12763,7 @@ static PyObject *__pyx_pw_4dnet_4intf_11loop(PyObject *__pyx_v_self, PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("loop", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1050, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("loop", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1049, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.intf.loop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -12786,14 +12786,14 @@ static PyObject *__pyx_pf_4dnet_4intf_10loop(struct __pyx_obj_4dnet_intf *__pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("loop", 0);
 
-  /* "dnet.pyx":1060
+  /* "dnet.pyx":1059
  *         arg      -- optional callback argument
  *         """
  *         _arg = (callback, arg)             # <<<<<<<<<<<<<<
  *         return intf_loop(self.intf, __intf_callback, <void *>_arg)
  * 
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1060, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1059, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_callback);
   __Pyx_GIVEREF(__pyx_v_callback);
@@ -12804,7 +12804,7 @@ static PyObject *__pyx_pf_4dnet_4intf_10loop(struct __pyx_obj_4dnet_intf *__pyx_
   __pyx_v__arg = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1061
+  /* "dnet.pyx":1060
  *         """
  *         _arg = (callback, arg)
  *         return intf_loop(self.intf, __intf_callback, <void *>_arg)             # <<<<<<<<<<<<<<
@@ -12812,13 +12812,13 @@ static PyObject *__pyx_pf_4dnet_4intf_10loop(struct __pyx_obj_4dnet_intf *__pyx_
  *     def __iter__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(intf_loop(__pyx_v_self->intf, __pyx_f_4dnet___intf_callback, ((void *)__pyx_v__arg))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1061, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(intf_loop(__pyx_v_self->intf, __pyx_f_4dnet___intf_callback, ((void *)__pyx_v__arg))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1060, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1050
+  /* "dnet.pyx":1049
  *             raise OSError, __oserror()
  * 
  *     def loop(self, callback, arg=None):             # <<<<<<<<<<<<<<
@@ -12838,7 +12838,7 @@ static PyObject *__pyx_pf_4dnet_4intf_10loop(struct __pyx_obj_4dnet_intf *__pyx_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1063
+/* "dnet.pyx":1062
  *         return intf_loop(self.intf, __intf_callback, <void *>_arg)
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -12874,28 +12874,28 @@ static PyObject *__pyx_pf_4dnet_4intf_12__iter__(struct __pyx_obj_4dnet_intf *__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__iter__", 0);
 
-  /* "dnet.pyx":1064
+  /* "dnet.pyx":1063
  * 
  *     def __iter__(self):
  *         l = []             # <<<<<<<<<<<<<<
  *         self.loop(__iter_append, l)
  *         return iter(l)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1064, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1063, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_l = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1065
+  /* "dnet.pyx":1064
  *     def __iter__(self):
  *         l = []
  *         self.loop(__iter_append, l)             # <<<<<<<<<<<<<<
  *         return iter(l)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_loop); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1065, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_loop); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1064, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_iter_append); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1065, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_iter_append); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1064, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -12912,7 +12912,7 @@ static PyObject *__pyx_pf_4dnet_4intf_12__iter__(struct __pyx_obj_4dnet_intf *__
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_l};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1065, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1064, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -12921,14 +12921,14 @@ static PyObject *__pyx_pf_4dnet_4intf_12__iter__(struct __pyx_obj_4dnet_intf *__
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_l};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1065, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1064, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1065, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1064, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -12939,14 +12939,14 @@ static PyObject *__pyx_pf_4dnet_4intf_12__iter__(struct __pyx_obj_4dnet_intf *__
     __Pyx_GIVEREF(__pyx_v_l);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_l);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1065, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1064, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1066
+  /* "dnet.pyx":1065
  *         l = []
  *         self.loop(__iter_append, l)
  *         return iter(l)             # <<<<<<<<<<<<<<
@@ -12954,13 +12954,13 @@ static PyObject *__pyx_pf_4dnet_4intf_12__iter__(struct __pyx_obj_4dnet_intf *__
  *     def __dealloc__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_GetIter(__pyx_v_l); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1066, __pyx_L1_error)
+  __pyx_t_1 = PyObject_GetIter(__pyx_v_l); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1065, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1063
+  /* "dnet.pyx":1062
  *         return intf_loop(self.intf, __intf_callback, <void *>_arg)
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -12984,7 +12984,7 @@ static PyObject *__pyx_pf_4dnet_4intf_12__iter__(struct __pyx_obj_4dnet_intf *__
   return __pyx_r;
 }
 
-/* "dnet.pyx":1068
+/* "dnet.pyx":1067
  *         return iter(l)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -13008,7 +13008,7 @@ static void __pyx_pf_4dnet_4intf_14__dealloc__(struct __pyx_obj_4dnet_intf *__py
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "dnet.pyx":1069
+  /* "dnet.pyx":1068
  * 
  *     def __dealloc__(self):
  *         if self.intf:             # <<<<<<<<<<<<<<
@@ -13018,7 +13018,7 @@ static void __pyx_pf_4dnet_4intf_14__dealloc__(struct __pyx_obj_4dnet_intf *__py
   __pyx_t_1 = (__pyx_v_self->intf != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":1070
+    /* "dnet.pyx":1069
  *     def __dealloc__(self):
  *         if self.intf:
  *             intf_close(self.intf)             # <<<<<<<<<<<<<<
@@ -13027,7 +13027,7 @@ static void __pyx_pf_4dnet_4intf_14__dealloc__(struct __pyx_obj_4dnet_intf *__py
  */
     (void)(intf_close(__pyx_v_self->intf));
 
-    /* "dnet.pyx":1069
+    /* "dnet.pyx":1068
  * 
  *     def __dealloc__(self):
  *         if self.intf:             # <<<<<<<<<<<<<<
@@ -13036,7 +13036,7 @@ static void __pyx_pf_4dnet_4intf_14__dealloc__(struct __pyx_obj_4dnet_intf *__py
  */
   }
 
-  /* "dnet.pyx":1068
+  /* "dnet.pyx":1067
  *         return iter(l)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -13161,7 +13161,7 @@ static PyObject *__pyx_pf_4dnet_4intf_18__setstate_cython__(CYTHON_UNUSED struct
   return __pyx_r;
 }
 
-/* "dnet.pyx":1090
+/* "dnet.pyx":1089
  *     route_t *route_close(route_t *route)
  * 
  * cdef int __route_callback(route_entry *entry, void *arg) except -1:             # <<<<<<<<<<<<<<
@@ -13192,7 +13192,7 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__route_callback", 0);
 
-  /* "dnet.pyx":1091
+  /* "dnet.pyx":1090
  * 
  * cdef int __route_callback(route_entry *entry, void *arg) except -1:
  *     f, a = <object>arg             # <<<<<<<<<<<<<<
@@ -13207,7 +13207,7 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 1091, __pyx_L1_error)
+      __PYX_ERR(0, 1090, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -13220,15 +13220,15 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1091, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1090, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1091, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1090, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1091, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1090, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -13236,7 +13236,7 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
     __Pyx_GOTREF(__pyx_t_2);
     index = 1; __pyx_t_3 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L3_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 1091, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 1090, __pyx_L1_error)
     __pyx_t_5 = NULL;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     goto __pyx_L4_unpacking_done;
@@ -13244,7 +13244,7 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 1091, __pyx_L1_error)
+    __PYX_ERR(0, 1090, __pyx_L1_error)
     __pyx_L4_unpacking_done:;
   }
   __pyx_v_f = __pyx_t_2;
@@ -13252,23 +13252,23 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
   __pyx_v_a = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":1092
+  /* "dnet.pyx":1091
  * cdef int __route_callback(route_entry *entry, void *arg) except -1:
  *     f, a = <object>arg
  *     dst, gw = addr(), addr()             # <<<<<<<<<<<<<<
  *     (<addr>dst)._addr = entry.route_dst
  *     (<addr>gw)._addr = entry.route_gw
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1092, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1091, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1092, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallNoArg(((PyObject *)__pyx_ptype_4dnet_addr)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1091, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_dst = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1);
   __pyx_t_1 = 0;
   __pyx_v_gw = ((struct __pyx_obj_4dnet_addr *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":1093
+  /* "dnet.pyx":1092
  *     f, a = <object>arg
  *     dst, gw = addr(), addr()
  *     (<addr>dst)._addr = entry.route_dst             # <<<<<<<<<<<<<<
@@ -13278,7 +13278,7 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
   __pyx_t_6 = __pyx_v_entry->route_dst;
   __pyx_v_dst->_addr = __pyx_t_6;
 
-  /* "dnet.pyx":1094
+  /* "dnet.pyx":1093
  *     dst, gw = addr(), addr()
  *     (<addr>dst)._addr = entry.route_dst
  *     (<addr>gw)._addr = entry.route_gw             # <<<<<<<<<<<<<<
@@ -13288,14 +13288,14 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
   __pyx_t_6 = __pyx_v_entry->route_gw;
   __pyx_v_gw->_addr = __pyx_t_6;
 
-  /* "dnet.pyx":1095
+  /* "dnet.pyx":1094
  *     (<addr>dst)._addr = entry.route_dst
  *     (<addr>gw)._addr = entry.route_gw
  *     ret = f((dst, gw), a)             # <<<<<<<<<<<<<<
  *     if not ret:
  *         ret = 0
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1095, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1094, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_v_dst));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_dst));
@@ -13319,7 +13319,7 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_1, __pyx_v_a};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1095, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1094, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -13328,14 +13328,14 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_1, __pyx_v_a};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1095, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1094, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else
   #endif
   {
-    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1095, __pyx_L1_error)
+    __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 1094, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -13346,7 +13346,7 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
     __Pyx_GIVEREF(__pyx_v_a);
     PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_v_a);
     __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1095, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1094, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
@@ -13354,18 +13354,18 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
   __pyx_v_ret = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":1096
+  /* "dnet.pyx":1095
  *     (<addr>gw)._addr = entry.route_gw
  *     ret = f((dst, gw), a)
  *     if not ret:             # <<<<<<<<<<<<<<
  *         ret = 0
  *     return ret
  */
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 1096, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 1095, __pyx_L1_error)
   __pyx_t_10 = ((!__pyx_t_9) != 0);
   if (__pyx_t_10) {
 
-    /* "dnet.pyx":1097
+    /* "dnet.pyx":1096
  *     ret = f((dst, gw), a)
  *     if not ret:
  *         ret = 0             # <<<<<<<<<<<<<<
@@ -13375,7 +13375,7 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_DECREF_SET(__pyx_v_ret, __pyx_int_0);
 
-    /* "dnet.pyx":1096
+    /* "dnet.pyx":1095
  *     (<addr>gw)._addr = entry.route_gw
  *     ret = f((dst, gw), a)
  *     if not ret:             # <<<<<<<<<<<<<<
@@ -13384,18 +13384,18 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
  */
   }
 
-  /* "dnet.pyx":1098
+  /* "dnet.pyx":1097
  *     if not ret:
  *         ret = 0
  *     return ret             # <<<<<<<<<<<<<<
  * 
  * cdef class route:
  */
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_ret); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1098, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_v_ret); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1097, __pyx_L1_error)
   __pyx_r = __pyx_t_7;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1090
+  /* "dnet.pyx":1089
  *     route_t *route_close(route_t *route)
  * 
  * cdef int __route_callback(route_entry *entry, void *arg) except -1:             # <<<<<<<<<<<<<<
@@ -13422,7 +13422,7 @@ static int __pyx_f_4dnet___route_callback(struct route_entry *__pyx_v_entry, voi
   return __pyx_r;
 }
 
-/* "dnet.pyx":1107
+/* "dnet.pyx":1106
  *     cdef route_t *route
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -13456,7 +13456,7 @@ static int __pyx_pf_4dnet_5route___init__(struct __pyx_obj_4dnet_route *__pyx_v_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":1108
+  /* "dnet.pyx":1107
  * 
  *     def __init__(self):
  *         self.route = route_open()             # <<<<<<<<<<<<<<
@@ -13465,7 +13465,7 @@ static int __pyx_pf_4dnet_5route___init__(struct __pyx_obj_4dnet_route *__pyx_v_
  */
   __pyx_v_self->route = route_open();
 
-  /* "dnet.pyx":1109
+  /* "dnet.pyx":1108
  *     def __init__(self):
  *         self.route = route_open()
  *         if not self.route:             # <<<<<<<<<<<<<<
@@ -13475,20 +13475,20 @@ static int __pyx_pf_4dnet_5route___init__(struct __pyx_obj_4dnet_route *__pyx_v_
   __pyx_t_1 = ((!(__pyx_v_self->route != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":1110
+    /* "dnet.pyx":1109
  *         self.route = route_open()
  *         if not self.route:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def add(self, addr dst, addr gw):
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1110, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 1110, __pyx_L1_error)
+    __PYX_ERR(0, 1109, __pyx_L1_error)
 
-    /* "dnet.pyx":1109
+    /* "dnet.pyx":1108
  *     def __init__(self):
  *         self.route = route_open()
  *         if not self.route:             # <<<<<<<<<<<<<<
@@ -13497,7 +13497,7 @@ static int __pyx_pf_4dnet_5route___init__(struct __pyx_obj_4dnet_route *__pyx_v_
  */
   }
 
-  /* "dnet.pyx":1107
+  /* "dnet.pyx":1106
  *     cdef route_t *route
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -13517,7 +13517,7 @@ static int __pyx_pf_4dnet_5route___init__(struct __pyx_obj_4dnet_route *__pyx_v_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1112
+/* "dnet.pyx":1111
  *             raise OSError, __oserror()
  * 
  *     def add(self, addr dst, addr gw):             # <<<<<<<<<<<<<<
@@ -13560,11 +13560,11 @@ static PyObject *__pyx_pw_4dnet_5route_3add(PyObject *__pyx_v_self, PyObject *__
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_gw)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add", 1, 2, 2, 1); __PYX_ERR(0, 1112, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add", 1, 2, 2, 1); __PYX_ERR(0, 1111, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add") < 0)) __PYX_ERR(0, 1112, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add") < 0)) __PYX_ERR(0, 1111, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -13577,14 +13577,14 @@ static PyObject *__pyx_pw_4dnet_5route_3add(PyObject *__pyx_v_self, PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1112, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1111, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.route.add", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1112, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gw), __pyx_ptype_4dnet_addr, 1, "gw", 0))) __PYX_ERR(0, 1112, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1111, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_gw), __pyx_ptype_4dnet_addr, 1, "gw", 0))) __PYX_ERR(0, 1111, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_5route_2add(((struct __pyx_obj_4dnet_route *)__pyx_v_self), __pyx_v_dst, __pyx_v_gw);
 
   /* function exit code */
@@ -13608,7 +13608,7 @@ static PyObject *__pyx_pf_4dnet_5route_2add(struct __pyx_obj_4dnet_route *__pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add", 0);
 
-  /* "dnet.pyx":1120
+  /* "dnet.pyx":1119
  *         """
  *         cdef route_entry entry
  *         entry.route_dst = dst._addr             # <<<<<<<<<<<<<<
@@ -13618,7 +13618,7 @@ static PyObject *__pyx_pf_4dnet_5route_2add(struct __pyx_obj_4dnet_route *__pyx_
   __pyx_t_1 = __pyx_v_dst->_addr;
   __pyx_v_entry.route_dst = __pyx_t_1;
 
-  /* "dnet.pyx":1121
+  /* "dnet.pyx":1120
  *         cdef route_entry entry
  *         entry.route_dst = dst._addr
  *         entry.route_gw = gw._addr             # <<<<<<<<<<<<<<
@@ -13628,7 +13628,7 @@ static PyObject *__pyx_pf_4dnet_5route_2add(struct __pyx_obj_4dnet_route *__pyx_
   __pyx_t_1 = __pyx_v_gw->_addr;
   __pyx_v_entry.route_gw = __pyx_t_1;
 
-  /* "dnet.pyx":1122
+  /* "dnet.pyx":1121
  *         entry.route_dst = dst._addr
  *         entry.route_gw = gw._addr
  *         if route_add(self.route, &entry) < 0:             # <<<<<<<<<<<<<<
@@ -13638,20 +13638,20 @@ static PyObject *__pyx_pf_4dnet_5route_2add(struct __pyx_obj_4dnet_route *__pyx_
   __pyx_t_2 = ((route_add(__pyx_v_self->route, (&__pyx_v_entry)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":1123
+    /* "dnet.pyx":1122
  *         entry.route_gw = gw._addr
  *         if route_add(self.route, &entry) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def delete(self, addr dst):
  */
-    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1123, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_3, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 1123, __pyx_L1_error)
+    __PYX_ERR(0, 1122, __pyx_L1_error)
 
-    /* "dnet.pyx":1122
+    /* "dnet.pyx":1121
  *         entry.route_dst = dst._addr
  *         entry.route_gw = gw._addr
  *         if route_add(self.route, &entry) < 0:             # <<<<<<<<<<<<<<
@@ -13660,7 +13660,7 @@ static PyObject *__pyx_pf_4dnet_5route_2add(struct __pyx_obj_4dnet_route *__pyx_
  */
   }
 
-  /* "dnet.pyx":1112
+  /* "dnet.pyx":1111
  *             raise OSError, __oserror()
  * 
  *     def add(self, addr dst, addr gw):             # <<<<<<<<<<<<<<
@@ -13681,7 +13681,7 @@ static PyObject *__pyx_pf_4dnet_5route_2add(struct __pyx_obj_4dnet_route *__pyx_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1125
+/* "dnet.pyx":1124
  *             raise OSError, __oserror()
  * 
  *     def delete(self, addr dst):             # <<<<<<<<<<<<<<
@@ -13699,7 +13699,7 @@ static PyObject *__pyx_pw_4dnet_5route_5delete(PyObject *__pyx_v_self, PyObject 
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("delete (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1125, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1124, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_5route_4delete(((struct __pyx_obj_4dnet_route *)__pyx_v_self), ((struct __pyx_obj_4dnet_addr *)__pyx_v_dst));
 
   /* function exit code */
@@ -13723,7 +13723,7 @@ static PyObject *__pyx_pf_4dnet_5route_4delete(struct __pyx_obj_4dnet_route *__p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("delete", 0);
 
-  /* "dnet.pyx":1132
+  /* "dnet.pyx":1131
  *         """
  *         cdef route_entry entry
  *         entry.route_dst = dst._addr             # <<<<<<<<<<<<<<
@@ -13733,7 +13733,7 @@ static PyObject *__pyx_pf_4dnet_5route_4delete(struct __pyx_obj_4dnet_route *__p
   __pyx_t_1 = __pyx_v_dst->_addr;
   __pyx_v_entry.route_dst = __pyx_t_1;
 
-  /* "dnet.pyx":1133
+  /* "dnet.pyx":1132
  *         cdef route_entry entry
  *         entry.route_dst = dst._addr
  *         if route_delete(self.route, &entry) < 0:             # <<<<<<<<<<<<<<
@@ -13743,20 +13743,20 @@ static PyObject *__pyx_pf_4dnet_5route_4delete(struct __pyx_obj_4dnet_route *__p
   __pyx_t_2 = ((route_delete(__pyx_v_self->route, (&__pyx_v_entry)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":1134
+    /* "dnet.pyx":1133
  *         entry.route_dst = dst._addr
  *         if route_delete(self.route, &entry) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def get(self, addr dst):
  */
-    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1134, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_3, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 1134, __pyx_L1_error)
+    __PYX_ERR(0, 1133, __pyx_L1_error)
 
-    /* "dnet.pyx":1133
+    /* "dnet.pyx":1132
  *         cdef route_entry entry
  *         entry.route_dst = dst._addr
  *         if route_delete(self.route, &entry) < 0:             # <<<<<<<<<<<<<<
@@ -13765,7 +13765,7 @@ static PyObject *__pyx_pf_4dnet_5route_4delete(struct __pyx_obj_4dnet_route *__p
  */
   }
 
-  /* "dnet.pyx":1125
+  /* "dnet.pyx":1124
  *             raise OSError, __oserror()
  * 
  *     def delete(self, addr dst):             # <<<<<<<<<<<<<<
@@ -13786,7 +13786,7 @@ static PyObject *__pyx_pf_4dnet_5route_4delete(struct __pyx_obj_4dnet_route *__p
   return __pyx_r;
 }
 
-/* "dnet.pyx":1136
+/* "dnet.pyx":1135
  *             raise OSError, __oserror()
  * 
  *     def get(self, addr dst):             # <<<<<<<<<<<<<<
@@ -13804,7 +13804,7 @@ static PyObject *__pyx_pw_4dnet_5route_7get(PyObject *__pyx_v_self, PyObject *__
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1136, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1135, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_5route_6get(((struct __pyx_obj_4dnet_route *)__pyx_v_self), ((struct __pyx_obj_4dnet_addr *)__pyx_v_dst));
 
   /* function exit code */
@@ -13829,7 +13829,7 @@ static PyObject *__pyx_pf_4dnet_5route_6get(struct __pyx_obj_4dnet_route *__pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get", 0);
 
-  /* "dnet.pyx":1144
+  /* "dnet.pyx":1143
  *         """
  *         cdef route_entry entry
  *         entry.route_dst = dst._addr             # <<<<<<<<<<<<<<
@@ -13839,7 +13839,7 @@ static PyObject *__pyx_pf_4dnet_5route_6get(struct __pyx_obj_4dnet_route *__pyx_
   __pyx_t_1 = __pyx_v_dst->_addr;
   __pyx_v_entry.route_dst = __pyx_t_1;
 
-  /* "dnet.pyx":1145
+  /* "dnet.pyx":1144
  *         cdef route_entry entry
  *         entry.route_dst = dst._addr
  *         if route_get(self.route, &entry) == 0:             # <<<<<<<<<<<<<<
@@ -13849,7 +13849,7 @@ static PyObject *__pyx_pf_4dnet_5route_6get(struct __pyx_obj_4dnet_route *__pyx_
   __pyx_t_2 = ((route_get(__pyx_v_self->route, (&__pyx_v_entry)) == 0) != 0);
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1146
+    /* "dnet.pyx":1145
  *         entry.route_dst = dst._addr
  *         if route_get(self.route, &entry) == 0:
  *             return addr(addr_ntoa(&entry.route_gw))             # <<<<<<<<<<<<<<
@@ -13857,16 +13857,16 @@ static PyObject *__pyx_pf_4dnet_5route_6get(struct __pyx_obj_4dnet_route *__pyx_
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry.route_gw))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1146, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_entry.route_gw))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1146, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_4;
     __pyx_t_4 = 0;
     goto __pyx_L0;
 
-    /* "dnet.pyx":1145
+    /* "dnet.pyx":1144
  *         cdef route_entry entry
  *         entry.route_dst = dst._addr
  *         if route_get(self.route, &entry) == 0:             # <<<<<<<<<<<<<<
@@ -13875,7 +13875,7 @@ static PyObject *__pyx_pf_4dnet_5route_6get(struct __pyx_obj_4dnet_route *__pyx_
  */
   }
 
-  /* "dnet.pyx":1147
+  /* "dnet.pyx":1146
  *         if route_get(self.route, &entry) == 0:
  *             return addr(addr_ntoa(&entry.route_gw))
  *         return None             # <<<<<<<<<<<<<<
@@ -13886,7 +13886,7 @@ static PyObject *__pyx_pf_4dnet_5route_6get(struct __pyx_obj_4dnet_route *__pyx_
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "dnet.pyx":1136
+  /* "dnet.pyx":1135
  *             raise OSError, __oserror()
  * 
  *     def get(self, addr dst):             # <<<<<<<<<<<<<<
@@ -13906,7 +13906,7 @@ static PyObject *__pyx_pf_4dnet_5route_6get(struct __pyx_obj_4dnet_route *__pyx_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1149
+/* "dnet.pyx":1148
  *         return None
  * 
  *     def loop(self, callback, arg=None):             # <<<<<<<<<<<<<<
@@ -13954,7 +13954,7 @@ static PyObject *__pyx_pw_4dnet_5route_9loop(PyObject *__pyx_v_self, PyObject *_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "loop") < 0)) __PYX_ERR(0, 1149, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "loop") < 0)) __PYX_ERR(0, 1148, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -13970,7 +13970,7 @@ static PyObject *__pyx_pw_4dnet_5route_9loop(PyObject *__pyx_v_self, PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("loop", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1149, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("loop", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1148, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.route.loop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -13993,14 +13993,14 @@ static PyObject *__pyx_pf_4dnet_5route_8loop(struct __pyx_obj_4dnet_route *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("loop", 0);
 
-  /* "dnet.pyx":1159
+  /* "dnet.pyx":1158
  *         arg      -- optional callback argument
  *         """
  *         _arg = (callback, arg)             # <<<<<<<<<<<<<<
  *         return route_loop(self.route, __route_callback, <void *>_arg)
  * 
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1159, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_callback);
   __Pyx_GIVEREF(__pyx_v_callback);
@@ -14011,7 +14011,7 @@ static PyObject *__pyx_pf_4dnet_5route_8loop(struct __pyx_obj_4dnet_route *__pyx
   __pyx_v__arg = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1160
+  /* "dnet.pyx":1159
  *         """
  *         _arg = (callback, arg)
  *         return route_loop(self.route, __route_callback, <void *>_arg)             # <<<<<<<<<<<<<<
@@ -14019,13 +14019,13 @@ static PyObject *__pyx_pf_4dnet_5route_8loop(struct __pyx_obj_4dnet_route *__pyx
  *     def __iter__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(route_loop(__pyx_v_self->route, __pyx_f_4dnet___route_callback, ((void *)__pyx_v__arg))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1160, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(route_loop(__pyx_v_self->route, __pyx_f_4dnet___route_callback, ((void *)__pyx_v__arg))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1159, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1149
+  /* "dnet.pyx":1148
  *         return None
  * 
  *     def loop(self, callback, arg=None):             # <<<<<<<<<<<<<<
@@ -14045,7 +14045,7 @@ static PyObject *__pyx_pf_4dnet_5route_8loop(struct __pyx_obj_4dnet_route *__pyx
   return __pyx_r;
 }
 
-/* "dnet.pyx":1162
+/* "dnet.pyx":1161
  *         return route_loop(self.route, __route_callback, <void *>_arg)
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -14081,28 +14081,28 @@ static PyObject *__pyx_pf_4dnet_5route_10__iter__(struct __pyx_obj_4dnet_route *
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__iter__", 0);
 
-  /* "dnet.pyx":1163
+  /* "dnet.pyx":1162
  * 
  *     def __iter__(self):
  *         l = []             # <<<<<<<<<<<<<<
  *         self.loop(__iter_append, l)
  *         return iter(l)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1163, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1162, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_l = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1164
+  /* "dnet.pyx":1163
  *     def __iter__(self):
  *         l = []
  *         self.loop(__iter_append, l)             # <<<<<<<<<<<<<<
  *         return iter(l)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_loop); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1164, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_loop); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_iter_append); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1164, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_iter_append); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -14119,7 +14119,7 @@ static PyObject *__pyx_pf_4dnet_5route_10__iter__(struct __pyx_obj_4dnet_route *
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_l};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1164, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1163, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -14128,14 +14128,14 @@ static PyObject *__pyx_pf_4dnet_5route_10__iter__(struct __pyx_obj_4dnet_route *
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_l};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1164, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1163, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1164, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1163, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -14146,14 +14146,14 @@ static PyObject *__pyx_pf_4dnet_5route_10__iter__(struct __pyx_obj_4dnet_route *
     __Pyx_GIVEREF(__pyx_v_l);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_l);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1164, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1163, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1165
+  /* "dnet.pyx":1164
  *         l = []
  *         self.loop(__iter_append, l)
  *         return iter(l)             # <<<<<<<<<<<<<<
@@ -14161,13 +14161,13 @@ static PyObject *__pyx_pf_4dnet_5route_10__iter__(struct __pyx_obj_4dnet_route *
  *     def __dealloc__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_GetIter(__pyx_v_l); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1165, __pyx_L1_error)
+  __pyx_t_1 = PyObject_GetIter(__pyx_v_l); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1162
+  /* "dnet.pyx":1161
  *         return route_loop(self.route, __route_callback, <void *>_arg)
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -14191,7 +14191,7 @@ static PyObject *__pyx_pf_4dnet_5route_10__iter__(struct __pyx_obj_4dnet_route *
   return __pyx_r;
 }
 
-/* "dnet.pyx":1167
+/* "dnet.pyx":1166
  *         return iter(l)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -14215,7 +14215,7 @@ static void __pyx_pf_4dnet_5route_12__dealloc__(struct __pyx_obj_4dnet_route *__
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "dnet.pyx":1168
+  /* "dnet.pyx":1167
  * 
  *     def __dealloc__(self):
  *         if self.route:             # <<<<<<<<<<<<<<
@@ -14225,7 +14225,7 @@ static void __pyx_pf_4dnet_5route_12__dealloc__(struct __pyx_obj_4dnet_route *__
   __pyx_t_1 = (__pyx_v_self->route != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":1169
+    /* "dnet.pyx":1168
  *     def __dealloc__(self):
  *         if self.route:
  *             route_close(self.route)             # <<<<<<<<<<<<<<
@@ -14234,7 +14234,7 @@ static void __pyx_pf_4dnet_5route_12__dealloc__(struct __pyx_obj_4dnet_route *__
  */
     (void)(route_close(__pyx_v_self->route));
 
-    /* "dnet.pyx":1168
+    /* "dnet.pyx":1167
  * 
  *     def __dealloc__(self):
  *         if self.route:             # <<<<<<<<<<<<<<
@@ -14243,7 +14243,7 @@ static void __pyx_pf_4dnet_5route_12__dealloc__(struct __pyx_obj_4dnet_route *__
  */
   }
 
-  /* "dnet.pyx":1167
+  /* "dnet.pyx":1166
  *         return iter(l)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -14368,7 +14368,7 @@ static PyObject *__pyx_pf_4dnet_5route_16__setstate_cython__(CYTHON_UNUSED struc
   return __pyx_r;
 }
 
-/* "dnet.pyx":1201
+/* "dnet.pyx":1200
  * FW_DIR_OUT =	2
  * 
  * cdef object rule_to_dict(fw_rule *rule):             # <<<<<<<<<<<<<<
@@ -14390,55 +14390,55 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("rule_to_dict", 0);
 
-  /* "dnet.pyx":1202
+  /* "dnet.pyx":1201
  * 
  * cdef object rule_to_dict(fw_rule *rule):
  *     d = {}             # <<<<<<<<<<<<<<
  *     d['device'] = rule.fw_device
  *     d['op'] = rule.fw_op
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1202, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_d = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1203
+  /* "dnet.pyx":1202
  * cdef object rule_to_dict(fw_rule *rule):
  *     d = {}
  *     d['device'] = rule.fw_device             # <<<<<<<<<<<<<<
  *     d['op'] = rule.fw_op
  *     d['dir'] = rule.fw_dir
  */
-  __pyx_t_1 = __Pyx_PyObject_FromString(__pyx_v_rule->fw_device); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1203, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_FromString(__pyx_v_rule->fw_device); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_device, __pyx_t_1) < 0)) __PYX_ERR(0, 1203, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_device, __pyx_t_1) < 0)) __PYX_ERR(0, 1202, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1204
+  /* "dnet.pyx":1203
  *     d = {}
  *     d['device'] = rule.fw_device
  *     d['op'] = rule.fw_op             # <<<<<<<<<<<<<<
  *     d['dir'] = rule.fw_dir
  *     if rule.fw_proto != 0:
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_op); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1204, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_op); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_op, __pyx_t_1) < 0)) __PYX_ERR(0, 1204, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_op, __pyx_t_1) < 0)) __PYX_ERR(0, 1203, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1205
+  /* "dnet.pyx":1204
  *     d['device'] = rule.fw_device
  *     d['op'] = rule.fw_op
  *     d['dir'] = rule.fw_dir             # <<<<<<<<<<<<<<
  *     if rule.fw_proto != 0:
  *         d['proto'] = rule.fw_proto
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_dir); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1205, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_dir); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1204, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_dir, __pyx_t_1) < 0)) __PYX_ERR(0, 1205, __pyx_L1_error)
+  if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_dir, __pyx_t_1) < 0)) __PYX_ERR(0, 1204, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1206
+  /* "dnet.pyx":1205
  *     d['op'] = rule.fw_op
  *     d['dir'] = rule.fw_dir
  *     if rule.fw_proto != 0:             # <<<<<<<<<<<<<<
@@ -14448,19 +14448,19 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
   __pyx_t_2 = ((__pyx_v_rule->fw_proto != 0) != 0);
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1207
+    /* "dnet.pyx":1206
  *     d['dir'] = rule.fw_dir
  *     if rule.fw_proto != 0:
  *         d['proto'] = rule.fw_proto             # <<<<<<<<<<<<<<
  *     if rule.fw_src.addr_type != ADDR_TYPE_NONE:
  *         d['src'] = addr(addr_ntoa(&rule.fw_src))
  */
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_proto); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1207, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_proto); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1206, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_proto, __pyx_t_1) < 0)) __PYX_ERR(0, 1207, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_proto, __pyx_t_1) < 0)) __PYX_ERR(0, 1206, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "dnet.pyx":1206
+    /* "dnet.pyx":1205
  *     d['op'] = rule.fw_op
  *     d['dir'] = rule.fw_dir
  *     if rule.fw_proto != 0:             # <<<<<<<<<<<<<<
@@ -14469,40 +14469,40 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
  */
   }
 
-  /* "dnet.pyx":1208
+  /* "dnet.pyx":1207
  *     if rule.fw_proto != 0:
  *         d['proto'] = rule.fw_proto
  *     if rule.fw_src.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
  *         d['src'] = addr(addr_ntoa(&rule.fw_src))
  *     if rule.fw_dst.addr_type != ADDR_TYPE_NONE:
  */
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_rule->fw_src.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1208, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_short(__pyx_v_rule->fw_src.addr_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1208, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1208, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_1, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1207, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1208, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1207, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1209
+    /* "dnet.pyx":1208
  *         d['proto'] = rule.fw_proto
  *     if rule.fw_src.addr_type != ADDR_TYPE_NONE:
  *         d['src'] = addr(addr_ntoa(&rule.fw_src))             # <<<<<<<<<<<<<<
  *     if rule.fw_dst.addr_type != ADDR_TYPE_NONE:
  *         d['dst'] = addr(addr_ntoa(&rule.fw_dst))
  */
-    __pyx_t_4 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_rule->fw_src))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1209, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_rule->fw_src))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1208, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1209, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1208, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_src, __pyx_t_3) < 0)) __PYX_ERR(0, 1209, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_src, __pyx_t_3) < 0)) __PYX_ERR(0, 1208, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "dnet.pyx":1208
+    /* "dnet.pyx":1207
  *     if rule.fw_proto != 0:
  *         d['proto'] = rule.fw_proto
  *     if rule.fw_src.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
@@ -14511,40 +14511,40 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
  */
   }
 
-  /* "dnet.pyx":1210
+  /* "dnet.pyx":1209
  *     if rule.fw_src.addr_type != ADDR_TYPE_NONE:
  *         d['src'] = addr(addr_ntoa(&rule.fw_src))
  *     if rule.fw_dst.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
  *         d['dst'] = addr(addr_ntoa(&rule.fw_dst))
  *     if not (rule.fw_sport[0] == 0 and rule.fw_sport[1] == 0):
  */
-  __pyx_t_3 = __Pyx_PyInt_From_unsigned_short(__pyx_v_rule->fw_dst.addr_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1210, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_unsigned_short(__pyx_v_rule->fw_dst.addr_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1210, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1209, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_4, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1210, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_4, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1209, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1210, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1209, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1211
+    /* "dnet.pyx":1210
  *         d['src'] = addr(addr_ntoa(&rule.fw_src))
  *     if rule.fw_dst.addr_type != ADDR_TYPE_NONE:
  *         d['dst'] = addr(addr_ntoa(&rule.fw_dst))             # <<<<<<<<<<<<<<
  *     if not (rule.fw_sport[0] == 0 and rule.fw_sport[1] == 0):
  *         d['sport'] = [ rule.fw_sport[0], rule.fw_sport[1] ]
  */
-    __pyx_t_1 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_rule->fw_dst))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1211, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyStr_FromString(addr_ntoa((&__pyx_v_rule->fw_dst))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1210, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1211, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_4dnet_addr), __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1210, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_dst, __pyx_t_4) < 0)) __PYX_ERR(0, 1211, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_dst, __pyx_t_4) < 0)) __PYX_ERR(0, 1210, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "dnet.pyx":1210
+    /* "dnet.pyx":1209
  *     if rule.fw_src.addr_type != ADDR_TYPE_NONE:
  *         d['src'] = addr(addr_ntoa(&rule.fw_src))
  *     if rule.fw_dst.addr_type != ADDR_TYPE_NONE:             # <<<<<<<<<<<<<<
@@ -14553,7 +14553,7 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
  */
   }
 
-  /* "dnet.pyx":1212
+  /* "dnet.pyx":1211
  *     if rule.fw_dst.addr_type != ADDR_TYPE_NONE:
  *         d['dst'] = addr(addr_ntoa(&rule.fw_dst))
  *     if not (rule.fw_sport[0] == 0 and rule.fw_sport[1] == 0):             # <<<<<<<<<<<<<<
@@ -14572,18 +14572,18 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
   __pyx_t_5 = ((!__pyx_t_2) != 0);
   if (__pyx_t_5) {
 
-    /* "dnet.pyx":1213
+    /* "dnet.pyx":1212
  *         d['dst'] = addr(addr_ntoa(&rule.fw_dst))
  *     if not (rule.fw_sport[0] == 0 and rule.fw_sport[1] == 0):
  *         d['sport'] = [ rule.fw_sport[0], rule.fw_sport[1] ]             # <<<<<<<<<<<<<<
  *     if not (rule.fw_dport[0] == 0 and rule.fw_dport[1] == 0):
  *         d['dport'] = [ rule.fw_dport[0], rule.fw_dport[1] ]
  */
-    __pyx_t_4 = __Pyx_PyInt_From_int((__pyx_v_rule->fw_sport[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1213, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int((__pyx_v_rule->fw_sport[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1212, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_rule->fw_sport[1])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1213, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_rule->fw_sport[1])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1212, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1213, __pyx_L1_error)
+    __pyx_t_3 = PyList_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1212, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_4);
     PyList_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
@@ -14591,10 +14591,10 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
     PyList_SET_ITEM(__pyx_t_3, 1, __pyx_t_1);
     __pyx_t_4 = 0;
     __pyx_t_1 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_sport, __pyx_t_3) < 0)) __PYX_ERR(0, 1213, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_sport, __pyx_t_3) < 0)) __PYX_ERR(0, 1212, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "dnet.pyx":1212
+    /* "dnet.pyx":1211
  *     if rule.fw_dst.addr_type != ADDR_TYPE_NONE:
  *         d['dst'] = addr(addr_ntoa(&rule.fw_dst))
  *     if not (rule.fw_sport[0] == 0 and rule.fw_sport[1] == 0):             # <<<<<<<<<<<<<<
@@ -14603,7 +14603,7 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
  */
   }
 
-  /* "dnet.pyx":1214
+  /* "dnet.pyx":1213
  *     if not (rule.fw_sport[0] == 0 and rule.fw_sport[1] == 0):
  *         d['sport'] = [ rule.fw_sport[0], rule.fw_sport[1] ]
  *     if not (rule.fw_dport[0] == 0 and rule.fw_dport[1] == 0):             # <<<<<<<<<<<<<<
@@ -14622,18 +14622,18 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
   __pyx_t_2 = ((!__pyx_t_5) != 0);
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1215
+    /* "dnet.pyx":1214
  *         d['sport'] = [ rule.fw_sport[0], rule.fw_sport[1] ]
  *     if not (rule.fw_dport[0] == 0 and rule.fw_dport[1] == 0):
  *         d['dport'] = [ rule.fw_dport[0], rule.fw_dport[1] ]             # <<<<<<<<<<<<<<
  *     return d
  * 
  */
-    __pyx_t_3 = __Pyx_PyInt_From_int((__pyx_v_rule->fw_dport[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1215, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int((__pyx_v_rule->fw_dport[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_rule->fw_dport[1])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1215, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int((__pyx_v_rule->fw_dport[1])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = PyList_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1215, __pyx_L1_error)
+    __pyx_t_4 = PyList_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_3);
     PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
@@ -14641,10 +14641,10 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
     PyList_SET_ITEM(__pyx_t_4, 1, __pyx_t_1);
     __pyx_t_3 = 0;
     __pyx_t_1 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_dport, __pyx_t_4) < 0)) __PYX_ERR(0, 1215, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_d, __pyx_n_u_dport, __pyx_t_4) < 0)) __PYX_ERR(0, 1214, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "dnet.pyx":1214
+    /* "dnet.pyx":1213
  *     if not (rule.fw_sport[0] == 0 and rule.fw_sport[1] == 0):
  *         d['sport'] = [ rule.fw_sport[0], rule.fw_sport[1] ]
  *     if not (rule.fw_dport[0] == 0 and rule.fw_dport[1] == 0):             # <<<<<<<<<<<<<<
@@ -14653,7 +14653,7 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
  */
   }
 
-  /* "dnet.pyx":1216
+  /* "dnet.pyx":1215
  *     if not (rule.fw_dport[0] == 0 and rule.fw_dport[1] == 0):
  *         d['dport'] = [ rule.fw_dport[0], rule.fw_dport[1] ]
  *     return d             # <<<<<<<<<<<<<<
@@ -14665,7 +14665,7 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
   __pyx_r = __pyx_v_d;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1201
+  /* "dnet.pyx":1200
  * FW_DIR_OUT =	2
  * 
  * cdef object rule_to_dict(fw_rule *rule):             # <<<<<<<<<<<<<<
@@ -14687,7 +14687,7 @@ static PyObject *__pyx_f_4dnet_rule_to_dict(struct fw_rule *__pyx_v_rule) {
   return __pyx_r;
 }
 
-/* "dnet.pyx":1218
+/* "dnet.pyx":1217
  *     return d
  * 
  * cdef dict_to_rule(object d, fw_rule *rule):             # <<<<<<<<<<<<<<
@@ -14712,113 +14712,113 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("dict_to_rule", 0);
 
-  /* "dnet.pyx":1219
+  /* "dnet.pyx":1218
  * 
  * cdef dict_to_rule(object d, fw_rule *rule):
  *     s = d['device']             # <<<<<<<<<<<<<<
  *     strlcpy(rule.fw_device, s, 16)
  *     rule.fw_op = d['op']
  */
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_device); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1219, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_device); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1218, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_s = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1220
+  /* "dnet.pyx":1219
  * cdef dict_to_rule(object d, fw_rule *rule):
  *     s = d['device']
  *     strlcpy(rule.fw_device, s, 16)             # <<<<<<<<<<<<<<
  *     rule.fw_op = d['op']
  *     rule.fw_dir = d['dir']
  */
-  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_v_s); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 1220, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_AsWritableString(__pyx_v_s); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(0, 1219, __pyx_L1_error)
   (void)(strlcpy(__pyx_v_rule->fw_device, __pyx_t_2, 16));
 
-  /* "dnet.pyx":1221
+  /* "dnet.pyx":1220
  *     s = d['device']
  *     strlcpy(rule.fw_device, s, 16)
  *     rule.fw_op = d['op']             # <<<<<<<<<<<<<<
  *     rule.fw_dir = d['dir']
  *     if 'proto' in d:
  */
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_op); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1221, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_op); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1221, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1220, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_rule->fw_op = __pyx_t_3;
 
-  /* "dnet.pyx":1222
+  /* "dnet.pyx":1221
  *     strlcpy(rule.fw_device, s, 16)
  *     rule.fw_op = d['op']
  *     rule.fw_dir = d['dir']             # <<<<<<<<<<<<<<
  *     if 'proto' in d:
  *         rule.fw_proto = d['proto']
  */
-  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dir); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1222, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dir); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1222, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1221, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_rule->fw_dir = __pyx_t_3;
 
-  /* "dnet.pyx":1223
+  /* "dnet.pyx":1222
  *     rule.fw_op = d['op']
  *     rule.fw_dir = d['dir']
  *     if 'proto' in d:             # <<<<<<<<<<<<<<
  *         rule.fw_proto = d['proto']
  *         if rule.fw_proto == IP_PROTO_TCP or rule.fw_proto == IP_PROTO_UDP:
  */
-  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_proto, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1223, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_proto, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1222, __pyx_L1_error)
   __pyx_t_5 = (__pyx_t_4 != 0);
   if (__pyx_t_5) {
 
-    /* "dnet.pyx":1224
+    /* "dnet.pyx":1223
  *     rule.fw_dir = d['dir']
  *     if 'proto' in d:
  *         rule.fw_proto = d['proto']             # <<<<<<<<<<<<<<
  *         if rule.fw_proto == IP_PROTO_TCP or rule.fw_proto == IP_PROTO_UDP:
  *             rule.fw_sport[1] = 65535
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_proto); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1224, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_proto); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1224, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1223, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_rule->fw_proto = __pyx_t_3;
 
-    /* "dnet.pyx":1225
+    /* "dnet.pyx":1224
  *     if 'proto' in d:
  *         rule.fw_proto = d['proto']
  *         if rule.fw_proto == IP_PROTO_TCP or rule.fw_proto == IP_PROTO_UDP:             # <<<<<<<<<<<<<<
  *             rule.fw_sport[1] = 65535
  *             rule.fw_dport[1] = 65535
  */
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_proto); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1225, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_proto); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1224, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_IP_PROTO_TCP); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1225, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_IP_PROTO_TCP); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1224, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1225, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1224, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1225, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1224, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (!__pyx_t_4) {
     } else {
       __pyx_t_5 = __pyx_t_4;
       goto __pyx_L5_bool_binop_done;
     }
-    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_proto); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1225, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_rule->fw_proto); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1224, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_IP_PROTO_UDP); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1225, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_IP_PROTO_UDP); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1224, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_7, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1225, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_7, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1224, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1225, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1224, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_5 = __pyx_t_4;
     __pyx_L5_bool_binop_done:;
     if (__pyx_t_5) {
 
-      /* "dnet.pyx":1226
+      /* "dnet.pyx":1225
  *         rule.fw_proto = d['proto']
  *         if rule.fw_proto == IP_PROTO_TCP or rule.fw_proto == IP_PROTO_UDP:
  *             rule.fw_sport[1] = 65535             # <<<<<<<<<<<<<<
@@ -14827,7 +14827,7 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
  */
       (__pyx_v_rule->fw_sport[1]) = 0xFFFF;
 
-      /* "dnet.pyx":1227
+      /* "dnet.pyx":1226
  *         if rule.fw_proto == IP_PROTO_TCP or rule.fw_proto == IP_PROTO_UDP:
  *             rule.fw_sport[1] = 65535
  *             rule.fw_dport[1] = 65535             # <<<<<<<<<<<<<<
@@ -14836,7 +14836,7 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
  */
       (__pyx_v_rule->fw_dport[1]) = 0xFFFF;
 
-      /* "dnet.pyx":1225
+      /* "dnet.pyx":1224
  *     if 'proto' in d:
  *         rule.fw_proto = d['proto']
  *         if rule.fw_proto == IP_PROTO_TCP or rule.fw_proto == IP_PROTO_UDP:             # <<<<<<<<<<<<<<
@@ -14845,7 +14845,7 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
  */
     }
 
-    /* "dnet.pyx":1223
+    /* "dnet.pyx":1222
  *     rule.fw_op = d['op']
  *     rule.fw_dir = d['dir']
  *     if 'proto' in d:             # <<<<<<<<<<<<<<
@@ -14854,31 +14854,31 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
  */
   }
 
-  /* "dnet.pyx":1228
+  /* "dnet.pyx":1227
  *             rule.fw_sport[1] = 65535
  *             rule.fw_dport[1] = 65535
  *     if 'src' in d:             # <<<<<<<<<<<<<<
  *         rule.fw_src = (<addr>d['src'])._addr
  *     if 'dst' in d:
  */
-  __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_src, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 1228, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_src, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 1227, __pyx_L1_error)
   __pyx_t_4 = (__pyx_t_5 != 0);
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":1229
+    /* "dnet.pyx":1228
  *             rule.fw_dport[1] = 65535
  *     if 'src' in d:
  *         rule.fw_src = (<addr>d['src'])._addr             # <<<<<<<<<<<<<<
  *     if 'dst' in d:
  *         rule.fw_dst = (<addr>d['dst'])._addr
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_src); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1229, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_src); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1228, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_8 = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1)->_addr;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_rule->fw_src = __pyx_t_8;
 
-    /* "dnet.pyx":1228
+    /* "dnet.pyx":1227
  *             rule.fw_sport[1] = 65535
  *             rule.fw_dport[1] = 65535
  *     if 'src' in d:             # <<<<<<<<<<<<<<
@@ -14887,31 +14887,31 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
  */
   }
 
-  /* "dnet.pyx":1230
+  /* "dnet.pyx":1229
  *     if 'src' in d:
  *         rule.fw_src = (<addr>d['src'])._addr
  *     if 'dst' in d:             # <<<<<<<<<<<<<<
  *         rule.fw_dst = (<addr>d['dst'])._addr
  *     if 'sport' in d:
  */
-  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_dst, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1230, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_dst, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1229, __pyx_L1_error)
   __pyx_t_5 = (__pyx_t_4 != 0);
   if (__pyx_t_5) {
 
-    /* "dnet.pyx":1231
+    /* "dnet.pyx":1230
  *         rule.fw_src = (<addr>d['src'])._addr
  *     if 'dst' in d:
  *         rule.fw_dst = (<addr>d['dst'])._addr             # <<<<<<<<<<<<<<
  *     if 'sport' in d:
  *         rule.fw_sport[0] = d['sport'][0]
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dst); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1231, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dst); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1230, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_8 = ((struct __pyx_obj_4dnet_addr *)__pyx_t_1)->_addr;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_rule->fw_dst = __pyx_t_8;
 
-    /* "dnet.pyx":1230
+    /* "dnet.pyx":1229
  *     if 'src' in d:
  *         rule.fw_src = (<addr>d['src'])._addr
  *     if 'dst' in d:             # <<<<<<<<<<<<<<
@@ -14920,50 +14920,50 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
  */
   }
 
-  /* "dnet.pyx":1232
+  /* "dnet.pyx":1231
  *     if 'dst' in d:
  *         rule.fw_dst = (<addr>d['dst'])._addr
  *     if 'sport' in d:             # <<<<<<<<<<<<<<
  *         rule.fw_sport[0] = d['sport'][0]
  *         rule.fw_sport[1] = d['sport'][1]
  */
-  __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_sport, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 1232, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_sport, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 1231, __pyx_L1_error)
   __pyx_t_4 = (__pyx_t_5 != 0);
   if (__pyx_t_4) {
 
-    /* "dnet.pyx":1233
+    /* "dnet.pyx":1232
  *         rule.fw_dst = (<addr>d['dst'])._addr
  *     if 'sport' in d:
  *         rule.fw_sport[0] = d['sport'][0]             # <<<<<<<<<<<<<<
  *         rule.fw_sport[1] = d['sport'][1]
  *     if 'dport' in d:
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_sport); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1233, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_sport); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1232, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1233, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1232, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1233, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1232, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     (__pyx_v_rule->fw_sport[0]) = __pyx_t_3;
 
-    /* "dnet.pyx":1234
+    /* "dnet.pyx":1233
  *     if 'sport' in d:
  *         rule.fw_sport[0] = d['sport'][0]
  *         rule.fw_sport[1] = d['sport'][1]             # <<<<<<<<<<<<<<
  *     if 'dport' in d:
  *         rule.fw_dport[0] = d['dport'][0]
  */
-    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_sport); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1234, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_sport); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1233, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1234, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1233, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1234, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1233, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     (__pyx_v_rule->fw_sport[1]) = __pyx_t_3;
 
-    /* "dnet.pyx":1232
+    /* "dnet.pyx":1231
  *     if 'dst' in d:
  *         rule.fw_dst = (<addr>d['dst'])._addr
  *     if 'sport' in d:             # <<<<<<<<<<<<<<
@@ -14972,50 +14972,50 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
  */
   }
 
-  /* "dnet.pyx":1235
+  /* "dnet.pyx":1234
  *         rule.fw_sport[0] = d['sport'][0]
  *         rule.fw_sport[1] = d['sport'][1]
  *     if 'dport' in d:             # <<<<<<<<<<<<<<
  *         rule.fw_dport[0] = d['dport'][0]
  *         rule.fw_dport[1] = d['dport'][1]
  */
-  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_dport, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1235, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PySequence_ContainsTF(__pyx_n_u_dport, __pyx_v_d, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 1234, __pyx_L1_error)
   __pyx_t_5 = (__pyx_t_4 != 0);
   if (__pyx_t_5) {
 
-    /* "dnet.pyx":1236
+    /* "dnet.pyx":1235
  *         rule.fw_sport[1] = d['sport'][1]
  *     if 'dport' in d:
  *         rule.fw_dport[0] = d['dport'][0]             # <<<<<<<<<<<<<<
  *         rule.fw_dport[1] = d['dport'][1]
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dport); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1236, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dport); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1236, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1235, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1236, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1235, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     (__pyx_v_rule->fw_dport[0]) = __pyx_t_3;
 
-    /* "dnet.pyx":1237
+    /* "dnet.pyx":1236
  *     if 'dport' in d:
  *         rule.fw_dport[0] = d['dport'][0]
  *         rule.fw_dport[1] = d['dport'][1]             # <<<<<<<<<<<<<<
  * 
  * cdef int __fw_callback(fw_rule *rule, void *arg) except -1:
  */
-    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dport); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1237, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Dict_GetItem(__pyx_v_d, __pyx_n_u_dport); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1236, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1237, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1236, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1237, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1236, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     (__pyx_v_rule->fw_dport[1]) = __pyx_t_3;
 
-    /* "dnet.pyx":1235
+    /* "dnet.pyx":1234
  *         rule.fw_sport[0] = d['sport'][0]
  *         rule.fw_sport[1] = d['sport'][1]
  *     if 'dport' in d:             # <<<<<<<<<<<<<<
@@ -15024,7 +15024,7 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
  */
   }
 
-  /* "dnet.pyx":1218
+  /* "dnet.pyx":1217
  *     return d
  * 
  * cdef dict_to_rule(object d, fw_rule *rule):             # <<<<<<<<<<<<<<
@@ -15048,7 +15048,7 @@ static PyObject *__pyx_f_4dnet_dict_to_rule(PyObject *__pyx_v_d, struct fw_rule 
   return __pyx_r;
 }
 
-/* "dnet.pyx":1239
+/* "dnet.pyx":1238
  *         rule.fw_dport[1] = d['dport'][1]
  * 
  * cdef int __fw_callback(fw_rule *rule, void *arg) except -1:             # <<<<<<<<<<<<<<
@@ -15076,7 +15076,7 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__fw_callback", 0);
 
-  /* "dnet.pyx":1240
+  /* "dnet.pyx":1239
  * 
  * cdef int __fw_callback(fw_rule *rule, void *arg) except -1:
  *     f, a = <object>arg             # <<<<<<<<<<<<<<
@@ -15091,7 +15091,7 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 1240, __pyx_L1_error)
+      __PYX_ERR(0, 1239, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -15104,15 +15104,15 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1240, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1240, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1240, __pyx_L1_error)
+    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -15120,7 +15120,7 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
     __Pyx_GOTREF(__pyx_t_2);
     index = 1; __pyx_t_3 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L3_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 1240, __pyx_L1_error)
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(0, 1239, __pyx_L1_error)
     __pyx_t_5 = NULL;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     goto __pyx_L4_unpacking_done;
@@ -15128,7 +15128,7 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(0, 1240, __pyx_L1_error)
+    __PYX_ERR(0, 1239, __pyx_L1_error)
     __pyx_L4_unpacking_done:;
   }
   __pyx_v_f = __pyx_t_2;
@@ -15136,14 +15136,14 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
   __pyx_v_a = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":1241
+  /* "dnet.pyx":1240
  * cdef int __fw_callback(fw_rule *rule, void *arg) except -1:
  *     f, a = <object>arg
  *     ret = f(rule_to_dict(rule), a)             # <<<<<<<<<<<<<<
  *     if not ret:
  *         ret = 0
  */
-  __pyx_t_3 = __pyx_f_4dnet_rule_to_dict(__pyx_v_rule); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1241, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_4dnet_rule_to_dict(__pyx_v_rule); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_f);
   __pyx_t_2 = __pyx_v_f; __pyx_t_4 = NULL;
@@ -15161,7 +15161,7 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_a};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1241, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1240, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -15170,14 +15170,14 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_a};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1241, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1240, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1241, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 1240, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -15188,7 +15188,7 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
     __Pyx_GIVEREF(__pyx_v_a);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_a);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1241, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1240, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -15196,18 +15196,18 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
   __pyx_v_ret = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1242
+  /* "dnet.pyx":1241
  *     f, a = <object>arg
  *     ret = f(rule_to_dict(rule), a)
  *     if not ret:             # <<<<<<<<<<<<<<
  *         ret = 0
  *     return ret
  */
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 1242, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_ret); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 1241, __pyx_L1_error)
   __pyx_t_9 = ((!__pyx_t_8) != 0);
   if (__pyx_t_9) {
 
-    /* "dnet.pyx":1243
+    /* "dnet.pyx":1242
  *     ret = f(rule_to_dict(rule), a)
  *     if not ret:
  *         ret = 0             # <<<<<<<<<<<<<<
@@ -15217,7 +15217,7 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
     __Pyx_INCREF(__pyx_int_0);
     __Pyx_DECREF_SET(__pyx_v_ret, __pyx_int_0);
 
-    /* "dnet.pyx":1242
+    /* "dnet.pyx":1241
  *     f, a = <object>arg
  *     ret = f(rule_to_dict(rule), a)
  *     if not ret:             # <<<<<<<<<<<<<<
@@ -15226,18 +15226,18 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
  */
   }
 
-  /* "dnet.pyx":1244
+  /* "dnet.pyx":1243
  *     if not ret:
  *         ret = 0
  *     return ret             # <<<<<<<<<<<<<<
  * 
  * cdef class fw:
  */
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_ret); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1244, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_v_ret); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1243, __pyx_L1_error)
   __pyx_r = __pyx_t_6;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1239
+  /* "dnet.pyx":1238
  *         rule.fw_dport[1] = d['dport'][1]
  * 
  * cdef int __fw_callback(fw_rule *rule, void *arg) except -1:             # <<<<<<<<<<<<<<
@@ -15262,7 +15262,7 @@ static int __pyx_f_4dnet___fw_callback(struct fw_rule *__pyx_v_rule, void *__pyx
   return __pyx_r;
 }
 
-/* "dnet.pyx":1253
+/* "dnet.pyx":1252
  *     cdef fw_t *fw
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -15296,7 +15296,7 @@ static int __pyx_pf_4dnet_2fw___init__(struct __pyx_obj_4dnet_fw *__pyx_v_self) 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":1254
+  /* "dnet.pyx":1253
  * 
  *     def __init__(self):
  *         self.fw = fw_open()             # <<<<<<<<<<<<<<
@@ -15305,7 +15305,7 @@ static int __pyx_pf_4dnet_2fw___init__(struct __pyx_obj_4dnet_fw *__pyx_v_self) 
  */
   __pyx_v_self->fw = fw_open();
 
-  /* "dnet.pyx":1255
+  /* "dnet.pyx":1254
  *     def __init__(self):
  *         self.fw = fw_open()
  *         if not self.fw:             # <<<<<<<<<<<<<<
@@ -15315,20 +15315,20 @@ static int __pyx_pf_4dnet_2fw___init__(struct __pyx_obj_4dnet_fw *__pyx_v_self) 
   __pyx_t_1 = ((!(__pyx_v_self->fw != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":1256
+    /* "dnet.pyx":1255
  *         self.fw = fw_open()
  *         if not self.fw:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def add(self, d):
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1256, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1255, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 1256, __pyx_L1_error)
+    __PYX_ERR(0, 1255, __pyx_L1_error)
 
-    /* "dnet.pyx":1255
+    /* "dnet.pyx":1254
  *     def __init__(self):
  *         self.fw = fw_open()
  *         if not self.fw:             # <<<<<<<<<<<<<<
@@ -15337,7 +15337,7 @@ static int __pyx_pf_4dnet_2fw___init__(struct __pyx_obj_4dnet_fw *__pyx_v_self) 
  */
   }
 
-  /* "dnet.pyx":1253
+  /* "dnet.pyx":1252
  *     cdef fw_t *fw
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -15357,7 +15357,7 @@ static int __pyx_pf_4dnet_2fw___init__(struct __pyx_obj_4dnet_fw *__pyx_v_self) 
   return __pyx_r;
 }
 
-/* "dnet.pyx":1258
+/* "dnet.pyx":1257
  *             raise OSError, __oserror()
  * 
  *     def add(self, d):             # <<<<<<<<<<<<<<
@@ -15390,7 +15390,7 @@ static PyObject *__pyx_pf_4dnet_2fw_2add(struct __pyx_obj_4dnet_fw *__pyx_v_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add", 0);
 
-  /* "dnet.pyx":1272
+  /* "dnet.pyx":1271
  *         """
  *         cdef fw_rule rule
  *         memset(<char *>&rule, 0, sizeof(rule))             # <<<<<<<<<<<<<<
@@ -15399,18 +15399,18 @@ static PyObject *__pyx_pf_4dnet_2fw_2add(struct __pyx_obj_4dnet_fw *__pyx_v_self
  */
   (void)(memset(((char *)(&__pyx_v_rule)), 0, (sizeof(__pyx_v_rule))));
 
-  /* "dnet.pyx":1273
+  /* "dnet.pyx":1272
  *         cdef fw_rule rule
  *         memset(<char *>&rule, 0, sizeof(rule))
  *         dict_to_rule(d, &rule)             # <<<<<<<<<<<<<<
  *         if fw_add(self.fw, &rule) < 0:
  *             raise OSError, __oserror()
  */
-  __pyx_t_1 = __pyx_f_4dnet_dict_to_rule(__pyx_v_d, (&__pyx_v_rule)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1273, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet_dict_to_rule(__pyx_v_d, (&__pyx_v_rule)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1272, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1274
+  /* "dnet.pyx":1273
  *         memset(<char *>&rule, 0, sizeof(rule))
  *         dict_to_rule(d, &rule)
  *         if fw_add(self.fw, &rule) < 0:             # <<<<<<<<<<<<<<
@@ -15420,20 +15420,20 @@ static PyObject *__pyx_pf_4dnet_2fw_2add(struct __pyx_obj_4dnet_fw *__pyx_v_self
   __pyx_t_2 = ((fw_add(__pyx_v_self->fw, (&__pyx_v_rule)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":1275
+    /* "dnet.pyx":1274
  *         dict_to_rule(d, &rule)
  *         if fw_add(self.fw, &rule) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def delete(self, d):
  */
-    __pyx_t_1 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1275, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1274, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_1, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 1275, __pyx_L1_error)
+    __PYX_ERR(0, 1274, __pyx_L1_error)
 
-    /* "dnet.pyx":1274
+    /* "dnet.pyx":1273
  *         memset(<char *>&rule, 0, sizeof(rule))
  *         dict_to_rule(d, &rule)
  *         if fw_add(self.fw, &rule) < 0:             # <<<<<<<<<<<<<<
@@ -15442,7 +15442,7 @@ static PyObject *__pyx_pf_4dnet_2fw_2add(struct __pyx_obj_4dnet_fw *__pyx_v_self
  */
   }
 
-  /* "dnet.pyx":1258
+  /* "dnet.pyx":1257
  *             raise OSError, __oserror()
  * 
  *     def add(self, d):             # <<<<<<<<<<<<<<
@@ -15463,7 +15463,7 @@ static PyObject *__pyx_pf_4dnet_2fw_2add(struct __pyx_obj_4dnet_fw *__pyx_v_self
   return __pyx_r;
 }
 
-/* "dnet.pyx":1277
+/* "dnet.pyx":1276
  *             raise OSError, __oserror()
  * 
  *     def delete(self, d):             # <<<<<<<<<<<<<<
@@ -15496,7 +15496,7 @@ static PyObject *__pyx_pf_4dnet_2fw_4delete(struct __pyx_obj_4dnet_fw *__pyx_v_s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("delete", 0);
 
-  /* "dnet.pyx":1280
+  /* "dnet.pyx":1279
  *         """Delete a firewall rule specified as a dict."""
  *         cdef fw_rule rule
  *         memset(<char *>&rule, 0, sizeof(rule))             # <<<<<<<<<<<<<<
@@ -15505,18 +15505,18 @@ static PyObject *__pyx_pf_4dnet_2fw_4delete(struct __pyx_obj_4dnet_fw *__pyx_v_s
  */
   (void)(memset(((char *)(&__pyx_v_rule)), 0, (sizeof(__pyx_v_rule))));
 
-  /* "dnet.pyx":1281
+  /* "dnet.pyx":1280
  *         cdef fw_rule rule
  *         memset(<char *>&rule, 0, sizeof(rule))
  *         dict_to_rule(d, &rule)             # <<<<<<<<<<<<<<
  *         if fw_delete(self.fw, &rule) < 0:
  *             raise OSError, __oserror()
  */
-  __pyx_t_1 = __pyx_f_4dnet_dict_to_rule(__pyx_v_d, (&__pyx_v_rule)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1281, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dnet_dict_to_rule(__pyx_v_d, (&__pyx_v_rule)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1282
+  /* "dnet.pyx":1281
  *         memset(<char *>&rule, 0, sizeof(rule))
  *         dict_to_rule(d, &rule)
  *         if fw_delete(self.fw, &rule) < 0:             # <<<<<<<<<<<<<<
@@ -15526,20 +15526,20 @@ static PyObject *__pyx_pf_4dnet_2fw_4delete(struct __pyx_obj_4dnet_fw *__pyx_v_s
   __pyx_t_2 = ((fw_delete(__pyx_v_self->fw, (&__pyx_v_rule)) < 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":1283
+    /* "dnet.pyx":1282
  *         dict_to_rule(d, &rule)
  *         if fw_delete(self.fw, &rule) < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def loop(self, callback, arg=None):
  */
-    __pyx_t_1 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1283, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_1, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 1283, __pyx_L1_error)
+    __PYX_ERR(0, 1282, __pyx_L1_error)
 
-    /* "dnet.pyx":1282
+    /* "dnet.pyx":1281
  *         memset(<char *>&rule, 0, sizeof(rule))
  *         dict_to_rule(d, &rule)
  *         if fw_delete(self.fw, &rule) < 0:             # <<<<<<<<<<<<<<
@@ -15548,7 +15548,7 @@ static PyObject *__pyx_pf_4dnet_2fw_4delete(struct __pyx_obj_4dnet_fw *__pyx_v_s
  */
   }
 
-  /* "dnet.pyx":1277
+  /* "dnet.pyx":1276
  *             raise OSError, __oserror()
  * 
  *     def delete(self, d):             # <<<<<<<<<<<<<<
@@ -15569,7 +15569,7 @@ static PyObject *__pyx_pf_4dnet_2fw_4delete(struct __pyx_obj_4dnet_fw *__pyx_v_s
   return __pyx_r;
 }
 
-/* "dnet.pyx":1285
+/* "dnet.pyx":1284
  *             raise OSError, __oserror()
  * 
  *     def loop(self, callback, arg=None):             # <<<<<<<<<<<<<<
@@ -15617,7 +15617,7 @@ static PyObject *__pyx_pw_4dnet_2fw_7loop(PyObject *__pyx_v_self, PyObject *__py
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "loop") < 0)) __PYX_ERR(0, 1285, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "loop") < 0)) __PYX_ERR(0, 1284, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -15633,7 +15633,7 @@ static PyObject *__pyx_pw_4dnet_2fw_7loop(PyObject *__pyx_v_self, PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("loop", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1285, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("loop", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1284, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.fw.loop", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -15656,14 +15656,14 @@ static PyObject *__pyx_pf_4dnet_2fw_6loop(struct __pyx_obj_4dnet_fw *__pyx_v_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("loop", 0);
 
-  /* "dnet.pyx":1295
+  /* "dnet.pyx":1294
  *         arg      -- optional callback argument
  *         """
  *         _arg = (callback, arg)             # <<<<<<<<<<<<<<
  *         return fw_loop(self.fw, __fw_callback, <void *>_arg)
  * 
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1295, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1294, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_callback);
   __Pyx_GIVEREF(__pyx_v_callback);
@@ -15674,7 +15674,7 @@ static PyObject *__pyx_pf_4dnet_2fw_6loop(struct __pyx_obj_4dnet_fw *__pyx_v_sel
   __pyx_v__arg = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1296
+  /* "dnet.pyx":1295
  *         """
  *         _arg = (callback, arg)
  *         return fw_loop(self.fw, __fw_callback, <void *>_arg)             # <<<<<<<<<<<<<<
@@ -15682,13 +15682,13 @@ static PyObject *__pyx_pf_4dnet_2fw_6loop(struct __pyx_obj_4dnet_fw *__pyx_v_sel
  *     def __iter__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(fw_loop(__pyx_v_self->fw, __pyx_f_4dnet___fw_callback, ((void *)__pyx_v__arg))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1296, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(fw_loop(__pyx_v_self->fw, __pyx_f_4dnet___fw_callback, ((void *)__pyx_v__arg))); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1295, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1285
+  /* "dnet.pyx":1284
  *             raise OSError, __oserror()
  * 
  *     def loop(self, callback, arg=None):             # <<<<<<<<<<<<<<
@@ -15708,7 +15708,7 @@ static PyObject *__pyx_pf_4dnet_2fw_6loop(struct __pyx_obj_4dnet_fw *__pyx_v_sel
   return __pyx_r;
 }
 
-/* "dnet.pyx":1298
+/* "dnet.pyx":1297
  *         return fw_loop(self.fw, __fw_callback, <void *>_arg)
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -15744,28 +15744,28 @@ static PyObject *__pyx_pf_4dnet_2fw_8__iter__(struct __pyx_obj_4dnet_fw *__pyx_v
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__iter__", 0);
 
-  /* "dnet.pyx":1299
+  /* "dnet.pyx":1298
  * 
  *     def __iter__(self):
  *         l = []             # <<<<<<<<<<<<<<
  *         self.loop(__iter_append, l)
  *         return iter(l)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1299, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1298, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_l = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1300
+  /* "dnet.pyx":1299
  *     def __iter__(self):
  *         l = []
  *         self.loop(__iter_append, l)             # <<<<<<<<<<<<<<
  *         return iter(l)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_loop); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1300, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_loop); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1299, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_iter_append); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1300, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_iter_append); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1299, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -15782,7 +15782,7 @@ static PyObject *__pyx_pf_4dnet_2fw_8__iter__(struct __pyx_obj_4dnet_fw *__pyx_v
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_l};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1300, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1299, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -15791,14 +15791,14 @@ static PyObject *__pyx_pf_4dnet_2fw_8__iter__(struct __pyx_obj_4dnet_fw *__pyx_v
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_t_3, __pyx_v_l};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1300, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1299, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1300, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 1299, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -15809,14 +15809,14 @@ static PyObject *__pyx_pf_4dnet_2fw_8__iter__(struct __pyx_obj_4dnet_fw *__pyx_v
     __Pyx_GIVEREF(__pyx_v_l);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_l);
     __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1300, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1299, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1301
+  /* "dnet.pyx":1300
  *         l = []
  *         self.loop(__iter_append, l)
  *         return iter(l)             # <<<<<<<<<<<<<<
@@ -15824,13 +15824,13 @@ static PyObject *__pyx_pf_4dnet_2fw_8__iter__(struct __pyx_obj_4dnet_fw *__pyx_v
  *     def __dealloc__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_GetIter(__pyx_v_l); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1301, __pyx_L1_error)
+  __pyx_t_1 = PyObject_GetIter(__pyx_v_l); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1300, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1298
+  /* "dnet.pyx":1297
  *         return fw_loop(self.fw, __fw_callback, <void *>_arg)
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -15854,7 +15854,7 @@ static PyObject *__pyx_pf_4dnet_2fw_8__iter__(struct __pyx_obj_4dnet_fw *__pyx_v
   return __pyx_r;
 }
 
-/* "dnet.pyx":1303
+/* "dnet.pyx":1302
  *         return iter(l)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -15878,7 +15878,7 @@ static void __pyx_pf_4dnet_2fw_10__dealloc__(struct __pyx_obj_4dnet_fw *__pyx_v_
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "dnet.pyx":1304
+  /* "dnet.pyx":1303
  * 
  *     def __dealloc__(self):
  *         if self.fw:             # <<<<<<<<<<<<<<
@@ -15888,7 +15888,7 @@ static void __pyx_pf_4dnet_2fw_10__dealloc__(struct __pyx_obj_4dnet_fw *__pyx_v_
   __pyx_t_1 = (__pyx_v_self->fw != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":1305
+    /* "dnet.pyx":1304
  *     def __dealloc__(self):
  *         if self.fw:
  *             fw_close(self.fw)             # <<<<<<<<<<<<<<
@@ -15897,7 +15897,7 @@ static void __pyx_pf_4dnet_2fw_10__dealloc__(struct __pyx_obj_4dnet_fw *__pyx_v_
  */
     (void)(fw_close(__pyx_v_self->fw));
 
-    /* "dnet.pyx":1304
+    /* "dnet.pyx":1303
  * 
  *     def __dealloc__(self):
  *         if self.fw:             # <<<<<<<<<<<<<<
@@ -15906,7 +15906,7 @@ static void __pyx_pf_4dnet_2fw_10__dealloc__(struct __pyx_obj_4dnet_fw *__pyx_v_
  */
   }
 
-  /* "dnet.pyx":1303
+  /* "dnet.pyx":1302
  *         return iter(l)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -16031,7 +16031,7 @@ static PyObject *__pyx_pf_4dnet_2fw_14__setstate_cython__(CYTHON_UNUSED struct _
   return __pyx_r;
 }
 
-/* "dnet.pyx":1333
+/* "dnet.pyx":1332
  *     cdef rand_t *rand
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -16065,7 +16065,7 @@ static int __pyx_pf_4dnet_4rand___init__(struct __pyx_obj_4dnet_rand *__pyx_v_se
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":1334
+  /* "dnet.pyx":1333
  * 
  *     def __init__(self):
  *         self.rand = rand_open()             # <<<<<<<<<<<<<<
@@ -16074,7 +16074,7 @@ static int __pyx_pf_4dnet_4rand___init__(struct __pyx_obj_4dnet_rand *__pyx_v_se
  */
   __pyx_v_self->rand = rand_open();
 
-  /* "dnet.pyx":1335
+  /* "dnet.pyx":1334
  *     def __init__(self):
  *         self.rand = rand_open()
  *         if not self.rand:             # <<<<<<<<<<<<<<
@@ -16084,20 +16084,20 @@ static int __pyx_pf_4dnet_4rand___init__(struct __pyx_obj_4dnet_rand *__pyx_v_se
   __pyx_t_1 = ((!(__pyx_v_self->rand != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":1336
+    /* "dnet.pyx":1335
  *         self.rand = rand_open()
  *         if not self.rand:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  * 
  *     def get(self, len):
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1336, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1335, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 1336, __pyx_L1_error)
+    __PYX_ERR(0, 1335, __pyx_L1_error)
 
-    /* "dnet.pyx":1335
+    /* "dnet.pyx":1334
  *     def __init__(self):
  *         self.rand = rand_open()
  *         if not self.rand:             # <<<<<<<<<<<<<<
@@ -16106,7 +16106,7 @@ static int __pyx_pf_4dnet_4rand___init__(struct __pyx_obj_4dnet_rand *__pyx_v_se
  */
   }
 
-  /* "dnet.pyx":1333
+  /* "dnet.pyx":1332
  *     cdef rand_t *rand
  * 
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -16126,7 +16126,7 @@ static int __pyx_pf_4dnet_4rand___init__(struct __pyx_obj_4dnet_rand *__pyx_v_se
   return __pyx_r;
 }
 
-/* "dnet.pyx":1338
+/* "dnet.pyx":1337
  *             raise OSError, __oserror()
  * 
  *     def get(self, len):             # <<<<<<<<<<<<<<
@@ -16162,29 +16162,29 @@ static PyObject *__pyx_pf_4dnet_4rand_2get(struct __pyx_obj_4dnet_rand *__pyx_v_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get", 0);
 
-  /* "dnet.pyx":1346
+  /* "dnet.pyx":1345
  *         cdef char buf[1024]
  *         cdef char *p
  *         if len <= 1024:             # <<<<<<<<<<<<<<
  *             rand_get(self.rand, buf, len)
  *             return PyBytes_FromStringAndSize(buf, len)
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_len, __pyx_int_1024, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1346, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1346, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_len, __pyx_int_1024, Py_LE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1345, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1345, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1347
+    /* "dnet.pyx":1346
  *         cdef char *p
  *         if len <= 1024:
  *             rand_get(self.rand, buf, len)             # <<<<<<<<<<<<<<
  *             return PyBytes_FromStringAndSize(buf, len)
  *         p = malloc(len)
  */
-    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1347, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1346, __pyx_L1_error)
     (void)(rand_get(__pyx_v_self->rand, __pyx_v_buf, __pyx_t_3));
 
-    /* "dnet.pyx":1348
+    /* "dnet.pyx":1347
  *         if len <= 1024:
  *             rand_get(self.rand, buf, len)
  *             return PyBytes_FromStringAndSize(buf, len)             # <<<<<<<<<<<<<<
@@ -16192,14 +16192,14 @@ static PyObject *__pyx_pf_4dnet_4rand_2get(struct __pyx_obj_4dnet_rand *__pyx_v_
  *         rand_get(self.rand, p, len)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1348, __pyx_L1_error)
-    __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_buf, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1348, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1347, __pyx_L1_error)
+    __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_buf, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1347, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "dnet.pyx":1346
+    /* "dnet.pyx":1345
  *         cdef char buf[1024]
  *         cdef char *p
  *         if len <= 1024:             # <<<<<<<<<<<<<<
@@ -16208,40 +16208,40 @@ static PyObject *__pyx_pf_4dnet_4rand_2get(struct __pyx_obj_4dnet_rand *__pyx_v_
  */
   }
 
-  /* "dnet.pyx":1349
+  /* "dnet.pyx":1348
  *             rand_get(self.rand, buf, len)
  *             return PyBytes_FromStringAndSize(buf, len)
  *         p = malloc(len)             # <<<<<<<<<<<<<<
  *         rand_get(self.rand, p, len)
  *         s = PyBytes_FromStringAndSize(p, len)
  */
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1349, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1348, __pyx_L1_error)
   __pyx_v_p = malloc(__pyx_t_3);
 
-  /* "dnet.pyx":1350
+  /* "dnet.pyx":1349
  *             return PyBytes_FromStringAndSize(buf, len)
  *         p = malloc(len)
  *         rand_get(self.rand, p, len)             # <<<<<<<<<<<<<<
  *         s = PyBytes_FromStringAndSize(p, len)
  *         free(p)
  */
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1350, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1349, __pyx_L1_error)
   (void)(rand_get(__pyx_v_self->rand, __pyx_v_p, __pyx_t_3));
 
-  /* "dnet.pyx":1351
+  /* "dnet.pyx":1350
  *         p = malloc(len)
  *         rand_get(self.rand, p, len)
  *         s = PyBytes_FromStringAndSize(p, len)             # <<<<<<<<<<<<<<
  *         free(p)
  *         return s
  */
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1351, __pyx_L1_error)
-  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_p, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1351, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_v_len); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1350, __pyx_L1_error)
+  __pyx_t_1 = PyBytes_FromStringAndSize(__pyx_v_p, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1350, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_s = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":1352
+  /* "dnet.pyx":1351
  *         rand_get(self.rand, p, len)
  *         s = PyBytes_FromStringAndSize(p, len)
  *         free(p)             # <<<<<<<<<<<<<<
@@ -16250,7 +16250,7 @@ static PyObject *__pyx_pf_4dnet_4rand_2get(struct __pyx_obj_4dnet_rand *__pyx_v_
  */
   free(__pyx_v_p);
 
-  /* "dnet.pyx":1353
+  /* "dnet.pyx":1352
  *         s = PyBytes_FromStringAndSize(p, len)
  *         free(p)
  *         return s             # <<<<<<<<<<<<<<
@@ -16262,7 +16262,7 @@ static PyObject *__pyx_pf_4dnet_4rand_2get(struct __pyx_obj_4dnet_rand *__pyx_v_
   __pyx_r = __pyx_v_s;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1338
+  /* "dnet.pyx":1337
  *             raise OSError, __oserror()
  * 
  *     def get(self, len):             # <<<<<<<<<<<<<<
@@ -16282,7 +16282,7 @@ static PyObject *__pyx_pf_4dnet_4rand_2get(struct __pyx_obj_4dnet_rand *__pyx_v_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1355
+/* "dnet.pyx":1354
  *         return s
  * 
  *     def set(self, buf):             # <<<<<<<<<<<<<<
@@ -16313,17 +16313,17 @@ static PyObject *__pyx_pf_4dnet_4rand_4set(struct __pyx_obj_4dnet_rand *__pyx_v_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set", 0);
 
-  /* "dnet.pyx":1361
+  /* "dnet.pyx":1360
  *         string -- binary string seed value
  *         """
  *         rand_set(self.rand, buf, PyBytes_Size(buf))             # <<<<<<<<<<<<<<
  * 
  *     def add(self, buf):
  */
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 1361, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 1360, __pyx_L1_error)
   (void)(rand_set(__pyx_v_self->rand, __pyx_t_1, PyBytes_Size(__pyx_v_buf)));
 
-  /* "dnet.pyx":1355
+  /* "dnet.pyx":1354
  *         return s
  * 
  *     def set(self, buf):             # <<<<<<<<<<<<<<
@@ -16343,7 +16343,7 @@ static PyObject *__pyx_pf_4dnet_4rand_4set(struct __pyx_obj_4dnet_rand *__pyx_v_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1363
+/* "dnet.pyx":1362
  *         rand_set(self.rand, buf, PyBytes_Size(buf))
  * 
  *     def add(self, buf):             # <<<<<<<<<<<<<<
@@ -16374,17 +16374,17 @@ static PyObject *__pyx_pf_4dnet_4rand_6add(struct __pyx_obj_4dnet_rand *__pyx_v_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add", 0);
 
-  /* "dnet.pyx":1369
+  /* "dnet.pyx":1368
  *         string -- binary string
  *         """
  *         rand_add(self.rand, buf, PyBytes_Size(buf))             # <<<<<<<<<<<<<<
  * 
  *     def uint8(self):
  */
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 1369, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_buf); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 1368, __pyx_L1_error)
   (void)(rand_add(__pyx_v_self->rand, __pyx_t_1, PyBytes_Size(__pyx_v_buf)));
 
-  /* "dnet.pyx":1363
+  /* "dnet.pyx":1362
  *         rand_set(self.rand, buf, PyBytes_Size(buf))
  * 
  *     def add(self, buf):             # <<<<<<<<<<<<<<
@@ -16404,7 +16404,7 @@ static PyObject *__pyx_pf_4dnet_4rand_6add(struct __pyx_obj_4dnet_rand *__pyx_v_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1371
+/* "dnet.pyx":1370
  *         rand_add(self.rand, buf, PyBytes_Size(buf))
  * 
  *     def uint8(self):             # <<<<<<<<<<<<<<
@@ -16435,7 +16435,7 @@ static PyObject *__pyx_pf_4dnet_4rand_8uint8(struct __pyx_obj_4dnet_rand *__pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("uint8", 0);
 
-  /* "dnet.pyx":1373
+  /* "dnet.pyx":1372
  *     def uint8(self):
  *         """Return a random 8-bit integer."""
  *         return rand_uint8(self.rand)             # <<<<<<<<<<<<<<
@@ -16443,13 +16443,13 @@ static PyObject *__pyx_pf_4dnet_4rand_8uint8(struct __pyx_obj_4dnet_rand *__pyx_
  *     def uint16(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(rand_uint8(__pyx_v_self->rand)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1373, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(rand_uint8(__pyx_v_self->rand)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1371
+  /* "dnet.pyx":1370
  *         rand_add(self.rand, buf, PyBytes_Size(buf))
  * 
  *     def uint8(self):             # <<<<<<<<<<<<<<
@@ -16468,7 +16468,7 @@ static PyObject *__pyx_pf_4dnet_4rand_8uint8(struct __pyx_obj_4dnet_rand *__pyx_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1375
+/* "dnet.pyx":1374
  *         return rand_uint8(self.rand)
  * 
  *     def uint16(self):             # <<<<<<<<<<<<<<
@@ -16499,7 +16499,7 @@ static PyObject *__pyx_pf_4dnet_4rand_10uint16(struct __pyx_obj_4dnet_rand *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("uint16", 0);
 
-  /* "dnet.pyx":1377
+  /* "dnet.pyx":1376
  *     def uint16(self):
  *         """Return a random 16-bit integer."""
  *         return rand_uint16(self.rand)             # <<<<<<<<<<<<<<
@@ -16507,13 +16507,13 @@ static PyObject *__pyx_pf_4dnet_4rand_10uint16(struct __pyx_obj_4dnet_rand *__py
  *     def uint32(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(rand_uint16(__pyx_v_self->rand)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1377, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(rand_uint16(__pyx_v_self->rand)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1376, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1375
+  /* "dnet.pyx":1374
  *         return rand_uint8(self.rand)
  * 
  *     def uint16(self):             # <<<<<<<<<<<<<<
@@ -16532,7 +16532,7 @@ static PyObject *__pyx_pf_4dnet_4rand_10uint16(struct __pyx_obj_4dnet_rand *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":1379
+/* "dnet.pyx":1378
  *         return rand_uint16(self.rand)
  * 
  *     def uint32(self):             # <<<<<<<<<<<<<<
@@ -16563,7 +16563,7 @@ static PyObject *__pyx_pf_4dnet_4rand_12uint32(struct __pyx_obj_4dnet_rand *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("uint32", 0);
 
-  /* "dnet.pyx":1381
+  /* "dnet.pyx":1380
  *     def uint32(self):
  *         """Return a random 32-bit integer."""
  *         return rand_uint32(self.rand)             # <<<<<<<<<<<<<<
@@ -16571,13 +16571,13 @@ static PyObject *__pyx_pf_4dnet_4rand_12uint32(struct __pyx_obj_4dnet_rand *__py
  *     def xrange(self, start, stop=None):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_long(rand_uint32(__pyx_v_self->rand)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1381, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_long(rand_uint32(__pyx_v_self->rand)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1380, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1379
+  /* "dnet.pyx":1378
  *         return rand_uint16(self.rand)
  * 
  *     def uint32(self):             # <<<<<<<<<<<<<<
@@ -16596,7 +16596,7 @@ static PyObject *__pyx_pf_4dnet_4rand_12uint32(struct __pyx_obj_4dnet_rand *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":1383
+/* "dnet.pyx":1382
  *         return rand_uint32(self.rand)
  * 
  *     def xrange(self, start, stop=None):             # <<<<<<<<<<<<<<
@@ -16644,7 +16644,7 @@ static PyObject *__pyx_pw_4dnet_4rand_15xrange(PyObject *__pyx_v_self, PyObject 
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "xrange") < 0)) __PYX_ERR(0, 1383, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "xrange") < 0)) __PYX_ERR(0, 1382, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -16660,7 +16660,7 @@ static PyObject *__pyx_pw_4dnet_4rand_15xrange(PyObject *__pyx_v_self, PyObject 
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("xrange", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1383, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("xrange", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1382, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.rand.xrange", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -16684,19 +16684,19 @@ static PyObject *__pyx_pf_4dnet_4rand_14xrange(struct __pyx_obj_4dnet_rand *__py
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("xrange", 0);
 
-  /* "dnet.pyx":1389
+  /* "dnet.pyx":1388
  *         like xrange().
  *         """
  *         if stop == None:             # <<<<<<<<<<<<<<
  *             return __rand_xrange(self, 0, start)
  *         else:
  */
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_stop, Py_None, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1389, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1389, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_stop, Py_None, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1388, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 1388, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1390
+    /* "dnet.pyx":1389
  *         """
  *         if stop == None:
  *             return __rand_xrange(self, 0, start)             # <<<<<<<<<<<<<<
@@ -16704,7 +16704,7 @@ static PyObject *__pyx_pf_4dnet_4rand_14xrange(struct __pyx_obj_4dnet_rand *__py
  *             return __rand_xrange(self, start, stop)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1390, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1389, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(((PyObject *)__pyx_v_self));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
@@ -16715,14 +16715,14 @@ static PyObject *__pyx_pf_4dnet_4rand_14xrange(struct __pyx_obj_4dnet_rand *__py
     __Pyx_INCREF(__pyx_v_start);
     __Pyx_GIVEREF(__pyx_v_start);
     PyTuple_SET_ITEM(__pyx_t_1, 2, __pyx_v_start);
-    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_4dnet___rand_xrange), __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1390, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_4dnet___rand_xrange), __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1389, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "dnet.pyx":1389
+    /* "dnet.pyx":1388
  *         like xrange().
  *         """
  *         if stop == None:             # <<<<<<<<<<<<<<
@@ -16731,7 +16731,7 @@ static PyObject *__pyx_pf_4dnet_4rand_14xrange(struct __pyx_obj_4dnet_rand *__py
  */
   }
 
-  /* "dnet.pyx":1392
+  /* "dnet.pyx":1391
  *             return __rand_xrange(self, 0, start)
  *         else:
  *             return __rand_xrange(self, start, stop)             # <<<<<<<<<<<<<<
@@ -16740,7 +16740,7 @@ static PyObject *__pyx_pf_4dnet_4rand_14xrange(struct __pyx_obj_4dnet_rand *__py
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1392, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1391, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(((PyObject *)__pyx_v_self));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
@@ -16751,7 +16751,7 @@ static PyObject *__pyx_pf_4dnet_4rand_14xrange(struct __pyx_obj_4dnet_rand *__py
     __Pyx_INCREF(__pyx_v_stop);
     __Pyx_GIVEREF(__pyx_v_stop);
     PyTuple_SET_ITEM(__pyx_t_3, 2, __pyx_v_stop);
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_4dnet___rand_xrange), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1392, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_4dnet___rand_xrange), __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1391, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_1;
@@ -16759,7 +16759,7 @@ static PyObject *__pyx_pf_4dnet_4rand_14xrange(struct __pyx_obj_4dnet_rand *__py
     goto __pyx_L0;
   }
 
-  /* "dnet.pyx":1383
+  /* "dnet.pyx":1382
  *         return rand_uint32(self.rand)
  * 
  *     def xrange(self, start, stop=None):             # <<<<<<<<<<<<<<
@@ -16779,7 +16779,7 @@ static PyObject *__pyx_pf_4dnet_4rand_14xrange(struct __pyx_obj_4dnet_rand *__py
   return __pyx_r;
 }
 
-/* "dnet.pyx":1394
+/* "dnet.pyx":1393
  *             return __rand_xrange(self, start, stop)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -16803,7 +16803,7 @@ static void __pyx_pf_4dnet_4rand_16__dealloc__(struct __pyx_obj_4dnet_rand *__py
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "dnet.pyx":1395
+  /* "dnet.pyx":1394
  * 
  *     def __dealloc__(self):
  *         if self.rand:             # <<<<<<<<<<<<<<
@@ -16813,7 +16813,7 @@ static void __pyx_pf_4dnet_4rand_16__dealloc__(struct __pyx_obj_4dnet_rand *__py
   __pyx_t_1 = (__pyx_v_self->rand != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":1396
+    /* "dnet.pyx":1395
  *     def __dealloc__(self):
  *         if self.rand:
  *             rand_close(self.rand)             # <<<<<<<<<<<<<<
@@ -16822,7 +16822,7 @@ static void __pyx_pf_4dnet_4rand_16__dealloc__(struct __pyx_obj_4dnet_rand *__py
  */
     (void)(rand_close(__pyx_v_self->rand));
 
-    /* "dnet.pyx":1395
+    /* "dnet.pyx":1394
  * 
  *     def __dealloc__(self):
  *         if self.rand:             # <<<<<<<<<<<<<<
@@ -16831,7 +16831,7 @@ static void __pyx_pf_4dnet_4rand_16__dealloc__(struct __pyx_obj_4dnet_rand *__py
  */
   }
 
-  /* "dnet.pyx":1394
+  /* "dnet.pyx":1393
  *             return __rand_xrange(self, start, stop)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -16956,7 +16956,7 @@ static PyObject *__pyx_pf_4dnet_4rand_20__setstate_cython__(CYTHON_UNUSED struct
   return __pyx_r;
 }
 
-/* "dnet.pyx":1411
+/* "dnet.pyx":1410
  *     cdef int left, right, kshift
  * 
  *     def __init__(self, r, start, stop):             # <<<<<<<<<<<<<<
@@ -17001,17 +17001,17 @@ static int __pyx_pw_4dnet_13__rand_xrange_1__init__(PyObject *__pyx_v_self, PyOb
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_start)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 1411, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 1410, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_stop)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 1411, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 1410, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1411, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1410, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -17026,7 +17026,7 @@ static int __pyx_pw_4dnet_13__rand_xrange_1__init__(PyObject *__pyx_v_self, PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1411, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1410, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.__rand_xrange.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -17051,7 +17051,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":1414
+  /* "dnet.pyx":1413
  *         cdef unsigned int bits
  * 
  *         self.rand = (<rand>r).rand             # <<<<<<<<<<<<<<
@@ -17061,7 +17061,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   __pyx_t_1 = ((struct __pyx_obj_4dnet_rand *)__pyx_v_r)->rand;
   __pyx_v_self->rand = __pyx_t_1;
 
-  /* "dnet.pyx":1415
+  /* "dnet.pyx":1414
  * 
  *         self.rand = (<rand>r).rand
  *         if PyLong_Check(start):             # <<<<<<<<<<<<<<
@@ -17071,7 +17071,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   __pyx_t_2 = (PyLong_Check(__pyx_v_start) != 0);
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1416
+    /* "dnet.pyx":1415
  *         self.rand = (<rand>r).rand
  *         if PyLong_Check(start):
  *             self.start = PyLong_AsLong(start)             # <<<<<<<<<<<<<<
@@ -17080,7 +17080,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
     __pyx_v_self->start = PyLong_AsLong(__pyx_v_start);
 
-    /* "dnet.pyx":1415
+    /* "dnet.pyx":1414
  * 
  *         self.rand = (<rand>r).rand
  *         if PyLong_Check(start):             # <<<<<<<<<<<<<<
@@ -17090,7 +17090,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
     goto __pyx_L3;
   }
 
-  /* "dnet.pyx":1417
+  /* "dnet.pyx":1416
  *         if PyLong_Check(start):
  *             self.start = PyLong_AsLong(start)
  *         elif PyLong_Check(start):             # <<<<<<<<<<<<<<
@@ -17100,7 +17100,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   __pyx_t_2 = (PyLong_Check(__pyx_v_start) != 0);
   if (likely(__pyx_t_2)) {
 
-    /* "dnet.pyx":1418
+    /* "dnet.pyx":1417
  *             self.start = PyLong_AsLong(start)
  *         elif PyLong_Check(start):
  *             self.start = PyLong_AsUnsignedLong(start)             # <<<<<<<<<<<<<<
@@ -17109,7 +17109,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
     __pyx_v_self->start = PyLong_AsUnsignedLong(__pyx_v_start);
 
-    /* "dnet.pyx":1417
+    /* "dnet.pyx":1416
  *         if PyLong_Check(start):
  *             self.start = PyLong_AsLong(start)
  *         elif PyLong_Check(start):             # <<<<<<<<<<<<<<
@@ -17119,7 +17119,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
     goto __pyx_L3;
   }
 
-  /* "dnet.pyx":1420
+  /* "dnet.pyx":1419
  *             self.start = PyLong_AsUnsignedLong(start)
  *         else:
  *             raise TypeError, 'start must be an integer'             # <<<<<<<<<<<<<<
@@ -17128,11 +17128,11 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
   /*else*/ {
     __Pyx_Raise(__pyx_builtin_TypeError, __pyx_kp_u_start_must_be_an_integer, 0, 0);
-    __PYX_ERR(0, 1420, __pyx_L1_error)
+    __PYX_ERR(0, 1419, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "dnet.pyx":1422
+  /* "dnet.pyx":1421
  *             raise TypeError, 'start must be an integer'
  * 
  *         if PyLong_Check(start):             # <<<<<<<<<<<<<<
@@ -17142,7 +17142,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   __pyx_t_2 = (PyLong_Check(__pyx_v_start) != 0);
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1423
+    /* "dnet.pyx":1422
  * 
  *         if PyLong_Check(start):
  *             self.max = PyLong_AsLong(stop) - self.start             # <<<<<<<<<<<<<<
@@ -17151,7 +17151,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
     __pyx_v_self->max = (PyLong_AsLong(__pyx_v_stop) - __pyx_v_self->start);
 
-    /* "dnet.pyx":1422
+    /* "dnet.pyx":1421
  *             raise TypeError, 'start must be an integer'
  * 
  *         if PyLong_Check(start):             # <<<<<<<<<<<<<<
@@ -17161,7 +17161,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
     goto __pyx_L4;
   }
 
-  /* "dnet.pyx":1424
+  /* "dnet.pyx":1423
  *         if PyLong_Check(start):
  *             self.max = PyLong_AsLong(stop) - self.start
  *         elif PyLong_Check(start):             # <<<<<<<<<<<<<<
@@ -17171,7 +17171,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   __pyx_t_2 = (PyLong_Check(__pyx_v_start) != 0);
   if (likely(__pyx_t_2)) {
 
-    /* "dnet.pyx":1425
+    /* "dnet.pyx":1424
  *             self.max = PyLong_AsLong(stop) - self.start
  *         elif PyLong_Check(start):
  *             self.max = PyLong_AsUnsignedLong(stop) - self.start             # <<<<<<<<<<<<<<
@@ -17180,7 +17180,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
     __pyx_v_self->max = (PyLong_AsUnsignedLong(__pyx_v_stop) - __pyx_v_self->start);
 
-    /* "dnet.pyx":1424
+    /* "dnet.pyx":1423
  *         if PyLong_Check(start):
  *             self.max = PyLong_AsLong(stop) - self.start
  *         elif PyLong_Check(start):             # <<<<<<<<<<<<<<
@@ -17190,7 +17190,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
     goto __pyx_L4;
   }
 
-  /* "dnet.pyx":1427
+  /* "dnet.pyx":1426
  *             self.max = PyLong_AsUnsignedLong(stop) - self.start
  *         else:
  *             raise TypeError, 'stop must be an integer'             # <<<<<<<<<<<<<<
@@ -17199,11 +17199,11 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
   /*else*/ {
     __Pyx_Raise(__pyx_builtin_TypeError, __pyx_kp_u_stop_must_be_an_integer, 0, 0);
-    __PYX_ERR(0, 1427, __pyx_L1_error)
+    __PYX_ERR(0, 1426, __pyx_L1_error)
   }
   __pyx_L4:;
 
-  /* "dnet.pyx":1430
+  /* "dnet.pyx":1429
  * 
  *         # XXX - permute range once only!
  *         rand_get(self.rand, <char *>self.sbox, sizeof(self.sbox))             # <<<<<<<<<<<<<<
@@ -17212,7 +17212,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
   (void)(rand_get(__pyx_v_self->rand, ((char *)__pyx_v_self->sbox), (sizeof(__pyx_v_self->sbox))));
 
-  /* "dnet.pyx":1432
+  /* "dnet.pyx":1431
  *         rand_get(self.rand, <char *>self.sbox, sizeof(self.sbox))
  * 
  *         bits = 0             # <<<<<<<<<<<<<<
@@ -17221,7 +17221,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
   __pyx_v_bits = 0;
 
-  /* "dnet.pyx":1433
+  /* "dnet.pyx":1432
  * 
  *         bits = 0
  *         while self.max > (1 << bits):             # <<<<<<<<<<<<<<
@@ -17232,7 +17232,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
     __pyx_t_2 = ((__pyx_v_self->max > (1 << __pyx_v_bits)) != 0);
     if (!__pyx_t_2) break;
 
-    /* "dnet.pyx":1434
+    /* "dnet.pyx":1433
  *         bits = 0
  *         while self.max > (1 << bits):
  *             bits = bits + 1             # <<<<<<<<<<<<<<
@@ -17242,7 +17242,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
     __pyx_v_bits = (__pyx_v_bits + 1);
   }
 
-  /* "dnet.pyx":1436
+  /* "dnet.pyx":1435
  *             bits = bits + 1
  * 
  *         self.left = int(bits / 2)             # <<<<<<<<<<<<<<
@@ -17251,7 +17251,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
   __pyx_v_self->left = ((int)(((double)__pyx_v_bits) / 2.0));
 
-  /* "dnet.pyx":1437
+  /* "dnet.pyx":1436
  * 
  *         self.left = int(bits / 2)
  *         self.right = bits - self.left             # <<<<<<<<<<<<<<
@@ -17260,7 +17260,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
   __pyx_v_self->right = (__pyx_v_bits - __pyx_v_self->left);
 
-  /* "dnet.pyx":1438
+  /* "dnet.pyx":1437
  *         self.left = int(bits / 2)
  *         self.right = bits - self.left
  *         self.mask = (1 << bits) - 1             # <<<<<<<<<<<<<<
@@ -17269,7 +17269,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
   __pyx_v_self->mask = ((1 << __pyx_v_bits) - 1);
 
-  /* "dnet.pyx":1440
+  /* "dnet.pyx":1439
  *         self.mask = (1 << bits) - 1
  * 
  *         if TEASBOXSIZE < (1 << self.left):             # <<<<<<<<<<<<<<
@@ -17279,7 +17279,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   __pyx_t_2 = ((__pyx_e_4dnet_TEASBOXSIZE < (1 << __pyx_v_self->left)) != 0);
   if (__pyx_t_2) {
 
-    /* "dnet.pyx":1441
+    /* "dnet.pyx":1440
  * 
  *         if TEASBOXSIZE < (1 << self.left):
  *             self.sboxmask = TEASBOXSIZE - 1             # <<<<<<<<<<<<<<
@@ -17288,7 +17288,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
     __pyx_v_self->sboxmask = (__pyx_e_4dnet_TEASBOXSIZE - 1);
 
-    /* "dnet.pyx":1442
+    /* "dnet.pyx":1441
  *         if TEASBOXSIZE < (1 << self.left):
  *             self.sboxmask = TEASBOXSIZE - 1
  *             self.kshift = TEASBOXSHIFT             # <<<<<<<<<<<<<<
@@ -17297,7 +17297,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
  */
     __pyx_v_self->kshift = __pyx_e_4dnet_TEASBOXSHIFT;
 
-    /* "dnet.pyx":1440
+    /* "dnet.pyx":1439
  *         self.mask = (1 << bits) - 1
  * 
  *         if TEASBOXSIZE < (1 << self.left):             # <<<<<<<<<<<<<<
@@ -17307,7 +17307,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
     goto __pyx_L7;
   }
 
-  /* "dnet.pyx":1444
+  /* "dnet.pyx":1443
  *             self.kshift = TEASBOXSHIFT
  *         else:
  *             self.sboxmask = (1 << self.left) - 1             # <<<<<<<<<<<<<<
@@ -17317,7 +17317,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   /*else*/ {
     __pyx_v_self->sboxmask = ((1 << __pyx_v_self->left) - 1);
 
-    /* "dnet.pyx":1445
+    /* "dnet.pyx":1444
  *         else:
  *             self.sboxmask = (1 << self.left) - 1
  *             self.kshift = self.left             # <<<<<<<<<<<<<<
@@ -17329,7 +17329,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   }
   __pyx_L7:;
 
-  /* "dnet.pyx":1411
+  /* "dnet.pyx":1410
  *     cdef int left, right, kshift
  * 
  *     def __init__(self, r, start, stop):             # <<<<<<<<<<<<<<
@@ -17348,7 +17348,7 @@ static int __pyx_pf_4dnet_13__rand_xrange___init__(struct __pyx_obj_4dnet___rand
   return __pyx_r;
 }
 
-/* "dnet.pyx":1447
+/* "dnet.pyx":1446
  *             self.kshift = self.left
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -17374,7 +17374,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_2__iter__(struct __pyx_obj_4dnet
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__iter__", 0);
 
-  /* "dnet.pyx":1448
+  /* "dnet.pyx":1447
  * 
  *     def __iter__(self):
  *         self.cur = self.enc = 0             # <<<<<<<<<<<<<<
@@ -17384,7 +17384,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_2__iter__(struct __pyx_obj_4dnet
   __pyx_v_self->cur = 0;
   __pyx_v_self->enc = 0;
 
-  /* "dnet.pyx":1450
+  /* "dnet.pyx":1449
  *         self.cur = self.enc = 0
  *         # XXX - rewind iterator, but do not permute range again!
  *         return self             # <<<<<<<<<<<<<<
@@ -17396,7 +17396,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_2__iter__(struct __pyx_obj_4dnet
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dnet.pyx":1447
+  /* "dnet.pyx":1446
  *             self.kshift = self.left
  * 
  *     def __iter__(self):             # <<<<<<<<<<<<<<
@@ -17411,7 +17411,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_2__iter__(struct __pyx_obj_4dnet
   return __pyx_r;
 }
 
-/* "dnet.pyx":1452
+/* "dnet.pyx":1451
  *         return self
  * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -17437,7 +17437,7 @@ static Py_ssize_t __pyx_pf_4dnet_13__rand_xrange_4__len__(struct __pyx_obj_4dnet
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__len__", 0);
 
-  /* "dnet.pyx":1453
+  /* "dnet.pyx":1452
  * 
  *     def __len__(self):
  *         return self.max             # <<<<<<<<<<<<<<
@@ -17447,7 +17447,7 @@ static Py_ssize_t __pyx_pf_4dnet_13__rand_xrange_4__len__(struct __pyx_obj_4dnet
   __pyx_r = __pyx_v_self->max;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1452
+  /* "dnet.pyx":1451
  *         return self
  * 
  *     def __len__(self):             # <<<<<<<<<<<<<<
@@ -17461,7 +17461,7 @@ static Py_ssize_t __pyx_pf_4dnet_13__rand_xrange_4__len__(struct __pyx_obj_4dnet
   return __pyx_r;
 }
 
-/* "dnet.pyx":1455
+/* "dnet.pyx":1454
  *         return self.max
  * 
  *     def __next__(self):             # <<<<<<<<<<<<<<
@@ -17497,7 +17497,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__next__", 0);
 
-  /* "dnet.pyx":1458
+  /* "dnet.pyx":1457
  *         cdef unsigned long c, sum
  * 
  *         if self.cur == self.max:             # <<<<<<<<<<<<<<
@@ -17507,7 +17507,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
   __pyx_t_1 = ((__pyx_v_self->cur == __pyx_v_self->max) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":1459
+    /* "dnet.pyx":1458
  * 
  *         if self.cur == self.max:
  *             raise StopIteration             # <<<<<<<<<<<<<<
@@ -17515,9 +17515,9 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  *         while 1:
  */
     __Pyx_Raise(__pyx_builtin_StopIteration, 0, 0, 0);
-    __PYX_ERR(0, 1459, __pyx_L1_error)
+    __PYX_ERR(0, 1458, __pyx_L1_error)
 
-    /* "dnet.pyx":1458
+    /* "dnet.pyx":1457
  *         cdef unsigned long c, sum
  * 
  *         if self.cur == self.max:             # <<<<<<<<<<<<<<
@@ -17526,7 +17526,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
   }
 
-  /* "dnet.pyx":1460
+  /* "dnet.pyx":1459
  *         if self.cur == self.max:
  *             raise StopIteration
  *         self.cur = self.cur + 1             # <<<<<<<<<<<<<<
@@ -17535,7 +17535,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
   __pyx_v_self->cur = (__pyx_v_self->cur + 1);
 
-  /* "dnet.pyx":1461
+  /* "dnet.pyx":1460
  *             raise StopIteration
  *         self.cur = self.cur + 1
  *         while 1:             # <<<<<<<<<<<<<<
@@ -17544,7 +17544,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
   while (1) {
 
-    /* "dnet.pyx":1462
+    /* "dnet.pyx":1461
  *         self.cur = self.cur + 1
  *         while 1:
  *             c = self.enc             # <<<<<<<<<<<<<<
@@ -17554,7 +17554,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
     __pyx_t_2 = __pyx_v_self->enc;
     __pyx_v_c = __pyx_t_2;
 
-    /* "dnet.pyx":1463
+    /* "dnet.pyx":1462
  *         while 1:
  *             c = self.enc
  *             self.enc = self.enc + 1             # <<<<<<<<<<<<<<
@@ -17563,7 +17563,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
     __pyx_v_self->enc = (__pyx_v_self->enc + 1);
 
-    /* "dnet.pyx":1464
+    /* "dnet.pyx":1463
  *             c = self.enc
  *             self.enc = self.enc + 1
  *             sum = 0             # <<<<<<<<<<<<<<
@@ -17572,7 +17572,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
     __pyx_v_sum = 0;
 
-    /* "dnet.pyx":1465
+    /* "dnet.pyx":1464
  *             self.enc = self.enc + 1
  *             sum = 0
  *             for i from 0 < i < TEAROUNDS:             # <<<<<<<<<<<<<<
@@ -17582,7 +17582,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
     __pyx_t_3 = __pyx_e_4dnet_TEAROUNDS;
     for (__pyx_v_i = 0+1; __pyx_v_i < __pyx_t_3; __pyx_v_i++) {
 
-      /* "dnet.pyx":1466
+      /* "dnet.pyx":1465
  *             sum = 0
  *             for i from 0 < i < TEAROUNDS:
  *                 sum = sum + TEADELTA             # <<<<<<<<<<<<<<
@@ -17591,7 +17591,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
       __pyx_v_sum = (__pyx_v_sum + __pyx_e_4dnet_TEADELTA);
 
-      /* "dnet.pyx":1467
+      /* "dnet.pyx":1466
  *             for i from 0 < i < TEAROUNDS:
  *                 sum = sum + TEADELTA
  *                 c = c ^ (self.sbox[(c ^ sum) & self.sboxmask] << self.kshift)             # <<<<<<<<<<<<<<
@@ -17600,7 +17600,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
       __pyx_v_c = (__pyx_v_c ^ ((__pyx_v_self->sbox[((__pyx_v_c ^ __pyx_v_sum) & __pyx_v_self->sboxmask)]) << __pyx_v_self->kshift));
 
-      /* "dnet.pyx":1468
+      /* "dnet.pyx":1467
  *                 sum = sum + TEADELTA
  *                 c = c ^ (self.sbox[(c ^ sum) & self.sboxmask] << self.kshift)
  *                 c = c + sum             # <<<<<<<<<<<<<<
@@ -17609,7 +17609,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
       __pyx_v_c = (__pyx_v_c + __pyx_v_sum);
 
-      /* "dnet.pyx":1469
+      /* "dnet.pyx":1468
  *                 c = c ^ (self.sbox[(c ^ sum) & self.sboxmask] << self.kshift)
  *                 c = c + sum
  *                 c = c & self.mask             # <<<<<<<<<<<<<<
@@ -17618,7 +17618,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
       __pyx_v_c = (__pyx_v_c & __pyx_v_self->mask);
 
-      /* "dnet.pyx":1470
+      /* "dnet.pyx":1469
  *                 c = c + sum
  *                 c = c & self.mask
  *                 c = ((c << self.left) | (c >> self.right)) & self.mask             # <<<<<<<<<<<<<<
@@ -17628,7 +17628,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
       __pyx_v_c = (((__pyx_v_c << __pyx_v_self->left) | (__pyx_v_c >> __pyx_v_self->right)) & __pyx_v_self->mask);
     }
 
-    /* "dnet.pyx":1471
+    /* "dnet.pyx":1470
  *                 c = c & self.mask
  *                 c = ((c << self.left) | (c >> self.right)) & self.mask
  *             if c < self.max:             # <<<<<<<<<<<<<<
@@ -17638,7 +17638,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
     __pyx_t_1 = ((__pyx_v_c < __pyx_v_self->max) != 0);
     if (__pyx_t_1) {
 
-      /* "dnet.pyx":1472
+      /* "dnet.pyx":1471
  *                 c = ((c << self.left) | (c >> self.right)) & self.mask
  *             if c < self.max:
  *                 break             # <<<<<<<<<<<<<<
@@ -17647,7 +17647,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  */
       goto __pyx_L5_break;
 
-      /* "dnet.pyx":1471
+      /* "dnet.pyx":1470
  *                 c = c & self.mask
  *                 c = ((c << self.left) | (c >> self.right)) & self.mask
  *             if c < self.max:             # <<<<<<<<<<<<<<
@@ -17658,7 +17658,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
   }
   __pyx_L5_break:;
 
-  /* "dnet.pyx":1473
+  /* "dnet.pyx":1472
  *             if c < self.max:
  *                 break
  *         return self.start + c             # <<<<<<<<<<<<<<
@@ -17666,13 +17666,13 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_6__next__(struct __pyx_obj_4dnet
  * #
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyInt_From_unsigned_long((__pyx_v_self->start + __pyx_v_c)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1473, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_unsigned_long((__pyx_v_self->start + __pyx_v_c)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 1472, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1455
+  /* "dnet.pyx":1454
  *         return self.max
  * 
  *     def __next__(self):             # <<<<<<<<<<<<<<
@@ -17804,7 +17804,7 @@ static PyObject *__pyx_pf_4dnet_13__rand_xrange_10__setstate_cython__(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "dnet.pyx":1502
+/* "dnet.pyx":1501
  *     cdef int mtu
  * 
  *     def __init__(self, addr src, addr dst, mtu=1500):             # <<<<<<<<<<<<<<
@@ -17850,7 +17850,7 @@ static int __pyx_pw_4dnet_3tun_1__init__(PyObject *__pyx_v_self, PyObject *__pyx
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dst)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, 1); __PYX_ERR(0, 1502, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, 1); __PYX_ERR(0, 1501, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -17860,7 +17860,7 @@ static int __pyx_pw_4dnet_3tun_1__init__(PyObject *__pyx_v_self, PyObject *__pyx
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1502, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 1501, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -17878,14 +17878,14 @@ static int __pyx_pw_4dnet_3tun_1__init__(PyObject *__pyx_v_self, PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1502, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 1501, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dnet.tun.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_src), __pyx_ptype_4dnet_addr, 1, "src", 0))) __PYX_ERR(0, 1502, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1502, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_src), __pyx_ptype_4dnet_addr, 1, "src", 0))) __PYX_ERR(0, 1501, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dst), __pyx_ptype_4dnet_addr, 1, "dst", 0))) __PYX_ERR(0, 1501, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dnet_3tun___init__(((struct __pyx_obj_4dnet_tun *)__pyx_v_self), __pyx_v_src, __pyx_v_dst, __pyx_v_mtu);
 
   /* function exit code */
@@ -17908,27 +17908,27 @@ static int __pyx_pf_4dnet_3tun___init__(struct __pyx_obj_4dnet_tun *__pyx_v_self
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dnet.pyx":1503
+  /* "dnet.pyx":1502
  * 
  *     def __init__(self, addr src, addr dst, mtu=1500):
  *         self.tun = tun_open(&src._addr, &dst._addr, mtu)             # <<<<<<<<<<<<<<
  *         self.mtu = mtu
  *         if not self.tun:
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_mtu); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1503, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_mtu); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1502, __pyx_L1_error)
   __pyx_v_self->tun = tun_open((&__pyx_v_src->_addr), (&__pyx_v_dst->_addr), __pyx_t_1);
 
-  /* "dnet.pyx":1504
+  /* "dnet.pyx":1503
  *     def __init__(self, addr src, addr dst, mtu=1500):
  *         self.tun = tun_open(&src._addr, &dst._addr, mtu)
  *         self.mtu = mtu             # <<<<<<<<<<<<<<
  *         if not self.tun:
  *             raise OSError, __oserror()
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_mtu); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1504, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_mtu); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1503, __pyx_L1_error)
   __pyx_v_self->mtu = __pyx_t_1;
 
-  /* "dnet.pyx":1505
+  /* "dnet.pyx":1504
  *         self.tun = tun_open(&src._addr, &dst._addr, mtu)
  *         self.mtu = mtu
  *         if not self.tun:             # <<<<<<<<<<<<<<
@@ -17938,20 +17938,20 @@ static int __pyx_pf_4dnet_3tun___init__(struct __pyx_obj_4dnet_tun *__pyx_v_self
   __pyx_t_2 = ((!(__pyx_v_self->tun != 0)) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dnet.pyx":1506
+    /* "dnet.pyx":1505
  *         self.mtu = mtu
  *         if not self.tun:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  *         self.buf = malloc(mtu)
  * 
  */
-    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1506, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 1505, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_3, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 1506, __pyx_L1_error)
+    __PYX_ERR(0, 1505, __pyx_L1_error)
 
-    /* "dnet.pyx":1505
+    /* "dnet.pyx":1504
  *         self.tun = tun_open(&src._addr, &dst._addr, mtu)
  *         self.mtu = mtu
  *         if not self.tun:             # <<<<<<<<<<<<<<
@@ -17960,17 +17960,17 @@ static int __pyx_pf_4dnet_3tun___init__(struct __pyx_obj_4dnet_tun *__pyx_v_self
  */
   }
 
-  /* "dnet.pyx":1507
+  /* "dnet.pyx":1506
  *         if not self.tun:
  *             raise OSError, __oserror()
  *         self.buf = malloc(mtu)             # <<<<<<<<<<<<<<
  * 
  *     property name:
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_mtu); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1507, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_mtu); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 1506, __pyx_L1_error)
   __pyx_v_self->buf = malloc(__pyx_t_1);
 
-  /* "dnet.pyx":1502
+  /* "dnet.pyx":1501
  *     cdef int mtu
  * 
  *     def __init__(self, addr src, addr dst, mtu=1500):             # <<<<<<<<<<<<<<
@@ -17990,7 +17990,7 @@ static int __pyx_pf_4dnet_3tun___init__(struct __pyx_obj_4dnet_tun *__pyx_v_self
   return __pyx_r;
 }
 
-/* "dnet.pyx":1511
+/* "dnet.pyx":1510
  *     property name:
  *         """Tunnel interface name."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -18020,7 +18020,7 @@ static PyObject *__pyx_pf_4dnet_3tun_4name___get__(struct __pyx_obj_4dnet_tun *_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dnet.pyx":1512
+  /* "dnet.pyx":1511
  *         """Tunnel interface name."""
  *         def __get__(self):
  *             return tun_name(self.tun)             # <<<<<<<<<<<<<<
@@ -18028,13 +18028,13 @@ static PyObject *__pyx_pf_4dnet_3tun_4name___get__(struct __pyx_obj_4dnet_tun *_
  *     property fd:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyStr_FromString(tun_name(__pyx_v_self->tun)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1512, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyStr_FromString(tun_name(__pyx_v_self->tun)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1511, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1511
+  /* "dnet.pyx":1510
  *     property name:
  *         """Tunnel interface name."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -18053,7 +18053,7 @@ static PyObject *__pyx_pf_4dnet_3tun_4name___get__(struct __pyx_obj_4dnet_tun *_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1516
+/* "dnet.pyx":1515
  *     property fd:
  *         """File descriptor for tunnel handle."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -18083,7 +18083,7 @@ static PyObject *__pyx_pf_4dnet_3tun_2fd___get__(struct __pyx_obj_4dnet_tun *__p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dnet.pyx":1517
+  /* "dnet.pyx":1516
  *         """File descriptor for tunnel handle."""
  *         def __get__(self):
  *             return tun_fileno(self.tun)             # <<<<<<<<<<<<<<
@@ -18091,13 +18091,13 @@ static PyObject *__pyx_pf_4dnet_3tun_2fd___get__(struct __pyx_obj_4dnet_tun *__p
  *     def fileno(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(tun_fileno(__pyx_v_self->tun)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1517, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(tun_fileno(__pyx_v_self->tun)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1516, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1516
+  /* "dnet.pyx":1515
  *     property fd:
  *         """File descriptor for tunnel handle."""
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -18116,7 +18116,7 @@ static PyObject *__pyx_pf_4dnet_3tun_2fd___get__(struct __pyx_obj_4dnet_tun *__p
   return __pyx_r;
 }
 
-/* "dnet.pyx":1519
+/* "dnet.pyx":1518
  *             return tun_fileno(self.tun)
  * 
  *     def fileno(self):             # <<<<<<<<<<<<<<
@@ -18147,7 +18147,7 @@ static PyObject *__pyx_pf_4dnet_3tun_2fileno(struct __pyx_obj_4dnet_tun *__pyx_v
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("fileno", 0);
 
-  /* "dnet.pyx":1521
+  /* "dnet.pyx":1520
  *     def fileno(self):
  *         """Return file descriptor for tunnel handle."""
  *         return tun_fileno(self.tun)             # <<<<<<<<<<<<<<
@@ -18155,13 +18155,13 @@ static PyObject *__pyx_pf_4dnet_3tun_2fileno(struct __pyx_obj_4dnet_tun *__pyx_v
  *     def send(self, pkt):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(tun_fileno(__pyx_v_self->tun)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1521, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(tun_fileno(__pyx_v_self->tun)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1520, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1519
+  /* "dnet.pyx":1518
  *             return tun_fileno(self.tun)
  * 
  *     def fileno(self):             # <<<<<<<<<<<<<<
@@ -18180,7 +18180,7 @@ static PyObject *__pyx_pf_4dnet_3tun_2fileno(struct __pyx_obj_4dnet_tun *__pyx_v
   return __pyx_r;
 }
 
-/* "dnet.pyx":1523
+/* "dnet.pyx":1522
  *         return tun_fileno(self.tun)
  * 
  *     def send(self, pkt):             # <<<<<<<<<<<<<<
@@ -18212,7 +18212,7 @@ static PyObject *__pyx_pf_4dnet_3tun_4send(struct __pyx_obj_4dnet_tun *__pyx_v_s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("send", 0);
 
-  /* "dnet.pyx":1530
+  /* "dnet.pyx":1529
  *         pkt -- binary string representing an IP packet
  *         """
  *         return tun_send(self.tun, pkt, PyBytes_Size(pkt))             # <<<<<<<<<<<<<<
@@ -18220,14 +18220,14 @@ static PyObject *__pyx_pf_4dnet_3tun_4send(struct __pyx_obj_4dnet_tun *__pyx_v_s
  *     def recv(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_pkt); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 1530, __pyx_L1_error)
-  __pyx_t_2 = __Pyx_PyInt_From_int(tun_send(__pyx_v_self->tun, __pyx_t_1, PyBytes_Size(__pyx_v_pkt))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1530, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_AsWritableString(__pyx_v_pkt); if (unlikely((!__pyx_t_1) && PyErr_Occurred())) __PYX_ERR(0, 1529, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(tun_send(__pyx_v_self->tun, __pyx_t_1, PyBytes_Size(__pyx_v_pkt))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1529, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1523
+  /* "dnet.pyx":1522
  *         return tun_fileno(self.tun)
  * 
  *     def send(self, pkt):             # <<<<<<<<<<<<<<
@@ -18246,7 +18246,7 @@ static PyObject *__pyx_pf_4dnet_3tun_4send(struct __pyx_obj_4dnet_tun *__pyx_v_s
   return __pyx_r;
 }
 
-/* "dnet.pyx":1532
+/* "dnet.pyx":1531
  *         return tun_send(self.tun, pkt, PyBytes_Size(pkt))
  * 
  *     def recv(self):             # <<<<<<<<<<<<<<
@@ -18279,7 +18279,7 @@ static PyObject *__pyx_pf_4dnet_3tun_6recv(struct __pyx_obj_4dnet_tun *__pyx_v_s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("recv", 0);
 
-  /* "dnet.pyx":1535
+  /* "dnet.pyx":1534
  *         """Return the next packet delivered to the tunnel interface."""
  *         cdef int n
  *         n = tun_recv(self.tun, self.buf, self.mtu)             # <<<<<<<<<<<<<<
@@ -18288,7 +18288,7 @@ static PyObject *__pyx_pf_4dnet_3tun_6recv(struct __pyx_obj_4dnet_tun *__pyx_v_s
  */
   __pyx_v_n = tun_recv(__pyx_v_self->tun, __pyx_v_self->buf, __pyx_v_self->mtu);
 
-  /* "dnet.pyx":1536
+  /* "dnet.pyx":1535
  *         cdef int n
  *         n = tun_recv(self.tun, self.buf, self.mtu)
  *         if n < 0:             # <<<<<<<<<<<<<<
@@ -18298,20 +18298,20 @@ static PyObject *__pyx_pf_4dnet_3tun_6recv(struct __pyx_obj_4dnet_tun *__pyx_v_s
   __pyx_t_1 = ((__pyx_v_n < 0) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dnet.pyx":1537
+    /* "dnet.pyx":1536
  *         n = tun_recv(self.tun, self.buf, self.mtu)
  *         if n < 0:
  *             raise OSError, __oserror()             # <<<<<<<<<<<<<<
  *         return PyBytes_FromStringAndSize(self.buf, n)
  * 
  */
-    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1537, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_4dnet___oserror(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1536, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_builtin_OSError, __pyx_t_2, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 1537, __pyx_L1_error)
+    __PYX_ERR(0, 1536, __pyx_L1_error)
 
-    /* "dnet.pyx":1536
+    /* "dnet.pyx":1535
  *         cdef int n
  *         n = tun_recv(self.tun, self.buf, self.mtu)
  *         if n < 0:             # <<<<<<<<<<<<<<
@@ -18320,7 +18320,7 @@ static PyObject *__pyx_pf_4dnet_3tun_6recv(struct __pyx_obj_4dnet_tun *__pyx_v_s
  */
   }
 
-  /* "dnet.pyx":1538
+  /* "dnet.pyx":1537
  *         if n < 0:
  *             raise OSError, __oserror()
  *         return PyBytes_FromStringAndSize(self.buf, n)             # <<<<<<<<<<<<<<
@@ -18328,13 +18328,13 @@ static PyObject *__pyx_pf_4dnet_3tun_6recv(struct __pyx_obj_4dnet_tun *__pyx_v_s
  *     def close(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyBytes_FromStringAndSize(__pyx_v_self->buf, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1538, __pyx_L1_error)
+  __pyx_t_2 = PyBytes_FromStringAndSize(__pyx_v_self->buf, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1537, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dnet.pyx":1532
+  /* "dnet.pyx":1531
  *         return tun_send(self.tun, pkt, PyBytes_Size(pkt))
  * 
  *     def recv(self):             # <<<<<<<<<<<<<<
@@ -18353,7 +18353,7 @@ static PyObject *__pyx_pf_4dnet_3tun_6recv(struct __pyx_obj_4dnet_tun *__pyx_v_s
   return __pyx_r;
 }
 
-/* "dnet.pyx":1540
+/* "dnet.pyx":1539
  *         return PyBytes_FromStringAndSize(self.buf, n)
  * 
  *     def close(self):             # <<<<<<<<<<<<<<
@@ -18379,7 +18379,7 @@ static PyObject *__pyx_pf_4dnet_3tun_8close(struct __pyx_obj_4dnet_tun *__pyx_v_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("close", 0);
 
-  /* "dnet.pyx":1541
+  /* "dnet.pyx":1540
  * 
  *     def close(self):
  *         self.tun = tun_close(self.tun)             # <<<<<<<<<<<<<<
@@ -18388,7 +18388,7 @@ static PyObject *__pyx_pf_4dnet_3tun_8close(struct __pyx_obj_4dnet_tun *__pyx_v_
  */
   __pyx_v_self->tun = tun_close(__pyx_v_self->tun);
 
-  /* "dnet.pyx":1540
+  /* "dnet.pyx":1539
  *         return PyBytes_FromStringAndSize(self.buf, n)
  * 
  *     def close(self):             # <<<<<<<<<<<<<<
@@ -18403,7 +18403,7 @@ static PyObject *__pyx_pf_4dnet_3tun_8close(struct __pyx_obj_4dnet_tun *__pyx_v_
   return __pyx_r;
 }
 
-/* "dnet.pyx":1543
+/* "dnet.pyx":1542
  *         self.tun = tun_close(self.tun)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -18427,7 +18427,7 @@ static void __pyx_pf_4dnet_3tun_10__dealloc__(struct __pyx_obj_4dnet_tun *__pyx_
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "dnet.pyx":1544
+  /* "dnet.pyx":1543
  * 
  *     def __dealloc__(self):
  *         if self.buf:             # <<<<<<<<<<<<<<
@@ -18437,7 +18437,7 @@ static void __pyx_pf_4dnet_3tun_10__dealloc__(struct __pyx_obj_4dnet_tun *__pyx_
   __pyx_t_1 = (__pyx_v_self->buf != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":1545
+    /* "dnet.pyx":1544
  *     def __dealloc__(self):
  *         if self.buf:
  *             free(self.buf)             # <<<<<<<<<<<<<<
@@ -18446,7 +18446,7 @@ static void __pyx_pf_4dnet_3tun_10__dealloc__(struct __pyx_obj_4dnet_tun *__pyx_
  */
     free(__pyx_v_self->buf);
 
-    /* "dnet.pyx":1544
+    /* "dnet.pyx":1543
  * 
  *     def __dealloc__(self):
  *         if self.buf:             # <<<<<<<<<<<<<<
@@ -18455,7 +18455,7 @@ static void __pyx_pf_4dnet_3tun_10__dealloc__(struct __pyx_obj_4dnet_tun *__pyx_
  */
   }
 
-  /* "dnet.pyx":1546
+  /* "dnet.pyx":1545
  *         if self.buf:
  *             free(self.buf)
  *         if self.tun:             # <<<<<<<<<<<<<<
@@ -18464,14 +18464,14 @@ static void __pyx_pf_4dnet_3tun_10__dealloc__(struct __pyx_obj_4dnet_tun *__pyx_
   __pyx_t_1 = (__pyx_v_self->tun != 0);
   if (__pyx_t_1) {
 
-    /* "dnet.pyx":1547
+    /* "dnet.pyx":1546
  *             free(self.buf)
  *         if self.tun:
  *             tun_close(self.tun)             # <<<<<<<<<<<<<<
  */
     (void)(tun_close(__pyx_v_self->tun));
 
-    /* "dnet.pyx":1546
+    /* "dnet.pyx":1545
  *         if self.buf:
  *             free(self.buf)
  *         if self.tun:             # <<<<<<<<<<<<<<
@@ -18479,7 +18479,7 @@ static void __pyx_pf_4dnet_3tun_10__dealloc__(struct __pyx_obj_4dnet_tun *__pyx_
  */
   }
 
-  /* "dnet.pyx":1543
+  /* "dnet.pyx":1542
  *         self.tun = tun_close(self.tun)
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -20759,12 +20759,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 48, __pyx_L1_error)
-  __pyx_builtin_OSError = __Pyx_GetBuiltinName(__pyx_n_s_OSError); if (!__pyx_builtin_OSError) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_builtin_OSError = __Pyx_GetBuiltinName(__pyx_n_s_OSError); if (!__pyx_builtin_OSError) __PYX_ERR(0, 114, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
-  __pyx_builtin_OverflowError = __Pyx_GetBuiltinName(__pyx_n_s_OverflowError); if (!__pyx_builtin_OverflowError) __PYX_ERR(0, 461, __pyx_L1_error)
-  __pyx_builtin_NotImplementedError = __Pyx_GetBuiltinName(__pyx_n_s_NotImplementedError); if (!__pyx_builtin_NotImplementedError) __PYX_ERR(0, 551, __pyx_L1_error)
-  __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) __PYX_ERR(0, 654, __pyx_L1_error)
+  __pyx_builtin_OverflowError = __Pyx_GetBuiltinName(__pyx_n_s_OverflowError); if (!__pyx_builtin_OverflowError) __PYX_ERR(0, 460, __pyx_L1_error)
+  __pyx_builtin_NotImplementedError = __Pyx_GetBuiltinName(__pyx_n_s_NotImplementedError); if (!__pyx_builtin_NotImplementedError) __PYX_ERR(0, 550, __pyx_L1_error)
+  __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) __PYX_ERR(0, 653, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -20967,221 +20967,221 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
 
-  /* "dnet.pyx":55
+  /* "dnet.pyx":54
  *     return strerror(errno)
  * 
  * def __iter_append(entry, l):             # <<<<<<<<<<<<<<
  *     l.append(entry)
  * 
  */
-  __pyx_tuple__44 = PyTuple_Pack(2, __pyx_n_s_entry, __pyx_n_s_l); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_tuple__44 = PyTuple_Pack(2, __pyx_n_s_entry, __pyx_n_s_l); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__44);
   __Pyx_GIVEREF(__pyx_tuple__44);
-  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_iter_append, 55, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_iter_append, 54, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(0, 54, __pyx_L1_error)
 
-  /* "dnet.pyx":150
+  /* "dnet.pyx":149
  *             eth_close(self.eth)
  * 
  * def eth_ntoa(buf):             # <<<<<<<<<<<<<<
  *     """Convert an Ethernet MAC address from 6-byte packed binary string to
  *     a printable string ('00:de:ad:be:ef:00')."""
  */
-  __pyx_tuple__46 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ea); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_tuple__46 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ea); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__46);
   __Pyx_GIVEREF(__pyx_tuple__46);
-  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_eth_ntoa, 150, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_eth_ntoa, 149, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(0, 149, __pyx_L1_error)
 
-  /* "dnet.pyx":157
+  /* "dnet.pyx":156
  *     return __eth_ntoa(&ea)
  * 
  * def eth_aton(buf):             # <<<<<<<<<<<<<<
  *     """Convert an Ethernet MAC address from a printable string to a
  *     packed binary string ('\\x00\\xde\\xad\\xbe\\xef\\x00')."""
  */
-  __pyx_tuple__48 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ea); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_tuple__48 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ea); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__48);
   __Pyx_GIVEREF(__pyx_tuple__48);
-  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_eth_aton, 157, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_eth_aton, 156, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(0, 156, __pyx_L1_error)
 
-  /* "dnet.pyx":165
+  /* "dnet.pyx":164
  *     return PyBytes_FromStringAndSize(ea.data, 6)
  * 
  * def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,             # <<<<<<<<<<<<<<
  *                  etype=ETH_TYPE_IP):
  *     """Return a packed binary string representing an Ethernet header.
  */
-  __pyx_tuple__50 = PyTuple_Pack(6, __pyx_n_s_dst, __pyx_n_s_src, __pyx_n_s_etype, __pyx_n_s_hdr, __pyx_n_s_s, __pyx_n_s_d); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_tuple__50 = PyTuple_Pack(6, __pyx_n_s_dst, __pyx_n_s_src, __pyx_n_s_etype, __pyx_n_s_hdr, __pyx_n_s_s, __pyx_n_s_d); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__50);
   __Pyx_GIVEREF(__pyx_tuple__50);
-  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_eth_pack_hdr, 165, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(3, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_eth_pack_hdr, 164, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(0, 164, __pyx_L1_error)
 
-  /* "dnet.pyx":268
+  /* "dnet.pyx":267
  *             ip_close(self.ip)
  * 
  * def ip_ntoa(buf):             # <<<<<<<<<<<<<<
  *     """Convert an IP address from a 4-byte packed binary string or
  *     integer to a printable string ('10.0.0.1')."""
  */
-  __pyx_tuple__52 = PyTuple_Pack(3, __pyx_n_s_buf, __pyx_n_s_ia, __pyx_n_s_i); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __pyx_tuple__52 = PyTuple_Pack(3, __pyx_n_s_buf, __pyx_n_s_ia, __pyx_n_s_i); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__52);
   __Pyx_GIVEREF(__pyx_tuple__52);
-  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_ntoa, 268, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_ntoa, 267, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(0, 267, __pyx_L1_error)
 
-  /* "dnet.pyx":281
+  /* "dnet.pyx":280
  *     return __ip_ntoa(&ia)
  * 
  * def ip_aton(buf):             # <<<<<<<<<<<<<<
  *     """Convert an IP address from a printable string to a
  *     packed binary string ('\\x0a\\x00\\x00\\x01')."""
  */
-  __pyx_tuple__54 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ia); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_tuple__54 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ia); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__54);
   __Pyx_GIVEREF(__pyx_tuple__54);
-  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_aton, 281, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_aton, 280, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(0, 280, __pyx_L1_error)
 
-  /* "dnet.pyx":289
+  /* "dnet.pyx":288
  *     return PyBytes_FromStringAndSize(<char *>&ia, 4)
  * 
  * def ip_checksum(pkt):             # <<<<<<<<<<<<<<
  *     """Return packed binary string representing an IP packet
  *     with the IP and transport-layer checksums set.
  */
-  __pyx_tuple__56 = PyTuple_Pack(5, __pyx_n_s_pkt, __pyx_n_s_buf, __pyx_n_s_p, __pyx_n_s_n, __pyx_n_s_s); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_tuple__56 = PyTuple_Pack(5, __pyx_n_s_pkt, __pyx_n_s_buf, __pyx_n_s_p, __pyx_n_s_n, __pyx_n_s_s); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__56);
   __Pyx_GIVEREF(__pyx_tuple__56);
-  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_checksum, 289, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_checksum, 288, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(0, 288, __pyx_L1_error)
 
-  /* "dnet.pyx":312
+  /* "dnet.pyx":311
  *     raise TypeError
  * 
  * def ip_cksum_add(buf, int sum):             # <<<<<<<<<<<<<<
  *     cdef char *p
  *     cdef int n
  */
-  __pyx_tuple__58 = PyTuple_Pack(4, __pyx_n_s_buf, __pyx_n_s_sum, __pyx_n_s_p, __pyx_n_s_n); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __pyx_tuple__58 = PyTuple_Pack(4, __pyx_n_s_buf, __pyx_n_s_sum, __pyx_n_s_p, __pyx_n_s_n); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__58);
   __Pyx_GIVEREF(__pyx_tuple__58);
-  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_cksum_add, 312, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_cksum_add, 311, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(0, 311, __pyx_L1_error)
 
-  /* "dnet.pyx":320
+  /* "dnet.pyx":319
  *         raise TypeError
  * 
  * def ip_cksum_carry(int sum):             # <<<<<<<<<<<<<<
  *     return __ip_cksum_carry(sum)
  * 
  */
-  __pyx_tuple__60 = PyTuple_Pack(2, __pyx_n_s_sum, __pyx_n_s_sum); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_tuple__60 = PyTuple_Pack(2, __pyx_n_s_sum, __pyx_n_s_sum); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__60);
   __Pyx_GIVEREF(__pyx_tuple__60);
-  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_cksum_carry, 320, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_cksum_carry, 319, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(0, 319, __pyx_L1_error)
 
-  /* "dnet.pyx":323
+  /* "dnet.pyx":322
  *     return __ip_cksum_carry(sum)
  * 
  * def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,             # <<<<<<<<<<<<<<
  *                 ttl=IP_TTL_DEFAULT, p=IP_PROTO_IP,
  *                 src=IP_ADDR_ANY, dst=IP_ADDR_ANY):
  */
-  __pyx_tuple__62 = PyTuple_Pack(11, __pyx_n_s_tos, __pyx_n_s_len, __pyx_n_s_id, __pyx_n_s_off, __pyx_n_s_ttl, __pyx_n_s_p, __pyx_n_s_src, __pyx_n_s_dst, __pyx_n_s_hdr, __pyx_n_s_s, __pyx_n_s_d); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_tuple__62 = PyTuple_Pack(11, __pyx_n_s_tos, __pyx_n_s_len, __pyx_n_s_id, __pyx_n_s_off, __pyx_n_s_ttl, __pyx_n_s_p, __pyx_n_s_src, __pyx_n_s_dst, __pyx_n_s_hdr, __pyx_n_s_s, __pyx_n_s_d); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__62);
   __Pyx_GIVEREF(__pyx_tuple__62);
-  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(8, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_pack_hdr, 323, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(8, 0, 11, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip_pack_hdr, 322, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(0, 322, __pyx_L1_error)
 
-  /* "dnet.pyx":373
+  /* "dnet.pyx":372
  * IP6_ADDR_LOOPBACK = PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", 16)
  * 
  * def ip6_ntoa(buf):             # <<<<<<<<<<<<<<
  *     """Convert an IPv6 address from a 16-byte packed binary string to a
  *     printable string ('10.0.0.1')."""
  */
-  __pyx_tuple__64 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ia); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 373, __pyx_L1_error)
+  __pyx_tuple__64 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ia); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__64);
   __Pyx_GIVEREF(__pyx_tuple__64);
-  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip6_ntoa, 373, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 373, __pyx_L1_error)
+  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip6_ntoa, 372, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(0, 372, __pyx_L1_error)
 
-  /* "dnet.pyx":380
+  /* "dnet.pyx":379
  *     return __ip6_ntoa(&ia)
  * 
  * def ip6_aton(buf):             # <<<<<<<<<<<<<<
  *     """Convert an IPv6 address from a printable string to a
  *     packed binary string ('\\x0a\\x00\\x00\\x01')."""
  */
-  __pyx_tuple__66 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ia); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 380, __pyx_L1_error)
+  __pyx_tuple__66 = PyTuple_Pack(2, __pyx_n_s_buf, __pyx_n_s_ia); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__66);
   __Pyx_GIVEREF(__pyx_tuple__66);
-  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip6_aton, 380, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 380, __pyx_L1_error)
+  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip6_aton, 379, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(0, 379, __pyx_L1_error)
 
-  /* "dnet.pyx":388
+  /* "dnet.pyx":387
  *     return PyBytes_FromStringAndSize(<char *>&ia, 16)
  * 
  * def ip6_checksum(buf):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing an IPv6 packet
  *     with the IPv6 and transport-layer checksums set.
  */
-  __pyx_tuple__68 = PyTuple_Pack(1, __pyx_n_s_buf); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 388, __pyx_L1_error)
+  __pyx_tuple__68 = PyTuple_Pack(1, __pyx_n_s_buf); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(0, 387, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__68);
   __Pyx_GIVEREF(__pyx_tuple__68);
-  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip6_checksum, 388, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 388, __pyx_L1_error)
+  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip6_checksum, 387, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(0, 387, __pyx_L1_error)
 
-  /* "dnet.pyx":398
+  /* "dnet.pyx":397
  *     return buf
  * 
  * def ip6_pack_hdr(fc=0, fl=0, plen=0, nxt=IP_PROTO_IPV6, hlim=IP6_HLIM_DEFAULT,             # <<<<<<<<<<<<<<
  *                  src=IP6_ADDR_UNSPEC, dst=IP6_ADDR_UNSPEC):
  *     """Return a packed binary string representing an IPv6 header.
  */
-  __pyx_tuple__70 = PyTuple_Pack(10, __pyx_n_s_fc, __pyx_n_s_fl, __pyx_n_s_plen, __pyx_n_s_nxt, __pyx_n_s_hlim, __pyx_n_s_src, __pyx_n_s_dst, __pyx_n_s_hdr, __pyx_n_s_s, __pyx_n_s_d); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_tuple__70 = PyTuple_Pack(10, __pyx_n_s_fc, __pyx_n_s_fl, __pyx_n_s_plen, __pyx_n_s_nxt, __pyx_n_s_hlim, __pyx_n_s_src, __pyx_n_s_dst, __pyx_n_s_hdr, __pyx_n_s_s, __pyx_n_s_d); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__70);
   __Pyx_GIVEREF(__pyx_tuple__70);
-  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(7, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip6_pack_hdr, 398, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(7, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_ip6_pack_hdr, 397, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(0, 397, __pyx_L1_error)
 
-  /* "dnet.pyx":772
+  /* "dnet.pyx":771
  *             arp_close(self.arp)
  * 
  * def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,             # <<<<<<<<<<<<<<
  *                        sha=ETH_ADDR_UNSPEC, spa=IP_ADDR_ANY,
  *                        dha=ETH_ADDR_UNSPEC, dpa=IP_ADDR_ANY):
  */
-  __pyx_tuple__72 = PyTuple_Pack(10, __pyx_n_s_op, __pyx_n_s_sha, __pyx_n_s_spa, __pyx_n_s_dha, __pyx_n_s_dpa, __pyx_n_s_buf, __pyx_n_s_sh, __pyx_n_s_dh, __pyx_n_s_sp, __pyx_n_s_dp); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 772, __pyx_L1_error)
+  __pyx_tuple__72 = PyTuple_Pack(10, __pyx_n_s_op, __pyx_n_s_sha, __pyx_n_s_spa, __pyx_n_s_dha, __pyx_n_s_dpa, __pyx_n_s_buf, __pyx_n_s_sh, __pyx_n_s_dh, __pyx_n_s_sp, __pyx_n_s_dp); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(0, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__72);
   __Pyx_GIVEREF(__pyx_tuple__72);
-  __pyx_codeobj__73 = (PyObject*)__Pyx_PyCode_New(5, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__72, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_arp_pack_hdr_ethip, 772, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__73)) __PYX_ERR(0, 772, __pyx_L1_error)
+  __pyx_codeobj__73 = (PyObject*)__Pyx_PyCode_New(5, 0, 10, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__72, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_arp_pack_hdr_ethip, 771, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__73)) __PYX_ERR(0, 771, __pyx_L1_error)
 
-  /* "dnet.pyx":800
+  /* "dnet.pyx":799
  *     void __icmp_pack_hdr "icmp_pack_hdr" (char *hdr, int type, int code)
  * 
  * def icmp_pack_hdr(itype, code):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing an ICMP header.
  * 
  */
-  __pyx_tuple__74 = PyTuple_Pack(3, __pyx_n_s_itype, __pyx_n_s_code, __pyx_n_s_buf); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 800, __pyx_L1_error)
+  __pyx_tuple__74 = PyTuple_Pack(3, __pyx_n_s_itype, __pyx_n_s_code, __pyx_n_s_buf); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(0, 799, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__74);
   __Pyx_GIVEREF(__pyx_tuple__74);
-  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_icmp_pack_hdr, 800, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(0, 800, __pyx_L1_error)
+  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_icmp_pack_hdr, 799, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(0, 799, __pyx_L1_error)
 
-  /* "dnet.pyx":860
+  /* "dnet.pyx":859
  * TCP_OPT_MAX =		27
  * 
  * def tcp_pack_hdr(sport, dport, seq=1, ack=0, flags=TH_SYN,             # <<<<<<<<<<<<<<
  *                  win=TCP_WIN_MAX, urp=0):
  *     """Return a packed binary string representing a TCP header.
  */
-  __pyx_tuple__76 = PyTuple_Pack(8, __pyx_n_s_sport, __pyx_n_s_dport, __pyx_n_s_seq, __pyx_n_s_ack, __pyx_n_s_flags, __pyx_n_s_win, __pyx_n_s_urp, __pyx_n_s_buf); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 860, __pyx_L1_error)
+  __pyx_tuple__76 = PyTuple_Pack(8, __pyx_n_s_sport, __pyx_n_s_dport, __pyx_n_s_seq, __pyx_n_s_ack, __pyx_n_s_flags, __pyx_n_s_win, __pyx_n_s_urp, __pyx_n_s_buf); if (unlikely(!__pyx_tuple__76)) __PYX_ERR(0, 859, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__76);
   __Pyx_GIVEREF(__pyx_tuple__76);
-  __pyx_codeobj__77 = (PyObject*)__Pyx_PyCode_New(7, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__76, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_tcp_pack_hdr, 860, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__77)) __PYX_ERR(0, 860, __pyx_L1_error)
+  __pyx_codeobj__77 = (PyObject*)__Pyx_PyCode_New(7, 0, 8, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__76, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_tcp_pack_hdr, 859, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__77)) __PYX_ERR(0, 859, __pyx_L1_error)
 
-  /* "dnet.pyx":886
+  /* "dnet.pyx":885
  * UDP_PORT_MAX =	65535
  * 
  * def udp_pack_hdr(sport, dport, ulen=UDP_HDR_LEN):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing a UDP header.
  * 
  */
-  __pyx_tuple__78 = PyTuple_Pack(4, __pyx_n_s_sport, __pyx_n_s_dport, __pyx_n_s_ulen, __pyx_n_s_buf); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 886, __pyx_L1_error)
+  __pyx_tuple__78 = PyTuple_Pack(4, __pyx_n_s_sport, __pyx_n_s_dport, __pyx_n_s_ulen, __pyx_n_s_buf); if (unlikely(!__pyx_tuple__78)) __PYX_ERR(0, 885, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__78);
   __Pyx_GIVEREF(__pyx_tuple__78);
-  __pyx_codeobj__79 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__78, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_udp_pack_hdr, 886, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__79)) __PYX_ERR(0, 886, __pyx_L1_error)
+  __pyx_codeobj__79 = (PyObject*)__Pyx_PyCode_New(3, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__78, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dnet_pyx, __pyx_n_s_udp_pack_hdr, 885, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__79)) __PYX_ERR(0, 885, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __pyx_unpickle___addr_ip4_iter(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
@@ -21307,115 +21307,115 @@ static int __Pyx_modinit_type_init_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_4dnet_eth) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet_eth) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet_eth.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet_eth.tp_dictoffset && __pyx_type_4dnet_eth.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet_eth.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_eth, (PyObject *)&__pyx_type_4dnet_eth) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_eth) < 0) __PYX_ERR(0, 105, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_eth, (PyObject *)&__pyx_type_4dnet_eth) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_eth) < 0) __PYX_ERR(0, 104, __pyx_L1_error)
   __pyx_ptype_4dnet_eth = &__pyx_type_4dnet_eth;
-  if (PyType_Ready(&__pyx_type_4dnet_ip) < 0) __PYX_ERR(0, 243, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet_ip) < 0) __PYX_ERR(0, 242, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet_ip.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet_ip.tp_dictoffset && __pyx_type_4dnet_ip.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet_ip.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ip, (PyObject *)&__pyx_type_4dnet_ip) < 0) __PYX_ERR(0, 243, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_ip) < 0) __PYX_ERR(0, 243, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ip, (PyObject *)&__pyx_type_4dnet_ip) < 0) __PYX_ERR(0, 242, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_ip) < 0) __PYX_ERR(0, 242, __pyx_L1_error)
   __pyx_ptype_4dnet_ip = &__pyx_type_4dnet_ip;
-  if (PyType_Ready(&__pyx_type_4dnet_addr) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet_addr) < 0) __PYX_ERR(0, 438, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet_addr.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet_addr.tp_dictoffset && __pyx_type_4dnet_addr.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet_addr.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_addr, (PyObject *)&__pyx_type_4dnet_addr) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_addr) < 0) __PYX_ERR(0, 439, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_addr, (PyObject *)&__pyx_type_4dnet_addr) < 0) __PYX_ERR(0, 438, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_addr) < 0) __PYX_ERR(0, 438, __pyx_L1_error)
   __pyx_ptype_4dnet_addr = &__pyx_type_4dnet_addr;
-  if (PyType_Ready(&__pyx_type_4dnet___addr_ip4_iter) < 0) __PYX_ERR(0, 636, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet___addr_ip4_iter) < 0) __PYX_ERR(0, 635, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet___addr_ip4_iter.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet___addr_ip4_iter.tp_dictoffset && __pyx_type_4dnet___addr_ip4_iter.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet___addr_ip4_iter.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_addr_ip4_iter, (PyObject *)&__pyx_type_4dnet___addr_ip4_iter) < 0) __PYX_ERR(0, 636, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet___addr_ip4_iter) < 0) __PYX_ERR(0, 636, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_addr_ip4_iter, (PyObject *)&__pyx_type_4dnet___addr_ip4_iter) < 0) __PYX_ERR(0, 635, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet___addr_ip4_iter) < 0) __PYX_ERR(0, 635, __pyx_L1_error)
   __pyx_ptype_4dnet___addr_ip4_iter = &__pyx_type_4dnet___addr_ip4_iter;
-  if (PyType_Ready(&__pyx_type_4dnet_arp) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet_arp) < 0) __PYX_ERR(0, 700, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet_arp.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet_arp.tp_dictoffset && __pyx_type_4dnet_arp.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet_arp.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_arp, (PyObject *)&__pyx_type_4dnet_arp) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_arp) < 0) __PYX_ERR(0, 701, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_arp, (PyObject *)&__pyx_type_4dnet_arp) < 0) __PYX_ERR(0, 700, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_arp) < 0) __PYX_ERR(0, 700, __pyx_L1_error)
   __pyx_ptype_4dnet_arp = &__pyx_type_4dnet_arp;
-  if (PyType_Ready(&__pyx_type_4dnet_intf) < 0) __PYX_ERR(0, 981, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet_intf) < 0) __PYX_ERR(0, 980, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet_intf.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet_intf.tp_dictoffset && __pyx_type_4dnet_intf.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet_intf.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_intf, (PyObject *)&__pyx_type_4dnet_intf) < 0) __PYX_ERR(0, 981, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_intf) < 0) __PYX_ERR(0, 981, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_intf, (PyObject *)&__pyx_type_4dnet_intf) < 0) __PYX_ERR(0, 980, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_intf) < 0) __PYX_ERR(0, 980, __pyx_L1_error)
   __pyx_ptype_4dnet_intf = &__pyx_type_4dnet_intf;
-  if (PyType_Ready(&__pyx_type_4dnet_route) < 0) __PYX_ERR(0, 1100, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet_route) < 0) __PYX_ERR(0, 1099, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet_route.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet_route.tp_dictoffset && __pyx_type_4dnet_route.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet_route.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_route, (PyObject *)&__pyx_type_4dnet_route) < 0) __PYX_ERR(0, 1100, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_route) < 0) __PYX_ERR(0, 1100, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_route, (PyObject *)&__pyx_type_4dnet_route) < 0) __PYX_ERR(0, 1099, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_route) < 0) __PYX_ERR(0, 1099, __pyx_L1_error)
   __pyx_ptype_4dnet_route = &__pyx_type_4dnet_route;
-  if (PyType_Ready(&__pyx_type_4dnet_fw) < 0) __PYX_ERR(0, 1246, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet_fw) < 0) __PYX_ERR(0, 1245, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet_fw.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet_fw.tp_dictoffset && __pyx_type_4dnet_fw.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet_fw.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_fw, (PyObject *)&__pyx_type_4dnet_fw) < 0) __PYX_ERR(0, 1246, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_fw) < 0) __PYX_ERR(0, 1246, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_fw, (PyObject *)&__pyx_type_4dnet_fw) < 0) __PYX_ERR(0, 1245, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_fw) < 0) __PYX_ERR(0, 1245, __pyx_L1_error)
   __pyx_ptype_4dnet_fw = &__pyx_type_4dnet_fw;
-  if (PyType_Ready(&__pyx_type_4dnet_rand) < 0) __PYX_ERR(0, 1323, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet_rand) < 0) __PYX_ERR(0, 1322, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet_rand.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet_rand.tp_dictoffset && __pyx_type_4dnet_rand.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet_rand.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_rand, (PyObject *)&__pyx_type_4dnet_rand) < 0) __PYX_ERR(0, 1323, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_rand) < 0) __PYX_ERR(0, 1323, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_rand, (PyObject *)&__pyx_type_4dnet_rand) < 0) __PYX_ERR(0, 1322, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_rand) < 0) __PYX_ERR(0, 1322, __pyx_L1_error)
   __pyx_ptype_4dnet_rand = &__pyx_type_4dnet_rand;
-  if (PyType_Ready(&__pyx_type_4dnet___rand_xrange) < 0) __PYX_ERR(0, 1405, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet___rand_xrange) < 0) __PYX_ERR(0, 1404, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet___rand_xrange.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet___rand_xrange.tp_dictoffset && __pyx_type_4dnet___rand_xrange.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet___rand_xrange.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_rand_xrange, (PyObject *)&__pyx_type_4dnet___rand_xrange) < 0) __PYX_ERR(0, 1405, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet___rand_xrange) < 0) __PYX_ERR(0, 1405, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_rand_xrange, (PyObject *)&__pyx_type_4dnet___rand_xrange) < 0) __PYX_ERR(0, 1404, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet___rand_xrange) < 0) __PYX_ERR(0, 1404, __pyx_L1_error)
   __pyx_ptype_4dnet___rand_xrange = &__pyx_type_4dnet___rand_xrange;
-  if (PyType_Ready(&__pyx_type_4dnet_tun) < 0) __PYX_ERR(0, 1489, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dnet_tun) < 0) __PYX_ERR(0, 1488, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_4dnet_tun.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_4dnet_tun.tp_dictoffset && __pyx_type_4dnet_tun.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_4dnet_tun.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_tun, (PyObject *)&__pyx_type_4dnet_tun) < 0) __PYX_ERR(0, 1489, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_tun) < 0) __PYX_ERR(0, 1489, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_tun, (PyObject *)&__pyx_type_4dnet_tun) < 0) __PYX_ERR(0, 1488, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dnet_tun) < 0) __PYX_ERR(0, 1488, __pyx_L1_error)
   __pyx_ptype_4dnet_tun = &__pyx_type_4dnet_tun;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -21695,89 +21695,113 @@ if (!__Pyx_RefNanny) {
  */
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_version, __pyx_kp_u_1_16_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
 
-  /* "dnet.pyx":55
+  /* "dnet.pyx":54
  *     return strerror(errno)
  * 
  * def __iter_append(entry, l):             # <<<<<<<<<<<<<<
  *     l.append(entry)
  * 
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dnet_1__iter_append, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dnet_1__iter_append, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_iter_append, __pyx_t_1) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_iter_append, __pyx_t_1) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":78
+  /* "dnet.pyx":77
  *                eth_addr_t dst, eth_addr_t src, int etype)
  * 
  * ETH_ADDR_LEN =	6             # <<<<<<<<<<<<<<
  * ETH_ADDR_BITS =	48
  * ETH_TYPE_LEN =	2
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_ADDR_LEN, __pyx_int_6) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_ADDR_LEN, __pyx_int_6) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
 
-  /* "dnet.pyx":79
+  /* "dnet.pyx":78
  * 
  * ETH_ADDR_LEN =	6
  * ETH_ADDR_BITS =	48             # <<<<<<<<<<<<<<
  * ETH_TYPE_LEN =	2
  * ETH_CRC_LEN =	4
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_ADDR_BITS, __pyx_int_48) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_ADDR_BITS, __pyx_int_48) < 0) __PYX_ERR(0, 78, __pyx_L1_error)
 
-  /* "dnet.pyx":80
+  /* "dnet.pyx":79
  * ETH_ADDR_LEN =	6
  * ETH_ADDR_BITS =	48
  * ETH_TYPE_LEN =	2             # <<<<<<<<<<<<<<
  * ETH_CRC_LEN =	4
  * ETH_HDR_LEN =	14
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_LEN, __pyx_int_2) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_LEN, __pyx_int_2) < 0) __PYX_ERR(0, 79, __pyx_L1_error)
 
-  /* "dnet.pyx":81
+  /* "dnet.pyx":80
  * ETH_ADDR_BITS =	48
  * ETH_TYPE_LEN =	2
  * ETH_CRC_LEN =	4             # <<<<<<<<<<<<<<
  * ETH_HDR_LEN =	14
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_CRC_LEN, __pyx_int_4) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_CRC_LEN, __pyx_int_4) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
 
-  /* "dnet.pyx":82
+  /* "dnet.pyx":81
  * ETH_TYPE_LEN =	2
  * ETH_CRC_LEN =	4
  * ETH_HDR_LEN =	14             # <<<<<<<<<<<<<<
  * 
  * ETH_LEN_MIN =	64		# /[inserted by cython to avoid comment start]* minimum frame length with CRC *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_HDR_LEN, __pyx_int_14) < 0) __PYX_ERR(0, 82, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_HDR_LEN, __pyx_int_14) < 0) __PYX_ERR(0, 81, __pyx_L1_error)
 
-  /* "dnet.pyx":84
+  /* "dnet.pyx":83
  * ETH_HDR_LEN =	14
  * 
  * ETH_LEN_MIN =	64		# /[inserted by cython to avoid comment start]* minimum frame length with CRC *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_LEN_MAX =	1518		# /[inserted by cython to avoid comment start]* maximum frame length with CRC *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_LEN_MIN, __pyx_int_64) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_LEN_MIN, __pyx_int_64) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
 
-  /* "dnet.pyx":85
+  /* "dnet.pyx":84
  * 
  * ETH_LEN_MIN =	64		# /[inserted by cython to avoid comment start]* minimum frame length with CRC *[inserted by cython to avoid comment closer]/
  * ETH_LEN_MAX =	1518		# /[inserted by cython to avoid comment start]* maximum frame length with CRC *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * ETH_MTU =	(ETH_LEN_MAX - ETH_HDR_LEN - ETH_CRC_LEN)
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_LEN_MAX, __pyx_int_1518) < 0) __PYX_ERR(0, 85, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_LEN_MAX, __pyx_int_1518) < 0) __PYX_ERR(0, 84, __pyx_L1_error)
 
-  /* "dnet.pyx":87
+  /* "dnet.pyx":86
  * ETH_LEN_MAX =	1518		# /[inserted by cython to avoid comment start]* maximum frame length with CRC *[inserted by cython to avoid comment closer]/
  * 
  * ETH_MTU =	(ETH_LEN_MAX - ETH_HDR_LEN - ETH_CRC_LEN)             # <<<<<<<<<<<<<<
  * ETH_MIN =	(ETH_LEN_MIN - ETH_HDR_LEN - ETH_CRC_LEN)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_LEN_MAX); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_LEN_MAX); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ETH_HDR_LEN); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ETH_CRC_LEN); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyNumber_Subtract(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_MTU, __pyx_t_1) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dnet.pyx":87
+ * 
+ * ETH_MTU =	(ETH_LEN_MAX - ETH_HDR_LEN - ETH_CRC_LEN)
+ * ETH_MIN =	(ETH_LEN_MIN - ETH_HDR_LEN - ETH_CRC_LEN)             # <<<<<<<<<<<<<<
+ * 
+ * ETH_TYPE_PUP =	0x0200		# /[inserted by cython to avoid comment start]* PUP protocol *[inserted by cython to avoid comment closer]/
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_LEN_MIN); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ETH_HDR_LEN); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -21791,1602 +21815,1578 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_MTU, __pyx_t_1) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_MIN, __pyx_t_1) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":88
- * 
- * ETH_MTU =	(ETH_LEN_MAX - ETH_HDR_LEN - ETH_CRC_LEN)
- * ETH_MIN =	(ETH_LEN_MIN - ETH_HDR_LEN - ETH_CRC_LEN)             # <<<<<<<<<<<<<<
- * 
- * ETH_TYPE_PUP =	0x0200		# /[inserted by cython to avoid comment start]* PUP protocol *[inserted by cython to avoid comment closer]/
- */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_LEN_MIN); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ETH_HDR_LEN); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_ETH_CRC_LEN); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyNumber_Subtract(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_MIN, __pyx_t_1) < 0) __PYX_ERR(0, 88, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "dnet.pyx":90
+  /* "dnet.pyx":89
  * ETH_MIN =	(ETH_LEN_MIN - ETH_HDR_LEN - ETH_CRC_LEN)
  * 
  * ETH_TYPE_PUP =	0x0200		# /[inserted by cython to avoid comment start]* PUP protocol *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_IP =	0x0800		# /[inserted by cython to avoid comment start]* IP protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_ARP =	0x0806		# /[inserted by cython to avoid comment start]* address resolution protocol *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_PUP, __pyx_int_512) < 0) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_PUP, __pyx_int_512) < 0) __PYX_ERR(0, 89, __pyx_L1_error)
 
-  /* "dnet.pyx":91
+  /* "dnet.pyx":90
  * 
  * ETH_TYPE_PUP =	0x0200		# /[inserted by cython to avoid comment start]* PUP protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_IP =	0x0800		# /[inserted by cython to avoid comment start]* IP protocol *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_ARP =	0x0806		# /[inserted by cython to avoid comment start]* address resolution protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_REVARP=0x8035		# /[inserted by cython to avoid comment start]* reverse addr resolution protocol *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_IP, __pyx_int_2048) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_IP, __pyx_int_2048) < 0) __PYX_ERR(0, 90, __pyx_L1_error)
 
-  /* "dnet.pyx":92
+  /* "dnet.pyx":91
  * ETH_TYPE_PUP =	0x0200		# /[inserted by cython to avoid comment start]* PUP protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_IP =	0x0800		# /[inserted by cython to avoid comment start]* IP protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_ARP =	0x0806		# /[inserted by cython to avoid comment start]* address resolution protocol *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_REVARP=0x8035		# /[inserted by cython to avoid comment start]* reverse addr resolution protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_8021Q =0x8100		# /[inserted by cython to avoid comment start]* IEEE 802.1Q VLAN tagging *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_ARP, __pyx_int_2054) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_ARP, __pyx_int_2054) < 0) __PYX_ERR(0, 91, __pyx_L1_error)
 
-  /* "dnet.pyx":93
+  /* "dnet.pyx":92
  * ETH_TYPE_IP =	0x0800		# /[inserted by cython to avoid comment start]* IP protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_ARP =	0x0806		# /[inserted by cython to avoid comment start]* address resolution protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_REVARP=0x8035		# /[inserted by cython to avoid comment start]* reverse addr resolution protocol *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_8021Q =0x8100		# /[inserted by cython to avoid comment start]* IEEE 802.1Q VLAN tagging *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_IPV6 =	0x86DD		# /[inserted by cython to avoid comment start]* IPv6 protocol *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_REVARP, __pyx_int_32821) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_REVARP, __pyx_int_32821) < 0) __PYX_ERR(0, 92, __pyx_L1_error)
 
-  /* "dnet.pyx":94
+  /* "dnet.pyx":93
  * ETH_TYPE_ARP =	0x0806		# /[inserted by cython to avoid comment start]* address resolution protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_REVARP=0x8035		# /[inserted by cython to avoid comment start]* reverse addr resolution protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_8021Q =0x8100		# /[inserted by cython to avoid comment start]* IEEE 802.1Q VLAN tagging *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_IPV6 =	0x86DD		# /[inserted by cython to avoid comment start]* IPv6 protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_MPLS =	0x8847		# /[inserted by cython to avoid comment start]* MPLS *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_8021Q, __pyx_int_33024) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_8021Q, __pyx_int_33024) < 0) __PYX_ERR(0, 93, __pyx_L1_error)
 
-  /* "dnet.pyx":95
+  /* "dnet.pyx":94
  * ETH_TYPE_REVARP=0x8035		# /[inserted by cython to avoid comment start]* reverse addr resolution protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_8021Q =0x8100		# /[inserted by cython to avoid comment start]* IEEE 802.1Q VLAN tagging *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_IPV6 =	0x86DD		# /[inserted by cython to avoid comment start]* IPv6 protocol *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_MPLS =	0x8847		# /[inserted by cython to avoid comment start]* MPLS *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_MPLS_MCAST =	0x8848	# /[inserted by cython to avoid comment start]* MPLS Multicast *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_IPV6, __pyx_int_34525) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_IPV6, __pyx_int_34525) < 0) __PYX_ERR(0, 94, __pyx_L1_error)
 
-  /* "dnet.pyx":96
+  /* "dnet.pyx":95
  * ETH_TYPE_8021Q =0x8100		# /[inserted by cython to avoid comment start]* IEEE 802.1Q VLAN tagging *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_IPV6 =	0x86DD		# /[inserted by cython to avoid comment start]* IPv6 protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_MPLS =	0x8847		# /[inserted by cython to avoid comment start]* MPLS *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_MPLS_MCAST =	0x8848	# /[inserted by cython to avoid comment start]* MPLS Multicast *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_PPPOEDISC =	0x8863	# /[inserted by cython to avoid comment start]* PPP Over Ethernet Discovery Stage *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_MPLS, __pyx_int_34887) < 0) __PYX_ERR(0, 96, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_MPLS, __pyx_int_34887) < 0) __PYX_ERR(0, 95, __pyx_L1_error)
 
-  /* "dnet.pyx":97
+  /* "dnet.pyx":96
  * ETH_TYPE_IPV6 =	0x86DD		# /[inserted by cython to avoid comment start]* IPv6 protocol *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_MPLS =	0x8847		# /[inserted by cython to avoid comment start]* MPLS *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_MPLS_MCAST =	0x8848	# /[inserted by cython to avoid comment start]* MPLS Multicast *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_PPPOEDISC =	0x8863	# /[inserted by cython to avoid comment start]* PPP Over Ethernet Discovery Stage *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_PPPOE =	0x8864	# /[inserted by cython to avoid comment start]* PPP Over Ethernet Session Stage *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_MPLS_MCAST, __pyx_int_34888) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_MPLS_MCAST, __pyx_int_34888) < 0) __PYX_ERR(0, 96, __pyx_L1_error)
 
-  /* "dnet.pyx":98
+  /* "dnet.pyx":97
  * ETH_TYPE_MPLS =	0x8847		# /[inserted by cython to avoid comment start]* MPLS *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_MPLS_MCAST =	0x8848	# /[inserted by cython to avoid comment start]* MPLS Multicast *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_PPPOEDISC =	0x8863	# /[inserted by cython to avoid comment start]* PPP Over Ethernet Discovery Stage *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_PPPOE =	0x8864	# /[inserted by cython to avoid comment start]* PPP Over Ethernet Session Stage *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_LOOPBACK =	0x9000	# /[inserted by cython to avoid comment start]* used to test interfaces *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_PPPOEDISC, __pyx_int_34915) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_PPPOEDISC, __pyx_int_34915) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
 
-  /* "dnet.pyx":99
+  /* "dnet.pyx":98
  * ETH_TYPE_MPLS_MCAST =	0x8848	# /[inserted by cython to avoid comment start]* MPLS Multicast *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_PPPOEDISC =	0x8863	# /[inserted by cython to avoid comment start]* PPP Over Ethernet Discovery Stage *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_PPPOE =	0x8864	# /[inserted by cython to avoid comment start]* PPP Over Ethernet Session Stage *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ETH_TYPE_LOOPBACK =	0x9000	# /[inserted by cython to avoid comment start]* used to test interfaces *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_PPPOE, __pyx_int_34916) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_PPPOE, __pyx_int_34916) < 0) __PYX_ERR(0, 98, __pyx_L1_error)
 
-  /* "dnet.pyx":100
+  /* "dnet.pyx":99
  * ETH_TYPE_PPPOEDISC =	0x8863	# /[inserted by cython to avoid comment start]* PPP Over Ethernet Discovery Stage *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_PPPOE =	0x8864	# /[inserted by cython to avoid comment start]* PPP Over Ethernet Session Stage *[inserted by cython to avoid comment closer]/
  * ETH_TYPE_LOOPBACK =	0x9000	# /[inserted by cython to avoid comment start]* used to test interfaces *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * ETH_ADDR_UNSPEC =	PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00", 6)
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_LOOPBACK, __pyx_int_36864) < 0) __PYX_ERR(0, 100, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_TYPE_LOOPBACK, __pyx_int_36864) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
 
-  /* "dnet.pyx":102
+  /* "dnet.pyx":101
  * ETH_TYPE_LOOPBACK =	0x9000	# /[inserted by cython to avoid comment start]* used to test interfaces *[inserted by cython to avoid comment closer]/
  * 
  * ETH_ADDR_UNSPEC =	PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00", 6)             # <<<<<<<<<<<<<<
  * ETH_ADDR_BROADCAST =	PyBytes_FromStringAndSize("\xff\xff\xff\xff\xff\xff", 6)
  * 
  */
-  __pyx_t_1 = PyBytes_FromStringAndSize(((char *)"\000\000\000\000\000\000"), 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_1 = PyBytes_FromStringAndSize(((char *)"\000\000\000\000\000\000"), 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_ADDR_UNSPEC, __pyx_t_1) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_ADDR_UNSPEC, __pyx_t_1) < 0) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":103
+  /* "dnet.pyx":102
  * 
  * ETH_ADDR_UNSPEC =	PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00", 6)
  * ETH_ADDR_BROADCAST =	PyBytes_FromStringAndSize("\xff\xff\xff\xff\xff\xff", 6)             # <<<<<<<<<<<<<<
  * 
  * cdef class eth:
  */
-  __pyx_t_1 = PyBytes_FromStringAndSize(((char *)"\377\377\377\377\377\377"), 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+  __pyx_t_1 = PyBytes_FromStringAndSize(((char *)"\377\377\377\377\377\377"), 6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_ADDR_BROADCAST, __pyx_t_1) < 0) __PYX_ERR(0, 103, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ETH_ADDR_BROADCAST, __pyx_t_1) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":150
+  /* "dnet.pyx":149
  *             eth_close(self.eth)
  * 
  * def eth_ntoa(buf):             # <<<<<<<<<<<<<<
  *     """Convert an Ethernet MAC address from 6-byte packed binary string to
  *     a printable string ('00:de:ad:be:ef:00')."""
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dnet_3eth_ntoa, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 150, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dnet_3eth_ntoa, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_eth_ntoa, __pyx_t_1) < 0) __PYX_ERR(0, 150, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_eth_ntoa, __pyx_t_1) < 0) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":157
+  /* "dnet.pyx":156
  *     return __eth_ntoa(&ea)
  * 
  * def eth_aton(buf):             # <<<<<<<<<<<<<<
  *     """Convert an Ethernet MAC address from a printable string to a
  *     packed binary string ('\\x00\\xde\\xad\\xbe\\xef\\x00')."""
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dnet_5eth_aton, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dnet_5eth_aton, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_eth_aton, __pyx_t_1) < 0) __PYX_ERR(0, 157, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_eth_aton, __pyx_t_1) < 0) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":165
+  /* "dnet.pyx":164
  *     return PyBytes_FromStringAndSize(ea.data, 6)
  * 
  * def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,             # <<<<<<<<<<<<<<
  *                  etype=ETH_TYPE_IP):
  *     """Return a packed binary string representing an Ethernet header.
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_ADDR_BROADCAST); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_ADDR_BROADCAST); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_k__3 = __pyx_t_1;
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_t_1 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_ADDR_BROADCAST); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_ADDR_BROADCAST); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_k__4 = __pyx_t_1;
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":166
+  /* "dnet.pyx":165
  * 
  * def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,
  *                  etype=ETH_TYPE_IP):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing an Ethernet header.
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_TYPE_IP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_ETH_TYPE_IP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_k__5 = __pyx_t_1;
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dnet.pyx":165
+  /* "dnet.pyx":164
  *     return PyBytes_FromStringAndSize(ea.data, 6)
  * 
  * def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,             # <<<<<<<<<<<<<<
  *                  etype=ETH_TYPE_IP):
  *     """Return a packed binary string representing an Ethernet header.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dnet_7eth_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 165, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dnet_7eth_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_eth_pack_hdr, __pyx_t_1) < 0) __PYX_ERR(0, 165, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_eth_pack_hdr, __pyx_t_1) < 0) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dnet.pyx":202
+  /* "dnet.pyx":201
  *               int off, int ttl, int p, ip_addr_t s, ip_addr_t d)
  * 
  * IP_ADDR_LEN =	4		# /[inserted by cython to avoid comment start]* IP address length *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_ADDR_BITS =	32		# /[inserted by cython to avoid comment start]* IP address bits *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_LEN, __pyx_int_4) < 0) __PYX_ERR(0, 202, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_LEN, __pyx_int_4) < 0) __PYX_ERR(0, 201, __pyx_L1_error)
 
-  /* "dnet.pyx":203
+  /* "dnet.pyx":202
  * 
  * IP_ADDR_LEN =	4		# /[inserted by cython to avoid comment start]* IP address length *[inserted by cython to avoid comment closer]/
  * IP_ADDR_BITS =	32		# /[inserted by cython to avoid comment start]* IP address bits *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * IP_HDR_LEN =	20		# /[inserted by cython to avoid comment start]* base IP header length *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_BITS, __pyx_int_32) < 0) __PYX_ERR(0, 203, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_BITS, __pyx_int_32) < 0) __PYX_ERR(0, 202, __pyx_L1_error)
 
-  /* "dnet.pyx":205
+  /* "dnet.pyx":204
  * IP_ADDR_BITS =	32		# /[inserted by cython to avoid comment start]* IP address bits *[inserted by cython to avoid comment closer]/
  * 
  * IP_HDR_LEN =	20		# /[inserted by cython to avoid comment start]* base IP header length *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_OPT_LEN =	2		# /[inserted by cython to avoid comment start]* base IP option length *[inserted by cython to avoid comment closer]/
  * IP_OPT_LEN_MAX =40
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_HDR_LEN, __pyx_int_20) < 0) __PYX_ERR(0, 205, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_HDR_LEN, __pyx_int_20) < 0) __PYX_ERR(0, 204, __pyx_L1_error)
 
-  /* "dnet.pyx":206
+  /* "dnet.pyx":205
  * 
  * IP_HDR_LEN =	20		# /[inserted by cython to avoid comment start]* base IP header length *[inserted by cython to avoid comment closer]/
  * IP_OPT_LEN =	2		# /[inserted by cython to avoid comment start]* base IP option length *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_OPT_LEN_MAX =40
  * IP_HDR_LEN_MAX =(IP_HDR_LEN + IP_OPT_LEN_MAX)
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_OPT_LEN, __pyx_int_2) < 0) __PYX_ERR(0, 206, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_OPT_LEN, __pyx_int_2) < 0) __PYX_ERR(0, 205, __pyx_L1_error)
 
-  /* "dnet.pyx":207
+  /* "dnet.pyx":206
  * IP_HDR_LEN =	20		# /[inserted by cython to avoid comment start]* base IP header length *[inserted by cython to avoid comment closer]/
  * IP_OPT_LEN =	2		# /[inserted by cython to avoid comment start]* base IP option length *[inserted by cython to avoid comment closer]/
  * IP_OPT_LEN_MAX =40             # <<<<<<<<<<<<<<
  * IP_HDR_LEN_MAX =(IP_HDR_LEN + IP_OPT_LEN_MAX)
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_OPT_LEN_MAX, __pyx_int_40) < 0) __PYX_ERR(0, 207, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_OPT_LEN_MAX, __pyx_int_40) < 0) __PYX_ERR(0, 206, __pyx_L1_error)
 
-  /* "dnet.pyx":208
+  /* "dnet.pyx":207
  * IP_OPT_LEN =	2		# /[inserted by cython to avoid comment start]* base IP option length *[inserted by cython to avoid comment closer]/
  * IP_OPT_LEN_MAX =40
  * IP_HDR_LEN_MAX =(IP_HDR_LEN + IP_OPT_LEN_MAX)             # <<<<<<<<<<<<<<
  * 
  * IP_LEN_MAX =	65535
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_IP_HDR_LEN); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_IP_HDR_LEN); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_IP_OPT_LEN_MAX); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_IP_OPT_LEN_MAX); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 208, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_HDR_LEN_MAX, __pyx_t_3) < 0) __PYX_ERR(0, 208, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_HDR_LEN_MAX, __pyx_t_3) < 0) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":210
+  /* "dnet.pyx":209
  * IP_HDR_LEN_MAX =(IP_HDR_LEN + IP_OPT_LEN_MAX)
  * 
  * IP_LEN_MAX =	65535             # <<<<<<<<<<<<<<
  * IP_LEN_MIN =	IP_HDR_LEN
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_LEN_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 210, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_LEN_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 209, __pyx_L1_error)
 
-  /* "dnet.pyx":211
+  /* "dnet.pyx":210
  * 
  * IP_LEN_MAX =	65535
  * IP_LEN_MIN =	IP_HDR_LEN             # <<<<<<<<<<<<<<
  * 
  * IP_TOS_DEFAULT =0x00		# /[inserted by cython to avoid comment start]* default *[inserted by cython to avoid comment closer]/
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_HDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_HDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_LEN_MIN, __pyx_t_3) < 0) __PYX_ERR(0, 211, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_LEN_MIN, __pyx_t_3) < 0) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":213
+  /* "dnet.pyx":212
  * IP_LEN_MIN =	IP_HDR_LEN
  * 
  * IP_TOS_DEFAULT =0x00		# /[inserted by cython to avoid comment start]* default *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * IP_RF =		0x8000		# /[inserted by cython to avoid comment start]* reserved *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_TOS_DEFAULT, __pyx_int_0) < 0) __PYX_ERR(0, 213, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_TOS_DEFAULT, __pyx_int_0) < 0) __PYX_ERR(0, 212, __pyx_L1_error)
 
-  /* "dnet.pyx":215
+  /* "dnet.pyx":214
  * IP_TOS_DEFAULT =0x00		# /[inserted by cython to avoid comment start]* default *[inserted by cython to avoid comment closer]/
  * 
  * IP_RF =		0x8000		# /[inserted by cython to avoid comment start]* reserved *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_DF =		0x4000		# /[inserted by cython to avoid comment start]* don't fragment *[inserted by cython to avoid comment closer]/
  * IP_MF =		0x2000		# /[inserted by cython to avoid comment start]* more fragments (not last frag) *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_RF, __pyx_int_32768) < 0) __PYX_ERR(0, 215, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_RF, __pyx_int_32768) < 0) __PYX_ERR(0, 214, __pyx_L1_error)
 
-  /* "dnet.pyx":216
+  /* "dnet.pyx":215
  * 
  * IP_RF =		0x8000		# /[inserted by cython to avoid comment start]* reserved *[inserted by cython to avoid comment closer]/
  * IP_DF =		0x4000		# /[inserted by cython to avoid comment start]* don't fragment *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_MF =		0x2000		# /[inserted by cython to avoid comment start]* more fragments (not last frag) *[inserted by cython to avoid comment closer]/
  * IP_OFFMASK =	0x1fff		# /[inserted by cython to avoid comment start]* mask for fragment offset *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_DF, __pyx_int_16384) < 0) __PYX_ERR(0, 216, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_DF, __pyx_int_16384) < 0) __PYX_ERR(0, 215, __pyx_L1_error)
 
-  /* "dnet.pyx":217
+  /* "dnet.pyx":216
  * IP_RF =		0x8000		# /[inserted by cython to avoid comment start]* reserved *[inserted by cython to avoid comment closer]/
  * IP_DF =		0x4000		# /[inserted by cython to avoid comment start]* don't fragment *[inserted by cython to avoid comment closer]/
  * IP_MF =		0x2000		# /[inserted by cython to avoid comment start]* more fragments (not last frag) *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_OFFMASK =	0x1fff		# /[inserted by cython to avoid comment start]* mask for fragment offset *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_MF, __pyx_int_8192) < 0) __PYX_ERR(0, 217, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_MF, __pyx_int_8192) < 0) __PYX_ERR(0, 216, __pyx_L1_error)
 
-  /* "dnet.pyx":218
+  /* "dnet.pyx":217
  * IP_DF =		0x4000		# /[inserted by cython to avoid comment start]* don't fragment *[inserted by cython to avoid comment closer]/
  * IP_MF =		0x2000		# /[inserted by cython to avoid comment start]* more fragments (not last frag) *[inserted by cython to avoid comment closer]/
  * IP_OFFMASK =	0x1fff		# /[inserted by cython to avoid comment start]* mask for fragment offset *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * IP_TTL_DEFAULT =64		# /[inserted by cython to avoid comment start]* default ttl, RFC 1122, RFC 1340 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_OFFMASK, __pyx_int_8191) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_OFFMASK, __pyx_int_8191) < 0) __PYX_ERR(0, 217, __pyx_L1_error)
 
-  /* "dnet.pyx":220
+  /* "dnet.pyx":219
  * IP_OFFMASK =	0x1fff		# /[inserted by cython to avoid comment start]* mask for fragment offset *[inserted by cython to avoid comment closer]/
  * 
  * IP_TTL_DEFAULT =64		# /[inserted by cython to avoid comment start]* default ttl, RFC 1122, RFC 1340 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_TTL_MAX =	255		# /[inserted by cython to avoid comment start]* maximum ttl *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_TTL_DEFAULT, __pyx_int_64) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_TTL_DEFAULT, __pyx_int_64) < 0) __PYX_ERR(0, 219, __pyx_L1_error)
 
-  /* "dnet.pyx":221
+  /* "dnet.pyx":220
  * 
  * IP_TTL_DEFAULT =64		# /[inserted by cython to avoid comment start]* default ttl, RFC 1122, RFC 1340 *[inserted by cython to avoid comment closer]/
  * IP_TTL_MAX =	255		# /[inserted by cython to avoid comment start]* maximum ttl *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * IP_PROTO_IP =		0		# /[inserted by cython to avoid comment start]* dummy for IP *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_TTL_MAX, __pyx_int_255) < 0) __PYX_ERR(0, 221, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_TTL_MAX, __pyx_int_255) < 0) __PYX_ERR(0, 220, __pyx_L1_error)
 
-  /* "dnet.pyx":223
+  /* "dnet.pyx":222
  * IP_TTL_MAX =	255		# /[inserted by cython to avoid comment start]* maximum ttl *[inserted by cython to avoid comment closer]/
  * 
  * IP_PROTO_IP =		0		# /[inserted by cython to avoid comment start]* dummy for IP *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_ICMP =		1		# /[inserted by cython to avoid comment start]* ICMP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_IGMP =		2		# /[inserted by cython to avoid comment start]* IGMP *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_IP, __pyx_int_0) < 0) __PYX_ERR(0, 223, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_IP, __pyx_int_0) < 0) __PYX_ERR(0, 222, __pyx_L1_error)
 
-  /* "dnet.pyx":224
+  /* "dnet.pyx":223
  * 
  * IP_PROTO_IP =		0		# /[inserted by cython to avoid comment start]* dummy for IP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_ICMP =		1		# /[inserted by cython to avoid comment start]* ICMP *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_IGMP =		2		# /[inserted by cython to avoid comment start]* IGMP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_TCP =		6		# /[inserted by cython to avoid comment start]* TCP *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_ICMP, __pyx_int_1) < 0) __PYX_ERR(0, 224, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_ICMP, __pyx_int_1) < 0) __PYX_ERR(0, 223, __pyx_L1_error)
 
-  /* "dnet.pyx":225
+  /* "dnet.pyx":224
  * IP_PROTO_IP =		0		# /[inserted by cython to avoid comment start]* dummy for IP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_ICMP =		1		# /[inserted by cython to avoid comment start]* ICMP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_IGMP =		2		# /[inserted by cython to avoid comment start]* IGMP *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_TCP =		6		# /[inserted by cython to avoid comment start]* TCP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_UDP =		17		# /[inserted by cython to avoid comment start]* UDP *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_IGMP, __pyx_int_2) < 0) __PYX_ERR(0, 225, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_IGMP, __pyx_int_2) < 0) __PYX_ERR(0, 224, __pyx_L1_error)
 
-  /* "dnet.pyx":226
+  /* "dnet.pyx":225
  * IP_PROTO_ICMP =		1		# /[inserted by cython to avoid comment start]* ICMP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_IGMP =		2		# /[inserted by cython to avoid comment start]* IGMP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_TCP =		6		# /[inserted by cython to avoid comment start]* TCP *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_UDP =		17		# /[inserted by cython to avoid comment start]* UDP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_IPV6 =		41		# /[inserted by cython to avoid comment start]* IPv6 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_TCP, __pyx_int_6) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_TCP, __pyx_int_6) < 0) __PYX_ERR(0, 225, __pyx_L1_error)
 
-  /* "dnet.pyx":227
+  /* "dnet.pyx":226
  * IP_PROTO_IGMP =		2		# /[inserted by cython to avoid comment start]* IGMP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_TCP =		6		# /[inserted by cython to avoid comment start]* TCP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_UDP =		17		# /[inserted by cython to avoid comment start]* UDP *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_IPV6 =		41		# /[inserted by cython to avoid comment start]* IPv6 *[inserted by cython to avoid comment closer]/
  * IP_PROTO_GRE =		47		# /[inserted by cython to avoid comment start]* General Routing Encap *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_UDP, __pyx_int_17) < 0) __PYX_ERR(0, 227, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_UDP, __pyx_int_17) < 0) __PYX_ERR(0, 226, __pyx_L1_error)
 
-  /* "dnet.pyx":228
+  /* "dnet.pyx":227
  * IP_PROTO_TCP =		6		# /[inserted by cython to avoid comment start]* TCP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_UDP =		17		# /[inserted by cython to avoid comment start]* UDP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_IPV6 =		41		# /[inserted by cython to avoid comment start]* IPv6 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_GRE =		47		# /[inserted by cython to avoid comment start]* General Routing Encap *[inserted by cython to avoid comment closer]/
  * IP_PROTO_ESP =		50		# /[inserted by cython to avoid comment start]* Encap Security Payload *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_IPV6, __pyx_int_41) < 0) __PYX_ERR(0, 228, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_IPV6, __pyx_int_41) < 0) __PYX_ERR(0, 227, __pyx_L1_error)
 
-  /* "dnet.pyx":229
+  /* "dnet.pyx":228
  * IP_PROTO_UDP =		17		# /[inserted by cython to avoid comment start]* UDP *[inserted by cython to avoid comment closer]/
  * IP_PROTO_IPV6 =		41		# /[inserted by cython to avoid comment start]* IPv6 *[inserted by cython to avoid comment closer]/
  * IP_PROTO_GRE =		47		# /[inserted by cython to avoid comment start]* General Routing Encap *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_ESP =		50		# /[inserted by cython to avoid comment start]* Encap Security Payload *[inserted by cython to avoid comment closer]/
  * IP_PROTO_AH =		51		# /[inserted by cython to avoid comment start]* Authentication Header *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_GRE, __pyx_int_47) < 0) __PYX_ERR(0, 229, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_GRE, __pyx_int_47) < 0) __PYX_ERR(0, 228, __pyx_L1_error)
 
-  /* "dnet.pyx":230
+  /* "dnet.pyx":229
  * IP_PROTO_IPV6 =		41		# /[inserted by cython to avoid comment start]* IPv6 *[inserted by cython to avoid comment closer]/
  * IP_PROTO_GRE =		47		# /[inserted by cython to avoid comment start]* General Routing Encap *[inserted by cython to avoid comment closer]/
  * IP_PROTO_ESP =		50		# /[inserted by cython to avoid comment start]* Encap Security Payload *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_AH =		51		# /[inserted by cython to avoid comment start]* Authentication Header *[inserted by cython to avoid comment closer]/
  * IP_PROTO_ICMPV6 =	58		# /[inserted by cython to avoid comment start]* ICMP for IPv6 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_ESP, __pyx_int_50) < 0) __PYX_ERR(0, 230, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_ESP, __pyx_int_50) < 0) __PYX_ERR(0, 229, __pyx_L1_error)
 
-  /* "dnet.pyx":231
+  /* "dnet.pyx":230
  * IP_PROTO_GRE =		47		# /[inserted by cython to avoid comment start]* General Routing Encap *[inserted by cython to avoid comment closer]/
  * IP_PROTO_ESP =		50		# /[inserted by cython to avoid comment start]* Encap Security Payload *[inserted by cython to avoid comment closer]/
  * IP_PROTO_AH =		51		# /[inserted by cython to avoid comment start]* Authentication Header *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_ICMPV6 =	58		# /[inserted by cython to avoid comment start]* ICMP for IPv6 *[inserted by cython to avoid comment closer]/
  * IP_PROTO_RAW =		255		# /[inserted by cython to avoid comment start]* Raw IP packets *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_AH, __pyx_int_51) < 0) __PYX_ERR(0, 231, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_AH, __pyx_int_51) < 0) __PYX_ERR(0, 230, __pyx_L1_error)
 
-  /* "dnet.pyx":232
+  /* "dnet.pyx":231
  * IP_PROTO_ESP =		50		# /[inserted by cython to avoid comment start]* Encap Security Payload *[inserted by cython to avoid comment closer]/
  * IP_PROTO_AH =		51		# /[inserted by cython to avoid comment start]* Authentication Header *[inserted by cython to avoid comment closer]/
  * IP_PROTO_ICMPV6 =	58		# /[inserted by cython to avoid comment start]* ICMP for IPv6 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_RAW =		255		# /[inserted by cython to avoid comment start]* Raw IP packets *[inserted by cython to avoid comment closer]/
  * IP_PROTO_RESERVED =	IP_PROTO_RAW	# /[inserted by cython to avoid comment start]* Reserved *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_ICMPV6, __pyx_int_58) < 0) __PYX_ERR(0, 232, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_ICMPV6, __pyx_int_58) < 0) __PYX_ERR(0, 231, __pyx_L1_error)
 
-  /* "dnet.pyx":233
+  /* "dnet.pyx":232
  * IP_PROTO_AH =		51		# /[inserted by cython to avoid comment start]* Authentication Header *[inserted by cython to avoid comment closer]/
  * IP_PROTO_ICMPV6 =	58		# /[inserted by cython to avoid comment start]* ICMP for IPv6 *[inserted by cython to avoid comment closer]/
  * IP_PROTO_RAW =		255		# /[inserted by cython to avoid comment start]* Raw IP packets *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_RESERVED =	IP_PROTO_RAW	# /[inserted by cython to avoid comment start]* Reserved *[inserted by cython to avoid comment closer]/
  * IP_PROTO_MAX =		255
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_RAW, __pyx_int_255) < 0) __PYX_ERR(0, 233, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_RAW, __pyx_int_255) < 0) __PYX_ERR(0, 232, __pyx_L1_error)
 
-  /* "dnet.pyx":234
+  /* "dnet.pyx":233
  * IP_PROTO_ICMPV6 =	58		# /[inserted by cython to avoid comment start]* ICMP for IPv6 *[inserted by cython to avoid comment closer]/
  * IP_PROTO_RAW =		255		# /[inserted by cython to avoid comment start]* Raw IP packets *[inserted by cython to avoid comment closer]/
  * IP_PROTO_RESERVED =	IP_PROTO_RAW	# /[inserted by cython to avoid comment start]* Reserved *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP_PROTO_MAX =		255
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_PROTO_RAW); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 234, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_PROTO_RAW); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 233, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_RESERVED, __pyx_t_3) < 0) __PYX_ERR(0, 234, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_RESERVED, __pyx_t_3) < 0) __PYX_ERR(0, 233, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":235
+  /* "dnet.pyx":234
  * IP_PROTO_RAW =		255		# /[inserted by cython to avoid comment start]* Raw IP packets *[inserted by cython to avoid comment closer]/
  * IP_PROTO_RESERVED =	IP_PROTO_RAW	# /[inserted by cython to avoid comment start]* Reserved *[inserted by cython to avoid comment closer]/
  * IP_PROTO_MAX =		255             # <<<<<<<<<<<<<<
  * 
  * IP_ADDR_ANY =		PyBytes_FromStringAndSize("\x00\x00\x00\x00", 4)
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_MAX, __pyx_int_255) < 0) __PYX_ERR(0, 235, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_PROTO_MAX, __pyx_int_255) < 0) __PYX_ERR(0, 234, __pyx_L1_error)
 
-  /* "dnet.pyx":237
+  /* "dnet.pyx":236
  * IP_PROTO_MAX =		255
  * 
  * IP_ADDR_ANY =		PyBytes_FromStringAndSize("\x00\x00\x00\x00", 4)             # <<<<<<<<<<<<<<
  * IP_ADDR_BROADCAST =	PyBytes_FromStringAndSize("\xff\xff\xff\xff", 4)
  * IP_ADDR_LOOPBACK =	PyBytes_FromStringAndSize("\x7f\x00\x00\x01", 4)
  */
-  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\000\000\000\000"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 237, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\000\000\000\000"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 236, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_ANY, __pyx_t_3) < 0) __PYX_ERR(0, 237, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_ANY, __pyx_t_3) < 0) __PYX_ERR(0, 236, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":238
+  /* "dnet.pyx":237
  * 
  * IP_ADDR_ANY =		PyBytes_FromStringAndSize("\x00\x00\x00\x00", 4)
  * IP_ADDR_BROADCAST =	PyBytes_FromStringAndSize("\xff\xff\xff\xff", 4)             # <<<<<<<<<<<<<<
  * IP_ADDR_LOOPBACK =	PyBytes_FromStringAndSize("\x7f\x00\x00\x01", 4)
  * IP_ADDR_MCAST_ALL =	PyBytes_FromStringAndSize("\xe0\x00\x00\x01", 4)
  */
-  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\377\377\377\377"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 238, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\377\377\377\377"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_BROADCAST, __pyx_t_3) < 0) __PYX_ERR(0, 238, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_BROADCAST, __pyx_t_3) < 0) __PYX_ERR(0, 237, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":239
+  /* "dnet.pyx":238
  * IP_ADDR_ANY =		PyBytes_FromStringAndSize("\x00\x00\x00\x00", 4)
  * IP_ADDR_BROADCAST =	PyBytes_FromStringAndSize("\xff\xff\xff\xff", 4)
  * IP_ADDR_LOOPBACK =	PyBytes_FromStringAndSize("\x7f\x00\x00\x01", 4)             # <<<<<<<<<<<<<<
  * IP_ADDR_MCAST_ALL =	PyBytes_FromStringAndSize("\xe0\x00\x00\x01", 4)
  * IP_ADDR_MCAST_LOCAL =	PyBytes_FromStringAndSize("\xe0\x00\x00\xff", 4)
  */
-  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\000\000\001"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\000\000\001"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_LOOPBACK, __pyx_t_3) < 0) __PYX_ERR(0, 239, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_LOOPBACK, __pyx_t_3) < 0) __PYX_ERR(0, 238, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":240
+  /* "dnet.pyx":239
  * IP_ADDR_BROADCAST =	PyBytes_FromStringAndSize("\xff\xff\xff\xff", 4)
  * IP_ADDR_LOOPBACK =	PyBytes_FromStringAndSize("\x7f\x00\x00\x01", 4)
  * IP_ADDR_MCAST_ALL =	PyBytes_FromStringAndSize("\xe0\x00\x00\x01", 4)             # <<<<<<<<<<<<<<
  * IP_ADDR_MCAST_LOCAL =	PyBytes_FromStringAndSize("\xe0\x00\x00\xff", 4)
  * 
  */
-  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\340\000\000\001"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\340\000\000\001"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_MCAST_ALL, __pyx_t_3) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_MCAST_ALL, __pyx_t_3) < 0) __PYX_ERR(0, 239, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":241
+  /* "dnet.pyx":240
  * IP_ADDR_LOOPBACK =	PyBytes_FromStringAndSize("\x7f\x00\x00\x01", 4)
  * IP_ADDR_MCAST_ALL =	PyBytes_FromStringAndSize("\xe0\x00\x00\x01", 4)
  * IP_ADDR_MCAST_LOCAL =	PyBytes_FromStringAndSize("\xe0\x00\x00\xff", 4)             # <<<<<<<<<<<<<<
  * 
  * cdef class ip:
  */
-  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\340\000\000\377"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 241, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\340\000\000\377"), 4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_MCAST_LOCAL, __pyx_t_3) < 0) __PYX_ERR(0, 241, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP_ADDR_MCAST_LOCAL, __pyx_t_3) < 0) __PYX_ERR(0, 240, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":268
+  /* "dnet.pyx":267
  *             ip_close(self.ip)
  * 
  * def ip_ntoa(buf):             # <<<<<<<<<<<<<<
  *     """Convert an IP address from a 4-byte packed binary string or
  *     integer to a printable string ('10.0.0.1')."""
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_9ip_ntoa, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 268, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_9ip_ntoa, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_ntoa, __pyx_t_3) < 0) __PYX_ERR(0, 268, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_ntoa, __pyx_t_3) < 0) __PYX_ERR(0, 267, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":281
+  /* "dnet.pyx":280
  *     return __ip_ntoa(&ia)
  * 
  * def ip_aton(buf):             # <<<<<<<<<<<<<<
  *     """Convert an IP address from a printable string to a
  *     packed binary string ('\\x0a\\x00\\x00\\x01')."""
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_11ip_aton, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_11ip_aton, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_aton, __pyx_t_3) < 0) __PYX_ERR(0, 281, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_aton, __pyx_t_3) < 0) __PYX_ERR(0, 280, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":289
+  /* "dnet.pyx":288
  *     return PyBytes_FromStringAndSize(<char *>&ia, 4)
  * 
  * def ip_checksum(pkt):             # <<<<<<<<<<<<<<
  *     """Return packed binary string representing an IP packet
  *     with the IP and transport-layer checksums set.
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_13ip_checksum, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_13ip_checksum, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_checksum, __pyx_t_3) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_checksum, __pyx_t_3) < 0) __PYX_ERR(0, 288, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":312
+  /* "dnet.pyx":311
  *     raise TypeError
  * 
  * def ip_cksum_add(buf, int sum):             # <<<<<<<<<<<<<<
  *     cdef char *p
  *     cdef int n
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_15ip_cksum_add, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_15ip_cksum_add, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_cksum_add, __pyx_t_3) < 0) __PYX_ERR(0, 312, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_cksum_add, __pyx_t_3) < 0) __PYX_ERR(0, 311, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":320
+  /* "dnet.pyx":319
  *         raise TypeError
  * 
  * def ip_cksum_carry(int sum):             # <<<<<<<<<<<<<<
  *     return __ip_cksum_carry(sum)
  * 
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_17ip_cksum_carry, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_17ip_cksum_carry, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_cksum_carry, __pyx_t_3) < 0) __PYX_ERR(0, 320, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_cksum_carry, __pyx_t_3) < 0) __PYX_ERR(0, 319, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":323
+  /* "dnet.pyx":322
  *     return __ip_cksum_carry(sum)
  * 
  * def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,             # <<<<<<<<<<<<<<
  *                 ttl=IP_TTL_DEFAULT, p=IP_PROTO_IP,
  *                 src=IP_ADDR_ANY, dst=IP_ADDR_ANY):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_TOS_DEFAULT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_TOS_DEFAULT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__8 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_HDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_HDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__9 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":324
+  /* "dnet.pyx":323
  * 
  * def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,
  *                 ttl=IP_TTL_DEFAULT, p=IP_PROTO_IP,             # <<<<<<<<<<<<<<
  *                 src=IP_ADDR_ANY, dst=IP_ADDR_ANY):
  *     """Return a packed binary string representing an IP header.
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_TTL_DEFAULT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_TTL_DEFAULT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__10 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_PROTO_IP); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_PROTO_IP); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__11 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":325
+  /* "dnet.pyx":324
  * def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,
  *                 ttl=IP_TTL_DEFAULT, p=IP_PROTO_IP,
  *                 src=IP_ADDR_ANY, dst=IP_ADDR_ANY):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing an IP header.
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_ANY); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_ANY); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 324, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__12 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_ANY); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 325, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_ANY); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 324, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__13 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":323
+  /* "dnet.pyx":322
  *     return __ip_cksum_carry(sum)
  * 
  * def ip_pack_hdr(tos=IP_TOS_DEFAULT, len=IP_HDR_LEN, id=0, off=0,             # <<<<<<<<<<<<<<
  *                 ttl=IP_TTL_DEFAULT, p=IP_PROTO_IP,
  *                 src=IP_ADDR_ANY, dst=IP_ADDR_ANY):
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_19ip_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 323, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_19ip_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 323, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 322, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":358
+  /* "dnet.pyx":357
  *               int nxt, int hlim, ip6_addr_t s, ip6_addr_t d)
  * 
  * IP6_ADDR_LEN =	16             # <<<<<<<<<<<<<<
  * IP6_ADDR_BITS =	128
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_ADDR_LEN, __pyx_int_16) < 0) __PYX_ERR(0, 358, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_ADDR_LEN, __pyx_int_16) < 0) __PYX_ERR(0, 357, __pyx_L1_error)
 
-  /* "dnet.pyx":359
+  /* "dnet.pyx":358
  * 
  * IP6_ADDR_LEN =	16
  * IP6_ADDR_BITS =	128             # <<<<<<<<<<<<<<
  * 
  * IP6_HDR_LEN =	40		# /[inserted by cython to avoid comment start]* IPv6 header length *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_ADDR_BITS, __pyx_int_128) < 0) __PYX_ERR(0, 359, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_ADDR_BITS, __pyx_int_128) < 0) __PYX_ERR(0, 358, __pyx_L1_error)
 
-  /* "dnet.pyx":361
+  /* "dnet.pyx":360
  * IP6_ADDR_BITS =	128
  * 
  * IP6_HDR_LEN =	40		# /[inserted by cython to avoid comment start]* IPv6 header length *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * IP6_LEN_MIN =	IP6_HDR_LEN
  * IP6_LEN_MAX =	65535		# /[inserted by cython to avoid comment start]* non-jumbo payload *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_HDR_LEN, __pyx_int_40) < 0) __PYX_ERR(0, 361, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_HDR_LEN, __pyx_int_40) < 0) __PYX_ERR(0, 360, __pyx_L1_error)
 
-  /* "dnet.pyx":362
+  /* "dnet.pyx":361
  * 
  * IP6_HDR_LEN =	40		# /[inserted by cython to avoid comment start]* IPv6 header length *[inserted by cython to avoid comment closer]/
  * IP6_LEN_MIN =	IP6_HDR_LEN             # <<<<<<<<<<<<<<
  * IP6_LEN_MAX =	65535		# /[inserted by cython to avoid comment start]* non-jumbo payload *[inserted by cython to avoid comment closer]/
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_HDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 362, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_HDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 361, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_LEN_MIN, __pyx_t_3) < 0) __PYX_ERR(0, 362, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_LEN_MIN, __pyx_t_3) < 0) __PYX_ERR(0, 361, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":363
+  /* "dnet.pyx":362
  * IP6_HDR_LEN =	40		# /[inserted by cython to avoid comment start]* IPv6 header length *[inserted by cython to avoid comment closer]/
  * IP6_LEN_MIN =	IP6_HDR_LEN
  * IP6_LEN_MAX =	65535		# /[inserted by cython to avoid comment start]* non-jumbo payload *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * IP6_MTU_MIN =	1280		# /[inserted by cython to avoid comment start]* minimum MTU (1024 + 256) *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_LEN_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 363, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_LEN_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 362, __pyx_L1_error)
 
-  /* "dnet.pyx":365
+  /* "dnet.pyx":364
  * IP6_LEN_MAX =	65535		# /[inserted by cython to avoid comment start]* non-jumbo payload *[inserted by cython to avoid comment closer]/
  * 
  * IP6_MTU_MIN =	1280		# /[inserted by cython to avoid comment start]* minimum MTU (1024 + 256) *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * IP6_HLIM_DEFAULT=64
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_MTU_MIN, __pyx_int_1280) < 0) __PYX_ERR(0, 365, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_MTU_MIN, __pyx_int_1280) < 0) __PYX_ERR(0, 364, __pyx_L1_error)
 
-  /* "dnet.pyx":367
+  /* "dnet.pyx":366
  * IP6_MTU_MIN =	1280		# /[inserted by cython to avoid comment start]* minimum MTU (1024 + 256) *[inserted by cython to avoid comment closer]/
  * 
  * IP6_HLIM_DEFAULT=64             # <<<<<<<<<<<<<<
  * IP6_HLIM_MAX =	255
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_HLIM_DEFAULT, __pyx_int_64) < 0) __PYX_ERR(0, 367, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_HLIM_DEFAULT, __pyx_int_64) < 0) __PYX_ERR(0, 366, __pyx_L1_error)
 
-  /* "dnet.pyx":368
+  /* "dnet.pyx":367
  * 
  * IP6_HLIM_DEFAULT=64
  * IP6_HLIM_MAX =	255             # <<<<<<<<<<<<<<
  * 
  * IP6_ADDR_UNSPEC	= PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 16)
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_HLIM_MAX, __pyx_int_255) < 0) __PYX_ERR(0, 368, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_HLIM_MAX, __pyx_int_255) < 0) __PYX_ERR(0, 367, __pyx_L1_error)
 
-  /* "dnet.pyx":370
+  /* "dnet.pyx":369
  * IP6_HLIM_MAX =	255
  * 
  * IP6_ADDR_UNSPEC	= PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 16)             # <<<<<<<<<<<<<<
  * IP6_ADDR_LOOPBACK = PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", 16)
  * 
  */
-  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"), 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 370, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000"), 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 369, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_ADDR_UNSPEC, __pyx_t_3) < 0) __PYX_ERR(0, 370, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_ADDR_UNSPEC, __pyx_t_3) < 0) __PYX_ERR(0, 369, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":371
+  /* "dnet.pyx":370
  * 
  * IP6_ADDR_UNSPEC	= PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00", 16)
  * IP6_ADDR_LOOPBACK = PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", 16)             # <<<<<<<<<<<<<<
  * 
  * def ip6_ntoa(buf):
  */
-  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\001"), 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_3 = PyBytes_FromStringAndSize(((char *)"\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\001"), 16); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_ADDR_LOOPBACK, __pyx_t_3) < 0) __PYX_ERR(0, 371, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IP6_ADDR_LOOPBACK, __pyx_t_3) < 0) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":373
+  /* "dnet.pyx":372
  * IP6_ADDR_LOOPBACK = PyBytes_FromStringAndSize("\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01", 16)
  * 
  * def ip6_ntoa(buf):             # <<<<<<<<<<<<<<
  *     """Convert an IPv6 address from a 16-byte packed binary string to a
  *     printable string ('10.0.0.1')."""
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_21ip6_ntoa, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 373, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_21ip6_ntoa, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip6_ntoa, __pyx_t_3) < 0) __PYX_ERR(0, 373, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip6_ntoa, __pyx_t_3) < 0) __PYX_ERR(0, 372, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":380
+  /* "dnet.pyx":379
  *     return __ip6_ntoa(&ia)
  * 
  * def ip6_aton(buf):             # <<<<<<<<<<<<<<
  *     """Convert an IPv6 address from a printable string to a
  *     packed binary string ('\\x0a\\x00\\x00\\x01')."""
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_23ip6_aton, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 380, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_23ip6_aton, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip6_aton, __pyx_t_3) < 0) __PYX_ERR(0, 380, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip6_aton, __pyx_t_3) < 0) __PYX_ERR(0, 379, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":388
+  /* "dnet.pyx":387
  *     return PyBytes_FromStringAndSize(<char *>&ia, 16)
  * 
  * def ip6_checksum(buf):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing an IPv6 packet
  *     with the IPv6 and transport-layer checksums set.
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_25ip6_checksum, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 388, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_25ip6_checksum, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 387, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip6_checksum, __pyx_t_3) < 0) __PYX_ERR(0, 388, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip6_checksum, __pyx_t_3) < 0) __PYX_ERR(0, 387, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":398
+  /* "dnet.pyx":397
  *     return buf
  * 
  * def ip6_pack_hdr(fc=0, fl=0, plen=0, nxt=IP_PROTO_IPV6, hlim=IP6_HLIM_DEFAULT,             # <<<<<<<<<<<<<<
  *                  src=IP6_ADDR_UNSPEC, dst=IP6_ADDR_UNSPEC):
  *     """Return a packed binary string representing an IPv6 header.
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_PROTO_IPV6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_PROTO_IPV6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__14 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_HLIM_DEFAULT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_HLIM_DEFAULT); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__15 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":399
+  /* "dnet.pyx":398
  * 
  * def ip6_pack_hdr(fc=0, fl=0, plen=0, nxt=IP_PROTO_IPV6, hlim=IP6_HLIM_DEFAULT,
  *                  src=IP6_ADDR_UNSPEC, dst=IP6_ADDR_UNSPEC):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing an IPv6 header.
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_ADDR_UNSPEC); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_ADDR_UNSPEC); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__16 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_ADDR_UNSPEC); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP6_ADDR_UNSPEC); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__17 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":398
+  /* "dnet.pyx":397
  *     return buf
  * 
  * def ip6_pack_hdr(fc=0, fl=0, plen=0, nxt=IP_PROTO_IPV6, hlim=IP6_HLIM_DEFAULT,             # <<<<<<<<<<<<<<
  *                  src=IP6_ADDR_UNSPEC, dst=IP6_ADDR_UNSPEC):
  *     """Return a packed binary string representing an IPv6 header.
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_27ip6_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_27ip6_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip6_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 398, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ip6_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":434
+  /* "dnet.pyx":433
  *     int   addr_aton(char *src, addr_t *dst)
  * 
  * ADDR_TYPE_NONE =	0             # <<<<<<<<<<<<<<
  * ADDR_TYPE_ETH =		1
  * ADDR_TYPE_IP =		2
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ADDR_TYPE_NONE, __pyx_int_0) < 0) __PYX_ERR(0, 434, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ADDR_TYPE_NONE, __pyx_int_0) < 0) __PYX_ERR(0, 433, __pyx_L1_error)
 
-  /* "dnet.pyx":435
+  /* "dnet.pyx":434
  * 
  * ADDR_TYPE_NONE =	0
  * ADDR_TYPE_ETH =		1             # <<<<<<<<<<<<<<
  * ADDR_TYPE_IP =		2
  * ADDR_TYPE_IP6 =		3
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ADDR_TYPE_ETH, __pyx_int_1) < 0) __PYX_ERR(0, 435, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ADDR_TYPE_ETH, __pyx_int_1) < 0) __PYX_ERR(0, 434, __pyx_L1_error)
 
-  /* "dnet.pyx":436
+  /* "dnet.pyx":435
  * ADDR_TYPE_NONE =	0
  * ADDR_TYPE_ETH =		1
  * ADDR_TYPE_IP =		2             # <<<<<<<<<<<<<<
  * ADDR_TYPE_IP6 =		3
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ADDR_TYPE_IP, __pyx_int_2) < 0) __PYX_ERR(0, 436, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ADDR_TYPE_IP, __pyx_int_2) < 0) __PYX_ERR(0, 435, __pyx_L1_error)
 
-  /* "dnet.pyx":437
+  /* "dnet.pyx":436
  * ADDR_TYPE_ETH =		1
  * ADDR_TYPE_IP =		2
  * ADDR_TYPE_IP6 =		3             # <<<<<<<<<<<<<<
  * 
  * cdef class addr:
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ADDR_TYPE_IP6, __pyx_int_3) < 0) __PYX_ERR(0, 437, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ADDR_TYPE_IP6, __pyx_int_3) < 0) __PYX_ERR(0, 436, __pyx_L1_error)
 
-  /* "dnet.pyx":447
+  /* "dnet.pyx":446
  *     cdef addr_t _addr
  * 
  *     def __init__(self, addrtxt=None, addrtype=ADDR_TYPE_NONE):             # <<<<<<<<<<<<<<
  *         if addrtxt != None and addr_aton(addrtxt, &self._addr) < 0:
  *             if PyBytes_Size(addrtxt) == 4:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 447, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ADDR_TYPE_NONE); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 446, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__18 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":678
+  /* "dnet.pyx":677
  *                eth_addr_t dha, ip_addr_t dpa)
  * 
  * ARP_HDR_LEN =	8	# /[inserted by cython to avoid comment start]* base ARP header length *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ARP_ETHIP_LEN =	20	# /[inserted by cython to avoid comment start]* base ARP message length *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_HDR_LEN, __pyx_int_8) < 0) __PYX_ERR(0, 678, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_HDR_LEN, __pyx_int_8) < 0) __PYX_ERR(0, 677, __pyx_L1_error)
 
-  /* "dnet.pyx":679
+  /* "dnet.pyx":678
  * 
  * ARP_HDR_LEN =	8	# /[inserted by cython to avoid comment start]* base ARP header length *[inserted by cython to avoid comment closer]/
  * ARP_ETHIP_LEN =	20	# /[inserted by cython to avoid comment start]* base ARP message length *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * ARP_HRD_ETH = 	0x0001	# /[inserted by cython to avoid comment start]* ethernet hardware *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_ETHIP_LEN, __pyx_int_20) < 0) __PYX_ERR(0, 679, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_ETHIP_LEN, __pyx_int_20) < 0) __PYX_ERR(0, 678, __pyx_L1_error)
 
-  /* "dnet.pyx":681
+  /* "dnet.pyx":680
  * ARP_ETHIP_LEN =	20	# /[inserted by cython to avoid comment start]* base ARP message length *[inserted by cython to avoid comment closer]/
  * 
  * ARP_HRD_ETH = 	0x0001	# /[inserted by cython to avoid comment start]* ethernet hardware *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ARP_HRD_IEEE802=0x0006	# /[inserted by cython to avoid comment start]* IEEE 802 hardware *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_HRD_ETH, __pyx_int_1) < 0) __PYX_ERR(0, 681, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_HRD_ETH, __pyx_int_1) < 0) __PYX_ERR(0, 680, __pyx_L1_error)
 
-  /* "dnet.pyx":682
+  /* "dnet.pyx":681
  * 
  * ARP_HRD_ETH = 	0x0001	# /[inserted by cython to avoid comment start]* ethernet hardware *[inserted by cython to avoid comment closer]/
  * ARP_HRD_IEEE802=0x0006	# /[inserted by cython to avoid comment start]* IEEE 802 hardware *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * ARP_PRO_IP =	0x0800	# /[inserted by cython to avoid comment start]* IP protocol *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_HRD_IEEE802, __pyx_int_6) < 0) __PYX_ERR(0, 682, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_HRD_IEEE802, __pyx_int_6) < 0) __PYX_ERR(0, 681, __pyx_L1_error)
 
-  /* "dnet.pyx":684
+  /* "dnet.pyx":683
  * ARP_HRD_IEEE802=0x0006	# /[inserted by cython to avoid comment start]* IEEE 802 hardware *[inserted by cython to avoid comment closer]/
  * 
  * ARP_PRO_IP =	0x0800	# /[inserted by cython to avoid comment start]* IP protocol *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * ARP_OP_REQUEST =	1	# /[inserted by cython to avoid comment start]* request to resolve ha given pa *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_PRO_IP, __pyx_int_2048) < 0) __PYX_ERR(0, 684, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_PRO_IP, __pyx_int_2048) < 0) __PYX_ERR(0, 683, __pyx_L1_error)
 
-  /* "dnet.pyx":686
+  /* "dnet.pyx":685
  * ARP_PRO_IP =	0x0800	# /[inserted by cython to avoid comment start]* IP protocol *[inserted by cython to avoid comment closer]/
  * 
  * ARP_OP_REQUEST =	1	# /[inserted by cython to avoid comment start]* request to resolve ha given pa *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ARP_OP_REPLY =		2	# /[inserted by cython to avoid comment start]* response giving hardware address *[inserted by cython to avoid comment closer]/
  * ARP_OP_REVREQUEST =	3	# /[inserted by cython to avoid comment start]* request to resolve pa given ha *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_OP_REQUEST, __pyx_int_1) < 0) __PYX_ERR(0, 686, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_OP_REQUEST, __pyx_int_1) < 0) __PYX_ERR(0, 685, __pyx_L1_error)
 
-  /* "dnet.pyx":687
+  /* "dnet.pyx":686
  * 
  * ARP_OP_REQUEST =	1	# /[inserted by cython to avoid comment start]* request to resolve ha given pa *[inserted by cython to avoid comment closer]/
  * ARP_OP_REPLY =		2	# /[inserted by cython to avoid comment start]* response giving hardware address *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ARP_OP_REVREQUEST =	3	# /[inserted by cython to avoid comment start]* request to resolve pa given ha *[inserted by cython to avoid comment closer]/
  * ARP_OP_REVREPLY =	4	# /[inserted by cython to avoid comment start]* response giving protocol address *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_OP_REPLY, __pyx_int_2) < 0) __PYX_ERR(0, 687, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_OP_REPLY, __pyx_int_2) < 0) __PYX_ERR(0, 686, __pyx_L1_error)
 
-  /* "dnet.pyx":688
+  /* "dnet.pyx":687
  * ARP_OP_REQUEST =	1	# /[inserted by cython to avoid comment start]* request to resolve ha given pa *[inserted by cython to avoid comment closer]/
  * ARP_OP_REPLY =		2	# /[inserted by cython to avoid comment start]* response giving hardware address *[inserted by cython to avoid comment closer]/
  * ARP_OP_REVREQUEST =	3	# /[inserted by cython to avoid comment start]* request to resolve pa given ha *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * ARP_OP_REVREPLY =	4	# /[inserted by cython to avoid comment start]* response giving protocol address *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_OP_REVREQUEST, __pyx_int_3) < 0) __PYX_ERR(0, 688, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_OP_REVREQUEST, __pyx_int_3) < 0) __PYX_ERR(0, 687, __pyx_L1_error)
 
-  /* "dnet.pyx":689
+  /* "dnet.pyx":688
  * ARP_OP_REPLY =		2	# /[inserted by cython to avoid comment start]* response giving hardware address *[inserted by cython to avoid comment closer]/
  * ARP_OP_REVREQUEST =	3	# /[inserted by cython to avoid comment start]* request to resolve pa given ha *[inserted by cython to avoid comment closer]/
  * ARP_OP_REVREPLY =	4	# /[inserted by cython to avoid comment start]* response giving protocol address *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * cdef int __arp_callback(arp_entry *entry, void *arg) except -1:
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_OP_REVREPLY, __pyx_int_4) < 0) __PYX_ERR(0, 689, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ARP_OP_REVREPLY, __pyx_int_4) < 0) __PYX_ERR(0, 688, __pyx_L1_error)
 
-  /* "dnet.pyx":772
+  /* "dnet.pyx":771
  *             arp_close(self.arp)
  * 
  * def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,             # <<<<<<<<<<<<<<
  *                        sha=ETH_ADDR_UNSPEC, spa=IP_ADDR_ANY,
  *                        dha=ETH_ADDR_UNSPEC, dpa=IP_ADDR_ANY):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ARP_OP_REQUEST); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 772, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ARP_OP_REQUEST); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__23 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":773
+  /* "dnet.pyx":772
  * 
  * def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,
  *                        sha=ETH_ADDR_UNSPEC, spa=IP_ADDR_ANY,             # <<<<<<<<<<<<<<
  *                        dha=ETH_ADDR_UNSPEC, dpa=IP_ADDR_ANY):
  *     """Return a packed binary string representing an Ethernet/IP ARP message.
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ETH_ADDR_UNSPEC); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 773, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ETH_ADDR_UNSPEC); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 772, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__24 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_ANY); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 773, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_ANY); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 772, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__25 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":774
+  /* "dnet.pyx":773
  * def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,
  *                        sha=ETH_ADDR_UNSPEC, spa=IP_ADDR_ANY,
  *                        dha=ETH_ADDR_UNSPEC, dpa=IP_ADDR_ANY):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing an Ethernet/IP ARP message.
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ETH_ADDR_UNSPEC); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 774, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_ETH_ADDR_UNSPEC); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 773, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__26 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_ANY); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 774, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_IP_ADDR_ANY); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 773, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__27 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":772
+  /* "dnet.pyx":771
  *             arp_close(self.arp)
  * 
  * def arp_pack_hdr_ethip(op=ARP_OP_REQUEST,             # <<<<<<<<<<<<<<
  *                        sha=ETH_ADDR_UNSPEC, spa=IP_ADDR_ANY,
  *                        dha=ETH_ADDR_UNSPEC, dpa=IP_ADDR_ANY):
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_29arp_pack_hdr_ethip, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 772, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_29arp_pack_hdr_ethip, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 771, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_arp_pack_hdr_ethip, __pyx_t_3) < 0) __PYX_ERR(0, 772, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_arp_pack_hdr_ethip, __pyx_t_3) < 0) __PYX_ERR(0, 771, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":800
+  /* "dnet.pyx":799
  *     void __icmp_pack_hdr "icmp_pack_hdr" (char *hdr, int type, int code)
  * 
  * def icmp_pack_hdr(itype, code):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing an ICMP header.
  * 
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_31icmp_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 800, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_31icmp_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 799, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_icmp_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 800, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_icmp_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 799, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":818
+  /* "dnet.pyx":817
  *         int sport, int dport, unsigned long seq, unsigned long ack, int flags, int win, int urp)
  * 
  * TCP_HDR_LEN =	20		# /[inserted by cython to avoid comment start]* base TCP header length *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * TH_FIN =	0x01		# /[inserted by cython to avoid comment start]* end of data *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_HDR_LEN, __pyx_int_20) < 0) __PYX_ERR(0, 818, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_HDR_LEN, __pyx_int_20) < 0) __PYX_ERR(0, 817, __pyx_L1_error)
 
-  /* "dnet.pyx":820
+  /* "dnet.pyx":819
  * TCP_HDR_LEN =	20		# /[inserted by cython to avoid comment start]* base TCP header length *[inserted by cython to avoid comment closer]/
  * 
  * TH_FIN =	0x01		# /[inserted by cython to avoid comment start]* end of data *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TH_SYN =	0x02		# /[inserted by cython to avoid comment start]* synchronize sequence numbers *[inserted by cython to avoid comment closer]/
  * TH_RST = 	0x04		# /[inserted by cython to avoid comment start]* reset connection *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_FIN, __pyx_int_1) < 0) __PYX_ERR(0, 820, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_FIN, __pyx_int_1) < 0) __PYX_ERR(0, 819, __pyx_L1_error)
 
-  /* "dnet.pyx":821
+  /* "dnet.pyx":820
  * 
  * TH_FIN =	0x01		# /[inserted by cython to avoid comment start]* end of data *[inserted by cython to avoid comment closer]/
  * TH_SYN =	0x02		# /[inserted by cython to avoid comment start]* synchronize sequence numbers *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TH_RST = 	0x04		# /[inserted by cython to avoid comment start]* reset connection *[inserted by cython to avoid comment closer]/
  * TH_PUSH =	0x08		# /[inserted by cython to avoid comment start]* push *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_SYN, __pyx_int_2) < 0) __PYX_ERR(0, 821, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_SYN, __pyx_int_2) < 0) __PYX_ERR(0, 820, __pyx_L1_error)
 
-  /* "dnet.pyx":822
+  /* "dnet.pyx":821
  * TH_FIN =	0x01		# /[inserted by cython to avoid comment start]* end of data *[inserted by cython to avoid comment closer]/
  * TH_SYN =	0x02		# /[inserted by cython to avoid comment start]* synchronize sequence numbers *[inserted by cython to avoid comment closer]/
  * TH_RST = 	0x04		# /[inserted by cython to avoid comment start]* reset connection *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TH_PUSH =	0x08		# /[inserted by cython to avoid comment start]* push *[inserted by cython to avoid comment closer]/
  * TH_ACK =	0x10		# /[inserted by cython to avoid comment start]* acknowledgement number set *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_RST, __pyx_int_4) < 0) __PYX_ERR(0, 822, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_RST, __pyx_int_4) < 0) __PYX_ERR(0, 821, __pyx_L1_error)
 
-  /* "dnet.pyx":823
+  /* "dnet.pyx":822
  * TH_SYN =	0x02		# /[inserted by cython to avoid comment start]* synchronize sequence numbers *[inserted by cython to avoid comment closer]/
  * TH_RST = 	0x04		# /[inserted by cython to avoid comment start]* reset connection *[inserted by cython to avoid comment closer]/
  * TH_PUSH =	0x08		# /[inserted by cython to avoid comment start]* push *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TH_ACK =	0x10		# /[inserted by cython to avoid comment start]* acknowledgement number set *[inserted by cython to avoid comment closer]/
  * TH_URG =	0x20		# /[inserted by cython to avoid comment start]* urgent pointer set *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_PUSH, __pyx_int_8) < 0) __PYX_ERR(0, 823, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_PUSH, __pyx_int_8) < 0) __PYX_ERR(0, 822, __pyx_L1_error)
 
-  /* "dnet.pyx":824
+  /* "dnet.pyx":823
  * TH_RST = 	0x04		# /[inserted by cython to avoid comment start]* reset connection *[inserted by cython to avoid comment closer]/
  * TH_PUSH =	0x08		# /[inserted by cython to avoid comment start]* push *[inserted by cython to avoid comment closer]/
  * TH_ACK =	0x10		# /[inserted by cython to avoid comment start]* acknowledgement number set *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TH_URG =	0x20		# /[inserted by cython to avoid comment start]* urgent pointer set *[inserted by cython to avoid comment closer]/
  * TH_ECE =	0x40		# /[inserted by cython to avoid comment start]* ECN echo, RFC 3168 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_ACK, __pyx_int_16) < 0) __PYX_ERR(0, 824, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_ACK, __pyx_int_16) < 0) __PYX_ERR(0, 823, __pyx_L1_error)
 
-  /* "dnet.pyx":825
+  /* "dnet.pyx":824
  * TH_PUSH =	0x08		# /[inserted by cython to avoid comment start]* push *[inserted by cython to avoid comment closer]/
  * TH_ACK =	0x10		# /[inserted by cython to avoid comment start]* acknowledgement number set *[inserted by cython to avoid comment closer]/
  * TH_URG =	0x20		# /[inserted by cython to avoid comment start]* urgent pointer set *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TH_ECE =	0x40		# /[inserted by cython to avoid comment start]* ECN echo, RFC 3168 *[inserted by cython to avoid comment closer]/
  * TH_CWR =	0x80		# /[inserted by cython to avoid comment start]* congestion window reduced *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_URG, __pyx_int_32) < 0) __PYX_ERR(0, 825, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_URG, __pyx_int_32) < 0) __PYX_ERR(0, 824, __pyx_L1_error)
 
-  /* "dnet.pyx":826
+  /* "dnet.pyx":825
  * TH_ACK =	0x10		# /[inserted by cython to avoid comment start]* acknowledgement number set *[inserted by cython to avoid comment closer]/
  * TH_URG =	0x20		# /[inserted by cython to avoid comment start]* urgent pointer set *[inserted by cython to avoid comment closer]/
  * TH_ECE =	0x40		# /[inserted by cython to avoid comment start]* ECN echo, RFC 3168 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TH_CWR =	0x80		# /[inserted by cython to avoid comment start]* congestion window reduced *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_ECE, __pyx_int_64) < 0) __PYX_ERR(0, 826, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_ECE, __pyx_int_64) < 0) __PYX_ERR(0, 825, __pyx_L1_error)
 
-  /* "dnet.pyx":827
+  /* "dnet.pyx":826
  * TH_URG =	0x20		# /[inserted by cython to avoid comment start]* urgent pointer set *[inserted by cython to avoid comment closer]/
  * TH_ECE =	0x40		# /[inserted by cython to avoid comment start]* ECN echo, RFC 3168 *[inserted by cython to avoid comment closer]/
  * TH_CWR =	0x80		# /[inserted by cython to avoid comment start]* congestion window reduced *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * TCP_PORT_MAX =	65535		# /[inserted by cython to avoid comment start]* maximum port *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_CWR, __pyx_int_128) < 0) __PYX_ERR(0, 827, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TH_CWR, __pyx_int_128) < 0) __PYX_ERR(0, 826, __pyx_L1_error)
 
-  /* "dnet.pyx":829
+  /* "dnet.pyx":828
  * TH_CWR =	0x80		# /[inserted by cython to avoid comment start]* congestion window reduced *[inserted by cython to avoid comment closer]/
  * 
  * TCP_PORT_MAX =	65535		# /[inserted by cython to avoid comment start]* maximum port *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_WIN_MAX =	65535		# /[inserted by cython to avoid comment start]* maximum (unscaled) window *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_PORT_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 829, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_PORT_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 828, __pyx_L1_error)
 
-  /* "dnet.pyx":830
+  /* "dnet.pyx":829
  * 
  * TCP_PORT_MAX =	65535		# /[inserted by cython to avoid comment start]* maximum port *[inserted by cython to avoid comment closer]/
  * TCP_WIN_MAX =	65535		# /[inserted by cython to avoid comment start]* maximum (unscaled) window *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * TCP_OPT_EOL =		0	# /[inserted by cython to avoid comment start]* end of option list *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_WIN_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 830, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_WIN_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 829, __pyx_L1_error)
 
-  /* "dnet.pyx":832
+  /* "dnet.pyx":831
  * TCP_WIN_MAX =	65535		# /[inserted by cython to avoid comment start]* maximum (unscaled) window *[inserted by cython to avoid comment closer]/
  * 
  * TCP_OPT_EOL =		0	# /[inserted by cython to avoid comment start]* end of option list *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_NOP =		1	# /[inserted by cython to avoid comment start]* no operation *[inserted by cython to avoid comment closer]/
  * TCP_OPT_MSS =		2	# /[inserted by cython to avoid comment start]* maximum segment size *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_EOL, __pyx_int_0) < 0) __PYX_ERR(0, 832, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_EOL, __pyx_int_0) < 0) __PYX_ERR(0, 831, __pyx_L1_error)
 
-  /* "dnet.pyx":833
+  /* "dnet.pyx":832
  * 
  * TCP_OPT_EOL =		0	# /[inserted by cython to avoid comment start]* end of option list *[inserted by cython to avoid comment closer]/
  * TCP_OPT_NOP =		1	# /[inserted by cython to avoid comment start]* no operation *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_MSS =		2	# /[inserted by cython to avoid comment start]* maximum segment size *[inserted by cython to avoid comment closer]/
  * TCP_OPT_WSCALE =	3	# /[inserted by cython to avoid comment start]* window scale factor, RFC 1072 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_NOP, __pyx_int_1) < 0) __PYX_ERR(0, 833, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_NOP, __pyx_int_1) < 0) __PYX_ERR(0, 832, __pyx_L1_error)
 
-  /* "dnet.pyx":834
+  /* "dnet.pyx":833
  * TCP_OPT_EOL =		0	# /[inserted by cython to avoid comment start]* end of option list *[inserted by cython to avoid comment closer]/
  * TCP_OPT_NOP =		1	# /[inserted by cython to avoid comment start]* no operation *[inserted by cython to avoid comment closer]/
  * TCP_OPT_MSS =		2	# /[inserted by cython to avoid comment start]* maximum segment size *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_WSCALE =	3	# /[inserted by cython to avoid comment start]* window scale factor, RFC 1072 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SACKOK =	4	# /[inserted by cython to avoid comment start]* SACK permitted, RFC 2018 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_MSS, __pyx_int_2) < 0) __PYX_ERR(0, 834, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_MSS, __pyx_int_2) < 0) __PYX_ERR(0, 833, __pyx_L1_error)
 
-  /* "dnet.pyx":835
+  /* "dnet.pyx":834
  * TCP_OPT_NOP =		1	# /[inserted by cython to avoid comment start]* no operation *[inserted by cython to avoid comment closer]/
  * TCP_OPT_MSS =		2	# /[inserted by cython to avoid comment start]* maximum segment size *[inserted by cython to avoid comment closer]/
  * TCP_OPT_WSCALE =	3	# /[inserted by cython to avoid comment start]* window scale factor, RFC 1072 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_SACKOK =	4	# /[inserted by cython to avoid comment start]* SACK permitted, RFC 2018 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SACK =		5	# /[inserted by cython to avoid comment start]* SACK, RFC 2018 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_WSCALE, __pyx_int_3) < 0) __PYX_ERR(0, 835, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_WSCALE, __pyx_int_3) < 0) __PYX_ERR(0, 834, __pyx_L1_error)
 
-  /* "dnet.pyx":836
+  /* "dnet.pyx":835
  * TCP_OPT_MSS =		2	# /[inserted by cython to avoid comment start]* maximum segment size *[inserted by cython to avoid comment closer]/
  * TCP_OPT_WSCALE =	3	# /[inserted by cython to avoid comment start]* window scale factor, RFC 1072 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SACKOK =	4	# /[inserted by cython to avoid comment start]* SACK permitted, RFC 2018 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_SACK =		5	# /[inserted by cython to avoid comment start]* SACK, RFC 2018 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ECHO =		6	# /[inserted by cython to avoid comment start]* echo (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SACKOK, __pyx_int_4) < 0) __PYX_ERR(0, 836, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SACKOK, __pyx_int_4) < 0) __PYX_ERR(0, 835, __pyx_L1_error)
 
-  /* "dnet.pyx":837
+  /* "dnet.pyx":836
  * TCP_OPT_WSCALE =	3	# /[inserted by cython to avoid comment start]* window scale factor, RFC 1072 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SACKOK =	4	# /[inserted by cython to avoid comment start]* SACK permitted, RFC 2018 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SACK =		5	# /[inserted by cython to avoid comment start]* SACK, RFC 2018 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_ECHO =		6	# /[inserted by cython to avoid comment start]* echo (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ECHOREPLY =	7	# /[inserted by cython to avoid comment start]* echo reply (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SACK, __pyx_int_5) < 0) __PYX_ERR(0, 837, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SACK, __pyx_int_5) < 0) __PYX_ERR(0, 836, __pyx_L1_error)
 
-  /* "dnet.pyx":838
+  /* "dnet.pyx":837
  * TCP_OPT_SACKOK =	4	# /[inserted by cython to avoid comment start]* SACK permitted, RFC 2018 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SACK =		5	# /[inserted by cython to avoid comment start]* SACK, RFC 2018 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ECHO =		6	# /[inserted by cython to avoid comment start]* echo (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_ECHOREPLY =	7	# /[inserted by cython to avoid comment start]* echo reply (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_TIMESTAMP =	8	# /[inserted by cython to avoid comment start]* timestamp, RFC 1323 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_ECHO, __pyx_int_6) < 0) __PYX_ERR(0, 838, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_ECHO, __pyx_int_6) < 0) __PYX_ERR(0, 837, __pyx_L1_error)
 
-  /* "dnet.pyx":839
+  /* "dnet.pyx":838
  * TCP_OPT_SACK =		5	# /[inserted by cython to avoid comment start]* SACK, RFC 2018 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ECHO =		6	# /[inserted by cython to avoid comment start]* echo (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ECHOREPLY =	7	# /[inserted by cython to avoid comment start]* echo reply (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_TIMESTAMP =	8	# /[inserted by cython to avoid comment start]* timestamp, RFC 1323 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_POCONN =	9	# /[inserted by cython to avoid comment start]* partial order conn, RFC 1693 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_ECHOREPLY, __pyx_int_7) < 0) __PYX_ERR(0, 839, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_ECHOREPLY, __pyx_int_7) < 0) __PYX_ERR(0, 838, __pyx_L1_error)
 
-  /* "dnet.pyx":840
+  /* "dnet.pyx":839
  * TCP_OPT_ECHO =		6	# /[inserted by cython to avoid comment start]* echo (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ECHOREPLY =	7	# /[inserted by cython to avoid comment start]* echo reply (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_TIMESTAMP =	8	# /[inserted by cython to avoid comment start]* timestamp, RFC 1323 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_POCONN =	9	# /[inserted by cython to avoid comment start]* partial order conn, RFC 1693 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_POSVC =		10	# /[inserted by cython to avoid comment start]* partial order service, RFC 1693 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_TIMESTAMP, __pyx_int_8) < 0) __PYX_ERR(0, 840, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_TIMESTAMP, __pyx_int_8) < 0) __PYX_ERR(0, 839, __pyx_L1_error)
 
-  /* "dnet.pyx":841
+  /* "dnet.pyx":840
  * TCP_OPT_ECHOREPLY =	7	# /[inserted by cython to avoid comment start]* echo reply (obsolete), RFC 1072 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_TIMESTAMP =	8	# /[inserted by cython to avoid comment start]* timestamp, RFC 1323 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_POCONN =	9	# /[inserted by cython to avoid comment start]* partial order conn, RFC 1693 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_POSVC =		10	# /[inserted by cython to avoid comment start]* partial order service, RFC 1693 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CC =		11	# /[inserted by cython to avoid comment start]* connection count, RFC 1644 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_POCONN, __pyx_int_9) < 0) __PYX_ERR(0, 841, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_POCONN, __pyx_int_9) < 0) __PYX_ERR(0, 840, __pyx_L1_error)
 
-  /* "dnet.pyx":842
+  /* "dnet.pyx":841
  * TCP_OPT_TIMESTAMP =	8	# /[inserted by cython to avoid comment start]* timestamp, RFC 1323 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_POCONN =	9	# /[inserted by cython to avoid comment start]* partial order conn, RFC 1693 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_POSVC =		10	# /[inserted by cython to avoid comment start]* partial order service, RFC 1693 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_CC =		11	# /[inserted by cython to avoid comment start]* connection count, RFC 1644 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CCNEW =		12	# /[inserted by cython to avoid comment start]* CC.NEW, RFC 1644 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_POSVC, __pyx_int_10) < 0) __PYX_ERR(0, 842, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_POSVC, __pyx_int_10) < 0) __PYX_ERR(0, 841, __pyx_L1_error)
 
-  /* "dnet.pyx":843
+  /* "dnet.pyx":842
  * TCP_OPT_POCONN =	9	# /[inserted by cython to avoid comment start]* partial order conn, RFC 1693 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_POSVC =		10	# /[inserted by cython to avoid comment start]* partial order service, RFC 1693 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CC =		11	# /[inserted by cython to avoid comment start]* connection count, RFC 1644 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_CCNEW =		12	# /[inserted by cython to avoid comment start]* CC.NEW, RFC 1644 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CCECHO =	13	# /[inserted by cython to avoid comment start]* CC.ECHO, RFC 1644 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_CC, __pyx_int_11) < 0) __PYX_ERR(0, 843, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_CC, __pyx_int_11) < 0) __PYX_ERR(0, 842, __pyx_L1_error)
 
-  /* "dnet.pyx":844
+  /* "dnet.pyx":843
  * TCP_OPT_POSVC =		10	# /[inserted by cython to avoid comment start]* partial order service, RFC 1693 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CC =		11	# /[inserted by cython to avoid comment start]* connection count, RFC 1644 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CCNEW =		12	# /[inserted by cython to avoid comment start]* CC.NEW, RFC 1644 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_CCECHO =	13	# /[inserted by cython to avoid comment start]* CC.ECHO, RFC 1644 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ALTSUM =	14	# /[inserted by cython to avoid comment start]* alt checksum request, RFC 1146 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_CCNEW, __pyx_int_12) < 0) __PYX_ERR(0, 844, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_CCNEW, __pyx_int_12) < 0) __PYX_ERR(0, 843, __pyx_L1_error)
 
-  /* "dnet.pyx":845
+  /* "dnet.pyx":844
  * TCP_OPT_CC =		11	# /[inserted by cython to avoid comment start]* connection count, RFC 1644 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CCNEW =		12	# /[inserted by cython to avoid comment start]* CC.NEW, RFC 1644 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CCECHO =	13	# /[inserted by cython to avoid comment start]* CC.ECHO, RFC 1644 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_ALTSUM =	14	# /[inserted by cython to avoid comment start]* alt checksum request, RFC 1146 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ALTSUMDATA =	15	# /[inserted by cython to avoid comment start]* alt checksum data, RFC 1146 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_CCECHO, __pyx_int_13) < 0) __PYX_ERR(0, 845, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_CCECHO, __pyx_int_13) < 0) __PYX_ERR(0, 844, __pyx_L1_error)
 
-  /* "dnet.pyx":846
+  /* "dnet.pyx":845
  * TCP_OPT_CCNEW =		12	# /[inserted by cython to avoid comment start]* CC.NEW, RFC 1644 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CCECHO =	13	# /[inserted by cython to avoid comment start]* CC.ECHO, RFC 1644 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ALTSUM =	14	# /[inserted by cython to avoid comment start]* alt checksum request, RFC 1146 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_ALTSUMDATA =	15	# /[inserted by cython to avoid comment start]* alt checksum data, RFC 1146 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SKEETER =	16	# /[inserted by cython to avoid comment start]* Skeeter *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_ALTSUM, __pyx_int_14) < 0) __PYX_ERR(0, 846, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_ALTSUM, __pyx_int_14) < 0) __PYX_ERR(0, 845, __pyx_L1_error)
 
-  /* "dnet.pyx":847
+  /* "dnet.pyx":846
  * TCP_OPT_CCECHO =	13	# /[inserted by cython to avoid comment start]* CC.ECHO, RFC 1644 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ALTSUM =	14	# /[inserted by cython to avoid comment start]* alt checksum request, RFC 1146 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ALTSUMDATA =	15	# /[inserted by cython to avoid comment start]* alt checksum data, RFC 1146 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_SKEETER =	16	# /[inserted by cython to avoid comment start]* Skeeter *[inserted by cython to avoid comment closer]/
  * TCP_OPT_BUBBA =		17	# /[inserted by cython to avoid comment start]* Bubba *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_ALTSUMDATA, __pyx_int_15) < 0) __PYX_ERR(0, 847, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_ALTSUMDATA, __pyx_int_15) < 0) __PYX_ERR(0, 846, __pyx_L1_error)
 
-  /* "dnet.pyx":848
+  /* "dnet.pyx":847
  * TCP_OPT_ALTSUM =	14	# /[inserted by cython to avoid comment start]* alt checksum request, RFC 1146 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_ALTSUMDATA =	15	# /[inserted by cython to avoid comment start]* alt checksum data, RFC 1146 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SKEETER =	16	# /[inserted by cython to avoid comment start]* Skeeter *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_BUBBA =		17	# /[inserted by cython to avoid comment start]* Bubba *[inserted by cython to avoid comment closer]/
  * TCP_OPT_TRAILSUM =	18	# /[inserted by cython to avoid comment start]* trailer checksum *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SKEETER, __pyx_int_16) < 0) __PYX_ERR(0, 848, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SKEETER, __pyx_int_16) < 0) __PYX_ERR(0, 847, __pyx_L1_error)
 
-  /* "dnet.pyx":849
+  /* "dnet.pyx":848
  * TCP_OPT_ALTSUMDATA =	15	# /[inserted by cython to avoid comment start]* alt checksum data, RFC 1146 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SKEETER =	16	# /[inserted by cython to avoid comment start]* Skeeter *[inserted by cython to avoid comment closer]/
  * TCP_OPT_BUBBA =		17	# /[inserted by cython to avoid comment start]* Bubba *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_TRAILSUM =	18	# /[inserted by cython to avoid comment start]* trailer checksum *[inserted by cython to avoid comment closer]/
  * TCP_OPT_MD5 =		19	# /[inserted by cython to avoid comment start]* MD5 signature, RFC 2385 *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_BUBBA, __pyx_int_17) < 0) __PYX_ERR(0, 849, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_BUBBA, __pyx_int_17) < 0) __PYX_ERR(0, 848, __pyx_L1_error)
 
-  /* "dnet.pyx":850
+  /* "dnet.pyx":849
  * TCP_OPT_SKEETER =	16	# /[inserted by cython to avoid comment start]* Skeeter *[inserted by cython to avoid comment closer]/
  * TCP_OPT_BUBBA =		17	# /[inserted by cython to avoid comment start]* Bubba *[inserted by cython to avoid comment closer]/
  * TCP_OPT_TRAILSUM =	18	# /[inserted by cython to avoid comment start]* trailer checksum *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_MD5 =		19	# /[inserted by cython to avoid comment start]* MD5 signature, RFC 2385 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SCPS =		20	# /[inserted by cython to avoid comment start]* SCPS capabilities *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_TRAILSUM, __pyx_int_18) < 0) __PYX_ERR(0, 850, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_TRAILSUM, __pyx_int_18) < 0) __PYX_ERR(0, 849, __pyx_L1_error)
 
-  /* "dnet.pyx":851
+  /* "dnet.pyx":850
  * TCP_OPT_BUBBA =		17	# /[inserted by cython to avoid comment start]* Bubba *[inserted by cython to avoid comment closer]/
  * TCP_OPT_TRAILSUM =	18	# /[inserted by cython to avoid comment start]* trailer checksum *[inserted by cython to avoid comment closer]/
  * TCP_OPT_MD5 =		19	# /[inserted by cython to avoid comment start]* MD5 signature, RFC 2385 *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_SCPS =		20	# /[inserted by cython to avoid comment start]* SCPS capabilities *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SNACK =		21	# /[inserted by cython to avoid comment start]* selective negative acks *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_MD5, __pyx_int_19) < 0) __PYX_ERR(0, 851, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_MD5, __pyx_int_19) < 0) __PYX_ERR(0, 850, __pyx_L1_error)
 
-  /* "dnet.pyx":852
+  /* "dnet.pyx":851
  * TCP_OPT_TRAILSUM =	18	# /[inserted by cython to avoid comment start]* trailer checksum *[inserted by cython to avoid comment closer]/
  * TCP_OPT_MD5 =		19	# /[inserted by cython to avoid comment start]* MD5 signature, RFC 2385 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SCPS =		20	# /[inserted by cython to avoid comment start]* SCPS capabilities *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_SNACK =		21	# /[inserted by cython to avoid comment start]* selective negative acks *[inserted by cython to avoid comment closer]/
  * TCP_OPT_REC =		22	# /[inserted by cython to avoid comment start]* record boundaries *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SCPS, __pyx_int_20) < 0) __PYX_ERR(0, 852, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SCPS, __pyx_int_20) < 0) __PYX_ERR(0, 851, __pyx_L1_error)
 
-  /* "dnet.pyx":853
+  /* "dnet.pyx":852
  * TCP_OPT_MD5 =		19	# /[inserted by cython to avoid comment start]* MD5 signature, RFC 2385 *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SCPS =		20	# /[inserted by cython to avoid comment start]* SCPS capabilities *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SNACK =		21	# /[inserted by cython to avoid comment start]* selective negative acks *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_REC =		22	# /[inserted by cython to avoid comment start]* record boundaries *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CORRUPT =	23	# /[inserted by cython to avoid comment start]* corruption experienced *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SNACK, __pyx_int_21) < 0) __PYX_ERR(0, 853, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SNACK, __pyx_int_21) < 0) __PYX_ERR(0, 852, __pyx_L1_error)
 
-  /* "dnet.pyx":854
+  /* "dnet.pyx":853
  * TCP_OPT_SCPS =		20	# /[inserted by cython to avoid comment start]* SCPS capabilities *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SNACK =		21	# /[inserted by cython to avoid comment start]* selective negative acks *[inserted by cython to avoid comment closer]/
  * TCP_OPT_REC =		22	# /[inserted by cython to avoid comment start]* record boundaries *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_CORRUPT =	23	# /[inserted by cython to avoid comment start]* corruption experienced *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SNAP =		24	# /[inserted by cython to avoid comment start]* SNAP *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_REC, __pyx_int_22) < 0) __PYX_ERR(0, 854, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_REC, __pyx_int_22) < 0) __PYX_ERR(0, 853, __pyx_L1_error)
 
-  /* "dnet.pyx":855
+  /* "dnet.pyx":854
  * TCP_OPT_SNACK =		21	# /[inserted by cython to avoid comment start]* selective negative acks *[inserted by cython to avoid comment closer]/
  * TCP_OPT_REC =		22	# /[inserted by cython to avoid comment start]* record boundaries *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CORRUPT =	23	# /[inserted by cython to avoid comment start]* corruption experienced *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_SNAP =		24	# /[inserted by cython to avoid comment start]* SNAP *[inserted by cython to avoid comment closer]/
  * TCP_OPT_TCPCOMP =	26	# /[inserted by cython to avoid comment start]* TCP compression filter *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_CORRUPT, __pyx_int_23) < 0) __PYX_ERR(0, 855, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_CORRUPT, __pyx_int_23) < 0) __PYX_ERR(0, 854, __pyx_L1_error)
 
-  /* "dnet.pyx":856
+  /* "dnet.pyx":855
  * TCP_OPT_REC =		22	# /[inserted by cython to avoid comment start]* record boundaries *[inserted by cython to avoid comment closer]/
  * TCP_OPT_CORRUPT =	23	# /[inserted by cython to avoid comment start]* corruption experienced *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SNAP =		24	# /[inserted by cython to avoid comment start]* SNAP *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_TCPCOMP =	26	# /[inserted by cython to avoid comment start]* TCP compression filter *[inserted by cython to avoid comment closer]/
  * TCP_OPT_MAX =		27
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SNAP, __pyx_int_24) < 0) __PYX_ERR(0, 856, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_SNAP, __pyx_int_24) < 0) __PYX_ERR(0, 855, __pyx_L1_error)
 
-  /* "dnet.pyx":857
+  /* "dnet.pyx":856
  * TCP_OPT_CORRUPT =	23	# /[inserted by cython to avoid comment start]* corruption experienced *[inserted by cython to avoid comment closer]/
  * TCP_OPT_SNAP =		24	# /[inserted by cython to avoid comment start]* SNAP *[inserted by cython to avoid comment closer]/
  * TCP_OPT_TCPCOMP =	26	# /[inserted by cython to avoid comment start]* TCP compression filter *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * TCP_OPT_MAX =		27
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_TCPCOMP, __pyx_int_26) < 0) __PYX_ERR(0, 857, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_TCPCOMP, __pyx_int_26) < 0) __PYX_ERR(0, 856, __pyx_L1_error)
 
-  /* "dnet.pyx":858
+  /* "dnet.pyx":857
  * TCP_OPT_SNAP =		24	# /[inserted by cython to avoid comment start]* SNAP *[inserted by cython to avoid comment closer]/
  * TCP_OPT_TCPCOMP =	26	# /[inserted by cython to avoid comment start]* TCP compression filter *[inserted by cython to avoid comment closer]/
  * TCP_OPT_MAX =		27             # <<<<<<<<<<<<<<
  * 
  * def tcp_pack_hdr(sport, dport, seq=1, ack=0, flags=TH_SYN,
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_MAX, __pyx_int_27) < 0) __PYX_ERR(0, 858, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_TCP_OPT_MAX, __pyx_int_27) < 0) __PYX_ERR(0, 857, __pyx_L1_error)
 
-  /* "dnet.pyx":860
+  /* "dnet.pyx":859
  * TCP_OPT_MAX =		27
  * 
  * def tcp_pack_hdr(sport, dport, seq=1, ack=0, flags=TH_SYN,             # <<<<<<<<<<<<<<
  *                  win=TCP_WIN_MAX, urp=0):
  *     """Return a packed binary string representing a TCP header.
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_TH_SYN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 860, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_TH_SYN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 859, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__28 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":861
+  /* "dnet.pyx":860
  * 
  * def tcp_pack_hdr(sport, dport, seq=1, ack=0, flags=TH_SYN,
  *                  win=TCP_WIN_MAX, urp=0):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing a TCP header.
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_TCP_WIN_MAX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 861, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_TCP_WIN_MAX); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 860, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__29 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dnet.pyx":860
+  /* "dnet.pyx":859
  * TCP_OPT_MAX =		27
  * 
  * def tcp_pack_hdr(sport, dport, seq=1, ack=0, flags=TH_SYN,             # <<<<<<<<<<<<<<
  *                  win=TCP_WIN_MAX, urp=0):
  *     """Return a packed binary string representing a TCP header.
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_33tcp_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 860, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_33tcp_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 859, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_tcp_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 860, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_tcp_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 859, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":883
+  /* "dnet.pyx":882
  *     void __udp_pack_hdr "udp_pack_hdr" (char *hdr, int sport, int dport, int ulen)
  * 
  * UDP_HDR_LEN =	8             # <<<<<<<<<<<<<<
  * UDP_PORT_MAX =	65535
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_UDP_HDR_LEN, __pyx_int_8) < 0) __PYX_ERR(0, 883, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_UDP_HDR_LEN, __pyx_int_8) < 0) __PYX_ERR(0, 882, __pyx_L1_error)
 
-  /* "dnet.pyx":884
+  /* "dnet.pyx":883
  * 
  * UDP_HDR_LEN =	8
  * UDP_PORT_MAX =	65535             # <<<<<<<<<<<<<<
  * 
  * def udp_pack_hdr(sport, dport, ulen=UDP_HDR_LEN):
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_UDP_PORT_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 884, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_UDP_PORT_MAX, __pyx_int_65535) < 0) __PYX_ERR(0, 883, __pyx_L1_error)
 
-  /* "dnet.pyx":886
+  /* "dnet.pyx":885
  * UDP_PORT_MAX =	65535
  * 
  * def udp_pack_hdr(sport, dport, ulen=UDP_HDR_LEN):             # <<<<<<<<<<<<<<
  *     """Return a packed binary string representing a UDP header.
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_UDP_HDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 886, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_UDP_HDR_LEN); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 885, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_k__30 = __pyx_t_3;
   __Pyx_GIVEREF(__pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_35udp_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 886, __pyx_L1_error)
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4dnet_35udp_pack_hdr, NULL, __pyx_n_s_dnet); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 885, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_udp_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 886, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_udp_pack_hdr, __pyx_t_3) < 0) __PYX_ERR(0, 885, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dnet.pyx":925
+  /* "dnet.pyx":924
  *     intf_t *intf_close(intf_t *intf)
  * 
  * INTF_TYPE_OTHER =	1	# /[inserted by cython to avoid comment start]* other *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * INTF_TYPE_ETH =		6	# /[inserted by cython to avoid comment start]* Ethernet *[inserted by cython to avoid comment closer]/
  * INTF_TYPE_LOOPBACK =	24	# /[inserted by cython to avoid comment start]* software loopback *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_TYPE_OTHER, __pyx_int_1) < 0) __PYX_ERR(0, 925, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_TYPE_OTHER, __pyx_int_1) < 0) __PYX_ERR(0, 924, __pyx_L1_error)
 
-  /* "dnet.pyx":926
+  /* "dnet.pyx":925
  * 
  * INTF_TYPE_OTHER =	1	# /[inserted by cython to avoid comment start]* other *[inserted by cython to avoid comment closer]/
  * INTF_TYPE_ETH =		6	# /[inserted by cython to avoid comment start]* Ethernet *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * INTF_TYPE_LOOPBACK =	24	# /[inserted by cython to avoid comment start]* software loopback *[inserted by cython to avoid comment closer]/
  * INTF_TYPE_TUN =		53	# /[inserted by cython to avoid comment start]* proprietary virtual/internal *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_TYPE_ETH, __pyx_int_6) < 0) __PYX_ERR(0, 926, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_TYPE_ETH, __pyx_int_6) < 0) __PYX_ERR(0, 925, __pyx_L1_error)
 
-  /* "dnet.pyx":927
+  /* "dnet.pyx":926
  * INTF_TYPE_OTHER =	1	# /[inserted by cython to avoid comment start]* other *[inserted by cython to avoid comment closer]/
  * INTF_TYPE_ETH =		6	# /[inserted by cython to avoid comment start]* Ethernet *[inserted by cython to avoid comment closer]/
  * INTF_TYPE_LOOPBACK =	24	# /[inserted by cython to avoid comment start]* software loopback *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * INTF_TYPE_TUN =		53	# /[inserted by cython to avoid comment start]* proprietary virtual/internal *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_TYPE_LOOPBACK, __pyx_int_24) < 0) __PYX_ERR(0, 927, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_TYPE_LOOPBACK, __pyx_int_24) < 0) __PYX_ERR(0, 926, __pyx_L1_error)
 
-  /* "dnet.pyx":928
+  /* "dnet.pyx":927
  * INTF_TYPE_ETH =		6	# /[inserted by cython to avoid comment start]* Ethernet *[inserted by cython to avoid comment closer]/
  * INTF_TYPE_LOOPBACK =	24	# /[inserted by cython to avoid comment start]* software loopback *[inserted by cython to avoid comment closer]/
  * INTF_TYPE_TUN =		53	# /[inserted by cython to avoid comment start]* proprietary virtual/internal *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * INTF_FLAG_UP =		0x01	# /[inserted by cython to avoid comment start]* enable interface *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_TYPE_TUN, __pyx_int_53) < 0) __PYX_ERR(0, 928, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_TYPE_TUN, __pyx_int_53) < 0) __PYX_ERR(0, 927, __pyx_L1_error)
 
-  /* "dnet.pyx":930
+  /* "dnet.pyx":929
  * INTF_TYPE_TUN =		53	# /[inserted by cython to avoid comment start]* proprietary virtual/internal *[inserted by cython to avoid comment closer]/
  * 
  * INTF_FLAG_UP =		0x01	# /[inserted by cython to avoid comment start]* enable interface *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * INTF_FLAG_LOOPBACK =	0x02	# /[inserted by cython to avoid comment start]* is a loopback net (r/o) *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_POINTOPOINT =	0x04	# /[inserted by cython to avoid comment start]* point-to-point link (r/o) *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_UP, __pyx_int_1) < 0) __PYX_ERR(0, 930, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_UP, __pyx_int_1) < 0) __PYX_ERR(0, 929, __pyx_L1_error)
 
-  /* "dnet.pyx":931
+  /* "dnet.pyx":930
  * 
  * INTF_FLAG_UP =		0x01	# /[inserted by cython to avoid comment start]* enable interface *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_LOOPBACK =	0x02	# /[inserted by cython to avoid comment start]* is a loopback net (r/o) *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * INTF_FLAG_POINTOPOINT =	0x04	# /[inserted by cython to avoid comment start]* point-to-point link (r/o) *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_NOARP =	0x08	# /[inserted by cython to avoid comment start]* disable ARP *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_LOOPBACK, __pyx_int_2) < 0) __PYX_ERR(0, 931, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_LOOPBACK, __pyx_int_2) < 0) __PYX_ERR(0, 930, __pyx_L1_error)
 
-  /* "dnet.pyx":932
+  /* "dnet.pyx":931
  * INTF_FLAG_UP =		0x01	# /[inserted by cython to avoid comment start]* enable interface *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_LOOPBACK =	0x02	# /[inserted by cython to avoid comment start]* is a loopback net (r/o) *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_POINTOPOINT =	0x04	# /[inserted by cython to avoid comment start]* point-to-point link (r/o) *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * INTF_FLAG_NOARP =	0x08	# /[inserted by cython to avoid comment start]* disable ARP *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_BROADCAST =	0x10	# /[inserted by cython to avoid comment start]* supports broadcast (r/o) *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_POINTOPOINT, __pyx_int_4) < 0) __PYX_ERR(0, 932, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_POINTOPOINT, __pyx_int_4) < 0) __PYX_ERR(0, 931, __pyx_L1_error)
 
-  /* "dnet.pyx":933
+  /* "dnet.pyx":932
  * INTF_FLAG_LOOPBACK =	0x02	# /[inserted by cython to avoid comment start]* is a loopback net (r/o) *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_POINTOPOINT =	0x04	# /[inserted by cython to avoid comment start]* point-to-point link (r/o) *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_NOARP =	0x08	# /[inserted by cython to avoid comment start]* disable ARP *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * INTF_FLAG_BROADCAST =	0x10	# /[inserted by cython to avoid comment start]* supports broadcast (r/o) *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_MULTICAST =	0x20	# /[inserted by cython to avoid comment start]* supports multicast (r/o) *[inserted by cython to avoid comment closer]/
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_NOARP, __pyx_int_8) < 0) __PYX_ERR(0, 933, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_NOARP, __pyx_int_8) < 0) __PYX_ERR(0, 932, __pyx_L1_error)
 
-  /* "dnet.pyx":934
+  /* "dnet.pyx":933
  * INTF_FLAG_POINTOPOINT =	0x04	# /[inserted by cython to avoid comment start]* point-to-point link (r/o) *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_NOARP =	0x08	# /[inserted by cython to avoid comment start]* disable ARP *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_BROADCAST =	0x10	# /[inserted by cython to avoid comment start]* supports broadcast (r/o) *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * INTF_FLAG_MULTICAST =	0x20	# /[inserted by cython to avoid comment start]* supports multicast (r/o) *[inserted by cython to avoid comment closer]/
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_BROADCAST, __pyx_int_16) < 0) __PYX_ERR(0, 934, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_BROADCAST, __pyx_int_16) < 0) __PYX_ERR(0, 933, __pyx_L1_error)
 
-  /* "dnet.pyx":935
+  /* "dnet.pyx":934
  * INTF_FLAG_NOARP =	0x08	# /[inserted by cython to avoid comment start]* disable ARP *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_BROADCAST =	0x10	# /[inserted by cython to avoid comment start]* supports broadcast (r/o) *[inserted by cython to avoid comment closer]/
  * INTF_FLAG_MULTICAST =	0x20	# /[inserted by cython to avoid comment start]* supports multicast (r/o) *[inserted by cython to avoid comment closer]/             # <<<<<<<<<<<<<<
  * 
  * cdef object ifent_to_dict(intf_entry *entry):
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_MULTICAST, __pyx_int_32) < 0) __PYX_ERR(0, 935, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_INTF_FLAG_MULTICAST, __pyx_int_32) < 0) __PYX_ERR(0, 934, __pyx_L1_error)
 
-  /* "dnet.pyx":1195
+  /* "dnet.pyx":1194
  *     fw_t *fw_close(fw_t *f)
  * 
  * FW_OP_ALLOW =	1             # <<<<<<<<<<<<<<
  * FW_OP_BLOCK =	2
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FW_OP_ALLOW, __pyx_int_1) < 0) __PYX_ERR(0, 1195, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FW_OP_ALLOW, __pyx_int_1) < 0) __PYX_ERR(0, 1194, __pyx_L1_error)
 
-  /* "dnet.pyx":1196
+  /* "dnet.pyx":1195
  * 
  * FW_OP_ALLOW =	1
  * FW_OP_BLOCK =	2             # <<<<<<<<<<<<<<
  * 
  * FW_DIR_IN =	1
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FW_OP_BLOCK, __pyx_int_2) < 0) __PYX_ERR(0, 1196, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FW_OP_BLOCK, __pyx_int_2) < 0) __PYX_ERR(0, 1195, __pyx_L1_error)
 
-  /* "dnet.pyx":1198
+  /* "dnet.pyx":1197
  * FW_OP_BLOCK =	2
  * 
  * FW_DIR_IN =	1             # <<<<<<<<<<<<<<
  * FW_DIR_OUT =	2
  * 
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FW_DIR_IN, __pyx_int_1) < 0) __PYX_ERR(0, 1198, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FW_DIR_IN, __pyx_int_1) < 0) __PYX_ERR(0, 1197, __pyx_L1_error)
 
-  /* "dnet.pyx":1199
+  /* "dnet.pyx":1198
  * 
  * FW_DIR_IN =	1
  * FW_DIR_OUT =	2             # <<<<<<<<<<<<<<
  * 
  * cdef object rule_to_dict(fw_rule *rule):
  */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FW_DIR_OUT, __pyx_int_2) < 0) __PYX_ERR(0, 1199, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_FW_DIR_OUT, __pyx_int_2) < 0) __PYX_ERR(0, 1198, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __pyx_unpickle___addr_ip4_iter(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
