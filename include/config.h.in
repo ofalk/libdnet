@@ -6,6 +6,9 @@
 /* Define if you have the Berkeley Packet Filter. */
 #undef HAVE_BSD_BPF
 
+/* Define to 1 if you have the <bsd/string.h> header file. */
+#undef HAVE_BSD_STRING_H
+
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
