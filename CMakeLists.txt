@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(libdnet VERSION 1.16.2 LANGUAGES C)
+project(libdnet VERSION 1.16.4 LANGUAGES C)
 
 find_package(TCL)
 
