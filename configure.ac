@@ -190,6 +190,13 @@ else
 	    netinet/ip_compat.h ip_fil.h netinet/ip_fil.h)
 	AC_CHECK_HEADERS(hpsecurity.h stropts.h)
 fi
+AC_CHECK_HEADERS(bsd/string.h)
+if test "$ac_cv_header_bsd_string_h" = yes; then
+    STRLCPY_HEADER="bsd/string.h"
+else
+    STRLCPY_HEADER="string.h"
+fi
+AC_SUBST(STRLCPY_HEADER)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -336,5 +343,6 @@ fi
 
 AC_OUTPUT([Makefile dnet-config include/Makefile include/dnet/Makefile
 	man/Makefile src/Makefile python/Makefile python/setup.py
-	test/Makefile test/check/Makefile test/dnet/Makefile],
+	python/dnet.pxd test/Makefile test/check/Makefile
+	test/dnet/Makefile],
 	[chmod 755 dnet-config])
