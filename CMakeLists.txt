@@ -104,15 +104,15 @@ if (UNIX)
     string(REGEX MATCH "freebsd5" FREEBSD5 ${CMAKE_SYSTEM_NAME_LOWER})
     string(REGEX MATCH "kfreebsd" KFREEBSD ${CMAKE_SYSTEM_NAME_LOWER})
 
-    if (${BSD} OR ${DARWIN} OR ${OSF} OR ${UNIXWARE})
+    if (BSD OR DARWIN OR OSF OR UNIXWARE)
         set(HAVE_RAWIP_HOST_OFFLEN True)
     endif()
 
-    if (${OPENBSD})
+    if (OPENBSD)
         set(HAVE_RAWIP_HOST_OFFLEN False)
     endif()
 
-    if (${SOLARIS} OR ${IRIX})
+    if (SOLARIS OR IRIX)
         set(HAVE_RAWIP_COOKED True)
     endif()
 
