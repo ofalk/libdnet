@@ -76,11 +76,12 @@ if (UNIX)
         NAMES /dev/bpf0
         DOC "Check for the Berkeley Packet Filter")
 
-
-    file(STRINGS /proc/sys/kernel/ostype PROCFS)
-    message(STATUS "${PROCFS}")
-    if (${PROCFS} STREQUAL "Linux")
-        set(HAVE_LINUX_PROCFS True)
+    if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        file(STRINGS /proc/sys/kernel/ostype PROCFS)
+        message(STATUS "${PROCFS}")
+        if (${PROCFS} STREQUAL "Linux")
+            set(HAVE_LINUX_PROCFS True)
+        endif()
     endif()
 
     check_include_file(inet/mib2.h HAVE_STREAMS_MIB2)
