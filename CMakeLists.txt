@@ -73,7 +73,7 @@ if (UNIX)
     set(CMAKE_EXTRA_INCLUDE_FILES )
 
     find_file(HAVE_BSD_BPF
-        NAMES /dev/bpf0
+        NAMES /dev/bpf
         DOC "Check for the Berkeley Packet Filter")
 
     if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
