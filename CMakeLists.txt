@@ -75,10 +75,6 @@ if (UNIX)
     check_type_size("struct sockaddr_in6" HAVE_SOCKADDR_IN6  LANGUAGE C)
     set(CMAKE_EXTRA_INCLUDE_FILES )
 
-    find_file(HAVE_BSD_BPF
-        NAMES /dev/bpf
-        DOC "Check for the Berkeley Packet Filter")
-
     if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
         file(STRINGS /proc/sys/kernel/ostype PROCFS)
         message(STATUS "${PROCFS}")
@@ -194,7 +190,7 @@ if (HAVE_IPHLPAPI_H)
 #    list(APPEND PLATFORM_SOURCES src/eth-win32.c)
 elseif(HAVE_NET_PFILT_H)
     list(APPEND PLATFORM_SOURCES src/eth-pfilt.c)
-elseif(HAVE_BSD_BPF)
+elseif(HAVE_NET_BPF_H)
     list(APPEND PLATFORM_SOURCES src/eth-bsd.c)
 elseif(HAVE_LINUX_PF_PACKET)
     list(APPEND PLATFORM_SOURCES src/eth-linux.c)
