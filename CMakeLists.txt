@@ -76,11 +76,12 @@ if (UNIX)
         NAMES /dev/bpf0
         DOC "Check for the Berkeley Packet Filter")
 
-
-    file(STRINGS /proc/sys/kernel/ostype PROCFS)
-    message(STATUS "${PROCFS}")
-    if (${PROCFS} STREQUAL "Linux")
-        set(HAVE_LINUX_PROCFS True)
+    if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        file(STRINGS /proc/sys/kernel/ostype PROCFS)
+        message(STATUS "${PROCFS}")
+        if (${PROCFS} STREQUAL "Linux")
+            set(HAVE_LINUX_PROCFS True)
+        endif()
     endif()
 
     check_include_file(inet/mib2.h HAVE_STREAMS_MIB2)
@@ -103,15 +104,15 @@ if (UNIX)
     string(REGEX MATCH "freebsd5" FREEBSD5 ${CMAKE_SYSTEM_NAME_LOWER})
     string(REGEX MATCH "kfreebsd" KFREEBSD ${CMAKE_SYSTEM_NAME_LOWER})
 
-    if (${BSD} OR ${DARWIN} OR ${OSF} OR ${UNIXWARE})
+    if (BSD OR DARWIN OR OSF OR UNIXWARE)
         set(HAVE_RAWIP_HOST_OFFLEN True)
     endif()
 
-    if (${OPENBSD})
+    if (OPENBSD)
         set(HAVE_RAWIP_HOST_OFFLEN False)
     endif()
 
-    if (${SOLARIS} OR ${IRIX})
+    if (SOLARIS OR IRIX)
         set(HAVE_RAWIP_COOKED True)
     endif()
 
