@@ -41,7 +41,7 @@ if(UNIX)
             unistd.h sys/bufmod.h sys/dlpi.h sys/dlpihdr.h sys/dlpi_ext.h
             sys/ioctl.h sys/mib.h sys/ndd_var.h sys/socket.h sys/sockio.h
             sys/time.h sys/stat.h net/if.h net/if_var.h
-            net/if_arp.h net/if_dl.h net/pfilt.h
+            net/if_dl.h net/pfilt.h
             net/pfvar.h net/radix.h net/raw.h net/route.h netinet/in_var.h
             linux/if_tun.h netinet/ip_fw.h linux/ip_fw.h
             linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h
@@ -54,6 +54,7 @@ if(UNIX)
     endforeach ()
 
     check_include_files("sys/types.h;net/bpf.h" HAVE_NET_BPF_H)
+    check_include_files("sys/types.h;net/if_arp.h" HAVE_NET_IF_ARP_H)
     check_include_files("sys/types.h;net/if_tun.h" HAVE_NET_IF_TUN_H)
     check_include_files("sys/types.h;sys/sysctl.h" HAVE_SYS_SYSCTL_H)
 endif()
