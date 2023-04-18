@@ -72,7 +72,7 @@ if (UNIX)
     check_type_size("struct sockaddr_in6" HAVE_SOCKADDR_IN6  LANGUAGE C)
     set(CMAKE_EXTRA_INCLUDE_FILES )
 
-    find_file(HAVE_BSD_BPFH
+    find_file(HAVE_BSD_BPF
         NAMES /dev/bpf0
         DOC "Check for the Berkeley Packet Filter")
 
