@@ -178,7 +178,7 @@ ndisc_get(ndisc_t *n, struct ndisc_entry *entry)
 }
 
 int
-nsidc_loop(ndisc_t *n, ndisc_handler callback, void *arg)
+ndisc_loop(ndisc_t *n, ndisc_handler callback, void *arg)
 {
 	/* TBD */
 	errno = ENOSYS;
