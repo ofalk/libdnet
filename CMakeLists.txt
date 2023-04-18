@@ -6,6 +6,7 @@ find_package(TCL)
 
 include(CheckFunctionExists)
 include(CheckIncludeFile)
+include(CheckIncludeFiles)
 include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
@@ -39,7 +40,7 @@ if(UNIX)
     foreach (header strings.h
             unistd.h sys/bufmod.h sys/dlpi.h sys/dlpihdr.h sys/dlpi_ext.h
             sys/ioctl.h sys/mib.h sys/ndd_var.h sys/socket.h sys/sockio.h
-            sys/sysctl.h sys/time.h sys/stat.h net/bpf.h net/if.h net/if_var.h
+            sys/sysctl.h sys/time.h sys/stat.h net/if.h net/if_var.h
             net/if_arp.h net/if_dl.h net/pfilt.h
             net/pfvar.h net/radix.h net/raw.h net/route.h netinet/in_var.h
             net/if_tun.h linux/if_tun.h netinet/ip_fw.h linux/ip_fw.h
@@ -51,6 +52,8 @@ if(UNIX)
       string(REGEX REPLACE "\\.|/" "_" var ${var})
       check_include_file(${header} ${var})
     endforeach ()
+
+    check_include_files("sys/types.h;net/bpf.h" HAVE_NET_BPF_H)
 endif()
 
 set(CMAKE_REQUIRED_LIBRARIES )
@@ -71,10 +74,6 @@ if (UNIX)
     set(CMAKE_EXTRA_INCLUDE_FILES "netinet/in.h")
     check_type_size("struct sockaddr_in6" HAVE_SOCKADDR_IN6  LANGUAGE C)
     set(CMAKE_EXTRA_INCLUDE_FILES )
-
-    find_file(HAVE_BSD_BPFH
-        NAMES /dev/bpf0
-        DOC "Check for the Berkeley Packet Filter")
 
     if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
         file(STRINGS /proc/sys/kernel/ostype PROCFS)
@@ -191,10 +190,10 @@ if (HAVE_IPHLPAPI_H)
 #    list(APPEND PLATFORM_SOURCES src/eth-win32.c)
 elseif(HAVE_NET_PFILT_H)
     list(APPEND PLATFORM_SOURCES src/eth-pfilt.c)
-elseif(HAVE_BSD_BPF)
-    list(APPEND PLATFORM_SOURCES src/eth-bsd.c)
 elseif(HAVE_LINUX_PF_PACKET)
     list(APPEND PLATFORM_SOURCES src/eth-linux.c)
+elseif(HAVE_NET_BPF_H)
+    list(APPEND PLATFORM_SOURCES src/eth-bsd.c)
 elseif(HAVE_NET_RAW_H)
     list(APPEND PLATFORM_SOURCES src/eth-snoop.c)
 elseif(HAVE_SYS_NDD_VAR_H)
