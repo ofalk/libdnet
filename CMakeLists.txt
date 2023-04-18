@@ -43,7 +43,7 @@ if(UNIX)
             sys/sysctl.h sys/time.h sys/stat.h net/if.h net/if_var.h
             net/if_arp.h net/if_dl.h net/pfilt.h
             net/pfvar.h net/radix.h net/raw.h net/route.h netinet/in_var.h
-            net/if_tun.h linux/if_tun.h netinet/ip_fw.h linux/ip_fw.h
+            linux/if_tun.h netinet/ip_fw.h linux/ip_fw.h
             linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h
             ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h
             netinet/ip_compat.h ip_fil.h netinet/ip_fil.h
@@ -54,6 +54,7 @@ if(UNIX)
     endforeach ()
 
     check_include_files("sys/types.h;net/bpf.h" HAVE_NET_BPF_H)
+    check_include_files("sys/types.h;net/if_tun.h" HAVE_NET_IF_TUN_H)
 endif()
 
 set(CMAKE_REQUIRED_LIBRARIES )
