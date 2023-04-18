@@ -42,7 +42,7 @@ if(UNIX)
             sys/ioctl.h sys/mib.h sys/ndd_var.h sys/socket.h sys/sockio.h
             sys/time.h sys/stat.h net/if.h net/if_var.h
             net/if_dl.h net/pfilt.h
-            net/pfvar.h net/radix.h net/raw.h net/route.h netinet/in_var.h
+            net/radix.h net/raw.h net/route.h netinet/in_var.h
             linux/if_tun.h netinet/ip_fw.h linux/ip_fw.h
             linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h
             ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h
@@ -56,6 +56,7 @@ if(UNIX)
     check_include_files("sys/types.h;net/bpf.h" HAVE_NET_BPF_H)
     check_include_files("sys/types.h;net/if_arp.h" HAVE_NET_IF_ARP_H)
     check_include_files("sys/types.h;net/if_tun.h" HAVE_NET_IF_TUN_H)
+    check_include_files("sys/types.h;net/if.h;net/pfvar.h" HAVE_NET_PFVAR_H)
     check_include_files("sys/types.h;sys/sysctl.h" HAVE_SYS_SYSCTL_H)
 endif()
 
