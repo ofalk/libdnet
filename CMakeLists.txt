@@ -70,7 +70,7 @@ if (UNIX)
 
     CHECK_STRUCT_HAS_MEMBER("struct arpreq" arp_dev net/if_arp.h HAVE_ARPREQ_ARP_DEV LANGUAGE C)
     CHECK_STRUCT_HAS_MEMBER("struct sockaddr" sa_len sys/socket.h HAVE_SOCKADDR_SA_LEN LANGUAGE C)
-    check_symbol_exists(rt_msghdr net/route.h HAVE_ROUTE_RT_MSGHDR)
+    CHECK_STRUCT_HAS_MEMBER("struct rt_msghdr" rtm_msglen "sys/socket.h;net/if.h;net/route.h" HAVE_ROUTE_RT_MSGHDR LANGUAGE C)
 
     set(CMAKE_EXTRA_INCLUDE_FILES "netinet/in.h")
     check_type_size("struct sockaddr_in6" HAVE_SOCKADDR_IN6  LANGUAGE C)
