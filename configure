@@ -15506,7 +15506,7 @@ printf %s "checking for Berkeley Packet Filter... " >&6; }
 then :
   printf %s "(cached) " >&6
 else $as_nop
-  if test -c /dev/bpf0 ; then
+  if test -c /dev/bpf ; then
         ac_cv_dnet_bsd_bpf=yes
     else
         ac_cv_dnet_bsd_bpf=no
