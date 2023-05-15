@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(libdnet VERSION 1.16.4 LANGUAGES C)
+project(dnet VERSION 1.16.4 LANGUAGES C)
 
 find_package(TCL)
 
@@ -11,8 +11,9 @@ include(CheckStructHasMember)
 include(CheckSymbolExists)
 include(CheckTypeSize)
 include(CheckCSourceCompiles)
+include(GNUInstallDirs)
 
-set(WINDOWS_EXPORT_ALL_SYMBOLS True)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS True)
 option(BUILD_SHARED_LIBS "Build in shared lib mode" OFF)
 
 foreach (header stdio.h stdlib.h string.h inttypes.h)
@@ -276,10 +277,103 @@ else()
     list(APPEND PLATFORM_SOURCES src/tun-none.c)
 endif()
 
-add_library(${PROJECT_NAME} src/addr-util.c src/addr.c src/blob.c src/ip-util.c src/ip6.c src/rand.c ${PLATFORM_SOURCES})
+add_library(${PROJECT_NAME}
+    src/addr-util.c
+    src/addr.c
+    src/blob.c
+    src/err.c
+    src/ip-util.c
+    src/ip6.c
+    src/rand.c
+    ${PLATFORM_SOURCES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include ${CMAKE_CURRENT_BINARY_DIR} )
+target_include_directories(${PROJECT_NAME} PUBLIC
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/dnet>
+)
+
+set(DNET_HEADERS
+    include/dnet/addr.h
+    include/dnet/arp.h
+    include/dnet/blob.h
+    include/dnet/eth.h
+    include/dnet/fw.h
+    include/dnet/icmp.h
+    include/dnet/intf.h
+    include/dnet/ip.h
+    include/dnet/ip6.h
+    include/dnet/ndisc.h
+    include/dnet/os.h
+    include/dnet/rand.h
+    include/dnet/route.h
+    include/dnet/sctp.h
+    include/dnet/tcp.h
+    include/dnet/tun.h
+    include/dnet/udp.h
+)
+set(DNET_HEADERS1
+    include/dnet.h
+    include/err.h
+    include/queue.h
+    ${CMAKE_CURRENT_BINARY_DIR}/config.h
+)
+set_target_properties(
+    ${PROJECT_NAME}
+    PROPERTIES
+    PUBLIC_HEADER "${DNET_HEADERS}"
+)
 
 if (MSVC)
     target_link_libraries(${PROJECT_NAME} PUBLIC Iphlpapi ws2_32)
 endif()
+
+install(TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT runtime
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT devel
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/${PROJECT_NAME} COMPONENT devel
+)
+
+
+install(FILES ${DNET_HEADERS1}
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+        COMPONENT devel)
+
+install(EXPORT ${PROJECT_NAME}Targets
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/
+    FILE ${PROJECT_NAME}Targets.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    COMPONENT devel
+)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+    @ONLY
+)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config-version.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    @ONLY
+)
+install(
+    FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/
+    COMPONENT devel
+)
+
+if(UNIX)
+  if(NOT CPACK_GENERATOR)
+    set(CPACK_GENERATOR "DEB")
+  endif()
+
+  set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+  set(CPACK_STRIP_FILES 1)
+  if(${CMAKE_VERSION} VERSION_GREATER "3.5")
+    set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+  endif()
+endif()
+
+include(CPack)
