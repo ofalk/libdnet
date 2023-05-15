@@ -40,10 +40,10 @@ if(UNIX)
     foreach (header strings.h
             unistd.h sys/bufmod.h sys/dlpi.h sys/dlpihdr.h sys/dlpi_ext.h
             sys/ioctl.h sys/mib.h sys/ndd_var.h sys/socket.h sys/sockio.h
-            sys/sysctl.h sys/time.h sys/stat.h net/if.h net/if_var.h
-            net/if_arp.h net/if_dl.h net/pfilt.h
-            net/pfvar.h net/radix.h net/raw.h net/route.h netinet/in_var.h
-            net/if_tun.h linux/if_tun.h netinet/ip_fw.h linux/ip_fw.h
+            sys/time.h sys/stat.h net/if.h net/if_var.h
+            net/if_dl.h net/pfilt.h
+            net/radix.h net/raw.h net/route.h netinet/in_var.h
+            linux/if_tun.h netinet/ip_fw.h linux/ip_fw.h
             linux/ip_fwchains.h linux/netfilter_ipv4/ipchains_core.h
             ip_fil_compat.h netinet/ip_fil_compat.h ip_compat.h
             netinet/ip_compat.h ip_fil.h netinet/ip_fil.h
@@ -54,6 +54,10 @@ if(UNIX)
     endforeach ()
 
     check_include_files("sys/types.h;net/bpf.h" HAVE_NET_BPF_H)
+    check_include_files("sys/types.h;net/if_arp.h" HAVE_NET_IF_ARP_H)
+    check_include_files("sys/types.h;net/if_tun.h" HAVE_NET_IF_TUN_H)
+    check_include_files("sys/types.h;net/if.h;net/pfvar.h" HAVE_NET_PFVAR_H)
+    check_include_files("sys/types.h;sys/sysctl.h" HAVE_SYS_SYSCTL_H)
 endif()
 
 set(CMAKE_REQUIRED_LIBRARIES )
@@ -69,7 +73,7 @@ if (UNIX)
 
     CHECK_STRUCT_HAS_MEMBER("struct arpreq" arp_dev net/if_arp.h HAVE_ARPREQ_ARP_DEV LANGUAGE C)
     CHECK_STRUCT_HAS_MEMBER("struct sockaddr" sa_len sys/socket.h HAVE_SOCKADDR_SA_LEN LANGUAGE C)
-    check_symbol_exists(rt_msghdr net/route.h HAVE_ROUTE_RT_MSGHDR)
+    CHECK_STRUCT_HAS_MEMBER("struct rt_msghdr" rtm_msglen "sys/socket.h;net/if.h;net/route.h" HAVE_ROUTE_RT_MSGHDR LANGUAGE C)
 
     set(CMAKE_EXTRA_INCLUDE_FILES "netinet/in.h")
     check_type_size("struct sockaddr_in6" HAVE_SOCKADDR_IN6  LANGUAGE C)
