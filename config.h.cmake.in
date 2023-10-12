@@ -3,9 +3,6 @@
 /* Define if arpreq struct has arp_dev. */
 #cmakedefine HAVE_ARPREQ_ARP_DEV
 
-/* Define if you have the Berkeley Packet Filter. */
-#cmakedefine HAVE_BSD_BPF
-
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #cmakedefine HAVE_DLFCN_H
 
