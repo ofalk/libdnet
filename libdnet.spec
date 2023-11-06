@@ -60,6 +60,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %make_build
 
 %install
+export PYTHONPATH=$RPM_BUILD_ROOT/%{python3_sitearch}
 %make_install
 
 pushd python
@@ -76,6 +77,7 @@ popd
 %files devel
 %{_bindir}/*
 %{_libdir}/*.so
+%{_libdir}/*.la
 %{_includedir}/*
 %{_mandir}/man3/*.3*
 
