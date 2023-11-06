@@ -5,7 +5,6 @@
  *
  * Copyright (c) 2008-2009 Daniel Roethlisberger <daniel@roe.ch>
  *
- * $Id$
  */
 
 #ifndef DNET_SCTP_H
