@@ -119,6 +119,8 @@ arp_loop(arp_t *arp, arp_handler callback, void *arg)
 	for (i = 0; i < (int)arp->iptable->dwNumEntries; i++) {
 		if (arp->iptable->table[i].dwPhysAddrLen != ETH_ADDR_LEN)
 			continue;
+		if (arp->iptable->table[i].dwType == MIB_IPNET_TYPE_INVALID)
+			continue;
 		entry.arp_pa.addr_ip = arp->iptable->table[i].dwAddr;
 		memcpy(&entry.arp_ha.addr_eth,
 		    arp->iptable->table[i].bPhysAddr, ETH_ADDR_LEN);
