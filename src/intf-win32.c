@@ -1,9 +1,8 @@
 /*
  * intf-win32.c
  *
- * Copyright (c) 2002 Dug Song <dugsong@monkey.org>
+ * Copyright (c) 2023 Oliver Falk <oliver@linux-kernel.at>
  *
- * $Id$
  */
 
 #include "config.h"
@@ -26,7 +25,7 @@ struct ifcombo {
 
 /* XXX - ipifcons.h incomplete, use IANA ifTypes MIB */
 #define MIB_IF_TYPE_TUNNEL	131
-#define MIB_IF_TYPE_MAX		255
+#define MIB_IF_TYPE_MAX		259 /* According to ipifcons.h */
 
 struct intf_handle {
 	struct ifcombo	 ifcombo[MIB_IF_TYPE_MAX];
