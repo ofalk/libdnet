@@ -45,7 +45,7 @@ class AddrTestCase(unittest.TestCase):
     def test_addr_properties(self):
         atxt = '1.2.3.4/24'
         a = dnet.addr(atxt)
-        assert a.type == dnet.ADDR_TYPE_IP and a.bits == 24
+        assert a.addrtype == dnet.ADDR_TYPE_IP and a.bits == 24
         assert a.ip == b'\x01\x02\x03\x04' and a.__repr__() == atxt
         try: self.assertTrue(a.eth == 'xxx', 'invalid eth property')
         except ValueError: pass
@@ -53,7 +53,7 @@ class AddrTestCase(unittest.TestCase):
         atxt = '00:0d:0e:0a:0d:00'
         a = dnet.addr(atxt)
         assert a == dnet.addr('0:d:E:a:D:0')
-        assert a.type == dnet.ADDR_TYPE_ETH and a.bits == 48
+        assert a.addrtype == dnet.ADDR_TYPE_ETH and a.bits == 48
         assert a.eth == b'\x00\x0d\x0e\x0a\x0d\x00' and a.__repr__() == atxt
         try: self.assertTrue(a.ip6 == 'xxx', 'invalid ip6 property')
         except ValueError: pass
@@ -61,7 +61,7 @@ class AddrTestCase(unittest.TestCase):
         atxt = 'fe80::dead:beef:feed:face/48'
         a = dnet.addr(atxt)
         assert a == dnet.addr('fe80:0:0::dead:beef:feed:face/48')
-        assert a.type == dnet.ADDR_TYPE_IP6 and a.bits == 48
+        assert a.addrtype == dnet.ADDR_TYPE_IP6 and a.bits == 48
         assert a.ip6 == b'\xfe\x80\x00\x00\x00\x00\x00\x00\xde\xad\xbe\xef\xfe\xed\xfa\xce' and a.__repr__() == atxt
         try: self.assertTrue(a.ip == 'xxx', 'invalid ip property')
         except ValueError: pass
