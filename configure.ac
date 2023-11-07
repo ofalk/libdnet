@@ -5,8 +5,8 @@ dnl Copyright (c) 2023 Oliver Falk <oliver@linux-kernel.at>
 dnl
 dnl $Id$
 
-AC_PREREQ([2.69])
-AC_INIT(libdnet, 1.17.0)
+AC_PREREQ([2.71])
+AC_INIT([libdnet],[1.17.0])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
@@ -21,10 +21,7 @@ dnl XXX - stop the insanity!@#$
 AM_MAINTAINER_MODE
 
 dnl Check for system type.
-dnl XXX - we do this to qualify our later feature checks, since some
-dnl systems claim to support multiple features, but are quite b0rked.
 AC_CANONICAL_HOST
-dnl XXX - spoof AC_CYGWIN
 case "$host_os" in
   *cygwin*) CYGWIN=yes;;
          *) CYGWIN=no;;
@@ -38,8 +35,23 @@ fi
 dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_INSTALL
-AC_LIBTOOL_DLOPEN
-AM_PROG_LIBTOOL
+_LT_SET_OPTION([LT_INIT],[dlopen])
+m4_warn([obsolete],[_LT_SET_OPTION([LT_INIT],[dlopen])
+m4_warn([obsolete],[_LT_SET_OPTION([LT_INIT],[dlopen])
+m4_warn([obsolete],[_LT_SET_OPTION([LT_INIT],[dlopen])
+m4_warn([obsolete],[_LT_SET_OPTION([LT_INIT],[dlopen])
+m4_warn([obsolete],[AC_LIBTOOL_DLOPEN: Remove this warning and the call to _LT_SET_OPTION when you
+put the 'dlopen' option into LT_INIT's first parameter.])
+: Remove this warning and the call to _LT_SET_OPTION when you
+put the 'dlopen' option into LT_INIT's first parameter.])
+: Remove this warning and the call to _LT_SET_OPTION when you
+put the 'dlopen' option into LT_INIT's first parameter.])
+: Remove this warning and the call to _LT_SET_OPTION when you
+put the 'dlopen' option into LT_INIT's first parameter.])
+: Remove this warning and the call to _LT_SET_OPTION when you
+put the 'dlopen' option into LT_INIT's first parameter.])
+
+LT_INIT
 
 dnl Checks for Python.
 dnl XXX - use AM_PATH_PYTHON after automake upgrade
@@ -65,7 +77,7 @@ AC_ARG_WITH(python,
 	fi
      done
      if test "x$PYTHON" = "x"; then
-        AC_ERROR(python not found in $withval)
+        AC_MSG_ERROR(python not found in $withval)
      fi
      ;;
   esac 
@@ -152,7 +164,7 @@ AS_IF([test "${enable_check}" != "no"], [
           CHECKINC="-I$withval/src"
           CHECKLIB="-L$withval/src -lcheck"
       else
-          AC_ERROR(check.h or libcheck.a not found in $withval)
+          AC_MSG_ERROR(check.h or libcheck.a not found in $withval)
       fi
       ;;
     esac ],
@@ -172,8 +184,6 @@ AS_IF([test "${enable_check}" != "no"], [
 AM_CONDITIONAL([HAVE_CHECK], [test "${have_check}" = "yes"])
 
 
-dnl Checks for header files.
-AC_HEADER_STDC
 if test "$CYGWIN" = yes ; then
 	AC_CHECK_HEADERS(Iphlpapi.h winsock2.h)
 else
@@ -341,8 +351,9 @@ else
 	AC_LIBOBJ([tun-none])
 fi
 
-AC_OUTPUT([Makefile dnet-config include/Makefile include/dnet/Makefile
+AC_CONFIG_FILES([Makefile dnet-config include/Makefile include/dnet/Makefile
 	man/Makefile src/Makefile python/Makefile python/setup.py
 	python/dnet.pxd test/Makefile test/check/Makefile
-	test/dnet/Makefile],
-	[chmod 755 dnet-config])
+	test/dnet/Makefile])
+AC_CONFIG_COMMANDS([default],[chmod 755 dnet-config],[])
+AC_OUTPUT
