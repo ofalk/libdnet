@@ -55,6 +55,7 @@ fw_suite(void)
 	tcase_add_test(tc_core, test_fw_add);
 	tcase_add_test(tc_core, test_fw_delete);
 	tcase_add_test(tc_core, test_fw_loop);
+	tcase_add_test(tc_core, test_fw_close);
 	
 	return (s);
 }
