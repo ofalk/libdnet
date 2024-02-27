@@ -4,7 +4,7 @@
  * Address Resolution Protocol.
  * RFC 826
  *
- * Copyright (c) 2023 Oliver Falk <oliver@linux-kernel.at>
+ * Copyright (c) 2023-2024 Oliver Falk <oliver@linux-kernel.at>
  *
  */
 

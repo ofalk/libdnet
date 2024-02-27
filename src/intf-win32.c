@@ -1,7 +1,7 @@
 /*
  * intf-win32.c
  *
- * Copyright (c) 2023 Oliver Falk <oliver@linux-kernel.at>
+ * Copyright (c) 2023-2024 Oliver Falk <oliver@linux-kernel.at>
  *
  */
 
