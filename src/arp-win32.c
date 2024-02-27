@@ -121,6 +121,7 @@ arp_loop(arp_t *arp, arp_handler callback, void *arg)
 			continue;
 		if (arp->iptable->table[i].dwType == MIB_IPNET_TYPE_INVALID)
 			continue;
+
 		entry.arp_pa.addr_ip = arp->iptable->table[i].dwAddr;
 		memcpy(&entry.arp_ha.addr_eth,
 		    arp->iptable->table[i].bPhysAddr, ETH_ADDR_LEN);
