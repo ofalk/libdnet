@@ -5,8 +5,8 @@
  *
  * Copyright (c) 2000 Dug Song <dugsong@monkey.org>
  * Copyright (c) 1996 David Mazieres <dm@lcs.mit.edu>
+ * Copyright (c) 2023-2024 Oliver Falk <oliver@linux-krenle.at>
  *
- * $Id$
  */
 
 #include "config.h"
@@ -81,7 +81,12 @@ rand_open(void)
 
 	if ((fd = open("/dev/arandom", O_RDONLY)) != -1 ||
 	    (fd = open("/dev/urandom", O_RDONLY)) != -1) {
-		read(fd, seed + sizeof(*tv), sizeof(seed) - sizeof(*tv));
+                /* This is ugly, as we may end up with nothing in buffer, but
+		 * that's very unlikely, anyway, wrappping the read in a conditional
+		 * avoids compiler warning about unused variable */
+		if(read(fd, seed + sizeof(*tv), sizeof(seed) - sizeof(*tv))) {
+			// NOOP
+		}
 		close(fd);
 	}
 	gettimeofday(tv, NULL);

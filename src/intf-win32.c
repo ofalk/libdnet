@@ -1,9 +1,8 @@
 /*
  * intf-win32.c
  *
- * Copyright (c) 2002 Dug Song <dugsong@monkey.org>
+ * Copyright (c) 2023-2024 Oliver Falk <oliver@linux-kernel.at>
  *
- * $Id$
  */
 
 #include "config.h"
@@ -26,7 +25,7 @@ struct ifcombo {
 
 /* XXX - ipifcons.h incomplete, use IANA ifTypes MIB */
 #define MIB_IF_TYPE_TUNNEL	131
-#define MIB_IF_TYPE_MAX		255
+#define MIB_IF_TYPE_MAX		259 /* According to ipifcons.h */
 
 struct intf_handle {
 	struct ifcombo	 ifcombo[MIB_IF_TYPE_MAX];
@@ -100,7 +99,12 @@ _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 	struct addr *ap, *lap;
 	int i;
 	
+	/* The total length of the entry may be passed in inside entry.
+	   Remember it and clear the entry. */
+	u_int intf_len = entry->intf_len;
 	memset(entry, 0, sizeof(*entry));
+	/* Restore the length. */
+	entry->intf_len = intf_len;
 
 	for (i = 0; i < intf->ifcombo[ifrow->dwType].cnt; i++) {
 		if (intf->ifcombo[ifrow->dwType].idx[i] == ifrow->dwIndex)

@@ -75,7 +75,6 @@ ndisc_modify(ndisc_t *n, const struct ndisc_entry *entry, int type, int flags)
 {
 	struct nlmsghdr *nmsg;
 	struct ndmsg *ndm;
-	struct rtattr *rta;
 	struct sockaddr_nl snl;
 	struct iovec iov;
 	struct msghdr msg;

@@ -37,5 +37,11 @@ setup(name='dnet',
       author='Oliver Falk',
       author_email='oliver@linux-kernel.at',
       url='https://github.com/ofalk/libdnet/',
-      ext_modules=cythonize(dnet,compiler_directives = {"c_string_type": "str", 
-        "c_string_encoding":"ascii"}),)
+      ext_modules=cythonize(
+          dnet,compiler_directives = {
+              "c_string_type": "str",
+              "c_string_encoding":"ascii",
+              "language_level": 3
+          }
+      ),
+)
