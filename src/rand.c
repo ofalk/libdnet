@@ -5,7 +5,7 @@
  *
  * Copyright (c) 2000 Dug Song <dugsong@monkey.org>
  * Copyright (c) 1996 David Mazieres <dm@lcs.mit.edu>
- * Copyright (c) 2023-2024 Oliver Falk <oliver@linux-krenle.at>
+ * Copyright (c) 2023-2024 Oliver Falk <oliver@linux-kernel.at>
  *
  */
 
