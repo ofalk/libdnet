@@ -5,10 +5,10 @@ stages:
     script:
         - sudo apt-get install -y gcc g++ cmake wget git
 
-build-job-ubuntu-22:
+build-job-ubuntu-22-shared-on:
   extends: .install-packages
   image: ubuntu:22.04
   stage: build
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+    cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -B "build/" 
+    cmake --build build/ --config Release
