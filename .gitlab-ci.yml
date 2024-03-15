@@ -7,7 +7,7 @@ stages:
 
 build-job-ubuntu-22:
   extends: .install-packages
-  image: ubuntu-22.04
+  image: ubuntu:22.04
   stage: build
   script:
     - echo "Compiling the code..."
