@@ -22,6 +22,9 @@ stages:
   script:
     - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS='$SHARED_LIBS' -B "build/" 
     - cmake --build build/ --config Release
+    - pushd python
+    - python setup.py build
+    - popd
 
 build-job-ubuntu-22-shared-libs-on:
   extends: .build-job-ubuntu-22
@@ -34,3 +37,29 @@ build-job-ubuntu-22-shared-libs-off:
   stage: build
   variables:
     SHARED_LIBS: "OFF"
+
+
+.windows_job:
+  tags:
+    - saas-windows-medium-amd64
+  before_script:
+    - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+    - echo ${time}
+    - echo "started by ${GITLAB_USER_NAME}"
+  script:
+    - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS="$SHARED_LIBS" -B "./build"
+    - cmake --build ./build --config Release
+
+windows-shared-on:
+  extends:
+    - .windows_job
+  stage: build
+  variables:
+    SHARED_LIBS: "OFF"
+
+windows-shared-off:
+  extends:
+    - .windows_job
+  stage: build
+  variables:
+    SHARED_LIBS: "ON"
