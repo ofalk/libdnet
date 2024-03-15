@@ -1,3 +1,6 @@
+variables:
+  SHARED_LIBS: "ON"
+
 stages:
   - build
 
@@ -5,10 +8,21 @@ stages:
     script:
         - sudo apt-get install -y gcc g++ cmake wget git
 
-build-job-ubuntu-22-shared-on:
+.build-job-ubuntu-22:
   extends: .install-packages
   image: ubuntu:22.04
-  stage: build
   script:
-    cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -B "build/" 
+    cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=$SHARED_LIBS -B "build/" 
     cmake --build build/ --config Release
+
+build-job-ubuntu-22-shared-libs-on:
+  extends: .build-job-ubuntu-22
+  stage: build
+  variables:
+    SHARED_LIBS: "ON"
+
+build-job-ubuntu-22-shared-libs-off:
+  extends: .build-job-ubuntu-22
+  stage: build
+  variables:
+    SHARED_LIBS: "OFF"
