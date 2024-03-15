@@ -1,8 +1,13 @@
 variables:
   SHARED_LIBS: "ON"
 
+include:
+  - template: Jobs/Code-Quality.gitlab-ci.yml
+  - template: Jobs/Test.gitlab-ci.yml
+
 stages:
   - build
+  - test
 
 .build-job-ubuntu-22:
   image: ubuntu:22.04
