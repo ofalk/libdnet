@@ -10,7 +10,7 @@ stages:
     - apt-get update && apt-get upgrade -y
     - apt-get install -y gcc g++ cmake wget git
   script:
-    - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=$SHARED_LIBS -B "build/" 
+    - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS='$SHARED_LIBS' -B "build/" 
     - cmake --build build/ --config Release
 
 build-job-ubuntu-22-shared-libs-on:
