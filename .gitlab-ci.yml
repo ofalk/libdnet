@@ -1,5 +1,6 @@
 variables:
   SHARED_LIBS: "ON"
+  SECURE_LOG_LEVEL: "debug".
 
 include:
   - template: Jobs/Code-Quality.gitlab-ci.yml
