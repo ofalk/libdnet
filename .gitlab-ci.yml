@@ -1,0 +1,36 @@
+variables:
+  SHARED_LIBS: "ON"
+  SECURE_LOG_LEVEL: "debug"
+
+include:
+  - template: Jobs/Code-Quality.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+  - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+  - template: Jobs/Code-Quality.gitlab-ci.yml
+
+
+stages:
+  - build
+  - test
+
+.build-job-ubuntu-22:
+  image: ubuntu:22.04
+  before_script:
+    - apt-get update && apt-get upgrade -y
+    - apt-get install -y gcc g++ cmake wget git python3 python3-pip python3-setuptools
+  script:
+    - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS='$SHARED_LIBS' -B "build/" 
+    - cmake --build build/ --config Release
+
+build-job-ubuntu-22-shared-libs-on:
+  extends: .build-job-ubuntu-22
+  stage: build
+  variables:
+    SHARED_LIBS: "ON"
+
+build-job-ubuntu-22-shared-libs-off:
+  extends: .build-job-ubuntu-22
+  stage: build
+  variables:
+    SHARED_LIBS: "OFF"

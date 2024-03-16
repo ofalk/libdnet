@@ -2,7 +2,7 @@
  * fw-pktfilter.c
  *
  * Copyright (c) 2002 Dug Song <dugsong@monkey.org>
- * Copyright (c) 2001 Jean-Baptiste Marchand, Hervé Schauer Consultants.  
+ * Copyright (c) 2001 Jean-Baptiste Marchand, HervÃ© Schauer Consultants.
  *
  * $Id$
  */
