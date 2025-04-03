@@ -25,7 +25,7 @@ cdef extern from "dnet.h":
 cdef extern from "Python.h":
     object  PyBytes_FromStringAndSize(char *s, int len)
     int     PyBytes_Size(object o)
-    int     PyObject_AsReadBuffer(object o, char **pp, int *lenp)
+    int     PyObject_AsReadBuffer(object o, const void **pp, ssize_t *lenp)
     int     PyLong_Check(object o)
     int     PyLong_Check(object o)
     long    PyLong_AsLong(object o)
@@ -294,8 +294,8 @@ def ip_checksum(pkt):
     """
     cdef char buf[2048]
     cdef char *p
-    cdef int n
-    if PyObject_AsReadBuffer(pkt, &p, &n) == 0:
+    cdef ssize_t n
+    if PyObject_AsReadBuffer(pkt, <const void **>&p, &n) == 0:
         if n < 2048:
             memcpy(buf, p, n)
             __ip_checksum(buf, n)
@@ -310,8 +310,8 @@ def ip_checksum(pkt):
 
 def ip_cksum_add(buf, int sum):
     cdef char *p
-    cdef int n
-    if PyObject_AsReadBuffer(buf, &p, &n) == 0:
+    cdef ssize_t n
+    if PyObject_AsReadBuffer(buf, <const void **>&p, &n) == 0:
         return __ip_cksum_add(p, n, sum)
     else:
         raise TypeError
