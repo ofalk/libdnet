@@ -1,4 +1,3 @@
-# cython: language_level=3, boundscheck=False
 #
 # dnet.pyx
 #
@@ -13,11 +12,17 @@ and raw IP packet and Ethernet frame transmission.
 """
 
 __author__ = 'Oliver Falk <oliver@linux-kernel.at>'
-__copyright__ = 'Copyright (c) 2023-2024 Oliver Falk'
+__copyright__ = 'Copyright (c) 2023-2025 Oliver Falk'
 __license__ = 'BSD'
 __url__ = 'https://github.com/ofalk/libdnet'
-__version__ = '1.18.0'
+__version__ = '1.18.1'
 
+cdef extern from *:
+    """
+    #define PY_SSIZE_T_CLEAN
+    #include <Python.h>
+    #include "structmember.h"
+    """
 
 cdef extern from "dnet.h":
     pass
@@ -25,8 +30,13 @@ cdef extern from "dnet.h":
 cdef extern from "Python.h":
     object  PyBytes_FromStringAndSize(char *s, int len)
     int     PyBytes_Size(object o)
-    int     PyObject_AsReadBuffer(object o, const void **pp, ssize_t *lenp)
-    int     PyLong_Check(object o)
+    int     PyBuffer_GetBuffer(object obj, Py_buffer *view, int flags)
+    void    PyBuffer_Release(Py_buffer *view)
+    ctypedef struct Py_buffer:
+        void *buf
+        ssize_t len
+    enum:
+        PyBUF_SIMPLE = 0
     int     PyLong_Check(object o)
     long    PyLong_AsLong(object o)
     unsigned long PyLong_AsUnsignedLong(object o)
@@ -164,7 +174,7 @@ def eth_aton(buf):
 def eth_pack_hdr(dst=ETH_ADDR_BROADCAST, src=ETH_ADDR_BROADCAST,
                  etype=ETH_TYPE_IP):
     """Return a packed binary string representing an Ethernet header.
-	
+
     Keyword arguments:
     dst  -- destination address			(6-byte binary string)
     src  -- source address			(6-byte binary string)
@@ -294,27 +304,34 @@ def ip_checksum(pkt):
     """
     cdef char buf[2048]
     cdef char *p
-    cdef ssize_t n
-    if PyObject_AsReadBuffer(pkt, <const void **>&p, &n) == 0:
+    cdef int n
+
+    # Use direct byte string access for Python 3 compatibility
+    if isinstance(pkt, bytes):
+        n = len(pkt)
         if n < 2048:
-            memcpy(buf, p, n)
+            memcpy(buf, <char*>(<bytes>pkt), n)
             __ip_checksum(buf, n)
             return PyBytes_FromStringAndSize(buf, n)
-        p = malloc(n)
-        memcpy(p, pkt, n)
+        p = <char*>malloc(n)
+        memcpy(p, <char*>(<bytes>pkt), n)
         __ip_checksum(p, n)
         s = PyBytes_FromStringAndSize(p, n)
         free(p)
         return s
-    raise TypeError
+    else:
+        raise TypeError("Expected bytes object")
 
 def ip_cksum_add(buf, int sum):
     cdef char *p
-    cdef ssize_t n
-    if PyObject_AsReadBuffer(buf, <const void **>&p, &n) == 0:
-        return __ip_cksum_add(p, n, sum)
+    cdef int n
+
+    # Use direct byte string access for Python 3 compatibility
+    if isinstance(buf, bytes):
+        n = len(buf)
+        return __ip_cksum_add(<char*>(<bytes>buf), n, sum)
     else:
-        raise TypeError
+        raise TypeError("Expected bytes object")
 
 def ip_cksum_carry(int sum):
     return __ip_cksum_carry(sum)
