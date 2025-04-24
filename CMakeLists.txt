@@ -22,7 +22,7 @@ foreach (header stdio.h stdlib.h string.h inttypes.h)
   check_include_file(${header} ${var})
 endforeach ()
 
-if (MSVC)
+if (WIN32)
     add_definitions(-DWIN32_LEAN_AND_MEAN)
     check_include_file(winsock2.h HAVE_WINSOCK2_H)
     set(HAVE_LIBWS2_32 ${HAVE_WINSOCK2_H})
@@ -325,7 +325,7 @@ set_target_properties(
     PUBLIC_HEADER "${DNET_HEADERS}"
 )
 
-if (MSVC)
+if (WIN32)
     target_link_libraries(${PROJECT_NAME} PUBLIC Iphlpapi ws2_32)
 endif()
 
