@@ -36,6 +36,16 @@ if (WIN32)
     set(CMAKE_REQUIRED_LIBRARIES "ws2_32")
     check_symbol_exists(inet_pton WS2tcpip.h HAVE_INET_PTON)
     set(CMAKE_REQUIRED_LIBRARIES )
+
+    if (NPCAP_SDK)
+        get_filename_component(NPCAP_SDK "${NPCAP_SDK}" ABSOLUTE)
+        set(NPCAP_SDK_INCLUDE "${NPCAP_SDK}/Include")
+        set(CMAKE_REQUIRED_INCLUDES ${NPCAP_SDK_INCLUDE})
+        check_include_file(Packet32.h HAVE_PACKET32_H)
+        set(CMAKE_REQUIRED_INCLUDES )
+    else()
+        message(WARNING "NPCAP_SDK not specified; building without Npcap support")
+    endif()
 endif()
 if(UNIX)
     foreach (header strings.h
@@ -190,9 +200,8 @@ else()
     list(APPEND PLATFORM_SOURCES src/arp-none.c)
 endif()
 
-if (HAVE_IPHLPAPI_H)
-#    no npcap support
-#    list(APPEND PLATFORM_SOURCES src/eth-win32.c)
+if (HAVE_PACKET32_H)
+    list(APPEND PLATFORM_SOURCES src/eth-win32.c)
 elseif(HAVE_NET_PFILT_H)
     list(APPEND PLATFORM_SOURCES src/eth-pfilt.c)
 elseif(HAVE_LINUX_PF_PACKET)
@@ -327,6 +336,11 @@ set_target_properties(
 
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} PUBLIC Iphlpapi ws2_32)
+    if (HAVE_PACKET32_H)
+        target_include_directories(${PROJECT_NAME} PUBLIC  ${NPCAP_SDK_INCLUDE})
+        target_link_directories(${PROJECT_NAME} PUBLIC ${NPCAP_SDK}/Libs/)
+        target_link_libraries(${PROJECT_NAME} PUBLIC Packet)
+    endif()
 endif()
 
 install(TARGETS ${PROJECT_NAME}
