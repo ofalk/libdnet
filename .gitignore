@@ -40,3 +40,6 @@ test/dnet/Makefile
 src/.libs/
 test/dnet/.libs/
 test/dnet/dnet
+
+# Generated cache from m4
+autom4te.cache
