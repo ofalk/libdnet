@@ -6,7 +6,7 @@ dnl
 dnl $Id$
 
 AC_PREREQ([2.71])
-AC_INIT([libdnet],[1.18.0])
+AC_INIT([libdnet],[1.18.1])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
