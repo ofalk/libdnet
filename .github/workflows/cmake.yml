@@ -19,7 +19,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                ubuntu_version: [20.04,22.04,latest]
+                ubuntu_version: [latest,22.04,24.04]
                 shared: [ON, OFF]
 
         steps:
