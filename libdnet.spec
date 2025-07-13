@@ -1,6 +1,6 @@
 Summary:       Simple portable interface to lowlevel networking routines
 Name:          libdnet
-Version:       1.18.0
+Version:       1.18.1
 Release:       1%{?dist}
 License:       BSD
 URL:           https://github.com/ofalk/%{name}
@@ -89,6 +89,9 @@ popd
 %{python3_sitearch}/*
 
 %changelog
+* Sun Jul 13 2025 Oliver Falk <oliver@linux-kernel.at> - 1.18.1-1
+- Release 1.18.1
+
 * Tue Feb 27 2024 Oliver Falk <oliver@linux-kernel.at> - 1.18.0-1
 - Release 1.18.0
 
