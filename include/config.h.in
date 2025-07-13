@@ -12,7 +12,7 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
-/* Define to 1 if you have the `err' function. */
+/* Define to 1 if you have the 'err' function. */
 #undef HAVE_ERR
 
 /* Define to 1 if you have the <fcntl.h> header file. */
@@ -39,25 +39,25 @@
 /* Define to 1 if you have the <ip_fil.h> header file. */
 #undef HAVE_IP_FIL_H
 
-/* Define to 1 if you have the `iphlpapi' library (-liphlpapi). */
+/* Define to 1 if you have the 'iphlpapi' library (-liphlpapi). */
 #undef HAVE_LIBIPHLPAPI
 
-/* Define to 1 if you have the `nm' library (-lnm). */
+/* Define to 1 if you have the 'nm' library (-lnm). */
 #undef HAVE_LIBNM
 
-/* Define to 1 if you have the `nsl' library (-lnsl). */
+/* Define to 1 if you have the 'nsl' library (-lnsl). */
 #undef HAVE_LIBNSL
 
-/* Define to 1 if you have the `resolv' library (-lresolv). */
+/* Define to 1 if you have the 'resolv' library (-lresolv). */
 #undef HAVE_LIBRESOLV
 
-/* Define to 1 if you have the `socket' library (-lsocket). */
+/* Define to 1 if you have the 'socket' library (-lsocket). */
 #undef HAVE_LIBSOCKET
 
-/* Define to 1 if you have the `str' library (-lstr). */
+/* Define to 1 if you have the 'str' library (-lstr). */
 #undef HAVE_LIBSTR
 
-/* Define to 1 if you have the `ws2_32' library (-lws2_32). */
+/* Define to 1 if you have the 'ws2_32' library (-lws2_32). */
 #undef HAVE_LIBWS2_32
 
 /* Define to 1 if you have the <linux/if_tun.h> header file. */
@@ -163,16 +163,16 @@
 /* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
-/* Define to 1 if you have the `strlcat' function. */
+/* Define to 1 if you have the 'strlcat' function. */
 #undef HAVE_STRLCAT
 
-/* Define to 1 if you have the `strlcpy' function. */
+/* Define to 1 if you have the 'strlcpy' function. */
 #undef HAVE_STRLCPY
 
 /* Define to 1 if you have the <stropts.h> header file. */
 #undef HAVE_STROPTS_H
 
-/* Define to 1 if you have the `strsep' function. */
+/* Define to 1 if you have the 'strsep' function. */
 #undef HAVE_STRSEP
 
 /* Define to 1 if you have the <sys/bufmod.h> header file. */
@@ -244,7 +244,7 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* Define to 1 if all of the C90 standard headers exist (not just the ones
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
@@ -255,10 +255,10 @@
 /* Define for faster code generation. */
 #undef WIN32_LEAN_AND_MEAN
 
-/* Define to empty if `const' does not conform to ANSI C. */
+/* Define to empty if 'const' does not conform to ANSI C. */
 #undef const
 
-/* Define to `__inline__' or `__inline' if that's what the C compiler
+/* Define to '__inline__' or '__inline' if that's what the C compiler
    calls it, or to nothing if 'inline' is not supported under any name.  */
 #ifndef __cplusplus
 #undef inline
@@ -267,7 +267,7 @@
 /* Define as a signed integer type capable of holding a process identifier. */
 #undef pid_t
 
-/* Define to `unsigned int' if <sys/types.h> does not define. */
+/* Define as 'unsigned int' if <stddef.h> doesn't define. */
 #undef size_t
 
 /* Use MingW32's internal snprintf */
@@ -293,11 +293,11 @@ int inet_pton(int, const char *, void *);
 #endif
 
 #ifndef HAVE_STRLCAT
-size_t strlcat(char *, const char *, int);
+int strlcat(char *, const char *, int);
 #endif
 
 #ifndef HAVE_STRLCPY
-size_t strlcpy(char *, const char *, int);
+int strlcpy(char *, const char *, int);
 #endif
 
 #ifndef HAVE_STRSEP
