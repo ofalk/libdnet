@@ -14,5 +14,9 @@ urls = {Homepage = "https://github.com/ofalk/libdnet/"}
 [tool.setuptools]
 packages = []
 
-[tool.setuptools.ext-modules]
-dnet = {name = "dnet", sources = ["dnet.pyx"], include_dirs = ["../include"@WIN32_INCLUDES@], library_dirs = ["../src/.libs"@WIN32_LIBRARY_DIRS@], libraries = ["dnet"@WIN32_LIBRARIES@]}
+[[tool.setuptools.ext-modules]]
+name = "dnet"
+sources = ["dnet.pyx"]
+include-dirs = ["../include"@WIN32_INCLUDES@]
+library-dirs = ["../src/.libs"@WIN32_LIBRARY_DIRS@]
+libraries = ["dnet"@WIN32_LIBRARIES@]
