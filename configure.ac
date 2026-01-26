@@ -6,7 +6,7 @@ dnl
 dnl $Id$
 
 AC_PREREQ([2.71])
-AC_INIT([libdnet],[1.18.1])
+AC_INIT([libdnet],[1.18.2])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR(config)
 AC_SUBST(ac_aux_dir)
@@ -87,6 +87,28 @@ AC_SUBST(TCLINC)
 AC_SUBST(TCLLIB)
 AM_CONDITIONAL(PYTHON, [test "x$PYTHON" != "x"])
 AM_CONDITIONAL(TCL, [test "x$TCLINC" != "x"])
+AM_CONDITIONAL(WIN32, [test "$CYGWIN" = yes])
+
+# Set defaults for WPDPACK_DIR
+WPDPACK_DIR='../../WPdpack'
+
+# Set pyproject.toml variables
+if test "$CYGWIN" = yes; then
+  WIN32_INCLUDES=', "'$WPDPACK_DIR'/Include"'
+  WIN32_LIBRARIES=', "advapi32", "iphlpapi", "ws2_32", "packet"'
+  WIN32_LIBRARY_DIRS=', "'$WPDPACK_DIR'/Lib"'
+  WIN32_SOURCES=', "arp-win32.c", "eth-win32.c", "fw-pktfilter.c", "intf-win32.c", "ip-win32.c", "route-win32.c", "tun-none.c"'
+else
+  WIN32_INCLUDES=''
+  WIN32_LIBRARIES=''
+  WIN32_LIBRARY_DIRS=''
+  WIN32_SOURCES=''
+fi
+AC_SUBST(WIN32_INCLUDES)
+AC_SUBST(WIN32_LIBRARIES)
+AC_SUBST(WIN32_LIBRARY_DIRS)
+AC_SUBST(WIN32_SOURCES)
+AC_SUBST(WPDPACK_DIR)
 
 dnl XXX - stupid IRIX cpp
 if test -r /usr/include/sgidefs.h ; then
@@ -113,6 +135,7 @@ if test "$CYGWIN" = yes ; then
 	  if test -f $withval/include/packet32.h -a -f $withval/lib/packet.lib; then
 	     owd=`pwd`
 	     if cd $withval; then withval=`pwd`; cd $owd; fi
+	     WPDPACK_DIR=$withval
 	     CFLAGS="$CFLAGS -I$withval/include"
 	     LIBS="$LIBS -L$withval/lib -lpacket"
 	  else
@@ -120,6 +143,7 @@ if test "$CYGWIN" = yes ; then
 	  fi ],
 	[ for dir in ${prefix} ${HOME}/WPdpack ; do
 	     if test -f ${dir}/include/packet32.h -a -f ${dir}/lib/packet.lib; then
+	        WPDPACK_DIR=$dir
 	        CFLAGS="$CFLAGS -I${dir}/include"
 		LIBS="$LIBS -L${dir}/lib -lpacket"
 		have_pcap=yes
@@ -352,7 +376,7 @@ else
 fi
 
 AC_CONFIG_FILES([Makefile dnet-config include/Makefile include/dnet/Makefile
-	man/Makefile src/Makefile python/Makefile python/setup.py
+	man/Makefile src/Makefile python/Makefile python/pyproject.toml
 	python/dnet.pxd test/Makefile test/check/Makefile
 	test/dnet/Makefile])
 AC_CONFIG_COMMANDS([default],[chmod 755 dnet-config],[])

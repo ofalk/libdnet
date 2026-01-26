@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(dnet VERSION 1.18.1 LANGUAGES C)
+project(dnet VERSION 1.18.2 LANGUAGES C)
 
 find_package(TCL)
 

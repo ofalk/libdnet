@@ -101,7 +101,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(SHELL) $(top_srcdir)/config/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = setup.py dnet.pxd
+CONFIG_CLEAN_FILES = pyproject.toml dnet.pxd
 CONFIG_CLEAN_VPATH_FILES =
 SCRIPTS = $(noinst_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
@@ -337,7 +337,7 @@ TEST_LOG_DRIVER = $(SHELL) $(top_srcdir)/config/test-driver
 TEST_LOG_COMPILE = $(TEST_LOG_COMPILER) $(AM_TEST_LOG_FLAGS) \
 	$(TEST_LOG_FLAGS)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/dnet.pxd.in \
-	$(srcdir)/setup.py.in $(top_srcdir)/Makefile.am.common \
+	$(srcdir)/pyproject.toml.in $(top_srcdir)/Makefile.am.common \
 	$(top_srcdir)/config/mkinstalldirs \
 	$(top_srcdir)/config/test-driver
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -419,6 +419,11 @@ STRLCPY_HEADER = @STRLCPY_HEADER@
 TCLINC = @TCLINC@
 TCLLIB = @TCLLIB@
 VERSION = @VERSION@
+WIN32_INCLUDES = @WIN32_INCLUDES@
+WIN32_LIBRARIES = @WIN32_LIBRARIES@
+WIN32_LIBRARY_DIRS = @WIN32_LIBRARY_DIRS@
+WIN32_SOURCES = @WIN32_SOURCES@
+WPDPACK_DIR = @WPDPACK_DIR@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -482,7 +487,7 @@ AM_CPPFLAGS = -I$(top_srcdir)/include
 # XXX - nasty automake fudging here...
 @PYTHON_TRUE@noinst_SCRIPTS = python-build
 @PYTHON_TRUE@TESTS = test.py
-EXTRA_DIST = dnet.pyx dnet.c setup.py.in test.py interfacefinder.py
+EXTRA_DIST = dnet.pyx dnet.c pyproject.toml.in test.py interfacefinder.py
 DISTCLEANFILES = *~
 all: all-am
 
@@ -518,7 +523,7 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
-setup.py: $(top_builddir)/config.status $(srcdir)/setup.py.in
+pyproject.toml: $(top_builddir)/config.status $(srcdir)/pyproject.toml.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 dnet.pxd: $(top_builddir)/config.status $(srcdir)/dnet.pxd.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
@@ -879,8 +884,8 @@ uninstall-am:
 .PRECIOUS: Makefile
 
 
-@PYTHON_TRUE@python-build: 
-@PYTHON_TRUE@	$(PYTHON) setup.py build
+@PYTHON_TRUE@python-build:
+@PYTHON_TRUE@	$(PYTHON) -m pip install -e .
 @PYTHON_TRUE@	touch python-build
 
 @PYTHON_TRUE@python-clean:
@@ -890,7 +895,7 @@ uninstall-am:
 @PYTHON_TRUE@distclean: clean
 
 @PYTHON_TRUE@python-install:
-@PYTHON_TRUE@	$(PYTHON) setup.py install --prefix=$(DESTDIR)$(prefix)
+@PYTHON_TRUE@	$(PYTHON) -m pip install --prefix=$(DESTDIR)$(prefix) .
 
 @PYTHON_TRUE@install-exec-local: python-install
 
