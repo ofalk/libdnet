@@ -16466,7 +16466,7 @@ printf %s "checking for Berkeley Packet Filter... " >&6; }
 then :
   printf %s "(cached) " >&6
 else case e in #(
-  e) if test -c /dev/bpf ; then
+  e) if test -c /dev/bpf0 ; then
         ac_cv_dnet_bsd_bpf=yes
     else
         ac_cv_dnet_bsd_bpf=no
