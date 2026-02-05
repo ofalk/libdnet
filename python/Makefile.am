@@ -8,8 +8,8 @@ if PYTHON
 noinst_SCRIPTS = python-build
 
 
-python-build: 
-	$(PYTHON) setup.py build
+python-build:
+	$(PYTHON) -m pip install -e .
 	touch python-build
 
 python-clean:
@@ -19,7 +19,7 @@ clean: python-clean
 distclean: clean
 
 python-install:
-	$(PYTHON) setup.py install --prefix=$(DESTDIR)$(prefix)
+	$(PYTHON) -m pip install --prefix=$(DESTDIR)$(prefix) .
 
 install-exec-local: python-install
 
@@ -31,6 +31,6 @@ install-exec-local:
 
 endif
 
-EXTRA_DIST = dnet.pyx dnet.c setup.py.in test.py interfacefinder.py
+EXTRA_DIST = dnet.pyx dnet.c pyproject.toml.in test.py interfacefinder.py
 
 DISTCLEANFILES = *~

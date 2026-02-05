@@ -44,7 +44,7 @@ eth_open(const char *device)
 	int i;
 
 	if ((e = calloc(1, sizeof(*e))) != NULL) {
-		if ((e->fd = open("/dev/bpf", O_WRONLY)) < 0)
+		if ((e->fd = open("/dev/bpf0", O_WRONLY)) < 0)
 			return (eth_close(e));
 		
 		memset(&ifr, 0, sizeof(ifr));

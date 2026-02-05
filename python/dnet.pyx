@@ -22,11 +22,11 @@ __version__ = '1.18.0'
 cdef extern from "dnet.h":
     pass
 
+from cpython.buffer cimport PyObject_GetBuffer, PyBuffer_Release, Py_buffer, PyBUF_SIMPLE
+
 cdef extern from "Python.h":
     object  PyBytes_FromStringAndSize(char *s, int len)
     int     PyBytes_Size(object o)
-    int     PyObject_AsReadBuffer(object o, const void **pp, ssize_t *lenp)
-    int     PyLong_Check(object o)
     int     PyLong_Check(object o)
     long    PyLong_AsLong(object o)
     unsigned long PyLong_AsUnsignedLong(object o)
@@ -294,27 +294,42 @@ def ip_checksum(pkt):
     """
     cdef char buf[2048]
     cdef char *p
-    cdef ssize_t n
-    if PyObject_AsReadBuffer(pkt, <const void **>&p, &n) == 0:
+    cdef Py_ssize_t n
+    cdef Py_buffer view
+    cdef char *p_alloc
+
+    if PyObject_GetBuffer(pkt, &view, PyBUF_SIMPLE) != 0:
+        raise TypeError
+
+    try:
+        p = <char *>view.buf
+        n = view.len
         if n < 2048:
             memcpy(buf, p, n)
             __ip_checksum(buf, n)
             return PyBytes_FromStringAndSize(buf, n)
-        p = malloc(n)
-        memcpy(p, pkt, n)
-        __ip_checksum(p, n)
-        s = PyBytes_FromStringAndSize(p, n)
-        free(p)
+
+        p_alloc = malloc(n)
+        memcpy(p_alloc, p, n)
+        __ip_checksum(p_alloc, n)
+        s = PyBytes_FromStringAndSize(p_alloc, n)
+        free(p_alloc)
         return s
-    raise TypeError
+    finally:
+        PyBuffer_Release(&view)
 
 def ip_cksum_add(buf, int sum):
     cdef char *p
-    cdef ssize_t n
-    if PyObject_AsReadBuffer(buf, <const void **>&p, &n) == 0:
-        return __ip_cksum_add(p, n, sum)
-    else:
+    cdef Py_ssize_t n
+    cdef Py_buffer view
+    if PyObject_GetBuffer(buf, &view, PyBUF_SIMPLE) != 0:
         raise TypeError
+    try:
+        p = <char *>view.buf
+        n = view.len
+        return __ip_cksum_add(p, n, sum)
+    finally:
+        PyBuffer_Release(&view)
 
 def ip_cksum_carry(int sum):
     return __ip_cksum_carry(sum)

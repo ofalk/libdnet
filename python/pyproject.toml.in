@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools", "wheel", "Cython"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dnet"
+version = "@VERSION@"
+description = "low-level networking library"
+authors = [
+    {name = "Oliver Falk", email = "oliver@linux-kernel.at"}
+]
+urls = {Homepage = "https://github.com/ofalk/libdnet/"}
+
+[tool.setuptools]
+packages = []
+
+[[tool.setuptools.ext-modules]]
+name = "dnet"
+sources = ["dnet.pyx"]
+include-dirs = ["../include"@WIN32_INCLUDES@]
+library-dirs = ["../src/.libs"@WIN32_LIBRARY_DIRS@]
+libraries = ["dnet"@WIN32_LIBRARIES@]
