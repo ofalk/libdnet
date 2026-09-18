@@ -543,6 +543,8 @@ _intf_get_aliases(intf_t *intf, struct intf_entry *entry)
 				continue;
 			strlcpy(tmpifr.ifr_name, ifr->ifr_name,
 				sizeof(tmpifr.ifr_name));
+			memcpy(&tmpifr.ifr_addr, &ifr->ifr_addr,
+				sizeof(tmpifr.ifr_addr));
 			if (ioctl(intf->fd, SIOCGIFNETMASK, &tmpifr) == 0)
 				addr_stob(&tmpifr.ifr_addr, &ap->addr_bits);
 		}
