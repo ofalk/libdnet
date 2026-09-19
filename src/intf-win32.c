@@ -17,18 +17,11 @@
 
 #include "dnet.h"
 
-struct ifcombo {
-	DWORD		*idx;
-	int		 cnt;
-	int		 max;
-};
-
 /* XXX - ipifcons.h incomplete, use IANA ifTypes MIB */
 #define MIB_IF_TYPE_TUNNEL	131
 #define MIB_IF_TYPE_MAX		259 /* According to ipifcons.h */
 
 struct intf_handle {
-	struct ifcombo	 ifcombo[MIB_IF_TYPE_MAX];
 	MIB_IFTABLE	*iftable;
 	MIB_IPADDRTABLE	*iptable;
 };
@@ -54,45 +47,6 @@ _ifcombo_name(int type)
 	return (name);
 }
 
-static int
-_ifcombo_type(const char *device)
-{
-	int type = INTF_TYPE_OTHER;
-	
-	if (strncmp(device, "eth", 3) == 0) {
-		type = INTF_TYPE_ETH;
-	} else if (strncmp(device, "tr", 2) == 0) {
-		type = INTF_TYPE_TOKENRING;
-	} else if (strncmp(device, "fd", 2) == 0) {
-		type = INTF_TYPE_FDDI;
-	} else if (strncmp(device, "ppp", 3) == 0) {
-		type = INTF_TYPE_PPP;
-	} else if (strncmp(device, "lo", 2) == 0) {
-		type = INTF_TYPE_LOOPBACK;
-	} else if (strncmp(device, "sl", 2) == 0) {
-		type = INTF_TYPE_SLIP;
-	} else if (strncmp(device, "tun", 3) == 0) {
-		type = INTF_TYPE_TUN;
-	}
-	return (type);
-}
-
-static void
-_ifcombo_add(struct ifcombo *ifc, DWORD idx)
-{
-	if (ifc->cnt == ifc->max) {
-		if (ifc->idx) {
-			ifc->max *= 2;
-			ifc->idx = realloc(ifc->idx,
-			    sizeof(ifc->idx[0]) * ifc->max);
-		} else {
-			ifc->max = 8;
-			ifc->idx = malloc(sizeof(ifc->idx[0]) * ifc->max);
-		}
-	}
-	ifc->idx[ifc->cnt++] = idx;
-}
-
 static void
 _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 {
@@ -106,13 +60,9 @@ _ifrow_to_entry(intf_t *intf, MIB_IFROW *ifrow, struct intf_entry *entry)
 	/* Restore the length. */
 	entry->intf_len = intf_len;
 
-	for (i = 0; i < intf->ifcombo[ifrow->dwType].cnt; i++) {
-		if (intf->ifcombo[ifrow->dwType].idx[i] == ifrow->dwIndex)
-			break;
-	}
 	/* XXX - dwType matches MIB-II ifType. */
 	snprintf(entry->intf_name, sizeof(entry->intf_name), "%s%lu",
-	    _ifcombo_name(ifrow->dwType), i);
+	    _ifcombo_name(ifrow->dwType), (unsigned long)ifrow->dwIndex);
 	entry->intf_type = (uint16_t)ifrow->dwType;
 	
 	/* Get interface flags. */
@@ -192,31 +142,19 @@ _refresh_tables(intf_t *intf)
 		else if (ret != ERROR_INSUFFICIENT_BUFFER)
 			return (-1);
 	}
-	/*
-	 * Map "unfriendly" win32 interface indices to ours.
-	 * XXX - like IP_ADAPTER_INFO ComboIndex
-	 */
-	for (i = 0; i < intf->iftable->dwNumEntries; i++) {
-		ifrow = &intf->iftable->table[i];
-		if (ifrow->dwType < MIB_IF_TYPE_MAX) {
-			_ifcombo_add(&intf->ifcombo[ifrow->dwType],
-			    ifrow->dwIndex);
-		} else
-			return (-1);
-	}
 	return (0);
 }
 
-static int
+static DWORD
 _find_ifindex(intf_t *intf, const char *device)
 {
 	char *p = (char *)device;
-	int n, type = _ifcombo_type(device);
+	int n;
 	
 	while (isalpha((int) (unsigned char) *p)) p++;
 	n = atoi(p);
 
-	return (intf->ifcombo[type].idx[n]);
+	return (DWORD)n;
 }
 
 intf_t *
@@ -348,13 +286,7 @@ intf_loop(intf_t *intf, intf_handler callback, void *arg)
 intf_t *
 intf_close(intf_t *intf)
 {
-	int i;
-
 	if (intf != NULL) {
-		for (i = 0; i < MIB_IF_TYPE_MAX; i++) {
-			if (intf->ifcombo[i].idx)
-				free(intf->ifcombo[i].idx);
-		}
 		if (intf->iftable)
 			free(intf->iftable);
 		if (intf->iptable)
